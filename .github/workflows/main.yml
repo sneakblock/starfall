@@ -3,31 +3,94 @@ name: Build project
 on: [push]
 
 jobs:
-  buildForAllSupportedPlatforms:
+  # buildForAllSupportedPlatforms:
+  #   name: Build for ${{ matrix.targetPlatform }}
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       targetPlatform:
+  #         - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+  #         - StandaloneWindows64 # Build a Windows 64-bit standalone.
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+  #         lfs: true
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: Library
+  #         key: Library-${{ matrix.targetPlatform }}
+  #         restore-keys: Library-
+  #     - uses: game-ci/unity-builder@v2
+  #       env:
+  #         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  #       with:
+  #         targetPlatform: ${{ matrix.targetPlatform }}
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: Build-${{ matrix.targetPlatform }}
+  #         path: build/${{ matrix.targetPlatform }}
+  buildWithMac:
+    needs: [checklicense]
+    if: needs.checklicense.outputs.is_unity_license_set == 'true'
     name: Build for ${{ matrix.targetPlatform }}
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         targetPlatform:
-          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneOSX
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0
           lfs: true
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
-          path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: Library-
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-
+            Library-
       - uses: game-ci/unity-builder@v2
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
+          projectPath: ${{ env.PROJECT_PATH }}
           targetPlatform: ${{ matrix.targetPlatform }}
-      - uses: actions/upload-artifact@v2
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
         with:
           name: Build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
+          path: build
+
+  buildWithWindows:
+    needs: [build, buildWithMac]
+    if: needs.checklicense.outputs.is_unity_license_set == 'true'
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneWindows64
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+      - uses: actions/cache@v3
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-
+            Library-
+      - uses: game-ci/unity-builder@v2
+        with:
+          projectPath: ${{ env.PROJECT_PATH }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: Build-${{ matrix.targetPlatform }}
+          path: build
