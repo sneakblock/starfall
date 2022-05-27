@@ -119,9 +119,9 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: Library
-          key: Library-Starfall-${{ matrix.targetPlatform }}
+          key: Library-StarfallNew-${{ matrix.targetPlatform }}
           restore-keys: |
-            Library-Starfall-
+            Library-StarfallNew-
             Library-
       - uses: game-ci/unity-builder@v2
         with:
