@@ -1,37 +1,3 @@
-# name: Build project
-
-# on: [push]
-
-# jobs:
-  # buildForAllSupportedPlatforms:
-  #   name: Build for ${{ matrix.targetPlatform }}
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       targetPlatform:
-  #         - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
-  #         - StandaloneWindows64 # Build a Windows 64-bit standalone.
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
-  #         lfs: true
-  #     - uses: actions/cache@v2
-  #       with:
-  #         path: Library
-  #         key: Library-${{ matrix.targetPlatform }}
-  #         restore-keys: Library-
-  #     - uses: game-ci/unity-builder@v2
-  #       env:
-  #         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  #       with:
-  #         targetPlatform: ${{ matrix.targetPlatform }}
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         name: Build-${{ matrix.targetPlatform }}
-  #         path: build/${{ matrix.targetPlatform }}
-
 name: Unity Actions
 
 on:
@@ -119,10 +85,10 @@ jobs:
           lfs: true
       - uses: actions/cache@v3
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          path: Library
+          key: Library-Starfall-${{ matrix.targetPlatform }}
           restore-keys: |
-            Library-${{ matrix.projectPath }}-
+            Library-Starfall-
             Library-
       - uses: game-ci/unity-builder@v2
         with:
@@ -151,10 +117,10 @@ jobs:
           lfs: true
       - uses: actions/cache@v3
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          path: Library
+          key: Library-Starfall-${{ matrix.targetPlatform }}
           restore-keys: |
-            Library-${{ matrix.projectPath }}-
+            Library-Starfall-
             Library-
       - uses: game-ci/unity-builder@v2
         with:
