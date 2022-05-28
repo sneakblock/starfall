@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b2cb14baf7f2c4e817ba581217259c, type: 3}
+  m_Name: TestWeaponData
+  m_EditorClassIdentifier: 
+  damage: 5
+  firingMode: 1
+  hitMode: 0
+  projectileSpeed: 0
+  firingRate: 5
+  magazineSize: 6
+  reloadTime: 1
+  minHipFireSpread: 3
+  maxHipFireSpread: 15
+  minAdsSpread: 1
+  maxAdsSpread: 10
+  hipFireBloomIntensity: 5
+  adsBloomIntensity: 3
+  aimingBloomSharpness: 10

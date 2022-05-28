@@ -17,6 +17,10 @@ public class StarfallPlayer : MonoBehaviour
             public UnityEvent onAimDown = new UnityEvent();
             public UnityEvent onAimUp = new UnityEvent();
 
+            [Header("Player Firing Behavior")] 
+            public UnityEvent onFireDown = new UnityEvent();
+            public UnityEvent onFireUp = new UnityEvent();
+
             private Vector3 _lookInputVector = Vector3.zero;
             private const string HorizontalInput = "Horizontal";
             private const string VerticalInput = "Vertical";
