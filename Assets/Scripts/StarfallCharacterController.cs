@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StarfallCharacterController : MonoBehaviour, ICharacterController
 {
@@ -27,15 +28,16 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     [Tooltip("The JumpPreGroundingGraceTime and JumpPostGroundingGraceTime respectively represent the extra time before landing where you can press jump and it’ll still jump once you land, and the extra time after leaving stable ground where you’ll still be allowed to jump.")]
     public float jumpPreGroundingGraceTime = 0f;
     public float jumpPostGroundingGraceTime = 0f;
-    
-    
+
+    [Header("Aiming")] 
+    [Range(0, 1)] public float aimingMovementPenalty;
+
     [Header("Misc")]
     public List<Collider> ignoredColliders = new List<Collider>();
     public Vector3 gravity = new Vector3(0, -30f, 0);
     
     //The character state stuff isn't used yet, but it will probably be useful when it comes to stuns, abilities, etc.
     public CharacterState CurrentCharacterState { get; set; }
-    
     
     private Vector3 _moveInputVector;
     private Vector3 _lookInputVector;
@@ -45,7 +47,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     private bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
-    
+
     public enum CharacterState
     {
         Default,
@@ -57,10 +59,10 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         public float MoveAxisRight;
         public Quaternion CameraRotation;
         public bool JumpDown;
-        public bool PrimaryDown;
-        public bool AimDown;
-        public bool AbilityDown;
-        public bool GadgetDown;
+        public bool Primary;
+        public bool Aim;
+        public bool Ability;
+        public bool Gadget;
     }
 
     public enum OrientationMethod
@@ -77,6 +79,18 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     void Update()
     {
         
+    }
+
+    public void Aim()
+    {
+        orientationMethod = OrientationMethod.TowardsCamera;
+        maxStableMoveSpeed *= aimingMovementPenalty;
+    }
+
+    public void UnAim()
+    {
+        orientationMethod = OrientationMethod.TowardsMovement;
+        maxStableMoveSpeed /= aimingMovementPenalty;
     }
 
     public void SetInputs(ref StarfallPlayerCharacterInputs inputs)

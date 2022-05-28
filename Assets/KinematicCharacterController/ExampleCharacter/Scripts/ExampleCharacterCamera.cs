@@ -65,7 +65,7 @@ namespace KinematicCharacterController.Examples
         {
             Transform = this.transform;
 
-            _currentDistance = DefaultDistance;
+            _currentDistance = MaxDistance;
             TargetDistance = _currentDistance;
 
             _targetVerticalAngle = 0f;

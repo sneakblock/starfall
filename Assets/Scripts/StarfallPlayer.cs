@@ -5,17 +5,30 @@ using System.Linq;
 using UnityEngine;
 using KinematicCharacterController.Examples;
 using KinematicCharacterController;
+using UnityEngine.Events;
 
 public class StarfallPlayer : MonoBehaviour
 {
             public ExampleCharacterCamera orbitCamera;
             public Transform cameraFollowPoint;
             public StarfallCharacterController character;
-    
+
+            [Header("Player Aim Behavior")]
+            public UnityEvent onAimDown = new UnityEvent();
+            public UnityEvent onAimUp = new UnityEvent();
+
             private Vector3 _lookInputVector = Vector3.zero;
             private const string HorizontalInput = "Horizontal";
             private const string VerticalInput = "Vertical";
-    
+            private bool _oldAim = false;
+            private int _zoom = 1;
+
+            private void Awake()
+            {
+                onAimDown.AddListener(ToggleZoom);
+                onAimUp.AddListener(ToggleZoom);
+            }
+
             private void Start()
             {
                 Cursor.lockState = CursorLockMode.Locked;
@@ -33,13 +46,18 @@ public class StarfallPlayer : MonoBehaviour
                 {
                     Cursor.lockState = CursorLockMode.Locked;
                 }
-                
+
                 HandleCharacterInput();
             }
     
             private void LateUpdate()
             {
                 HandleCameraInput();
+            }
+
+            private void ToggleZoom()
+            {
+                _zoom = (_zoom == 1) ? -1 : 1;
             }
     
             private void HandleCameraInput()
@@ -62,7 +80,7 @@ public class StarfallPlayer : MonoBehaviour
         // #endif
     
                 // Apply inputs to the camera
-                orbitCamera.UpdateWithInput(Time.deltaTime, 0f, _lookInputVector);
+                orbitCamera.UpdateWithInput(Time.deltaTime, _zoom, _lookInputVector);
     
                 // Handle toggling zoom level
                 // if (Input.GetMouseButtonDown(1))
@@ -80,7 +98,21 @@ public class StarfallPlayer : MonoBehaviour
                 characterInputs.MoveAxisRight = Input.GetAxisRaw(HorizontalInput);
                 characterInputs.CameraRotation = orbitCamera.Transform.rotation;
                 characterInputs.JumpDown = Input.GetKeyDown(KeyCode.Space);
+                characterInputs.Primary = Input.GetMouseButton(0);
+                characterInputs.Aim = Input.GetMouseButton(1);
                 
+                switch (characterInputs.Aim)
+                {
+                    case true when !_oldAim:
+                        onAimDown.Invoke();
+                        break;
+                    case false when _oldAim:
+                        onAimUp.Invoke();
+                        break;
+                }
+
+                _oldAim = characterInputs.Aim;
+
                 // Apply inputs to character
                 character.SetInputs(ref characterInputs);
 
