@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class RangedWeapon : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public abstract class RangedWeapon : MonoBehaviour
     private float _currentSpread;
     private readonly Vector3 _screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
     private bool _isAiming;
+    private Vector3 _firedDir;
+    private List<Ray> _firedRays = new List<Ray>();
+    private const int SecondsPerDebugRay = 2;
 
     public void SetAiming(bool isAiming)
     {
@@ -41,17 +45,38 @@ public abstract class RangedWeapon : MonoBehaviour
         }
     }
 
-    public void CalculateTrajectory()
+    private Vector3 CalculateTrajectory(Vector3 targetPoint)
     {
+        var goalDir = (targetPoint - barrelTransform.position).normalized;
+        var pointOnSpreadCircle = Random.insideUnitCircle * _currentSpread;
+        Vector3 trueDir = new Vector3(goalDir.x + pointOnSpreadCircle.x, goalDir.y, goalDir.z + pointOnSpreadCircle.y).normalized;
+        return goalDir;
         
+        // Quaternion implementation (?)
+        // Quaternion deviationRotation = Quaternion.Euler(pointOnSpreadCircle.x, pointOnSpreadCircle.y, 0);
     }
     
 
     public void Fire()
     {
+        if (Camera.main == null) return;
+        //TODO: Change this to allow for targetPoints that aren't just the player's target point. This is essential if we want to be able to use this logic for enemy or AI weapons.
         
+        //TODO: THIS DOESN'T WORK LOL :)
+        _firedDir = CalculateTrajectory(Camera.main.ScreenPointToRay(_screenCenterPoint).direction);
+        StartCoroutine(DebugRayManager(_firedDir));
+
     }
-    
+
+    IEnumerator DebugRayManager(Vector3 toDir)
+    {
+        Ray r = new Ray(barrelTransform.position, toDir);
+        _firedRays.Add(r);
+
+        yield return new WaitForSeconds(SecondsPerDebugRay);
+
+        _firedRays.Remove(r);
+    }
 
     public void Aim()
     {
@@ -92,6 +117,12 @@ public abstract class RangedWeapon : MonoBehaviour
         Vector3 rightRayDir = rightSpreadRotation * dir;
         Gizmos.DrawRay(position, leftRayDir * 25f);
         Gizmos.DrawRay(position, rightRayDir * 25f);
+
+        Gizmos.color = Color.red;
+        foreach (var r in _firedRays)
+        {
+            Gizmos.DrawRay(r);
+        }
     }
 
 

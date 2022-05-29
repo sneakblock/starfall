@@ -115,6 +115,12 @@ public class StarfallPlayer : MonoBehaviour
                         break;
                 }
 
+                //TODO: Sloppy ah implementation, needs to get up and down inputs like aimDown I think.
+                if (characterInputs.Primary)
+                {
+                    onFireDown.Invoke();
+                }
+
                 _oldAim = characterInputs.Aim;
 
                 // Apply inputs to character
