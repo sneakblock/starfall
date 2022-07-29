@@ -51,8 +51,8 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     //Firing stuff
     private bool _isAiming;
     private bool _isFiring;
-    private bool _wasAimingLastFrame;
-    private bool _wasFiringLastFrame;
+    private bool _wasAimingLastFrame = false;
+    private bool _wasFiringLastFrame = false;
 
     public enum CharacterState
     {
@@ -88,13 +88,29 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         switch (_isAiming)
         {
             case true:
+                if (!_wasAimingLastFrame)
+                {
+                    AimDown();
+                }
                 Aim();
                 break;
             case false:
+                if (_wasAimingLastFrame)
+                {
+                    AimUp();
+                }
                 UnAim();
                 break;
         }
 
+        if (_isFiring)
+        {
+            RequestFirePrimary();
+        }
+
+        //Update old stuff
+        _wasAimingLastFrame = _isAiming;
+        _wasFiringLastFrame = _isFiring;
     }
 
     public void AimDown()
@@ -125,11 +141,11 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         }
     }
 
-    public void FirePrimary()
+    public void RequestFirePrimary()
     {
         if (Camera.main == null) return;
         Vector3 screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-        _weapon.Fire(Camera.main.ScreenPointToRay(screenCenterPoint).direction);
+        _weapon.RequestFire(screenCenterPoint, _wasFiringLastFrame);
     }
 
     public void SetInputs(ref StarfallPlayerCharacterInputs inputs)

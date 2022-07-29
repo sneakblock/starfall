@@ -20,6 +20,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private Vector3 _firedDir;
     private List<Ray> _firedRays = new List<Ray>();
     private const int SecondsPerDebugRay = 2;
+    private float _timestampOfLastBulletFired = Time.time;
 
     public void SetAiming(bool isAiming)
     {
@@ -54,7 +55,21 @@ public abstract class RangedWeapon : MonoBehaviour
         // Quaternion implementation (?)
         // Quaternion deviationRotation = Quaternion.Euler(pointOnSpreadCircle.x, pointOnSpreadCircle.y, 0);
     }
-    
+
+    public void RequestFire(Vector3 targetPoint, bool wasRequestingFireLastFrame)
+    {
+        switch (weaponData.firingMode)
+        {
+            case WeaponData.FiringMode.Auto:
+                break;
+            case WeaponData.FiringMode.SemiAuto:
+                if (!wasRequestingFireLastFrame)
+                {
+                    Fire(targetPoint);
+                }
+                break;
+        }
+    }
 
     public void Fire(Vector3 targetPoint)
     {
