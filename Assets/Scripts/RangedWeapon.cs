@@ -16,7 +16,6 @@ public abstract class RangedWeapon : MonoBehaviour
     private Transform barrelTransform;
     
     private float _currentSpread;
-    private readonly Vector3 _screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
     private bool _isAiming;
     private Vector3 _firedDir;
     private List<Ray> _firedRays = new List<Ray>();
@@ -57,13 +56,13 @@ public abstract class RangedWeapon : MonoBehaviour
     }
     
 
-    public void Fire()
+    public void Fire(Vector3 targetPoint)
     {
         if (Camera.main == null) return;
         //TODO: Change this to allow for targetPoints that aren't just the player's target point. This is essential if we want to be able to use this logic for enemy or AI weapons.
         
         //TODO: THIS DOESN'T WORK LOL :)
-        _firedDir = CalculateTrajectory(Camera.main.ScreenPointToRay(_screenCenterPoint).direction);
+        _firedDir = CalculateTrajectory(targetPoint);
         StartCoroutine(DebugRayManager(_firedDir));
 
     }
@@ -105,7 +104,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (Camera.main == null || barrelTransform == null) return;
-        Vector3 dir = Camera.main.ScreenPointToRay(_screenCenterPoint).direction;
+        Vector3 dir = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0)).direction;
         float halfSpread = _currentSpread / 2f;
         Gizmos.color = Color.green;
         var position = barrelTransform.position;
@@ -117,7 +116,7 @@ public abstract class RangedWeapon : MonoBehaviour
         Vector3 rightRayDir = rightSpreadRotation * dir;
         Gizmos.DrawRay(position, leftRayDir * 25f);
         Gizmos.DrawRay(position, rightRayDir * 25f);
-
+        
         Gizmos.color = Color.red;
         foreach (var r in _firedRays)
         {

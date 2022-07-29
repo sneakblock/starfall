@@ -487,7 +487,7 @@ BoxCollider:
   m_GameObject: {fileID: 180369086}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -778,7 +778,7 @@ BoxCollider:
   m_GameObject: {fileID: 600837677}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -914,6 +914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ExampleCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902695635779614597, guid: e14bc0772cf8e3b49aed8553214629e2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -1088,6 +1093,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5162151626552590667, guid: 15881ddf3b15f0645822c6ad0479b4f8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
+        type: 3}
+      propertyPath: debug
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: character
@@ -1111,17 +1126,17 @@ PrefabInstance:
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimUp.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimDown.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onFireDown.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
@@ -1131,7 +1146,7 @@ PrefabInstance:
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimUp.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
@@ -1141,7 +1156,7 @@ PrefabInstance:
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimDown.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
@@ -1152,7 +1167,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onAimUp.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1001686313}
+      objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onFireDown.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1167,7 +1182,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onAimDown.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1001686313}
+      objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimUp.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1182,16 +1197,16 @@ PrefabInstance:
         type: 3}
       propertyPath: onFireDown.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1001686313}
+      objectReference: {fileID: 1207975709}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimUp.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UnAim
+      value: AimUp
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimUp.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetAiming
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
@@ -1206,12 +1221,12 @@ PrefabInstance:
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimDown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Aim
+      value: AimDown
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onAimDown.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetAiming
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
@@ -1221,7 +1236,7 @@ PrefabInstance:
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onFireDown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Fire
+      value: FirePrimary
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
@@ -1246,7 +1261,12 @@ PrefabInstance:
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: onFireDown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: RangedWeapon, Assembly-CSharp
+      value: StarfallCharacterController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
+        type: 3}
+      propertyPath: onAimDown.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
@@ -1354,6 +1374,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 1768362842341019642, guid: 07af59c76c2549b4c9bbe58e6608466b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1768362842341019646, guid: 07af59c76c2549b4c9bbe58e6608466b,
         type: 3}
       propertyPath: m_RootOrder
@@ -1408,6 +1433,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1768362842341019647, guid: 07af59c76c2549b4c9bbe58e6608466b,
+        type: 3}
+      propertyPath: _weapon
+      value: 
+      objectReference: {fileID: 1001686313}
+    - target: {fileID: 1768362842341019647, guid: 07af59c76c2549b4c9bbe58e6608466b,
+        type: 3}
+      propertyPath: orientationMethod
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1768362842341019647, guid: 07af59c76c2549b4c9bbe58e6608466b,
         type: 3}
@@ -1670,7 +1705,7 @@ BoxCollider:
   m_GameObject: {fileID: 1583408903}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2001,7 +2036,7 @@ BoxCollider:
   m_GameObject: {fileID: 1699986063}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2129,7 +2164,7 @@ BoxCollider:
   m_GameObject: {fileID: 2052167359}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

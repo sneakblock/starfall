@@ -193,6 +193,8 @@ namespace KinematicCharacterController.Examples
                         {
                             _shouldBeCrouching = false;
                         }
+                        
+                        Debug.Log(_moveInputVector);
 
                         break;
                     }

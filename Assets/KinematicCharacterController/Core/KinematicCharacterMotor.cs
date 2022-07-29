@@ -1368,6 +1368,12 @@ namespace KinematicCharacterController
             if (deltaTime <= 0f)
                 return false;
 
+            // Planar constraint
+            if (HasPlanarConstraint)
+            {
+                transientVelocity = Vector3.ProjectOnPlane(transientVelocity, PlanarConstraintAxis.normalized);
+            }
+
             bool wasCompleted = true;
             Vector3 remainingMovementDirection = transientVelocity.normalized;
             float remainingMovementMagnitude = transientVelocity.magnitude * deltaTime;
@@ -1718,6 +1724,11 @@ namespace KinematicCharacterController
                     transientVelocity = Vector3.zero;
                     sweepState = MovementSweepState.FoundBlockingCorner;
                 }
+            }
+
+            if (HasPlanarConstraint)
+            {
+                transientVelocity = Vector3.ProjectOnPlane(transientVelocity, PlanarConstraintAxis.normalized);
             }
 
             float newVelocityFactor = transientVelocity.magnitude / velocityBeforeProjection.magnitude;

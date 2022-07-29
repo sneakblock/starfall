@@ -21,10 +21,12 @@ public class StarfallPlayer : MonoBehaviour
             public UnityEvent onFireDown = new UnityEvent();
             public UnityEvent onFireUp = new UnityEvent();
 
-            private Vector3 _lookInputVector = Vector3.zero;
+            [Header("Debugging")] public bool debug;
+            
             private const string HorizontalInput = "Horizontal";
             private const string VerticalInput = "Vertical";
             private bool _oldAim = false;
+            private bool _oldFire = false;
             private int _zoom = 1;
 
             private void Awake()
@@ -46,6 +48,7 @@ public class StarfallPlayer : MonoBehaviour
     
             private void Update()
             {
+                //What is this for?
                 if (Input.GetMouseButtonDown(0))
                 {
                     Cursor.lockState = CursorLockMode.Locked;
@@ -69,12 +72,12 @@ public class StarfallPlayer : MonoBehaviour
                 // Create the look input vector for the camera
                 float mouseLookAxisUp = Input.GetAxisRaw("Mouse Y");
                 float mouseLookAxisRight = Input.GetAxisRaw("Mouse X");
-                _lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
+                Vector3 lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
     
                 // Prevent moving the camera while the cursor isn't locked
                 if (Cursor.lockState != CursorLockMode.Locked)
                 {
-                    _lookInputVector = Vector3.zero;
+                    lookInputVector = Vector3.zero;
                 }
     
                 // Input for zooming the camera (disabled in WebGL because it can cause problems)
@@ -84,7 +87,7 @@ public class StarfallPlayer : MonoBehaviour
         // #endif
     
                 // Apply inputs to the camera
-                orbitCamera.UpdateWithInput(Time.deltaTime, _zoom, _lookInputVector);
+                orbitCamera.UpdateWithInput(Time.deltaTime, _zoom, lookInputVector);
     
                 // Handle toggling zoom level
                 // if (Input.GetMouseButtonDown(1))
@@ -104,6 +107,14 @@ public class StarfallPlayer : MonoBehaviour
                 characterInputs.JumpDown = Input.GetKeyDown(KeyCode.Space);
                 characterInputs.Primary = Input.GetMouseButton(0);
                 characterInputs.Aim = Input.GetMouseButton(1);
+
+                if (debug)
+                {
+                    Debug.Log("Move axis right:" + characterInputs.MoveAxisRight);
+                    Debug.Log("Move axis forward: " + characterInputs.MoveAxisForward);
+                }
+                
+                
                 
                 switch (characterInputs.Aim)
                 {
@@ -114,14 +125,19 @@ public class StarfallPlayer : MonoBehaviour
                         onAimUp.Invoke();
                         break;
                 }
-
-                //TODO: Sloppy ah implementation, needs to get up and down inputs like aimDown I think.
-                if (characterInputs.Primary)
+                
+                switch (characterInputs.Primary)
                 {
-                    onFireDown.Invoke();
+                    case true when !_oldFire:
+                        onFireDown.Invoke();
+                        break;
+                    case false when _oldFire:
+                        onFireUp.Invoke();
+                        break;
                 }
-
+                
                 _oldAim = characterInputs.Aim;
+                _oldFire = characterInputs.Primary;
 
                 // Apply inputs to character
                 character.SetInputs(ref characterInputs);

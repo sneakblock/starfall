@@ -29,7 +29,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     public float jumpPreGroundingGraceTime = 0f;
     public float jumpPostGroundingGraceTime = 0f;
 
-    [Header("Aiming")] 
+    [Header("Weapons")] [SerializeField] private RangedWeapon _weapon;
     [Range(0, 1)] public float aimingMovementPenalty;
 
     [Header("Misc")]
@@ -47,6 +47,12 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     private bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
+    
+    //Firing stuff
+    private bool _isAiming;
+    private bool _isFiring;
+    private bool _wasAimingLastFrame;
+    private bool _wasFiringLastFrame;
 
     public enum CharacterState
     {
@@ -79,18 +85,51 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     void Update()
     {
         
+        switch (_isAiming)
+        {
+            case true:
+                Aim();
+                break;
+            case false:
+                UnAim();
+                break;
+        }
+
     }
 
-    public void Aim()
+    public void AimDown()
     {
         orientationMethod = OrientationMethod.TowardsCamera;
         maxStableMoveSpeed *= aimingMovementPenalty;
     }
 
-    public void UnAim()
+    public void AimUp()
     {
         orientationMethod = OrientationMethod.TowardsMovement;
         maxStableMoveSpeed /= aimingMovementPenalty;
+    }
+
+    public void Aim()
+    {
+        if (_weapon != null)
+        {
+            _weapon.Aim();
+        }
+    }
+
+    public void UnAim()
+    {
+        if (_weapon != null)
+        {
+            _weapon.UnAim();
+        }
+    }
+
+    public void FirePrimary()
+    {
+        if (Camera.main == null) return;
+        Vector3 screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+        _weapon.Fire(Camera.main.ScreenPointToRay(screenCenterPoint).direction);
     }
 
     public void SetInputs(ref StarfallPlayerCharacterInputs inputs)
@@ -126,7 +165,10 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
             _timeSinceJumpRequested = 0f;
             _jumpRequested = true;
         }
-        
+
+        //Firing
+        _isAiming = inputs.Aim;
+        _isFiring = inputs.Primary;
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
