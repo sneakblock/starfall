@@ -102,6 +102,7 @@ public abstract class RangedWeapon : MonoBehaviour
         {
             _currentSpread += weaponData.hipFireBloomIntensity;
         }
+        
 
         //Now we want to actually fire the weapon, depending on what sort of weapon it is.
         Debug.DrawRay(barrelPos, goalDir * 1000f, Color.red, .5f);
@@ -118,6 +119,7 @@ public abstract class RangedWeapon : MonoBehaviour
     /// </summary>
     private void ManageSpread()
     {
+        //Cap the spread at the weapon's max spread values
         if (_isAiming && _currentSpread > weaponData.maxAdsSpread)
         {
             _currentSpread = weaponData.maxAdsSpread;
@@ -129,10 +131,9 @@ public abstract class RangedWeapon : MonoBehaviour
             _currentSpread = weaponData.maxHipFireSpread;
             return;
         }
-        
+
         if (!DoesSpreadNeedCorrection()) return;
         
-        //Cap the spread at the weapon's max spread values
         float goalSpread = _isAiming ? weaponData.minAdsSpread : weaponData.minHipFireSpread;
         _currentSpread = Mathf.Lerp(_currentSpread, goalSpread,
             1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
@@ -142,7 +143,6 @@ public abstract class RangedWeapon : MonoBehaviour
         {
             crosshair.UpdateSize(_currentSpread);
         }
-        
     }
 
     private bool DoesSpreadNeedCorrection()
