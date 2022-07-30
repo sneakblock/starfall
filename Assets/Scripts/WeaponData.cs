@@ -43,7 +43,7 @@ public class WeaponData : ScriptableObject
     public float projectileSpeed;
     
 
-    [Tooltip("The rate at which the weapon fires. Functions differently for each firing mode.")]
+    [Tooltip("The rate at which the weapon fires. This is measured in maximum rounds per minute.")]
     public float firingRate;
 
     [Header("Ammo & Reloading")]

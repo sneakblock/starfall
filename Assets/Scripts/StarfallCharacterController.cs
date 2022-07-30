@@ -35,6 +35,9 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     [Header("Misc")]
     public List<Collider> ignoredColliders = new List<Collider>();
     public Vector3 gravity = new Vector3(0, -30f, 0);
+    public bool isPlayer;
+    [Tooltip("These layers are considered when calculating the raycast for the desired target position")]
+    public LayerMask firingLayerMask;
     
     //The character state stuff isn't used yet, but it will probably be useful when it comes to stuns, abilities, etc.
     public CharacterState CurrentCharacterState { get; set; }
@@ -53,6 +56,8 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     private bool _isFiring;
     private bool _wasAimingLastFrame = false;
     private bool _wasFiringLastFrame = false;
+    private Vector3 _screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+    private Camera _cam;
 
     public enum CharacterState
     {
@@ -80,6 +85,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     void Start()
     {
         motor.CharacterController = this;
+        _cam = Camera.main;
     }
     
     void Update()
@@ -127,25 +133,25 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
 
     public void Aim()
     {
-        if (_weapon != null)
-        {
-            _weapon.Aim();
-        }
+        _weapon.Aim();
     }
 
     public void UnAim()
     {
-        if (_weapon != null)
-        {
-            _weapon.UnAim();
-        }
+        _weapon.UnAim();
     }
 
     public void RequestFirePrimary()
     {
-        if (Camera.main == null) return;
-        Vector3 screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-        _weapon.RequestFire(screenCenterPoint, _wasFiringLastFrame);
+        if (isPlayer)
+        {
+            //Update the screen center point
+            _screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Ray ray = _cam.ScreenPointToRay(_screenCenterPoint);
+            var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, firingLayerMask) ? hit.point : _cam.ScreenToWorldPoint(new Vector3(_screenCenterPoint.x, _screenCenterPoint.y, _cam.farClipPlane));
+            _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
+        }
+        
     }
 
     public void SetInputs(ref StarfallPlayerCharacterInputs inputs)
@@ -392,5 +398,10 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
         
+    }
+
+    public RangedWeapon GetRangedWeapon()
+    {
+        return this._weapon;
     }
 }

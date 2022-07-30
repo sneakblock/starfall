@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public abstract class RangedWeapon : MonoBehaviour
@@ -20,7 +21,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private Vector3 _firedDir;
     private List<Ray> _firedRays = new List<Ray>();
     private const int SecondsPerDebugRay = 2;
-    private float _timestampOfLastBulletFired = Time.time;
+    private float _timeSinceLastBulletFired = Mathf.Infinity;
 
     public void SetAiming(bool isAiming)
     {
@@ -45,15 +46,14 @@ public abstract class RangedWeapon : MonoBehaviour
         }
     }
 
-    private Vector3 CalculateTrajectory(Vector3 targetPoint)
+    private float RandGaussian(float stddev, float mean = 0f)
     {
-        var goalDir = (targetPoint - barrelTransform.position).normalized;
-        var pointOnSpreadCircle = Random.insideUnitCircle * _currentSpread;
-        Vector3 trueDir = new Vector3(goalDir.x + pointOnSpreadCircle.x, goalDir.y, goalDir.z + pointOnSpreadCircle.y).normalized;
-        return goalDir;
+        float v0 = 1f - Random.Range(0f, 1f);
+        float v1 = 1f - Random.Range(0f, 1f);
+
+        float randNorm = Mathf.Sqrt(-2f * Mathf.Log(v0)) * Mathf.Sin(2f * Mathf.PI * v1);
         
-        // Quaternion implementation (?)
-        // Quaternion deviationRotation = Quaternion.Euler(pointOnSpreadCircle.x, pointOnSpreadCircle.y, 0);
+        return mean + stddev * randNorm;
     }
 
     public void RequestFire(Vector3 targetPoint, bool wasRequestingFireLastFrame)
@@ -61,6 +61,7 @@ public abstract class RangedWeapon : MonoBehaviour
         switch (weaponData.firingMode)
         {
             case WeaponData.FiringMode.Auto:
+                
                 break;
             case WeaponData.FiringMode.SemiAuto:
                 if (!wasRequestingFireLastFrame)
@@ -71,43 +72,60 @@ public abstract class RangedWeapon : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This method fires the weapon from the barrelTransform to the targetPoint. This method should account for bullet
+    /// spread, e.g the targetPoint is not sure to be hit if the spread is less than zero. Because it represents a successful
+    /// firing of the bullet, it also sets _timeSinceLastBulletFired to 0. 
+    /// </summary>
+    /// <param name="targetPoint">
+    /// The Vector3 at which the projectile should fire. The location the agent is aiming at. 
+    /// </param>
     public void Fire(Vector3 targetPoint)
     {
-        if (Camera.main == null) return;
-        //TODO: Change this to allow for targetPoints that aren't just the player's target point. This is essential if we want to be able to use this logic for enemy or AI weapons.
+        _timeSinceLastBulletFired = 0;
+
+        //The perfect direction to the targetPoint.
+        var barrelPos = barrelTransform.position;
+        var goalDir = (targetPoint - barrelPos);
+        goalDir = goalDir.normalized;
+        var errorX = RandGaussian(_currentSpread);
+        var errorY = RandGaussian(_currentSpread);
+        var errorZ = RandGaussian(_currentSpread);
+        Debug.Log("goalDir is " + goalDir);
+        Debug.Log("With a current spread of " + _currentSpread + ", a Gaussian errorX of " + errorX + ", an errorY of " + errorY);
+        //Rotate the vector along the y axis by the x error, and along the x axis by the y error.
+        // goalDir = Quaternion.AngleAxis(errorX, Vector3.up) * goalDir;
+        // goalDir = Quaternion.AngleAxis(errorY, Vector3.right) * goalDir;
+        goalDir.x += errorX;
+        goalDir.y += errorY;
+        goalDir.z += errorZ;
+        Debug.Log("After applying error, new goalDir is " + goalDir);
+
+        //Now we want to actually fire the weapon, depending on what sort of weapon it is.
+        Debug.DrawRay(barrelPos, goalDir * 1000f, Color.red, .5f);
+        Debug.Log("Current spread is " + _currentSpread);
         
-        //TODO: THIS DOESN'T WORK LOL :)
-        _firedDir = CalculateTrajectory(targetPoint);
-        StartCoroutine(DebugRayManager(_firedDir));
 
     }
-
-    IEnumerator DebugRayManager(Vector3 toDir)
-    {
-        Ray r = new Ray(barrelTransform.position, toDir);
-        _firedRays.Add(r);
-
-        yield return new WaitForSeconds(SecondsPerDebugRay);
-
-        _firedRays.Remove(r);
-    }
-
+    
     public void Aim()
     {
-        if (Math.Abs(_currentSpread - weaponData.minAdsSpread) > .001f)
-        {
-            _currentSpread = Mathf.Lerp(_currentSpread, weaponData.minAdsSpread,
-                1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
-        }
+        // if (Math.Abs(_currentSpread - weaponData.minAdsSpread) > .0001f)
+        // {
+        //     _currentSpread = Mathf.Lerp(_currentSpread, weaponData.minAdsSpread,
+        //         1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
+        // }
+        _currentSpread = weaponData.minAdsSpread;
     }
 
     public void UnAim()
     {
-        if (Math.Abs(_currentSpread - weaponData.minHipFireSpread) > .001f)
-        {
-            _currentSpread = Mathf.Lerp(_currentSpread, weaponData.minHipFireSpread,
-                1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
-        }
+        // if (Math.Abs(_currentSpread - weaponData.minHipFireSpread) > .0001f)
+        // {
+        //     _currentSpread = Mathf.Lerp(_currentSpread, weaponData.minHipFireSpread,
+        //         1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
+        // }
+        _currentSpread = weaponData.minHipFireSpread;
     }
     
 
@@ -118,25 +136,7 @@ public abstract class RangedWeapon : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (Camera.main == null || barrelTransform == null) return;
-        Vector3 dir = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0)).direction;
-        float halfSpread = _currentSpread / 2f;
-        Gizmos.color = Color.green;
-        var position = barrelTransform.position;
-        Gizmos.DrawRay(position, dir * 25f);
-        Gizmos.color = Color.yellow;
-        Quaternion leftSpreadRotation = Quaternion.AngleAxis(-halfSpread, Vector3.up);
-        Quaternion rightSpreadRotation = Quaternion.AngleAxis(halfSpread, Vector3.up);
-        Vector3 leftRayDir = leftSpreadRotation * dir;
-        Vector3 rightRayDir = rightSpreadRotation * dir;
-        Gizmos.DrawRay(position, leftRayDir * 25f);
-        Gizmos.DrawRay(position, rightRayDir * 25f);
         
-        Gizmos.color = Color.red;
-        foreach (var r in _firedRays)
-        {
-            Gizmos.DrawRay(r);
-        }
     }
 
 
@@ -144,5 +144,10 @@ public abstract class RangedWeapon : MonoBehaviour
     public abstract void AnimateFire();
     public abstract void AnimateReload();
     public abstract void DoFireEffects();
+
+    public float GetCurrentSpread()
+    {
+        return this._currentSpread;
+    }
 
 }
