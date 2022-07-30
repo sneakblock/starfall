@@ -20,6 +20,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private Crosshair crosshair;
     
     private float _currentSpread;
+    private float _currentRecoverySharpness;
     private bool _isAiming;
     private Vector3 _firedDir;
     private List<Ray> _firedRays = new List<Ray>();
@@ -75,7 +76,7 @@ public abstract class RangedWeapon : MonoBehaviour
     /// <param name="targetPoint">
     /// The Vector3 at which the projectile should fire, AKA the location the agent is aiming at. 
     /// </param>
-    public void Fire(Vector3 targetPoint)
+    public void Fire(Vector3 targetPoint) 
     {
         _timeSinceLastBulletFired = 0;
 
@@ -103,6 +104,8 @@ public abstract class RangedWeapon : MonoBehaviour
             _currentSpread += weaponData.hipFireBloomIntensity;
         }
         
+        //We want to reduce the recoverySharpness here
+        _currentRecoverySharpness -= weaponData.recoveryImpact;
 
         //Now we want to actually fire the weapon, depending on what sort of weapon it is.
         Debug.DrawRay(barrelPos, goalDir * 1000f, Color.red, .5f);
@@ -132,11 +135,19 @@ public abstract class RangedWeapon : MonoBehaviour
             return;
         }
 
-        if (!DoesSpreadNeedCorrection()) return;
+        if (_currentRecoverySharpness < weaponData.minRecoverySharpness)
+        {
+            _currentRecoverySharpness = weaponData.minRecoverySharpness;
+        }
         
+        //Move the current recovery sharpness towards the max recovery sharpness with each call by some amount.
+        _currentRecoverySharpness = Mathf.Lerp(_currentRecoverySharpness, weaponData.maxRecoverySharpness,
+            1 - Mathf.Exp(-weaponData.recoveryRate * Time.deltaTime));
+
+        if (!DoesSpreadNeedCorrection()) return;
         float goalSpread = _isAiming ? weaponData.minAdsSpread : weaponData.minHipFireSpread;
         _currentSpread = Mathf.Lerp(_currentSpread, goalSpread,
-            1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
+            1 - Mathf.Exp(-_currentRecoverySharpness * Time.deltaTime));
         
         //Update UI if applicable
         if (crosshair)

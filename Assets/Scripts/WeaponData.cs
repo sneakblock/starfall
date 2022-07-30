@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapon/WeaponData")]
 public class WeaponData : ScriptableObject
 {
-    
+
     public enum FiringMode
     {
         Auto,
@@ -61,7 +61,6 @@ public class WeaponData : ScriptableObject
     [Range(0f, .3f)]
     public float minHipFireSpread;
     
-   
     [Tooltip("The maximum spread when fired from the hip. The spread cannot increase beyond this point.")]
     [Range(0f, .3f)]
     public float maxHipFireSpread;
@@ -70,7 +69,6 @@ public class WeaponData : ScriptableObject
     [Range(0f, .3f)]
     public float minAdsSpread;
 
-   
     [Tooltip("The maximum spread when fired when aiming. The spread cannot increase beyond this point.")]
     [Range(0f, .3f)]
     public float maxAdsSpread;
@@ -83,8 +81,21 @@ public class WeaponData : ScriptableObject
     [Range(0f, .3f)]
     public float adsBloomIntensity;
 
-   
-    [Tooltip("Aiming bloom adjustment sharpness, or, how quickly and sharply the bloom lerps between aiming and " +
+    [Tooltip("Max aiming bloom adjustment sharpness, or, how quickly and sharply the bloom lerps between aiming and " +
              "hip firing modes.")]
-    public float aimingBloomSharpness;
+    [Range(0f, 50f)]
+    public float maxRecoverySharpness;
+    
+    [Tooltip("Min aiming bloom adjustment sharpness, or, how quickly and sharply the bloom lerps between aiming and " +
+             "hip firing modes.")]
+    [Range(0f, 50f)]
+    public float minRecoverySharpness;
+
+    [Tooltip("How much does each bullet reduce aiming recovery")]
+    [Range(0f, 50f)]
+    public float recoveryImpact;
+
+    [Tooltip("This number represents how quickly recoverySharpness is restored")]
+    [Range(0f, 50f)]
+    public float recoveryRate;
 }
