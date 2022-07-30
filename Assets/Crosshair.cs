@@ -21,10 +21,8 @@ public class Crosshair : MonoBehaviour
         _playerWeapon = player.GetComponent<StarfallCharacterController>().GetRangedWeapon();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateSize(float aValue)
     {
-        float aValue = _playerWeapon.GetCurrentSpread();
         float normal = Mathf.InverseLerp(0f, .3f, aValue);
         float bValue = Mathf.Lerp(55f, 600f, normal);
         _crosshairRectTransform.sizeDelta = new Vector2(bValue, bValue);

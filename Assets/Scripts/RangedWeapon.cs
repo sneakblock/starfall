@@ -15,6 +15,9 @@ public abstract class RangedWeapon : MonoBehaviour
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     private Transform barrelTransform;
+
+    [SerializeField] [Tooltip("If this weapon belongs to the player, attach the crosshair here.")]
+    private Crosshair crosshair;
     
     private float _currentSpread;
     private bool _isAiming;
@@ -35,15 +38,7 @@ public abstract class RangedWeapon : MonoBehaviour
 
     private void Update()
     {
-        switch (_isAiming)
-        {
-            case true:
-                Aim();
-                break;
-            case false:
-                UnAim();
-                break;
-        }
+        ManageSpread();
     }
 
     private float RandGaussian(float stddev, float mean = 0f)
@@ -78,7 +73,7 @@ public abstract class RangedWeapon : MonoBehaviour
     /// firing of the bullet, it also sets _timeSinceLastBulletFired to 0. 
     /// </summary>
     /// <param name="targetPoint">
-    /// The Vector3 at which the projectile should fire. The location the agent is aiming at. 
+    /// The Vector3 at which the projectile should fire, AKA the location the agent is aiming at. 
     /// </param>
     public void Fire(Vector3 targetPoint)
     {
@@ -93,13 +88,20 @@ public abstract class RangedWeapon : MonoBehaviour
         var errorZ = RandGaussian(_currentSpread);
         Debug.Log("goalDir is " + goalDir);
         Debug.Log("With a current spread of " + _currentSpread + ", a Gaussian errorX of " + errorX + ", an errorY of " + errorY);
-        //Rotate the vector along the y axis by the x error, and along the x axis by the y error.
-        // goalDir = Quaternion.AngleAxis(errorX, Vector3.up) * goalDir;
-        // goalDir = Quaternion.AngleAxis(errorY, Vector3.right) * goalDir;
         goalDir.x += errorX;
         goalDir.y += errorY;
         goalDir.z += errorZ;
         Debug.Log("After applying error, new goalDir is " + goalDir);
+        
+        //Adding some kick
+        if (_isAiming)
+        {
+            _currentSpread += weaponData.adsBloomIntensity;
+        }
+        else
+        {
+            _currentSpread += weaponData.hipFireBloomIntensity;
+        }
 
         //Now we want to actually fire the weapon, depending on what sort of weapon it is.
         Debug.DrawRay(barrelPos, goalDir * 1000f, Color.red, .5f);
@@ -108,24 +110,48 @@ public abstract class RangedWeapon : MonoBehaviour
 
     }
     
-    public void Aim()
+
+    /// <summary>
+    /// This method tunes the spread to the desired level smoothly, over multiple frames.
+    /// Spread is directly added to when the weapon is fired, and so this method must account for random changes in the currentSpread,
+    /// while always moving to stabilize the spread at it's desired level.
+    /// </summary>
+    private void ManageSpread()
     {
-        // if (Math.Abs(_currentSpread - weaponData.minAdsSpread) > .0001f)
-        // {
-        //     _currentSpread = Mathf.Lerp(_currentSpread, weaponData.minAdsSpread,
-        //         1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
-        // }
-        _currentSpread = weaponData.minAdsSpread;
+        if (_isAiming && _currentSpread > weaponData.maxAdsSpread)
+        {
+            _currentSpread = weaponData.maxAdsSpread;
+            return;
+        }
+
+        if (!_isAiming && _currentSpread > weaponData.maxHipFireSpread)
+        {
+            _currentSpread = weaponData.maxHipFireSpread;
+            return;
+        }
+        
+        if (!DoesSpreadNeedCorrection()) return;
+        
+        //Cap the spread at the weapon's max spread values
+        float goalSpread = _isAiming ? weaponData.minAdsSpread : weaponData.minHipFireSpread;
+        _currentSpread = Mathf.Lerp(_currentSpread, goalSpread,
+            1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
+        
+        //Update UI if applicable
+        if (crosshair)
+        {
+            crosshair.UpdateSize(_currentSpread);
+        }
+        
     }
 
-    public void UnAim()
+    private bool DoesSpreadNeedCorrection()
     {
-        // if (Math.Abs(_currentSpread - weaponData.minHipFireSpread) > .0001f)
-        // {
-        //     _currentSpread = Mathf.Lerp(_currentSpread, weaponData.minHipFireSpread,
-        //         1 - Mathf.Exp(-weaponData.aimingBloomSharpness * Time.deltaTime));
-        // }
-        _currentSpread = weaponData.minHipFireSpread;
+        return _isAiming switch
+        {
+            true => Math.Abs(_currentSpread - weaponData.minAdsSpread) > .00001f,
+            false => Math.Abs(_currentSpread - weaponData.minHipFireSpread) > .00001f
+        };
     }
     
 

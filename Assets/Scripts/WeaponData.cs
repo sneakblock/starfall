@@ -57,27 +57,30 @@ public class WeaponData : ScriptableObject
     [Header("Spread and bloom")]
     
     [Tooltip(
-        "The initial accuracy of the weapon when fired when un-aimed. This number multiplies the radius of the unit circle," +
-        "meaning that a spread of 1 will fire only at the middle pixel of the screen, and a spread of 25 will place the bullet" +
-        " somewhere in the circle centered at the center pixel with a radius of 25.")]
-    //TODO: Evaluate if this spread will be independent of screen resolution.
+        "The initial accuracy of the weapon when fired when un-aimed.")]
+    [Range(0f, .3f)]
     public float minHipFireSpread;
     
    
     [Tooltip("The maximum spread when fired from the hip. The spread cannot increase beyond this point.")]
+    [Range(0f, .3f)]
     public float maxHipFireSpread;
 
     [Tooltip("The initial accuracy of the weapon when fired during aiming.")]
+    [Range(0f, .3f)]
     public float minAdsSpread;
 
    
     [Tooltip("The maximum spread when fired when aiming. The spread cannot increase beyond this point.")]
+    [Range(0f, .3f)]
     public float maxAdsSpread;
 
-    [Tooltip("The intensity of the bloom when fired from the hip.")]
+    [Tooltip("How much spread is applied when fired from the hip.")]
+    [Range(0f, .3f)]
     public float hipFireBloomIntensity;
 
-    [Tooltip("The intensity of the bloom when fired when aiming.")]
+    [Tooltip("How much spread is applied when fired when aiming.")]
+    [Range(0f, .3f)]
     public float adsBloomIntensity;
 
    

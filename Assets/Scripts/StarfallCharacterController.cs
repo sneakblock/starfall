@@ -98,14 +98,12 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
                 {
                     AimDown();
                 }
-                Aim();
                 break;
             case false:
                 if (_wasAimingLastFrame)
                 {
                     AimUp();
                 }
-                UnAim();
                 break;
         }
 
@@ -123,24 +121,16 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     {
         orientationMethod = OrientationMethod.TowardsCamera;
         maxStableMoveSpeed *= aimingMovementPenalty;
+        _weapon.SetAiming(true);
     }
 
     public void AimUp()
     {
         orientationMethod = OrientationMethod.TowardsMovement;
         maxStableMoveSpeed /= aimingMovementPenalty;
+        _weapon.SetAiming(false);
     }
-
-    public void Aim()
-    {
-        _weapon.Aim();
-    }
-
-    public void UnAim()
-    {
-        _weapon.UnAim();
-    }
-
+    
     public void RequestFirePrimary()
     {
         if (isPlayer)
