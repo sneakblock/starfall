@@ -108,7 +108,27 @@ public abstract class RangedWeapon : MonoBehaviour
         _currentRecoverySharpness -= weaponData.recoveryImpact;
 
         //Now we want to actually fire the weapon, depending on what sort of weapon it is.
-        Debug.DrawRay(barrelPos, goalDir * 1000f, Color.red, .5f);
+        switch (weaponData.hitMode)
+        {
+            
+            case WeaponData.HitMode.HitScan:
+                Debug.DrawRay(barrelPos, goalDir * 1000f, Color.red, .5f);
+                break;
+            
+            case WeaponData.HitMode.Projectile:
+                if (weaponData.projectile)
+                {
+                    GameObject projectile =
+                        GameObject.Instantiate(weaponData.projectile, barrelPos, Quaternion.identity);
+                    projectile.transform.forward = goalDir.normalized;
+                    var rb = projectile.GetComponent<Rigidbody>();
+                    rb.AddForce(goalDir.normalized * weaponData.firingForce, ForceMode.Impulse);
+                    rb.AddForce(barrelTransform.up.normalized * weaponData.upwardFiringForce, ForceMode.Impulse);
+                }
+                break;
+                
+        }
+        
         Debug.Log("Current spread is " + _currentSpread);
         
 

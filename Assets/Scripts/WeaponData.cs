@@ -30,18 +30,19 @@ public class WeaponData : ScriptableObject
         "The firing mode of the weapon. Each mode has different behavior, and a different relationship to the firingRate " +
         "parameter.")]
     public FiringMode firingMode;
-
     
     [Tooltip("The hit detection method for the weapon. HitScan uses instantly calculated rays, whereas projectile " +
              "spawns entities in the world that travel along a path to strike targets and have travel time.")]
     public HitMode hitMode;
+    
+    [Header("Projectiles")]
 
-    
-    [Tooltip("The speed of each projectile fired from the weapon. This is a 'true' speed parameter t, meaning that " +
-             "it determines the increment by which the projectile moves each frame along it's path (accounting for deltaTime)." +
-             "This does nothing for HitScan weapons.")]
-    public float projectileSpeed;
-    
+    [Tooltip(
+        "The prefab that the weapon fires, assuming it's a projectile based weapon. Otherwise, this does nothing.")]
+    public GameObject projectile;
+
+    [Tooltip("The force applied to the projectile when it is fired.")]
+    public float firingForce, upwardFiringForce;
 
     [Tooltip("The rate at which the weapon fires. This is measured in maximum rounds per minute.")]
     public float firingRate;

@@ -138,7 +138,8 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
             //Update the screen center point
             _screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
             Ray ray = _cam.ScreenPointToRay(_screenCenterPoint);
-            var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, firingLayerMask) ? hit.point : _cam.ScreenToWorldPoint(new Vector3(_screenCenterPoint.x, _screenCenterPoint.y, _cam.farClipPlane));
+            // var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, firingLayerMask) ? hit.point : _cam.ScreenToWorldPoint(new Vector3(_screenCenterPoint.x, _screenCenterPoint.y, _cam.farClipPlane));
+            var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, firingLayerMask) ? hit.point : ray.GetPoint(1000f);
             _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
         }
         
