@@ -16,11 +16,11 @@ public abstract class RangedWeapon : MonoBehaviour
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     private Transform barrelTransform;
 
-    [SerializeField] [Tooltip("If this weapon belongs to the player, attach the crosshair here.")]
-    private Crosshair crosshair;
+    [Tooltip("If this weapon belongs to the player, attach the crosshair here.")]
+    private Crosshair _crosshair;
 
-    [SerializeField] [Tooltip("A hacky reference to the reload bar UI")]
-    private ReloadBar reloadBar;
+    [Tooltip("A hacky reference to the reload bar UI")]
+    private ReloadBar _reloadBar;
 
     private float _currentSpread;
     private float _currentRecoverySharpness;
@@ -35,10 +35,25 @@ public abstract class RangedWeapon : MonoBehaviour
         _isAiming = isAiming;
     }
 
+    public float GetTimeLastFired()
+    {
+        return _timeLastFired;
+    }
+
+    public bool GetReloading()
+    {
+        return _reloading;
+    }
+
     private void Start()
     {
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
+        if (gameObject.layer == 6)
+        {
+            _crosshair = StarfallPlayer.Instance.crosshair;
+            _reloadBar = StarfallPlayer.Instance.reloadBar;
+        }
     }
 
     private void Update()
@@ -59,7 +74,7 @@ public abstract class RangedWeapon : MonoBehaviour
         switch (weaponData.firingMode)
         {
             case WeaponData.FiringMode.Auto:
-                if (Time.time - _timeLastFired > (1 / weaponData.firingRate))
+                if (Time.time - _timeLastFired > (1 / weaponData.firingRate) && !_reloading)
                 {
                     for (var i = 0; i < weaponData.bulletsFiredPerShot; i++)
                     {
@@ -80,7 +95,7 @@ public abstract class RangedWeapon : MonoBehaviour
                 }
                 break;
             case WeaponData.FiringMode.SemiAuto:
-                if (!wasRequestingFireLastFrame && Time.time - _timeLastFired > (1 / weaponData.firingRate))
+                if (!wasRequestingFireLastFrame && Time.time - _timeLastFired > (1 / weaponData.firingRate) && !_reloading)
                 {
                     for (var i = 0; i < weaponData.bulletsFiredPerShot; i++)
                     {
@@ -210,9 +225,9 @@ public abstract class RangedWeapon : MonoBehaviour
             1 - Mathf.Exp(-_currentRecoverySharpness * Time.deltaTime));
         
         //Update UI if applicable
-        if (crosshair)
+        if (_crosshair)
         {
-            crosshair.UpdateSize(_currentSpread);
+            _crosshair.UpdateSize(_currentSpread);
         }
     }
 
@@ -228,9 +243,10 @@ public abstract class RangedWeapon : MonoBehaviour
 
     public void Reload()
     {
+        if (_bulletsCurrentlyInMagazine == weaponData.magazineSize) return;
         _reloading = true;
         //Animation and UI stuff here
-        if (reloadBar) reloadBar.AnimateReloadBar(weaponData.reloadTime);
+        if (_reloadBar) _reloadBar.AnimateReloadBar(weaponData.reloadTime);
         Invoke(nameof(FillMagazine), weaponData.reloadTime);
     }
 

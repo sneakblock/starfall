@@ -1355,8 +1355,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: e527e56f4b66b654abb3ac4d4c25aedc, type: 2}
   barrelTransform: {fileID: 1704745019}
-  crosshair: {fileID: 1981706825}
-  reloadBar: {fileID: 1992939021}
 --- !u!1001 &1048222738
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1375,6 +1373,16 @@ PrefabInstance:
       propertyPath: character
       value: 
       objectReference: {fileID: 1207975709}
+    - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
+        type: 3}
+      propertyPath: crosshair
+      value: 
+      objectReference: {fileID: 1981706825}
+    - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
+        type: 3}
+      propertyPath: reloadBar
+      value: 
+      objectReference: {fileID: 1992939021}
     - target: {fileID: 5162151626552590668, guid: 15881ddf3b15f0645822c6ad0479b4f8,
         type: 3}
       propertyPath: orbitCamera
@@ -1681,6 +1689,11 @@ PrefabInstance:
         type: 3}
       propertyPath: firingLayerMask.m_Bits
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1768362842341019647, guid: 07af59c76c2549b4c9bbe58e6608466b,
+        type: 3}
+      propertyPath: secondsToLockShootingOrientation
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1768362842341019647, guid: 07af59c76c2549b4c9bbe58e6608466b,
         type: 3}
@@ -2677,6 +2690,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe646d3df574284a87e61d06420d908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sizeDeltaX: 0
+  sizeDeltaY: 0
 --- !u!114 &1992939022
 MonoBehaviour:
   m_ObjectHideFlags: 0

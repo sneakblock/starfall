@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: TestWeaponData
   m_EditorClassIdentifier: 
   damage: 5
-  firingMode: 1
+  firingMode: 0
   hitMode: 0
   projectile: {fileID: 2080535705976710659, guid: 1f8c40b3dcbd5a947a0be20d40f87494,
     type: 3}
   firingForce: 300
   upwardFiringForce: 0
-  firingRate: 5
-  magazineSize: 6
+  firingRate: 20
+  magazineSize: 60
   bulletsFiredPerShot: 1
   reloadTime: 2
   minHipFireSpread: 0.05
@@ -28,7 +28,7 @@ MonoBehaviour:
   minAdsSpread: 0.01
   maxAdsSpread: 0.05
   hipFireBloomIntensity: 0.063
-  adsBloomIntensity: 0.143
+  adsBloomIntensity: 0.005
   maxRecoverySharpness: 20
   minRecoverySharpness: 1
   recoveryImpact: 20

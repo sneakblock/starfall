@@ -22,6 +22,10 @@ public class StarfallPlayer : MonoBehaviour
             public UnityEvent onFireUp = new UnityEvent();
             public LayerMask firingLayerMask;
 
+            [Header("Player UI References")] 
+            public Crosshair crosshair;
+            public ReloadBar reloadBar;
+
             [Header("Debugging")] public bool debug;
             
             private const string HorizontalInput = "Horizontal";
@@ -30,9 +34,20 @@ public class StarfallPlayer : MonoBehaviour
             private bool _oldFire = false;
             private int _zoom = 1;
             private Camera _cam;
+            
+            public static StarfallPlayer Instance { get; private set; }
 
             private void Awake()
             {
+                if (Instance != null && Instance != this)
+                {
+                    Destroy(this);
+                }
+                else
+                {
+                    Instance = this;
+                }
+                
                 onAimDown.AddListener(ToggleZoom);
                 onAimUp.AddListener(ToggleZoom);
                 _cam = orbitCamera.Camera;
@@ -47,6 +62,14 @@ public class StarfallPlayer : MonoBehaviour
     
                 // Ignore the character's collider(s) for camera obstruction checks
                 orbitCamera.IgnoredColliders = character.GetComponentsInChildren<Collider>().ToList();
+                
+                //Assign whatever character we have the label and layer of player, and all children of that character.
+                var o = character.gameObject;
+                o.tag = "Player";
+                foreach (Transform t in o.GetComponentsInChildren<Transform>())
+                {
+                    t.gameObject.layer = 6;
+                }
             }
     
             private void Update()
@@ -110,6 +133,7 @@ public class StarfallPlayer : MonoBehaviour
                 characterInputs.JumpDown = Input.GetKeyDown(KeyCode.Space);
                 characterInputs.Primary = Input.GetMouseButton(0);
                 characterInputs.Aim = Input.GetMouseButton(1);
+                characterInputs.Reload = Input.GetKeyDown(KeyCode.R);
                 //Update the screen center point
                 var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
                 Ray ray = _cam.ScreenPointToRay(screenCenterPoint);

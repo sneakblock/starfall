@@ -31,6 +31,9 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
 
     [Header("Weapons")] [SerializeField] private RangedWeapon _weapon;
     [Range(0, 1)] public float aimingMovementPenalty;
+    [SerializeField] 
+    [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
+    private float secondsToLockShootingOrientation;
 
     [Header("Misc")]
     public List<Collider> ignoredColliders = new List<Collider>();
@@ -56,6 +59,8 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     private Vector3 _screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
     private Camera _cam;
     private Vector3 _target;
+    private bool _reloadedThisFrame;
+    
 
     public enum CharacterState
     {
@@ -72,6 +77,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         public bool Aim;
         public bool Ability;
         public bool Gadget;
+        public bool Reload;
         public Vector3 Target;
     }
 
@@ -111,6 +117,11 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
             RequestFirePrimary();
         }
 
+        if (_reloadedThisFrame && _weapon)
+        {
+            _weapon.Reload();
+        }
+
         //Update old stuff
         _wasAimingLastFrame = _isAiming;
         _wasFiringLastFrame = _isFiring;
@@ -132,11 +143,23 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     
     public void RequestFirePrimary()
     {
-        
+
+
+        if (!_weapon.GetReloading())
+        {
+            StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
+        }
         
         _weapon.RequestFire(_target, _wasFiringLastFrame);
         
         
+    }
+
+    IEnumerator OrientationTimer(float duration)
+    {
+        orientationMethod = OrientationMethod.TowardsCamera;
+        yield return new WaitForSeconds(duration);
+        if (!_isAiming && Time.time - _weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
     }
 
     public void SetInputs(ref StarfallPlayerCharacterInputs inputs)
@@ -177,6 +200,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         _isAiming = inputs.Aim;
         _isFiring = inputs.Primary;
         _target = inputs.Target;
+        _reloadedThisFrame = inputs.Reload;
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
