@@ -20,6 +20,7 @@ public class StarfallPlayer : MonoBehaviour
             [Header("Player Firing Behavior")] 
             public UnityEvent onFireDown = new UnityEvent();
             public UnityEvent onFireUp = new UnityEvent();
+            public LayerMask firingLayerMask;
 
             [Header("Debugging")] public bool debug;
             
@@ -28,11 +29,13 @@ public class StarfallPlayer : MonoBehaviour
             private bool _oldAim = false;
             private bool _oldFire = false;
             private int _zoom = 1;
+            private Camera _cam;
 
             private void Awake()
             {
                 onAimDown.AddListener(ToggleZoom);
                 onAimUp.AddListener(ToggleZoom);
+                _cam = orbitCamera.Camera;
             }
 
             private void Start()
@@ -107,6 +110,11 @@ public class StarfallPlayer : MonoBehaviour
                 characterInputs.JumpDown = Input.GetKeyDown(KeyCode.Space);
                 characterInputs.Primary = Input.GetMouseButton(0);
                 characterInputs.Aim = Input.GetMouseButton(1);
+                //Update the screen center point
+                var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                Ray ray = _cam.ScreenPointToRay(screenCenterPoint);
+                var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, firingLayerMask) ? hit.point : ray.GetPoint(1000f);
+                characterInputs.Target = targetPoint;
 
                 if (debug)
                 {

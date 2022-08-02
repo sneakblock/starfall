@@ -18,14 +18,17 @@ public abstract class RangedWeapon : MonoBehaviour
 
     [SerializeField] [Tooltip("If this weapon belongs to the player, attach the crosshair here.")]
     private Crosshair crosshair;
-    
+
+    [SerializeField] [Tooltip("A hacky reference to the reload bar UI")]
+    private ReloadBar reloadBar;
+
     private float _currentSpread;
     private float _currentRecoverySharpness;
     private bool _isAiming;
     private Vector3 _firedDir;
-    private List<Ray> _firedRays = new List<Ray>();
-    private const int SecondsPerDebugRay = 2;
-    private float _timeSinceLastBulletFired = Mathf.Infinity;
+    private float _timeLastFired = 0f;
+    private int _bulletsCurrentlyInMagazine;
+    private bool _reloading;
 
     public void SetAiming(bool isAiming)
     {
@@ -35,6 +38,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private void Start()
     {
         _currentSpread = weaponData.minHipFireSpread;
+        _bulletsCurrentlyInMagazine = weaponData.magazineSize;
     }
 
     private void Update()
@@ -46,9 +50,7 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         float v0 = 1f - Random.Range(0f, 1f);
         float v1 = 1f - Random.Range(0f, 1f);
-
         float randNorm = Mathf.Sqrt(-2f * Mathf.Log(v0)) * Mathf.Sin(2f * Mathf.PI * v1);
-        
         return mean + stddev * randNorm;
     }
 
@@ -57,12 +59,44 @@ public abstract class RangedWeapon : MonoBehaviour
         switch (weaponData.firingMode)
         {
             case WeaponData.FiringMode.Auto:
-                
+                if (Time.time - _timeLastFired > (1 / weaponData.firingRate))
+                {
+                    for (var i = 0; i < weaponData.bulletsFiredPerShot; i++)
+                    {
+                        if (_bulletsCurrentlyInMagazine > 0)
+                        {
+                            Fire(targetPoint);
+                        }
+                        else
+                        {
+                            if (!_reloading)
+                            {
+                                Reload();
+                            }
+                            break;
+                        }
+                    }
+                    
+                }
                 break;
             case WeaponData.FiringMode.SemiAuto:
-                if (!wasRequestingFireLastFrame)
+                if (!wasRequestingFireLastFrame && Time.time - _timeLastFired > (1 / weaponData.firingRate))
                 {
-                    Fire(targetPoint);
+                    for (var i = 0; i < weaponData.bulletsFiredPerShot; i++)
+                    {
+                        if (_bulletsCurrentlyInMagazine > 0)
+                        {
+                            Fire(targetPoint);
+                        }
+                        else
+                        {
+                            if (!_reloading)
+                            {
+                                Reload();
+                            }
+                            break;
+                        }
+                    }
                 }
                 break;
         }
@@ -76,9 +110,10 @@ public abstract class RangedWeapon : MonoBehaviour
     /// <param name="targetPoint">
     /// The Vector3 at which the projectile should fire, AKA the location the agent is aiming at. 
     /// </param>
-    public void Fire(Vector3 targetPoint) 
+    private void Fire(Vector3 targetPoint)
     {
-        _timeSinceLastBulletFired = 0;
+        _timeLastFired = Time.time;
+        _bulletsCurrentlyInMagazine--;
 
         //The perfect direction to the targetPoint.
         var barrelPos = barrelTransform.position;
@@ -131,6 +166,11 @@ public abstract class RangedWeapon : MonoBehaviour
         
         Debug.Log("Current spread is " + _currentSpread);
         
+        //If this was the last shot, automatically start reloading
+        if (_bulletsCurrentlyInMagazine == 0 && !_reloading)
+        {
+            Reload();
+        }
 
     }
     
@@ -188,7 +228,16 @@ public abstract class RangedWeapon : MonoBehaviour
 
     public void Reload()
     {
-        
+        _reloading = true;
+        //Animation and UI stuff here
+        if (reloadBar) reloadBar.AnimateReloadBar(weaponData.reloadTime);
+        Invoke(nameof(FillMagazine), weaponData.reloadTime);
+    }
+
+    private void FillMagazine()
+    {
+        _bulletsCurrentlyInMagazine = weaponData.magazineSize;
+        _reloading = false;
     }
 
     private void OnDrawGizmos()

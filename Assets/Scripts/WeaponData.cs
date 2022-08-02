@@ -44,13 +44,16 @@ public class WeaponData : ScriptableObject
     [Tooltip("The force applied to the projectile when it is fired.")]
     public float firingForce, upwardFiringForce;
 
-    [Tooltip("The rate at which the weapon fires. This is measured in maximum rounds per minute.")]
+    [Tooltip("The rate at which the weapon fires. This is measured in maximum rounds per second(!!!). (Not minute)")]
     public float firingRate;
 
     [Header("Ammo & Reloading")]
     
     [Tooltip("The number of bullets in each magazine. Set to -1 for infinite ammo per magazine.")]
     public int magazineSize;
+
+    [Tooltip("Number of bullets fired per pull of the trigger.")]
+    public int bulletsFiredPerShot;
 
     [Tooltip("The number of seconds it takes to reload the weapon.")]
     public float reloadTime;

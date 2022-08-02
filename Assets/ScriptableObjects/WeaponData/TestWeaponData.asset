@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   firingMode: 1
-  hitMode: 1
+  hitMode: 0
   projectile: {fileID: 2080535705976710659, guid: 1f8c40b3dcbd5a947a0be20d40f87494,
     type: 3}
-  firingForce: 10
+  firingForce: 300
   upwardFiringForce: 0
   firingRate: 5
   magazineSize: 6
-  reloadTime: 1
+  bulletsFiredPerShot: 1
+  reloadTime: 2
   minHipFireSpread: 0.05
   maxHipFireSpread: 0.1
   minAdsSpread: 0.01

@@ -35,10 +35,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     [Header("Misc")]
     public List<Collider> ignoredColliders = new List<Collider>();
     public Vector3 gravity = new Vector3(0, -30f, 0);
-    public bool isPlayer;
-    [Tooltip("These layers are considered when calculating the raycast for the desired target position")]
-    public LayerMask firingLayerMask;
-    
+
     //The character state stuff isn't used yet, but it will probably be useful when it comes to stuns, abilities, etc.
     public CharacterState CurrentCharacterState { get; set; }
     
@@ -58,6 +55,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     private bool _wasFiringLastFrame = false;
     private Vector3 _screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
     private Camera _cam;
+    private Vector3 _target;
 
     public enum CharacterState
     {
@@ -74,6 +72,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         public bool Aim;
         public bool Ability;
         public bool Gadget;
+        public Vector3 Target;
     }
 
     public enum OrientationMethod
@@ -133,15 +132,10 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     
     public void RequestFirePrimary()
     {
-        if (isPlayer)
-        {
-            //Update the screen center point
-            _screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-            Ray ray = _cam.ScreenPointToRay(_screenCenterPoint);
-            // var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, firingLayerMask) ? hit.point : _cam.ScreenToWorldPoint(new Vector3(_screenCenterPoint.x, _screenCenterPoint.y, _cam.farClipPlane));
-            var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, firingLayerMask) ? hit.point : ray.GetPoint(1000f);
-            _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
-        }
+        
+        
+        _weapon.RequestFire(_target, _wasFiringLastFrame);
+        
         
     }
 
@@ -182,6 +176,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         //Firing
         _isAiming = inputs.Aim;
         _isFiring = inputs.Primary;
+        _target = inputs.Target;
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
