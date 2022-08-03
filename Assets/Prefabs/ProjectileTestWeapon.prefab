@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5821677453218311458}
   - component: {fileID: 5821677453218311459}
   - component: {fileID: 5821677453218311456}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5821677453554668050}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BarrelTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821677453554668051}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.102, z: 0.3981}
+  m_LocalPosition: {x: 0, y: 0.102, z: 0.367}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 5821677453567406266}
   - component: {fileID: 5821677453567406267}
   - component: {fileID: 5821677453567406264}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5821677453647831652}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 5821677453819190506}
   - component: {fileID: 5821677453819190507}
   - component: {fileID: 5821677453819190504}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,8 +288,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821677453819190422}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.057, z: 0.22399998}
-  m_LocalScale: {x: 0.10777453, y: 0.19933978, z: 0.34204406}
+  m_LocalPosition: {x: 0, y: 0.106000006, z: 0.22399998}
+  m_LocalScale: {x: 0.10777453, y: 0.10777453, z: 0.34204406}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5821677453647831652}
@@ -323,7 +323,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7d3ea3206830cdc419e2e2597391d750, type: 2}
+  - {fileID: 2100000, guid: eae4c4a699319144e9ff4c251b4a1c9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 5821677454080261355}
   - component: {fileID: 5821677454080261352}
   - component: {fileID: 5821677454080261353}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 5821677454733509656}
   - component: {fileID: 5821677454733509657}
   - component: {fileID: 5821677454733509638}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,8 +482,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821677454733509636}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.107}
-  m_LocalScale: {x: 0.10728, y: 0.31680572, z: 0.32510132}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.10728, y: 0.31680572, z: 0.10728}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5821677453647831652}
@@ -517,7 +517,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7d3ea3206830cdc419e2e2597391d750, type: 2}
+  - {fileID: 2100000, guid: eae4c4a699319144e9ff4c251b4a1c9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -561,8 +561,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5821677454865862401}
-  - component: {fileID: 8432925045620514235}
-  m_Layer: 6
+  - component: {fileID: 2029245966124061989}
+  m_Layer: 0
   m_Name: ProjectileTestWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -586,7 +586,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8432925045620514235
+--- !u!114 &2029245966124061989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -91,10 +91,6 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     {
         motor.CharacterController = this;
         _cam = Camera.main;
-        if (_weapon == null)
-        {
-            _weapon = GetComponentInChildren<RangedWeapon>();
-        }
     }
     
     void Update()

@@ -48,7 +48,7 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        if (gameObject.CompareTag("Player") || gameObject.transform.parent.CompareTag("Player"))
+        if (gameObject.CompareTag("Player"))
         {
             _crosshair = StarfallPlayer.Instance.crosshair;
             _reloadBar = StarfallPlayer.Instance.reloadBar;
