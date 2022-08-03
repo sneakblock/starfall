@@ -1,9 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileTestWeapon : RangedWeapon
 {
+
+    private List<GameObject> _projectiles;
+
+    protected override void Start()
+    {
+        base.Start();
+        _projectiles = new List<GameObject>();
+    }
 
     protected override void Fire(Vector3 dir)
     {
@@ -13,12 +22,10 @@ public class ProjectileTestWeapon : RangedWeapon
         var rb = projectile.GetComponent<Rigidbody>();
         var coll = projectile.GetComponent<Collider>();
         //This is temp, real functionality should ignore collision with other bullets and the entity that fires the weapon, but not all enemies for example if the weapon is fired by an enemy
-        foreach (var g in GameObject.FindGameObjectsWithTag(gameObject.tag))
+        _projectiles.Add(projectile);
+        foreach (var p in _projectiles)
         {
-            if (g.GetComponent<Collider>())
-            {
-                Physics.IgnoreCollision(coll, g.GetComponent<Collider>(), true);
-            }
+            Physics.IgnoreCollision(coll, p.GetComponent<Collider>(), true);
         }
         rb.AddForce(dir.normalized * weaponData.firingForce, ForceMode.Impulse);
     }

@@ -44,7 +44,7 @@ public abstract class RangedWeapon : MonoBehaviour
         return _reloading;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
@@ -57,7 +57,6 @@ public abstract class RangedWeapon : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("I'm updating!");
         ManageSpread();
     }
 
@@ -143,17 +142,7 @@ public abstract class RangedWeapon : MonoBehaviour
         goalDir.y += errorY;
         goalDir.z += errorZ;
         Debug.Log("After applying error, new goalDir is " + goalDir);
-        
-        //Adding some kick
-        if (_isAiming)
-        {
-            _currentSpread += weaponData.adsBloomIntensity;
-        }
-        else
-        {
-            _currentSpread += weaponData.hipFireBloomIntensity;
-        }
-        
+
         //We want to reduce the recoverySharpness here
         _currentRecoverySharpness -= weaponData.recoveryImpact;
 
@@ -165,6 +154,16 @@ public abstract class RangedWeapon : MonoBehaviour
         
         //ACTUALLY NEW FIRING SYSTEM
         Fire(goalDir);
+        
+        //Adding some kick
+        if (_isAiming)
+        {
+            _currentSpread += weaponData.adsBloomIntensity;
+        }
+        else
+        {
+            _currentSpread += weaponData.hipFireBloomIntensity;
+        }
         
         Debug.Log("Current spread is " + _currentSpread);
         
@@ -186,7 +185,6 @@ public abstract class RangedWeapon : MonoBehaviour
     /// </summary>
     private void ManageSpread()
     {
-        Debug.Log("Managing spread");
         //Cap the spread at the weapon's max spread values
         if (_isAiming && _currentSpread > weaponData.maxAdsSpread)
         {
