@@ -51,6 +51,14 @@ public class StarfallPlayer : MonoBehaviour
                 onAimDown.AddListener(ToggleZoom);
                 onAimUp.AddListener(ToggleZoom);
                 _cam = orbitCamera.Camera;
+                //Assign whatever character we have the label and layer of player, and all children of that character.
+                var o = character.gameObject;
+                foreach (Transform t in o.GetComponentsInChildren<Transform>())
+                {
+                    var gameObject1 = t.gameObject;
+                    gameObject1.layer = 6;
+                    gameObject1.tag = "Player";
+                }
             }
 
             private void Start()
@@ -63,14 +71,7 @@ public class StarfallPlayer : MonoBehaviour
                 // Ignore the character's collider(s) for camera obstruction checks
                 orbitCamera.IgnoredColliders = character.GetComponentsInChildren<Collider>().ToList();
                 
-                //Assign whatever character we have the label and layer of player, and all children of that character.
-                var o = character.gameObject;
-                foreach (Transform t in o.GetComponentsInChildren<Transform>())
-                {
-                    var gameObject1 = t.gameObject;
-                    gameObject1.layer = 6;
-                    gameObject1.tag = "Player";
-                }
+                
             }
     
             private void Update()

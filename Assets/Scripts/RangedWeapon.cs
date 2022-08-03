@@ -11,10 +11,10 @@ public abstract class RangedWeapon : MonoBehaviour
 
     [SerializeField] 
     [Tooltip("Add a weaponData scriptable object here to give the weapon the information it needs to behave.")]
-    private WeaponData weaponData;
+    protected WeaponData weaponData;
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
-    private Transform barrelTransform;
+    protected Transform barrelTransform;
 
 
     private Crosshair _crosshair;
@@ -27,8 +27,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private float _timeLastFired = 0f;
     private int _bulletsCurrentlyInMagazine;
     private bool _reloading;
-    private Bullet _bullet;
-    
+
 
     public void SetAiming(bool isAiming)
     {
@@ -49,17 +48,16 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        if (gameObject.CompareTag("Player"))
+        if (gameObject.CompareTag("Player") || gameObject.transform.parent.CompareTag("Player"))
         {
             _crosshair = StarfallPlayer.Instance.crosshair;
             _reloadBar = StarfallPlayer.Instance.reloadBar;
         }
-
-        _bullet = weaponData.bullet.GetComponent<Bullet>();
     }
 
     private void Update()
     {
+        Debug.Log("I'm updating!");
         ManageSpread();
     }
 
@@ -82,7 +80,7 @@ public abstract class RangedWeapon : MonoBehaviour
                     {
                         if (_bulletsCurrentlyInMagazine > 0)
                         {
-                            Fire(targetPoint);
+                            CalculateTrajectory(targetPoint);
                         }
                         else
                         {
@@ -103,7 +101,7 @@ public abstract class RangedWeapon : MonoBehaviour
                     {
                         if (_bulletsCurrentlyInMagazine > 0)
                         {
-                            Fire(targetPoint);
+                            CalculateTrajectory(targetPoint);
                         }
                         else
                         {
@@ -127,7 +125,7 @@ public abstract class RangedWeapon : MonoBehaviour
     /// <param name="targetPoint">
     /// The Vector3 at which the projectile should fire, AKA the location the agent is aiming at. 
     /// </param>
-    private void Fire(Vector3 targetPoint)
+    private void CalculateTrajectory(Vector3 targetPoint)
     {
         _timeLastFired = Time.time;
         _bulletsCurrentlyInMagazine--;
@@ -160,10 +158,13 @@ public abstract class RangedWeapon : MonoBehaviour
         _currentRecoverySharpness -= weaponData.recoveryImpact;
 
         //New firing system
-        if (_bullet)
-        {
-            _bullet.Fire(barrelPos, goalDir, weaponData.firingForce);
-        }
+        // if (_bullet)
+        // {
+        //     _bullet.Fire(barrelPos, goalDir, weaponData.firingForce);
+        // }
+        
+        //ACTUALLY NEW FIRING SYSTEM
+        Fire(goalDir);
         
         Debug.Log("Current spread is " + _currentSpread);
         
@@ -174,7 +175,9 @@ public abstract class RangedWeapon : MonoBehaviour
         }
 
     }
-    
+
+    protected abstract void Fire(Vector3 dir);
+
 
     /// <summary>
     /// This method tunes the spread to the desired level smoothly, over multiple frames.
@@ -183,6 +186,7 @@ public abstract class RangedWeapon : MonoBehaviour
     /// </summary>
     private void ManageSpread()
     {
+        Debug.Log("Managing spread");
         //Cap the spread at the weapon's max spread values
         if (_isAiming && _currentSpread > weaponData.maxAdsSpread)
         {
