@@ -65,10 +65,11 @@ public class StarfallPlayer : MonoBehaviour
                 
                 //Assign whatever character we have the label and layer of player, and all children of that character.
                 var o = character.gameObject;
-                o.tag = "Player";
                 foreach (Transform t in o.GetComponentsInChildren<Transform>())
                 {
-                    t.gameObject.layer = 6;
+                    var gameObject1 = t.gameObject;
+                    gameObject1.layer = 6;
+                    gameObject1.tag = "Player";
                 }
             }
     

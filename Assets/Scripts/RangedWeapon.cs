@@ -16,10 +16,8 @@ public abstract class RangedWeapon : MonoBehaviour
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     private Transform barrelTransform;
 
-    [Tooltip("If this weapon belongs to the player, attach the crosshair here.")]
-    private Crosshair _crosshair;
 
-    [Tooltip("A hacky reference to the reload bar UI")]
+    private Crosshair _crosshair;
     private ReloadBar _reloadBar;
 
     private float _currentSpread;
@@ -30,6 +28,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private int _bulletsCurrentlyInMagazine;
     private bool _reloading;
     private Bullet _bullet;
+    
 
     public void SetAiming(bool isAiming)
     {
@@ -50,7 +49,7 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        if (gameObject.layer == 6)
+        if (gameObject.CompareTag("Player"))
         {
             _crosshair = StarfallPlayer.Instance.crosshair;
             _reloadBar = StarfallPlayer.Instance.reloadBar;
