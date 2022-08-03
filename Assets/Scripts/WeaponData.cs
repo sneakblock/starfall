@@ -14,12 +14,6 @@ public class WeaponData : ScriptableObject
         Beam
     };
 
-    public enum HitMode
-    {
-        HitScan,
-        Projectile
-    };
-    
     [Header("Firing")]
     
     [Tooltip("The damage per bullet or tick of the weapon.")]
@@ -30,19 +24,12 @@ public class WeaponData : ScriptableObject
         "The firing mode of the weapon. Each mode has different behavior, and a different relationship to the firingRate " +
         "parameter.")]
     public FiringMode firingMode;
-    
-    [Tooltip("The hit detection method for the weapon. HitScan uses instantly calculated rays, whereas projectile " +
-             "spawns entities in the world that travel along a path to strike targets and have travel time.")]
-    public HitMode hitMode;
-    
-    [Header("Projectiles")]
 
-    [Tooltip(
-        "The prefab that the weapon fires, assuming it's a projectile based weapon. Otherwise, this does nothing.")]
-    public GameObject projectile;
+    [Header("Projectiles")] [Tooltip("The prefab object that the weapon will call fire on. This prefab must have a Bullet component, or else the weapon will do nothing with it.")]
+    public GameObject bullet;
 
-    [Tooltip("The force applied to the projectile when it is fired.")]
-    public float firingForce, upwardFiringForce;
+    [Tooltip("The force applied to the bullet when it is fired. This may or may not do something-- it's up to the bullet how it responds to force.")]
+    public float firingForce;
 
     [Tooltip("The rate at which the weapon fires. This is measured in maximum rounds per second(!!!). (Not minute)")]
     public float firingRate;

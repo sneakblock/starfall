@@ -29,6 +29,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private float _timeLastFired = 0f;
     private int _bulletsCurrentlyInMagazine;
     private bool _reloading;
+    private Bullet _bullet;
 
     public void SetAiming(bool isAiming)
     {
@@ -54,6 +55,8 @@ public abstract class RangedWeapon : MonoBehaviour
             _crosshair = StarfallPlayer.Instance.crosshair;
             _reloadBar = StarfallPlayer.Instance.reloadBar;
         }
+
+        _bullet = weaponData.bullet.GetComponent<Bullet>();
     }
 
     private void Update()
@@ -157,26 +160,10 @@ public abstract class RangedWeapon : MonoBehaviour
         //We want to reduce the recoverySharpness here
         _currentRecoverySharpness -= weaponData.recoveryImpact;
 
-        //Now we want to actually fire the weapon, depending on what sort of weapon it is.
-        switch (weaponData.hitMode)
+        //New firing system
+        if (_bullet)
         {
-            
-            case WeaponData.HitMode.HitScan:
-                Debug.DrawRay(barrelPos, goalDir * 1000f, Color.red, .5f);
-                break;
-            
-            case WeaponData.HitMode.Projectile:
-                if (weaponData.projectile)
-                {
-                    GameObject projectile =
-                        GameObject.Instantiate(weaponData.projectile, barrelPos, Quaternion.identity);
-                    projectile.transform.forward = goalDir.normalized;
-                    var rb = projectile.GetComponent<Rigidbody>();
-                    rb.AddForce(goalDir.normalized * weaponData.firingForce, ForceMode.Impulse);
-                    rb.AddForce(barrelTransform.up.normalized * weaponData.upwardFiringForce, ForceMode.Impulse);
-                }
-                break;
-                
+            _bullet.Fire(barrelPos, goalDir, weaponData.firingForce);
         }
         
         Debug.Log("Current spread is " + _currentSpread);
