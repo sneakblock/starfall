@@ -25,6 +25,7 @@ public class StarfallPlayer : MonoBehaviour
             [Header("Player UI References")] 
             public Crosshair crosshair;
             public ReloadBar reloadBar;
+            public AmmoCounter ammoCounter;
 
             [Header("Debugging")] public bool debug;
             
