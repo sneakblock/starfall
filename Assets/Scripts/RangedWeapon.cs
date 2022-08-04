@@ -90,7 +90,17 @@ public abstract class RangedWeapon : MonoBehaviour
                             break;
                         }
                     }
-                    
+                    //Adding some kick
+                    if (_isAiming)
+                    {
+                        _currentSpread += weaponData.adsBloomIntensity;
+                    }
+                    else
+                    {
+                        _currentSpread += weaponData.hipFireBloomIntensity;
+                    }
+        
+                    Debug.Log("Current spread is " + _currentSpread);
                 }
                 break;
             case WeaponData.FiringMode.SemiAuto:
@@ -111,6 +121,17 @@ public abstract class RangedWeapon : MonoBehaviour
                             break;
                         }
                     }
+                    //Adding some kick
+                    if (_isAiming)
+                    {
+                        _currentSpread += weaponData.adsBloomIntensity;
+                    }
+                    else
+                    {
+                        _currentSpread += weaponData.hipFireBloomIntensity;
+                    }
+        
+                    Debug.Log("Current spread is " + _currentSpread);
                 }
                 break;
         }
@@ -146,27 +167,9 @@ public abstract class RangedWeapon : MonoBehaviour
         //We want to reduce the recoverySharpness here
         _currentRecoverySharpness -= weaponData.recoveryImpact;
 
-        //New firing system
-        // if (_bullet)
-        // {
-        //     _bullet.Fire(barrelPos, goalDir, weaponData.firingForce);
-        // }
-        
-        //ACTUALLY NEW FIRING SYSTEM
+        //Fire
         Fire(goalDir);
-        
-        //Adding some kick
-        if (_isAiming)
-        {
-            _currentSpread += weaponData.adsBloomIntensity;
-        }
-        else
-        {
-            _currentSpread += weaponData.hipFireBloomIntensity;
-        }
-        
-        Debug.Log("Current spread is " + _currentSpread);
-        
+
         //If this was the last shot, automatically start reloading
         if (_bulletsCurrentlyInMagazine == 0 && !_reloading)
         {
