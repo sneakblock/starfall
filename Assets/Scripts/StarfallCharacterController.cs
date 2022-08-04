@@ -414,4 +414,9 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     {
         return this._weapon;
     }
+
+    public Vector3 GetTarget()
+    {
+        return _target;
+    }
 }

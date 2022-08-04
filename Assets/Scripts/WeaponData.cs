@@ -10,6 +10,7 @@ public class WeaponData : ScriptableObject
     {
         Auto,
         SemiAuto,
+        Burst
     };
 
     [Header("Firing")]
@@ -33,6 +34,8 @@ public class WeaponData : ScriptableObject
     public int magazineSize;
     [Tooltip("Number of bullets fired per pull of the trigger.")]
     public int bulletsFiredPerShot;
+    [Tooltip("If the weapon is Burst, how long is the delay between shots of the burst?")]
+    public float burstDelay;
     [Tooltip("The number of seconds it takes to reload the weapon.")]
     public float reloadTime;
     

@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: HitscanTestWeaponData
   m_EditorClassIdentifier: 
   damage: 5
-  firingMode: 0
+  firingMode: 2
   bullet: {fileID: 0}
   firingForce: 20
-  firingRate: 20
+  firingRate: 2
   magazineSize: 60
-  bulletsFiredPerShot: 1
+  bulletsFiredPerShot: 3
+  burstDelay: 0.05
   reloadTime: 2
   minHipFireSpread: 0.05
   maxHipFireSpread: 0.1

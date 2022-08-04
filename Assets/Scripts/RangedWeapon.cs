@@ -20,6 +20,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private Crosshair _crosshair;
     private ReloadBar _reloadBar;
 
+    private StarfallCharacterController _ownerChar;
     private float _currentSpread;
     private float _currentRecoverySharpness;
     private bool _isAiming;
@@ -27,6 +28,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private float _timeLastFired = 0f;
     private int _bulletsCurrentlyInMagazine;
     private bool _reloading;
+    private bool _bursting = false;
 
 
     public void SetAiming(bool isAiming)
@@ -53,6 +55,7 @@ public abstract class RangedWeapon : MonoBehaviour
             _crosshair = StarfallPlayer.Instance.crosshair;
             _reloadBar = StarfallPlayer.Instance.reloadBar;
         }
+        _ownerChar = GetComponentInParent<StarfallCharacterController>();
     }
 
     private void Update()
@@ -134,7 +137,47 @@ public abstract class RangedWeapon : MonoBehaviour
                     Debug.Log("Current spread is " + _currentSpread);
                 }
                 break;
+            case WeaponData.FiringMode.Burst:
+                if (!wasRequestingFireLastFrame && Time.time - _timeLastFired > (1 / weaponData.firingRate) &&
+                    !_reloading && !_bursting)
+                {
+                    _bursting = true;
+                    StartCoroutine(FireBurst(weaponData.bulletsFiredPerShot, weaponData.burstDelay));
+                    //Adding some kick
+                    if (_isAiming)
+                    {
+                        _currentSpread += weaponData.adsBloomIntensity;
+                    }
+                    else
+                    {
+                        _currentSpread += weaponData.hipFireBloomIntensity;
+                    }
+                }
+
+                break;
         }
+    }
+
+    IEnumerator FireBurst(int bulletsPerBurst, float burstDelay)
+    {
+        for (var i = 0; i < weaponData.bulletsFiredPerShot; i++)
+        {
+            if (_bulletsCurrentlyInMagazine > 0)
+            {
+                CalculateTrajectory(_ownerChar.GetTarget());
+                yield return new WaitForSeconds(burstDelay);
+            }
+            else
+            {
+                if (!_reloading)
+                {
+                    Reload();
+                }
+                break;
+            }
+        }
+
+        _bursting = false;
     }
 
     /// <summary>
