@@ -15,7 +15,7 @@ public class WeaponData : ScriptableObject
 
     [Header("Firing")]
     [Tooltip("The damage per bullet or tick of the weapon.")]
-    public float damage;
+    public int damage;
     [Tooltip(
         "The firing mode of the weapon. Each mode has different behavior, and a different relationship to the firingRate " +
         "parameter.")]
