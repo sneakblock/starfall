@@ -81,6 +81,12 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         public Vector3 Target;
     }
 
+    public struct StarfallAICharacterInputs
+    {
+        public Vector3 MoveVector;
+        public Vector3 LookVector;
+    }
+
     public enum OrientationMethod
     {
         TowardsCamera,
@@ -201,6 +207,12 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         _isFiring = inputs.Primary;
         _target = inputs.Target;
         _reloadedThisFrame = inputs.Reload;
+    }
+
+    public void SetInputs(ref StarfallAICharacterInputs inputs)
+    {
+        _moveInputVector = inputs.MoveVector;
+        _lookInputVector = inputs.LookVector;
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
@@ -418,5 +430,10 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     public Vector3 GetTarget()
     {
         return _target;
+    }
+
+    public Vector3 GetPosition()
+    {
+        return transform.position;
     }
 }

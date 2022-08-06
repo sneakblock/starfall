@@ -9,7 +9,7 @@ public class AmmoCounter : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI ammoText;
 
-    void Start()
+    void Awake()
     {
         ammoText = GetComponentInChildren<TextMeshProUGUI>();
     }

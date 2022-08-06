@@ -105,8 +105,6 @@ public abstract class RangedWeapon : MonoBehaviour
                     {
                         _currentSpread += weaponData.hipFireBloomIntensity;
                     }
-        
-                    Debug.Log("Current spread is " + _currentSpread);
                 }
                 break;
             case WeaponData.FiringMode.SemiAuto:
@@ -136,8 +134,6 @@ public abstract class RangedWeapon : MonoBehaviour
                     {
                         _currentSpread += weaponData.hipFireBloomIntensity;
                     }
-        
-                    Debug.Log("Current spread is " + _currentSpread);
                 }
                 break;
             case WeaponData.FiringMode.Burst:
@@ -203,12 +199,9 @@ public abstract class RangedWeapon : MonoBehaviour
         var errorX = RandGaussian(_currentSpread);
         var errorY = RandGaussian(_currentSpread);
         var errorZ = RandGaussian(_currentSpread);
-        Debug.Log("goalDir is " + goalDir);
-        Debug.Log("With a current spread of " + _currentSpread + ", a Gaussian errorX of " + errorX + ", an errorY of " + errorY);
         goalDir.x += errorX;
         goalDir.y += errorY;
         goalDir.z += errorZ;
-        Debug.Log("After applying error, new goalDir is " + goalDir);
 
         //We want to reduce the recoverySharpness here
         _currentRecoverySharpness -= weaponData.recoveryImpact;
