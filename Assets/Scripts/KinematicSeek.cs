@@ -5,8 +5,13 @@ using UnityEngine;
 public class KinematicSeek
 {
     
-    private readonly StarfallCharacterController _character;
-    private readonly Vector3 _targetPos;
+    protected StarfallCharacterController _character;
+    protected Vector3 _targetPos;
+
+    public KinematicSeek()
+    {
+        
+    }
 
     public KinematicSeek(StarfallCharacterController character, Vector3 targetPos)
     {
@@ -26,7 +31,7 @@ public class KinematicSeek
         
         //For now, looking is just set to look in the same direction you're walking. This could be overwritten in 
         //the higher level AI controller given some state.
-        steering.Rotation = steering.Velocity;
+        steering.Rotation = new Vector3(steering.Velocity.x, 0, steering.Velocity.z);
 
         return steering;
     }

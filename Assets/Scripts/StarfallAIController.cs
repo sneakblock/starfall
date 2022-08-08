@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,65 +6,116 @@ using UnityEngine.AI;
 
 public class StarfallAIController : MonoBehaviour
 {
+    [SerializeField]
+    private StarfallCharacterController character;
 
-    public StarfallCharacterController character;
-    public Transform target;
-    public float satisfiedRange;
-    
+    public Transform test;
+
     private KinematicSeek _kinematicSeek;
-    private NavMeshPath _navMeshPath;
-    private int i = 0;
+    private NavMeshPath _path;
+    //Local target on the path we are currently seeking
     private Vector3 _localTarget;
-    private bool _seeking = true;
+    //Current ultimate target meant to be reached by traveling the path.
+    private Vector3 _goToTarget;
+    private StarfallCharacterController.StarfallAICharacterInputs _inputs;
+    private bool _hasPath = false;
+    private float _range = 2f;
+    private int _currPathIndex = 0;
+    private bool _lookAtNavTarget = true;
 
-    void Awake()
+    private void Start()
     {
-        
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        _navMeshPath = new NavMeshPath();
-        NavMesh.CalculatePath(character.transform.position, target.position, NavMesh.AllAreas, _navMeshPath);
-        _kinematicSeek = new KinematicSeek(character, _navMeshPath.corners[i]);
-        _localTarget = _navMeshPath.corners[i];
+        GoTo(test.position);
     }
 
-    // Update is called once per frame
+    //Wipes _inputs clean
+    public void InitInputs()
+    {
+        _inputs = new StarfallCharacterController.StarfallAICharacterInputs();
+    }
+
+    //Feeds the inputs the controller's character
+    public void AssignInputsToCharacter()
+    {
+        character.SetInputs(ref _inputs);
+    }
+
+    public bool GoTo(Vector3 target)
+    {
+        if (_hasPath)
+        {
+            var dist = Vector3.Distance(_goToTarget, target);
+            //The given target is the same as the current target, or so close to it that it need not
+            //run another A*.
+            if (dist <= _range) return true;
+        }
+        _path = new NavMeshPath();
+        if (NavMesh.CalculatePath(character.transform.position, target, NavMesh.AllAreas, _path))
+        {
+            _hasPath = true;
+            _currPathIndex = 0;
+            _localTarget = _path.corners[0];
+            return true;
+        }
+        else
+        {
+            Debug.Log("Could not find a valid path to this target.");
+            return false;
+        }
+    }
+
+    public void StopGoing()
+    {
+        _hasPath = false;
+    }
+
     void Update()
     {
-        if ((_localTarget - character.transform.position).magnitude <= satisfiedRange)
+        InitInputs();
+        if (_hasPath)
         {
-            //We are close enough to the point to move on to the next point.
-            if (i + 1 < _navMeshPath.corners.Length)
+            for (int i = 0; i < _path.corners.Length - 1; i++)
             {
-                i++;
-                Debug.Log("incremented the localtarget");
-                _localTarget = _navMeshPath.corners[i];
-                _kinematicSeek = new KinematicSeek(character, _navMeshPath.corners[i]);
+                Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.yellow);
             }
-            else
-            {
-                _seeking = false;
-                Debug.Log("Path is done.");
-            }
+            FollowPath();
         }
-        
-        for (int j = 0; j < _navMeshPath.corners.Length - 1; j++) {
-            Debug.DrawLine(_navMeshPath.corners[j], _navMeshPath.corners[j + 1], Color.yellow); 
-        }
-        
-        StarfallCharacterController.StarfallAICharacterInputs inputs =
-            new StarfallCharacterController.StarfallAICharacterInputs();
-
-        if (_seeking)
-        {
-            var seek = _kinematicSeek.GetSteering();
-            inputs.MoveVector = seek.Velocity;
-            inputs.LookVector = new Vector3(seek.Rotation.x, 0, seek.Rotation.z);
-        }
-
-        character.SetInputs(ref inputs);
+        AssignInputsToCharacter();
     }
+
+    private void FollowPath()
+    {
+        //Look ahead to the next point on the path, assuming we are not on the final point of the path.
+        if (Vector3.Distance(character.transform.position, _localTarget) <= _range)
+        {
+            if (_currPathIndex == _path.corners.Length - 1)
+            {
+                Debug.Log("Arrived.");
+                StopGoing();
+                return;
+            }
+            Debug.Log("Incremented localTarget");
+            _currPathIndex++;
+            _localTarget = _path.corners[_currPathIndex];
+        }
+        var steering = new KinematicSeek(character, _localTarget).GetSteering();
+        _inputs.MoveVector = steering.Velocity;
+        if (_lookAtNavTarget) _inputs.LookVector = steering.Rotation;
+    }
+
+    public bool ReachedTarget()
+    {
+        if (_hasPath)
+        {
+            return (_path.corners[^1] - character.transform.position).magnitude <= _range;
+        }
+
+        return false;
+    }
+
+    public bool HasPath()
+    {
+        return _hasPath;
+    }
+
 }
