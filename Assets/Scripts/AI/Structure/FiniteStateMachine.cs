@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class FiniteStateMachine<T> : IFiniteStateMachine<T>
+namespace StateMachine
+{
+    public class FiniteStateMachine<T> : IFiniteStateMachine<T>
     {
         public IStateBase<T> CurrentState { get; private set; }
 
@@ -309,3 +311,5 @@ public class FiniteStateMachine<T> : IFiniteStateMachine<T>
 
 
     }
+}
+

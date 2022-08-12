@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class DeferredStateTransition<T> : DeferredStateTransitionBase<T>
+namespace StateMachine
+{
+    public sealed class DeferredStateTransition<T> : DeferredStateTransitionBase<T>
     {
         public IState<T> DeferredStateWithArgs { get; private set; }
 
@@ -114,3 +116,5 @@ public sealed class DeferredStateTransition<T> : DeferredStateTransitionBase<T>
             DeferredStateWithArgs.Enter(Arg0, Arg1, Arg2, Arg3);
         }
     }
+}
+
