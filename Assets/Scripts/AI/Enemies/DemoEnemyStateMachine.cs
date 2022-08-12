@@ -56,7 +56,11 @@ public class DemoEnemyStateMachine : MonoBehaviour
             Player = demoFsmData.player;
         }
         
-        
+        //Methods that all states have access to go here.
+        public bool IsWithinRangeOfPlayer(float range)
+        {
+            return (Player.character.transform.position - Controller.character.transform.position).magnitude <= range;
+        }
 
     }
     

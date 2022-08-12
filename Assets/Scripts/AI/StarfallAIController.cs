@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class StarfallAIController : MonoBehaviour
 {
     [SerializeField]
-    private StarfallCharacterController character;
+    public StarfallCharacterController character { get; private set; }
 
     public Transform test;
 
