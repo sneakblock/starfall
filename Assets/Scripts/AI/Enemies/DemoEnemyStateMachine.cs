@@ -16,13 +16,14 @@ public class DemoEnemyStateMachine : MonoBehaviour
     struct DemoEnemyFsmData
     {
         public DemoEnemyStateMachine demoFsm { get; private set; }
-        public static StarfallPlayer Player = StarfallPlayer.Instance;
+        public  StarfallPlayer player { get; private set; }
         public StarfallAIController controller { get; private set; }
 
         public DemoEnemyFsmData(DemoEnemyStateMachine demoFsm, StarfallAIController controller)
         {
             this.demoFsm = demoFsm;
             this.controller = controller;
+            this.player = StarfallPlayer.Instance;
         }
     }
     
@@ -44,6 +45,16 @@ public class DemoEnemyStateMachine : MonoBehaviour
         protected DemoEnemyStateMachine DemoFsm;
         protected StarfallAIController Controller;
         protected StarfallPlayer Player;
+        
+        //Init is called by the parent state machine, and sets up the states, their transitions, etc.
+        public virtual void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm,
+            DemoEnemyFsmData demoFsmData)
+        {
+            ParentFsm = parentFsm;
+            DemoFsm = demoFsmData.demoFsm;
+            Controller = demoFsmData.controller;
+            Player = demoFsmData.player;
+        }
         
         
 
