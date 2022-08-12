@@ -6,10 +6,9 @@ using UnityEngine.AI;
 
 public class StarfallAIController : MonoBehaviour
 {
-    [SerializeField]
-    public StarfallCharacterController character { get; private set; }
-
-    public Transform test;
+    [SerializeField] public StarfallCharacterController character;
+    
+    public float leashRange = 5f;
 
     private KinematicSeek _kinematicSeek;
     private NavMeshPath _path;
@@ -23,24 +22,32 @@ public class StarfallAIController : MonoBehaviour
     private int _currPathIndex = 0;
     private bool _lookAtNavTarget = true;
 
+    private void Awake()
+    {
+        character = GetComponent<StarfallCharacterController>();
+    }
+
     private void Start()
     {
-        GoTo(test.position);
+        
     }
 
     //Wipes _inputs clean
-    public void InitInputs()
+    public StarfallCharacterController.StarfallAICharacterInputs InitInputs()
     {
         _inputs = new StarfallCharacterController.StarfallAICharacterInputs();
+        return _inputs;
     }
 
     //Feeds the inputs the controller's character
-    public void AssignInputsToCharacter()
+    public void AssignInputsToCharacter(StarfallCharacterController.StarfallAICharacterInputs inputs)
     {
+        _inputs = inputs;
         character.SetInputs(ref _inputs);
     }
+    
 
-    public bool GoTo(Vector3 target)
+    public bool SetPath(Vector3 target)
     {
         if (_hasPath)
         {
@@ -71,20 +78,24 @@ public class StarfallAIController : MonoBehaviour
 
     void Update()
     {
-        InitInputs();
-        if (_hasPath)
-        {
-            for (int i = 0; i < _path.corners.Length - 1; i++)
-            {
-                Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.yellow);
-            }
-            FollowPath();
-        }
-        AssignInputsToCharacter();
+        // InitInputs();
+        // if (_hasPath)
+        // {
+        //     for (int i = 0; i < _path.corners.Length - 1; i++)
+        //     {
+        //         Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.yellow);
+        //     }
+        //     FollowPath();
+        // }
+        // AssignInputsToCharacter();
     }
 
-    private void FollowPath()
+    public void FollowPath(StarfallCharacterController.StarfallAICharacterInputs inputs)
     {
+        for (int i = 0; i < _path.corners.Length - 1; i++)
+        {
+            Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.yellow);
+        }
         //Look ahead to the next point on the path, assuming we are not on the final point of the path.
         if (Vector3.Distance(character.transform.position, _localTarget) <= _range)
         {
@@ -99,8 +110,9 @@ public class StarfallAIController : MonoBehaviour
             _localTarget = _path.corners[_currPathIndex];
         }
         var steering = new KinematicSeek(character, _localTarget).GetSteering();
-        _inputs.MoveVector = steering.Velocity;
-        if (_lookAtNavTarget) _inputs.LookVector = steering.Rotation;
+        inputs.MoveVector = steering.Velocity;
+        if (_lookAtNavTarget) inputs.LookVector = steering.Rotation;
+        Debug.Log(inputs.MoveVector);
     }
 
     public bool ReachedTarget()
