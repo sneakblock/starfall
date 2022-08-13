@@ -76,21 +76,7 @@ public class StarfallAIController : MonoBehaviour
         _hasPath = false;
     }
 
-    void Update()
-    {
-        // InitInputs();
-        // if (_hasPath)
-        // {
-        //     for (int i = 0; i < _path.corners.Length - 1; i++)
-        //     {
-        //         Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.yellow);
-        //     }
-        //     FollowPath();
-        // }
-        // AssignInputsToCharacter();
-    }
-
-    public void FollowPath(StarfallCharacterController.StarfallAICharacterInputs inputs)
+    public StarfallCharacterController.StarfallAICharacterInputs FollowPath(StarfallCharacterController.StarfallAICharacterInputs inputs)
     {
         for (int i = 0; i < _path.corners.Length - 1; i++)
         {
@@ -103,7 +89,7 @@ public class StarfallAIController : MonoBehaviour
             {
                 Debug.Log("Arrived.");
                 StopGoing();
-                return;
+                return inputs;
             }
             Debug.Log("Incremented localTarget");
             _currPathIndex++;
@@ -112,7 +98,7 @@ public class StarfallAIController : MonoBehaviour
         var steering = new KinematicSeek(character, _localTarget).GetSteering();
         inputs.MoveVector = steering.Velocity;
         if (_lookAtNavTarget) inputs.LookVector = steering.Rotation;
-        Debug.Log(inputs.MoveVector);
+        return inputs;
     }
 
     public bool ReachedTarget()

@@ -171,6 +171,11 @@ public class DemoEnemyStateMachine : MonoBehaviour
             base.Enter(s);
             _chaseTarget = s;
             _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
+            bool b;
+            do
+            {
+                b = Controller.SetPath(_targetLoc);
+            } while (!b);
         }
 
         public override void Exit(bool globalTransition)
@@ -184,21 +189,20 @@ public class DemoEnemyStateMachine : MonoBehaviour
 
             if (!IsWithinRangeOfPlayer(_targetLoc, Controller.leashRange))
             {
-                _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
+                bool b;
+                do
+                {
+                    _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
+                    b = Controller.SetPath(_targetLoc);
+                } while (!b);
             }
 
             var inputs = Controller.InitInputs();
-            if (Controller.SetPath(_targetLoc))
-            {
-                Controller.FollowPath(inputs);
-                Controller.AssignInputsToCharacter(inputs);
-            }
-            else
-            {
-                _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
-            }
+            inputs = Controller.FollowPath(inputs);
+            Controller.AssignInputsToCharacter(inputs);
+            
 
-            if (IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.leashRange))
+            if (IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.leashRange) && !Controller.HasPath())
             {
                 ret = _goToIdleStateTransition;
             }
