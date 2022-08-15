@@ -1069,6 +1069,31 @@ PrefabInstance:
       propertyPath: TriggerOnce
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862400, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: gunShotEvent.Path
+      value: event:/Weapons/Machine Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862400, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: gunShotEvent.Guid.Data1
+      value: -373839110
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862400, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: gunShotEvent.Guid.Data2
+      value: 1100164592
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862400, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: gunShotEvent.Guid.Data3
+      value: 1319579315
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862400, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: gunShotEvent.Guid.Data4
+      value: -1597025449
+      objectReference: {fileID: 0}
     - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
         type: 3}
       propertyPath: m_RootOrder
@@ -1129,7 +1154,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: HitscanTestWeapon
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1020490192, guid: 6b8c77fc4f15e2246b494cb04a6c62b1, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b8c77fc4f15e2246b494cb04a6c62b1, type: 3}
 --- !u!4 &439993266 stripped

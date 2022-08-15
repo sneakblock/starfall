@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using FMOD.Studio;
 using UnityEngine;
 
 public class HitscanTestWeapon : RangedWeapon
@@ -16,7 +18,10 @@ public class HitscanTestWeapon : RangedWeapon
             }
         }
         Debug.DrawRay(position, dir * 1000f, Color.red, .5f);
-        EventEmitter.Play();
+        // Instance = FMODUnity.RuntimeManager.CreateInstance(gunShotEvent);
+        // Instance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        // Instance.start();
+        // Instance.release();
     }
 
     public override void AnimateAim()

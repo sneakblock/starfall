@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,6 +17,9 @@ public abstract class RangedWeapon : MonoBehaviour
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     protected Transform barrelTransform;
+    
+    [SerializeField]
+    public EventReference gunShotEvent;
 
 
     private Crosshair _crosshair;
@@ -31,7 +35,8 @@ public abstract class RangedWeapon : MonoBehaviour
     private int _bulletsCurrentlyInMagazine;
     private bool _reloading;
     private bool _bursting = false;
-    protected StudioEventEmitter EventEmitter;
+    protected EventInstance Instance;
+    
 
 
     public void SetAiming(bool isAiming)
@@ -61,9 +66,6 @@ public abstract class RangedWeapon : MonoBehaviour
         }
         _ownerChar = GetComponentInParent<StarfallCharacterController>();
         _ammoCounter.UpdateAmmoCounter(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
-        
-        //Will this return null if the gun doesn't have it?
-        EventEmitter = GetComponent<StudioEventEmitter>();
     }
 
     private void Update()
