@@ -170,13 +170,13 @@ public class DemoEnemyStateMachine : MonoBehaviour
         {
             base.Enter(s);
             _chaseTarget = s;
-            bool b;
-            do
+            _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
+            while (!Controller.SetPath(_targetLoc))
             {
                 _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
-                b = Controller.SetPath(_targetLoc);
-                Debug.Log("found new path");
-            } while (!b);
+            }
+            Debug.Log("found new path");
+            
         }
 
         public override void Exit(bool globalTransition)
@@ -190,13 +190,12 @@ public class DemoEnemyStateMachine : MonoBehaviour
 
             if (!IsWithinRangeOfPlayer(_targetLoc, Controller.leashRange))
             {
-                bool b;
-                do
+                _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
+                while (!Controller.SetPath(_targetLoc))
                 {
                     _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
-                    b = Controller.SetPath(_targetLoc);
-                    Debug.Log("found new path");
-                } while (!b);
+                }
+                Debug.Log("found new path");
             }
 
             var inputs = Controller.InitInputs();
