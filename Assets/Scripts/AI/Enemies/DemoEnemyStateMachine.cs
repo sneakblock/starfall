@@ -170,11 +170,12 @@ public class DemoEnemyStateMachine : MonoBehaviour
         {
             base.Enter(s);
             _chaseTarget = s;
-            _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
             bool b;
             do
             {
+                _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
                 b = Controller.SetPath(_targetLoc);
+                Debug.Log("found new path");
             } while (!b);
         }
 
@@ -194,6 +195,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
                 {
                     _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
                     b = Controller.SetPath(_targetLoc);
+                    Debug.Log("found new path");
                 } while (!b);
             }
 

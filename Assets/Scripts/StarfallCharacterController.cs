@@ -85,6 +85,8 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     {
         public Vector3 MoveVector;
         public Vector3 LookVector;
+        public bool Aim;
+        public bool Primary;
     }
 
     public enum OrientationMethod

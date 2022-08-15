@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class StarfallAIController : MonoBehaviour
 {
     [SerializeField] public StarfallCharacterController character;
-    
+
     public float leashRange = 5f;
 
     private KinematicSeek _kinematicSeek;
@@ -20,7 +20,16 @@ public class StarfallAIController : MonoBehaviour
     private bool _hasPath = false;
     private float _range = 2f;
     private int _currPathIndex = 0;
-    private bool _lookAtNavTarget = true;
+    private StarfallCharacterController _lookAtCharacter;
+    private Vector3 _lookAtPoint;
+    private LookAtBehavior _lookAtBehavior;
+
+    enum LookAtBehavior
+    {
+        Path,
+        Character,
+        Point
+    }
 
     private void Awake()
     {
@@ -29,7 +38,8 @@ public class StarfallAIController : MonoBehaviour
 
     private void Start()
     {
-        
+        //By default, entities will look where they are going.
+        _lookAtBehavior = LookAtBehavior.Path;
     }
 
     //Wipes _inputs clean
@@ -46,7 +56,6 @@ public class StarfallAIController : MonoBehaviour
         character.SetInputs(ref _inputs);
     }
     
-
     public bool SetPath(Vector3 target)
     {
         if (_hasPath)
@@ -97,7 +106,14 @@ public class StarfallAIController : MonoBehaviour
         }
         var steering = new KinematicSeek(character, _localTarget).GetSteering();
         inputs.MoveVector = steering.Velocity;
-        if (_lookAtNavTarget) inputs.LookVector = steering.Rotation;
+        if (_lookAtBehavior == LookAtBehavior.Path) inputs.LookVector = steering.Rotation;
+        return inputs;
+    }
+    
+    //Aiming method. This sets "aim" in the given inputs to true. 
+    public StarfallCharacterController.StarfallAICharacterInputs Aim(StarfallCharacterController.StarfallAICharacterInputs inputs)
+    {
+        inputs.Aim = true;
         return inputs;
     }
 
@@ -114,6 +130,44 @@ public class StarfallAIController : MonoBehaviour
     public bool HasPath()
     {
         return _hasPath;
+    }
+
+    /// <summary>
+    /// A public method that determines what the enemy looks at. As of now, this can either be a character or null.
+    /// </summary>
+    /// <param name="c">
+    /// The character for the AI character to look towards. If this is null, the character will look at it's path as it traverses it.
+    /// </param>
+    public void SetLookAtCharacter(StarfallCharacterController c)
+    {
+        if (c == null)
+        {
+            Debug.Log("Character cannot be null.");
+            return;
+        }
+        _lookAtCharacter = c;
+        _lookAtBehavior = LookAtBehavior.Character;
+    }
+
+    public void SetLookAtCharacter()
+    {
+        _lookAtBehavior = LookAtBehavior.Character;
+    }
+
+    public void SetLookAtPath()
+    {
+        _lookAtBehavior = LookAtBehavior.Path;
+    }
+
+    public void SetLookAtPoint(Vector3 p)
+    {
+        _lookAtBehavior = LookAtBehavior.Point;
+        _lookAtPoint = p;
+    }
+    
+    public void SetLookAtPoint()
+    {
+        _lookAtBehavior = LookAtBehavior.Point;
     }
 
 }
