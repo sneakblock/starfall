@@ -7,8 +7,7 @@ using UnityEngine.AI;
 public class StarfallAIController : MonoBehaviour
 {
     [SerializeField] public StarfallCharacterController character;
-
-    public float leashRange = 5f;
+    public EnemyData enemyData;
 
     private KinematicSeek _kinematicSeek;
     private NavMeshPath _path;
@@ -53,6 +52,7 @@ public class StarfallAIController : MonoBehaviour
     public void AssignInputsToCharacter(StarfallCharacterController.StarfallAICharacterInputs inputs)
     {
         _inputs = inputs;
+        Debug.Log("Assigned move vector to entity" + _inputs.MoveVector);
         character.SetInputs(ref _inputs);
     }
     
@@ -117,6 +117,26 @@ public class StarfallAIController : MonoBehaviour
         return inputs;
     }
 
+    public StarfallCharacterController.StarfallAICharacterInputs SetLookAtInputs(StarfallCharacterController.StarfallAICharacterInputs inputs)
+    {
+        switch (_lookAtBehavior)
+        {
+            case LookAtBehavior.Path:
+                Debug.LogWarning("No need to manually call SetLookAtInputs for Path behavior, entity will automatically look at the path when FollowPath() is called.");
+                break;
+            case LookAtBehavior.Character:
+                var temp0 = (_lookAtCharacter.transform.position - character.transform.position).normalized;
+                inputs.LookVector = new Vector3(temp0.x, 0, temp0.z);
+                break;
+            case LookAtBehavior.Point:
+                var temp1 = (_lookAtPoint - character.transform.position).normalized;
+                inputs.LookVector = new Vector3(temp1.x, 0, temp1.z);
+                break;
+        }
+
+        return inputs;
+    }
+
     public bool ReachedTarget()
     {
         if (_hasPath)
@@ -168,6 +188,11 @@ public class StarfallAIController : MonoBehaviour
     public void SetLookAtPoint()
     {
         _lookAtBehavior = LookAtBehavior.Point;
+    }
+
+    public bool IsReloading()
+    {
+        return character.GetRangedWeapon().GetReloading();
     }
 
 }

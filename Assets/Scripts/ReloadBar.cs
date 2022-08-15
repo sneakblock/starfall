@@ -44,7 +44,6 @@ public class ReloadBar : MonoBehaviour
         for (float t = 0f; t < numSeconds; t += Time.deltaTime)
         {
             _rectTransform.sizeDelta = new Vector2(Mathf.Lerp(widthA, widthB, t / numSeconds), 3f);
-            Debug.Log(_rectTransform.sizeDelta);
             yield return null;
         }
         _parentGO.SetActive(false);

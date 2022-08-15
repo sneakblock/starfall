@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
+using TMPro;
 using Random = UnityEngine.Random;
 
 public class DemoEnemyStateMachine : MonoBehaviour
@@ -13,6 +14,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
 
     public const string IdleStateName = "Idle";
     public const string ChaseStateName = "Chase";
+    public const string MoveAndFireStateName = "MoveAndFire";
 
     /// <summary>
     /// This struct is the "type" of the state machine, meaning that each state will have access to this data at runtime.
@@ -51,6 +53,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         protected DemoEnemyStateMachine DemoFsm;
         protected StarfallAIController Controller;
         protected StarfallPlayer Player;
+        protected LayerMask LayerMask = LayerMask.GetMask("Walkable");
         
         //Init is called by the parent state machine, and sets up the states, their transitions, etc.
         public virtual void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm,
@@ -68,12 +71,18 @@ public class DemoEnemyStateMachine : MonoBehaviour
             return (Player.character.transform.position - loc).magnitude <= range;
         }
 
-        //TODO: Make this less stupid :)
-        public Vector3 CalculateRandomPosInPlayerCircle(float radius)
+        
+        public Vector3 CalculateRandomPosInPrefRange(float min, float max, Vector3 target)
         {
-            var rand = Random.insideUnitCircle * radius;
-            var pos = Player.character.transform.position;
-            return new Vector3(pos.x + rand.x, pos.y, pos.z + rand.y);
+            var randX = Random.Range(min, max);
+            var randZ = Random.Range(min, max);
+            var pos = target;
+            //This var contains the randomized x and z, but uses the player's current y position for the y variable.
+            //This won't work, as we need to map this y to the ground to get a usable navigation point.
+            var temp = new Vector3(pos.x + randX, pos.y, pos.z + randZ);
+            //Cast a ray straight down from the point.
+            Ray r = new Ray(temp, Vector3.down);
+            return Physics.Raycast(r, out RaycastHit hitInfo, 1000f, LayerMask) ? hitInfo.point : temp;
         }
         
         //Base functions for states
@@ -137,12 +146,11 @@ public class DemoEnemyStateMachine : MonoBehaviour
             //Announce return variable
             DeferredStateTransition<DemoEnemyFsmData, StarfallCharacterController> ret = null;
 
-            //Spin
             var inputs = Controller.InitInputs();
-            inputs.LookVector = Quaternion.AngleAxis(50, Vector3.up) * Controller.character.transform.forward * Time.deltaTime;
             Controller.AssignInputsToCharacter(inputs);
-
-            if (!IsWithinRangeOfPlayer(Controller.character.transform.position,Controller.leashRange))
+            
+            //TODO: Give this the capability to transition to the retreat state as well, if the player is already too close for comfort.
+            if (!IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.enemyData.maxEngagementRange))
             {
                 _goToChaseStateTransition.Arg0 = Player.character;
                 ret = _goToChaseStateTransition;
@@ -158,25 +166,36 @@ public class DemoEnemyStateMachine : MonoBehaviour
 
         private StarfallCharacterController _chaseTarget;
         private DeferredStateTransition<DemoEnemyFsmData> _goToIdleStateTransition;
+        private DeferredStateTransition<DemoEnemyFsmData, bool, StarfallCharacterController> _goToMoveAndFireStateTransition;
         private Vector3 _targetLoc;
 
         public override void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm, DemoEnemyFsmData demoFsmData)
         {
             base.Init(parentFsm, demoFsmData);
             _goToIdleStateTransition = parentFsm.CreateStateTransition(IdleStateName);
+            _goToMoveAndFireStateTransition = parentFsm.CreateStateTransition<bool, StarfallCharacterController>(MoveAndFireStateName, false, null);
         }
 
         public override void Enter(StarfallCharacterController s)
         {
             base.Enter(s);
             _chaseTarget = s;
-            _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
-            while (!Controller.SetPath(_targetLoc))
+            Controller.SetLookAtPath();
+            //Try three times to get a valid location to walk to.
+            for (var i = 0; i < 3; i++)
             {
-                _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
+                Debug.Log("Calculating a position to seek.");
+                _targetLoc = CalculateRandomPosInPrefRange(Controller.enemyData.minEngagementRange, Controller.enemyData.maxEngagementRange, _chaseTarget.transform.position);
+                if (Controller.SetPath(_targetLoc))
+                {
+                    break;
+                }
             }
-            Debug.Log("found new path");
-            
+
+            if (!Controller.SetPath(_targetLoc))
+            {
+                _targetLoc = s.transform.position;
+            }
         }
 
         public override void Exit(bool globalTransition)
@@ -186,30 +205,114 @@ public class DemoEnemyStateMachine : MonoBehaviour
 
         public override DeferredStateTransitionBase<DemoEnemyFsmData> Update()
         {
-            DeferredStateTransition<DemoEnemyFsmData> ret = null;
+            DeferredStateTransitionBase<DemoEnemyFsmData> ret = null;
 
-            if (!IsWithinRangeOfPlayer(_targetLoc, Controller.leashRange))
+            //TODO: Account for min range
+            if (!IsWithinRangeOfPlayer(_targetLoc, Controller.enemyData.maxEngagementRange) || !Controller.HasPath())
             {
-                _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
-                while (!Controller.SetPath(_targetLoc))
+                //Try three times to get a valid location to walk to.
+                for (var i = 0; i < 3; i++)
                 {
-                    _targetLoc = CalculateRandomPosInPlayerCircle(Controller.leashRange);
+                    Debug.Log("Calculating a position to seek.");
+                    _targetLoc = CalculateRandomPosInPrefRange(Controller.enemyData.minEngagementRange, Controller.enemyData.maxEngagementRange, _chaseTarget.transform.position);
+                    if (Controller.SetPath(_targetLoc))
+                    {
+                        break;
+                    }
                 }
-                Debug.Log("found new path");
             }
 
             var inputs = Controller.InitInputs();
             inputs = Controller.FollowPath(inputs);
             Controller.AssignInputsToCharacter(inputs);
-            
+            Debug.Log(inputs.MoveVector);
 
-            if (IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.leashRange) && !Controller.HasPath())
+            if (IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.enemyData.maxEngagementRange))
             {
-                ret = _goToIdleStateTransition;
+                //Randomly choose between aiming and not aiming.
+                var aim = Random.Range(0, 2) == 1;
+                _goToMoveAndFireStateTransition.Arg0 = aim;
+                _goToMoveAndFireStateTransition.Arg1 = Player.character;
+                ret = _goToMoveAndFireStateTransition;
             }
 
             return ret;
 
+        }
+    }
+
+    //The bool determines if the enemy should aim as it moves.
+    class MoveAndFireState : DemoEnemyState<bool, StarfallCharacterController>
+    {
+        public override string Name => MoveAndFireStateName;
+
+        private DeferredStateTransition<DemoEnemyFsmData, StarfallCharacterController> _goToChaseStateTransition;
+        private DeferredStateTransition<DemoEnemyFsmData> _goToIdleStateTransition;
+
+        private StarfallCharacterController _targetChar;
+        private bool _isAiming;
+        private Vector3 _targetLoc;
+
+        public override void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm, DemoEnemyFsmData demoFsmData)
+        {
+            base.Init(parentFsm, demoFsmData);
+            _goToChaseStateTransition = parentFsm.CreateStateTransition<StarfallCharacterController>(ChaseStateName, null);
+            _goToIdleStateTransition = parentFsm.CreateStateTransition(IdleStateName);
+        }
+
+        public override void Enter(bool s0, StarfallCharacterController s1)
+        {
+            base.Enter(s0, s1);
+            _isAiming = s0;
+            _targetChar = s1;
+            Controller.SetLookAtCharacter(Player.character);
+        }
+
+        public override DeferredStateTransitionBase<DemoEnemyFsmData> Update()
+        {
+
+            DeferredStateTransitionBase<DemoEnemyFsmData> ret = null;
+
+            //If the character has nowhere to go, assign it a place to go.
+            if (!Controller.HasPath())
+            {
+                for (var i = 0; i < 3; i++)
+                {
+                    _targetLoc = CalculateRandomPosInPrefRange(Controller.enemyData.minEngagementRange, Controller.enemyData.maxEngagementRange, _targetChar.transform.position);
+                    if (Controller.SetPath(_targetLoc))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            var inputs = Controller.InitInputs();
+            inputs = Controller.FollowPath(inputs);
+            inputs = Controller.SetLookAtInputs(inputs);
+            if (_isAiming)
+            {
+                inputs = Controller.Aim(inputs);
+            }
+            var aimPoint = _targetChar.transform.position +
+                           (Random.insideUnitSphere * (1 - Controller.enemyData.accuracy));
+            inputs.Target = aimPoint;
+            inputs.Primary = true;
+            Controller.AssignInputsToCharacter(inputs);
+
+            if (!IsWithinRangeOfPlayer(Controller.character.transform.position,
+                    Controller.enemyData.maxEngagementRange))
+            {
+                _goToChaseStateTransition.Arg0 = _targetChar;
+                ret = _goToChaseStateTransition;
+            }
+
+            return ret;
+
+        }
+
+        public override void Exit(bool globalTransition)
+        {
+            
         }
     }
 
@@ -226,7 +329,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         
         _demoFsm.AddState(new ChaseState());
         _demoFsm.AddState(new IdleState(), true);
-        
+        _demoFsm.AddState(new MoveAndFireState());
         
 
     }

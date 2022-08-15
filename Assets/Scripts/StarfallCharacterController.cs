@@ -87,6 +87,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         public Vector3 LookVector;
         public bool Aim;
         public bool Primary;
+        public Vector3 Target;
     }
 
     public enum OrientationMethod
@@ -214,7 +215,11 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     public void SetInputs(ref StarfallAICharacterInputs inputs)
     {
         _moveInputVector = inputs.MoveVector;
+        Debug.Log("Character is receiving" + inputs.MoveVector);
         _lookInputVector = inputs.LookVector;
+        _isAiming = inputs.Aim;
+        _isFiring = inputs.Primary;
+        _target = inputs.Target;
     }
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)

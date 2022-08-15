@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 114464267}
   - component: {fileID: 114464266}
   - component: {fileID: 114464265}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: log
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 169260521}
   - component: {fileID: 169260520}
   - component: {fileID: 169260519}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -747,7 +747,7 @@ GameObject:
   - component: {fileID: 294617778}
   - component: {fileID: 294617777}
   - component: {fileID: 294617776}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ramp (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -875,7 +875,7 @@ GameObject:
   - component: {fileID: 338912743}
   - component: {fileID: 338912742}
   - component: {fileID: 338912741}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ramp (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -972,7 +972,7 @@ GameObject:
   - component: {fileID: 388423517}
   - component: {fileID: 388423516}
   - component: {fileID: 388423515}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1194,7 +1194,7 @@ GameObject:
   - component: {fileID: 582701554}
   - component: {fileID: 582701553}
   - component: {fileID: 582701552}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1291,7 +1291,7 @@ GameObject:
   - component: {fileID: 611846942}
   - component: {fileID: 611846941}
   - component: {fileID: 611846940}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1388,7 +1388,7 @@ GameObject:
   - component: {fileID: 728465389}
   - component: {fileID: 728465388}
   - component: {fileID: 728465387}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1723,7 +1723,7 @@ GameObject:
   - component: {fileID: 864224693}
   - component: {fileID: 864224692}
   - component: {fileID: 864224691}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ramp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1884,6 +1884,95 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896122147}
   m_CullTransparentMesh: 1
+--- !u!1001 &898152327
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 1768362843049802705}
+    m_Modifications:
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.525
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.112
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.381
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821677454865862414, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+        type: 3}
+      propertyPath: m_Name
+      value: HitscanTestWeapon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6b8c77fc4f15e2246b494cb04a6c62b1, type: 3}
+--- !u!114 &898152328 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5821677454865862400, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 898152327}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7191658b8eddc418eb9ad0c877c80a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &898152329 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 898152327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1042483029
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,7 +1985,7 @@ GameObject:
   - component: {fileID: 1042483033}
   - component: {fileID: 1042483032}
   - component: {fileID: 1042483031}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ramp (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2583,7 +2672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1538119976}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Geometry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2732,7 +2821,7 @@ GameObject:
   - component: {fileID: 1658376877}
   - component: {fileID: 1658376876}
   - component: {fileID: 1658376875}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ramp (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3303,7 +3392,7 @@ MonoBehaviour:
   jumpScalableForwardSpeed: 0
   jumpPreGroundingGraceTime: 0
   jumpPostGroundingGraceTime: 0
-  _weapon: {fileID: 0}
+  _weapon: {fileID: 898152328}
   aimingMovementPenalty: 0
   secondsToLockShootingOrientation: 0
   ignoredColliders: []
@@ -3334,7 +3423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 0}
-  leashRange: 20
+  enemyData: {fileID: 11400000, guid: 9624f8a2a61bbe74e86780aeb0619706, type: 2}
 --- !u!1 &1768362842153220987
 GameObject:
   m_ObjectHideFlags: 0
@@ -3563,6 +3652,7 @@ Transform:
   m_Children:
   - {fileID: 1768362842892531330}
   - {fileID: 1768362842153220988}
+  - {fileID: 898152329}
   m_Father: {fileID: 1768362842134078804}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
