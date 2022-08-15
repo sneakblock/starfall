@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -1065,6 +1065,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1786664073}
     m_Modifications:
+    - target: {fileID: 1020490192, guid: 6b8c77fc4f15e2246b494cb04a6c62b1, type: 3}
+      propertyPath: TriggerOnce
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5821677454865862401, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
         type: 3}
       propertyPath: m_RootOrder
@@ -1124,11 +1128,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HitscanTestWeapon
-      objectReference: {fileID: 0}
-    - target: {fileID: 5821677454865862414, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

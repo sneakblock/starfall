@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
+using FMODUnity;
 
 public abstract class RangedWeapon : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private int _bulletsCurrentlyInMagazine;
     private bool _reloading;
     private bool _bursting = false;
+    protected StudioEventEmitter EventEmitter;
 
 
     public void SetAiming(bool isAiming)
@@ -59,6 +61,9 @@ public abstract class RangedWeapon : MonoBehaviour
         }
         _ownerChar = GetComponentInParent<StarfallCharacterController>();
         _ammoCounter.UpdateAmmoCounter(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
+        
+        //Will this return null if the gun doesn't have it?
+        EventEmitter = GetComponent<StudioEventEmitter>();
     }
 
     private void Update()
@@ -218,6 +223,7 @@ public abstract class RangedWeapon : MonoBehaviour
 
     }
 
+    //TODO: Make virtual, add sound function
     protected abstract void Fire(Vector3 dir);
 
 

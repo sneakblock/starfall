@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 [CreateAssetMenu(menuName = "Weapon/WeaponData")]
 public class WeaponData : ScriptableObject
