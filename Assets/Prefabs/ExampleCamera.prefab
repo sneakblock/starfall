@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4785519670469263991}
   - component: {fileID: 4785519670469263987}
   - component: {fileID: 4785519670469263984}
-  - component: {fileID: 4785519670469263985}
   m_Layer: 0
   m_Name: ExampleCamera
   m_TagString: MainCamera
@@ -29,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4785519670723143201}
-  m_LocalRotation: {x: 0.17344482, y: -0.0011166482, z: 0.0001977272, w: 0.98484296}
+  m_LocalRotation: {x: 0.17344181, y: -0.001117189, z: 0.00019674932, w: 0.9848435}
   m_LocalPosition: {x: -48.4955, y: 3.611858, z: -29.188717}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -247,19 +246,6 @@ MonoBehaviour:
       enableBigTilePrepass: 0
       isFptlEnabled: 0
 --- !u!114 &4785519670469263984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4785519670723143201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attenuationObject: {fileID: 0}
---- !u!114 &4785519670469263985
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
