@@ -24,14 +24,14 @@ public class DemoEnemyStateMachine : MonoBehaviour
     public struct DemoEnemyFsmData
     {
         public DemoEnemyStateMachine demoFsm { get; private set; }
-        public  StarfallPlayer player { get; private set; }
+        public  Player player { get; private set; }
         public StarfallAIController controller { get; private set; }
 
         public DemoEnemyFsmData(DemoEnemyStateMachine demoFsm, StarfallAIController controller)
         {
             this.demoFsm = demoFsm;
             this.controller = controller;
-            this.player = StarfallPlayer.Instance;
+            this.player = Player.Instance;
         }
     }
     
@@ -52,7 +52,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         protected IFiniteStateMachine<DemoEnemyFsmData> ParentFsm;
         protected DemoEnemyStateMachine DemoFsm;
         protected StarfallAIController Controller;
-        protected StarfallPlayer Player;
+        protected Player Player;
         protected LayerMask LayerMask = LayerMask.GetMask("Walkable");
         
         //Init is called by the parent state machine, and sets up the states, their transitions, etc.

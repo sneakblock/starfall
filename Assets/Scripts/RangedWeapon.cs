@@ -35,8 +35,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private int _bulletsCurrentlyInMagazine;
     private bool _reloading;
     private bool _bursting = false;
-    protected EventInstance Instance;
-    
+
 
 
     public void SetAiming(bool isAiming)
@@ -60,9 +59,9 @@ public abstract class RangedWeapon : MonoBehaviour
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
         if (gameObject.CompareTag("Player"))
         {
-            _crosshair = StarfallPlayer.Instance.crosshair;
-            _reloadBar = StarfallPlayer.Instance.reloadBar;
-            _ammoCounter = StarfallPlayer.Instance.ammoCounter;
+            _crosshair = Player.Instance.crosshair;
+            _reloadBar = Player.Instance.reloadBar;
+            _ammoCounter = Player.Instance.ammoCounter;
             _ammoCounter.UpdateAmmoCounter(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
         }
         _ownerChar = GetComponentInParent<StarfallCharacterController>();
@@ -215,7 +214,7 @@ public abstract class RangedWeapon : MonoBehaviour
 
         //Fire
         Fire(goalDir);
-        if (_ownerChar == StarfallPlayer.Instance.character)
+        if (_ownerChar == Player.Instance.character)
         {
             _ammoCounter.UpdateAmmoCounter(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
         }
@@ -295,7 +294,7 @@ public abstract class RangedWeapon : MonoBehaviour
     private void FillMagazine()
     {
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        if (_ownerChar == StarfallPlayer.Instance.character)
+        if (_ownerChar == Player.Instance.character)
         {
             _ammoCounter.UpdateAmmoCounter(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
         }

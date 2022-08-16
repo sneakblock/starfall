@@ -7,51 +7,36 @@ using KinematicCharacterController.Examples;
 using KinematicCharacterController;
 using UnityEngine.Events;
 
-public class StarfallPlayer : MonoBehaviour
+public class Player : MonoBehaviour
 {
             public ExampleCharacterCamera orbitCamera;
             public Transform cameraFollowPoint;
             public StarfallCharacterController character;
-
-            [Header("Player Aim Behavior")]
-            public UnityEvent onAimDown = new UnityEvent();
-            public UnityEvent onAimUp = new UnityEvent();
-
-            [Header("Player Firing Behavior")] 
-            public UnityEvent onFireDown = new UnityEvent();
-            public UnityEvent onFireUp = new UnityEvent();
-            public LayerMask firingLayerMask;
-
-            [Header("Player UI References")] 
-            public Crosshair crosshair;
-            public ReloadBar reloadBar;
-            public AmmoCounter ammoCounter;
-
-            [Header("Debugging")] public bool debug;
             
+            [Header("Player Firing Behavior")]
+            public LayerMask playerFiringLayerMask;
+            
+            //Player Events
+            public UnityEvent onPlayerAimDown;
+            public UnityEvent onPlayerAimUp;
+            public UnityEvent onPlayerFire;
+
             private const string HorizontalInput = "Horizontal";
             private const string VerticalInput = "Vertical";
             private bool _oldAim = false;
             private bool _oldFire = false;
             private int _zoom = 1;
             private Camera _cam;
-            
-            public static StarfallPlayer Instance { get; private set; }
 
-            private void Awake()
+            private void Start()
             {
-                if (Instance != null && Instance != this)
-                {
-                    Destroy(this);
-                }
-                else
-                {
-                    Instance = this;
-                }
-                
-                onAimDown.AddListener(ToggleZoom);
-                onAimUp.AddListener(ToggleZoom);
+                //Get camera component
                 _cam = orbitCamera.Camera;
+                
+                //Subscribe ToggleZoom to the OnPlayerAimDown event
+                onPlayerAimDown.AddListener(ToggleZoom);
+                onPlayerAimDown.AddListener(ToggleZoom);
+                
                 //Assign whatever character we have the label and layer of player, and all children of that character.
                 var o = character.gameObject;
                 foreach (Transform t in o.GetComponentsInChildren<Transform>())
@@ -60,10 +45,8 @@ public class StarfallPlayer : MonoBehaviour
                     gameObject1.layer = 6;
                     gameObject1.tag = "Player";
                 }
-            }
-
-            private void Start()
-            {
+                
+                //Lock the cursor
                 Cursor.lockState = CursorLockMode.Locked;
     
                 // Tell camera to follow transform
@@ -71,13 +54,10 @@ public class StarfallPlayer : MonoBehaviour
     
                 // Ignore the character's collider(s) for camera obstruction checks
                 orbitCamera.IgnoredColliders = character.GetComponentsInChildren<Collider>().ToList();
-                
-                
             }
     
             private void Update()
             {
-                //What is this for?
                 if (Input.GetMouseButtonDown(0))
                 {
                     Cursor.lockState = CursorLockMode.Locked;
@@ -108,21 +88,9 @@ public class StarfallPlayer : MonoBehaviour
                 {
                     lookInputVector = Vector3.zero;
                 }
-    
-                // Input for zooming the camera (disabled in WebGL because it can cause problems)
-        //         float scrollInput = -Input.GetAxis("Mouse ScrollWheel");
-        // #if UNITY_WEBGL
-        //         scrollInput = 0f;
-        // #endif
-    
+
                 // Apply inputs to the camera
                 orbitCamera.UpdateWithInput(Time.deltaTime, _zoom, lookInputVector);
-    
-                // Handle toggling zoom level
-                // if (Input.GetMouseButtonDown(1))
-                // {
-                //     orbitCamera.TargetDistance = (orbitCamera.TargetDistance == 0f) ? orbitCamera.DefaultDistance : 0f;
-                // }
             }
 
             private void HandleCharacterInput()
@@ -140,42 +108,23 @@ public class StarfallPlayer : MonoBehaviour
                 //Update the screen center point
                 var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
                 Ray ray = _cam.ScreenPointToRay(screenCenterPoint);
-                var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, firingLayerMask) ? hit.point : ray.GetPoint(1000f);
+                var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, playerFiringLayerMask) ? hit.point : ray.GetPoint(1000f);
                 characterInputs.Target = targetPoint;
-
-                if (debug)
-                {
-                    Debug.Log("Move axis right:" + characterInputs.MoveAxisRight);
-                    Debug.Log("Move axis forward: " + characterInputs.MoveAxisForward);
-                }
-                
-                
                 
                 switch (characterInputs.Aim)
                 {
                     case true when !_oldAim:
-                        onAimDown.Invoke();
+                        onPlayerAimDown.Invoke();
                         break;
                     case false when _oldAim:
-                        onAimUp.Invoke();
+                        onPlayerAimUp.Invoke();
                         break;
                 }
-                
-                switch (characterInputs.Primary)
-                {
-                    case true when !_oldFire:
-                        onFireDown.Invoke();
-                        break;
-                    case false when _oldFire:
-                        onFireUp.Invoke();
-                        break;
-                }
-                
+
                 _oldAim = characterInputs.Aim;
                 _oldFire = characterInputs.Primary;
 
                 // Apply inputs to character
                 character.SetInputs(ref characterInputs);
-
             }
 }

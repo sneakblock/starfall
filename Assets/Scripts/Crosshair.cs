@@ -7,18 +7,14 @@ public class Crosshair : MonoBehaviour
 {
 
     private RectTransform _crosshairRectTransform;
-    private RangedWeapon _playerWeapon;
 
     [SerializeField]
     [Range(55f, 600f)]
     private float size;
     
-    // Start is called before the first frame update
     void Start()
     {
         _crosshairRectTransform = GetComponent<RectTransform>();
-        var player = GameObject.FindWithTag("Player");
-        _playerWeapon = player.GetComponent<StarfallCharacterController>().GetRangedWeapon();
     }
 
     public void UpdateSize(float aValue)

@@ -7,6 +7,8 @@ using UnityEngine.Events;
 public class StarfallCharacterController : MonoBehaviour, ICharacterController
 {
     public KinematicCharacterMotor motor;
+
+    [Header("Camera Info")] public Transform orbitPoint;
     
     [Header("Standard Movement")]
     public float maxStableMoveSpeed = 10f;

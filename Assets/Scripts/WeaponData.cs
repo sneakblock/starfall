@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using FMODUnity;
 
 [CreateAssetMenu(menuName = "Weapon/WeaponData")]
 public class WeaponData : ScriptableObject
@@ -23,7 +20,7 @@ public class WeaponData : ScriptableObject
     public FiringMode firingMode;
 
     [Header("Projectiles")] 
-    [Tooltip("The prefab object that the weapon will reference for firing behavior.")]
+    [Tooltip("The prefab object that the weapon will reference for firing behavior. Can be null.")]
     public GameObject bullet;
     [Tooltip("The force applied to the bullet when it is fired. This may or may not do something-- it's up to the bullet how it responds to force.")]
     public float firingForce;
@@ -31,11 +28,11 @@ public class WeaponData : ScriptableObject
     public float firingRate;
 
     [Header("Ammo & Reloading")]
-    [Tooltip("The number of bullets in each magazine. Set to -1 for infinite ammo per magazine.")]
+    [Tooltip("The number of bullets in each magazine.")]
     public int magazineSize;
     [Tooltip("Number of bullets fired per pull of the trigger.")]
     public int bulletsFiredPerShot;
-    [Tooltip("If the weapon is Burst, how long is the delay between shots of the burst?")]
+    [Tooltip("If the weapon is Burst, how long is the delay between shots of the burst? If not a burst weapon, this does nothing.")]
     public float burstDelay;
     [Tooltip("The number of seconds it takes to reload the weapon.")]
     public float reloadTime;
@@ -48,18 +45,21 @@ public class WeaponData : ScriptableObject
     [Tooltip("The maximum spread when fired from the hip. The spread cannot increase beyond this point.")]
     [Range(0f, .3f)]
     public float maxHipFireSpread;
+    [Tooltip("How much spread is applied when fired from the hip.")]
+    [Range(0f, .3f)]
+    public float hipFireBloomIntensity;
     [Tooltip("The initial accuracy of the weapon when fired during aiming.")]
     [Range(0f, .3f)]
     public float minAdsSpread;
     [Tooltip("The maximum spread when fired when aiming. The spread cannot increase beyond this point.")]
     [Range(0f, .3f)]
     public float maxAdsSpread;
-    [Tooltip("How much spread is applied when fired from the hip.")]
-    [Range(0f, .3f)]
-    public float hipFireBloomIntensity;
     [Tooltip("How much spread is applied when fired when aiming.")]
     [Range(0f, .3f)]
     public float adsBloomIntensity;
+    [Tooltip("How much does each bullet reduce aiming recovery")]
+    [Range(0f, 50f)]
+    public float recoveryImpact;
     [Tooltip("Max aiming bloom adjustment sharpness, or, how quickly and sharply the bloom lerps between aiming and " +
              "hip firing modes.")]
     [Range(0f, 50f)]
@@ -68,9 +68,6 @@ public class WeaponData : ScriptableObject
              "hip firing modes.")]
     [Range(0f, 50f)]
     public float minRecoverySharpness;
-    [Tooltip("How much does each bullet reduce aiming recovery")]
-    [Range(0f, 50f)]
-    public float recoveryImpact;
     [Tooltip("This number represents how quickly recoverySharpness is restored")]
     [Range(0f, 50f)]
     public float recoveryRate;
