@@ -19,7 +19,7 @@ public abstract class RangedWeapon : MonoBehaviour
     protected Transform barrelTransform;
 
     //The owner of the weapon
-    private StarfallCharacterController _ownerChar;
+    private SCharacterController _ownerChar;
     private bool _isOwnedByPlayer;
     
     //Spread data
@@ -62,7 +62,7 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        _ownerChar = GetComponentInParent<StarfallCharacterController>();
+        _ownerChar = GetComponentInParent<SCharacterController>();
         _isOwnedByPlayer = GameManager.Instance.GetPlayer().GetCharacter() == _ownerChar;
         if (_isOwnedByPlayer)
         {
@@ -280,6 +280,7 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         if (_bulletsCurrentlyInMagazine == weaponData.magazineSize) return;
         _reloading = true;
+        if(_isOwnedByPlayer) GameManager.Instance.GetPlayer().onPlayerReloadStart.Invoke();
         //Animation and UI stuff here
         Invoke(nameof(FillMagazine), weaponData.reloadTime);
     }
@@ -290,7 +291,7 @@ public abstract class RangedWeapon : MonoBehaviour
         if (_isOwnedByPlayer)
         {
             GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
-            GameManager.Instance.GetPlayer().onPlayerReload.Invoke();
+            GameManager.Instance.GetPlayer().onPlayerReloadComplete.Invoke();
         }
         _reloading = false;
     }

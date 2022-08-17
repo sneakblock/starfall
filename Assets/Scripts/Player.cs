@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 {
             public ExampleCharacterCamera orbitCamera;
             public Transform cameraFollowPoint;
-            private StarfallCharacterController _character;
+            private SCharacterController _sCharacter;
             
             [Header("Player Firing Behavior")]
             public LayerMask playerFiringLayerMask;
@@ -20,7 +20,8 @@ public class Player : MonoBehaviour
             public UnityEvent onPlayerAimDown = new UnityEvent();
             public UnityEvent onPlayerAimUp = new UnityEvent();
             public UnityEvent onPlayerFire = new UnityEvent();
-            public UnityEvent onPlayerReload = new UnityEvent();
+            public UnityEvent onPlayerReloadStart = new UnityEvent();
+            public UnityEvent onPlayerReloadComplete = new UnityEvent();
 
             private const string HorizontalInput = "Horizontal";
             private const string VerticalInput = "Vertical";
@@ -29,14 +30,14 @@ public class Player : MonoBehaviour
             private int _zoom = 1;
             private Camera _cam;
 
-            public StarfallCharacterController GetCharacter()
+            public SCharacterController GetCharacter()
             {
-                return _character;
+                return _sCharacter;
             }
 
-            public void SetCharacter(StarfallCharacterController c)
+            public void SetCharacter(SCharacterController c)
             {
-                _character = c;
+                _sCharacter = c;
             }
 
             private void Start()
@@ -46,10 +47,10 @@ public class Player : MonoBehaviour
                 
                 //Subscribe ToggleZoom to the OnPlayerAimDown event
                 onPlayerAimDown.AddListener(ToggleZoom);
-                onPlayerAimDown.AddListener(ToggleZoom);
+                onPlayerAimUp.AddListener(ToggleZoom);
                 
                 //Assign whatever character we have the label and layer of player, and all children of that character.
-                var o = _character.gameObject;
+                var o = _sCharacter.gameObject;
                 foreach (Transform t in o.GetComponentsInChildren<Transform>())
                 {
                     var gameObject1 = t.gameObject;
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour
                 orbitCamera.SetFollowTransform(cameraFollowPoint);
     
                 // Ignore the character's collider(s) for camera obstruction checks
-                orbitCamera.IgnoredColliders = _character.GetComponentsInChildren<Collider>().ToList();
+                orbitCamera.IgnoredColliders = _sCharacter.GetComponentsInChildren<Collider>().ToList();
             }
     
             private void Update()
@@ -106,7 +107,7 @@ public class Player : MonoBehaviour
 
             private void HandleCharacterInput()
             {
-                StarfallCharacterController.StarfallPlayerCharacterInputs characterInputs = new StarfallCharacterController.StarfallPlayerCharacterInputs();
+                PlayerCharacterInputs characterInputs = new PlayerCharacterInputs();
                 
                 // Build the CharacterInputs struct
                 characterInputs.MoveAxisForward = Input.GetAxisRaw(VerticalInput);
@@ -136,6 +137,6 @@ public class Player : MonoBehaviour
                 _oldFire = characterInputs.Primary;
 
                 // Apply inputs to character
-                _character.SetInputs(ref characterInputs);
+                _sCharacter.SetInputs(ref characterInputs);
             }
 }

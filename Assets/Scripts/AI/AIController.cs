@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class StarfallAIController : MonoBehaviour
+public class AIController : MonoBehaviour
 {
-    [SerializeField] public StarfallCharacterController character;
+    [SerializeField] public SCharacterController character;
     public EnemyData enemyData;
 
     private KinematicSeek _kinematicSeek;
@@ -15,15 +15,15 @@ public class StarfallAIController : MonoBehaviour
     private Vector3 _localTarget;
     //Current ultimate target meant to be reached by traveling the path.
     private Vector3 _goToTarget;
-    private StarfallCharacterController.StarfallAICharacterInputs _inputs;
+    private AICharacterInputs _inputs;
     private bool _hasPath = false;
     private float _range = 2f;
     private int _currPathIndex = 0;
-    private StarfallCharacterController _lookAtCharacter;
+    private SCharacterController _lookAtSCharacter;
     private Vector3 _lookAtPoint;
-    private LookAtBehavior _lookAtBehavior;
+    public LookAtBehavior _lookAtBehavior;
 
-    enum LookAtBehavior
+    public enum LookAtBehavior
     {
         Path,
         Character,
@@ -32,7 +32,7 @@ public class StarfallAIController : MonoBehaviour
 
     private void Awake()
     {
-        character = GetComponent<StarfallCharacterController>();
+        character = GetComponent<SCharacterController>();
     }
 
     private void Start()
@@ -42,17 +42,17 @@ public class StarfallAIController : MonoBehaviour
     }
 
     //Wipes _inputs clean
-    public StarfallCharacterController.StarfallAICharacterInputs InitInputs()
+    public AICharacterInputs InitInputs()
     {
-        _inputs = new StarfallCharacterController.StarfallAICharacterInputs();
+        _inputs = new AICharacterInputs();
         return _inputs;
     }
 
     //Feeds the inputs the controller's character
-    public void AssignInputsToCharacter(StarfallCharacterController.StarfallAICharacterInputs inputs)
+    public void AssignInputsToCharacter(AICharacterInputs inputs)
     {
         _inputs = inputs;
-        Debug.Log("Assigned move vector to entity" + _inputs.MoveVector);
+        // Debug.Log("Assigned move vector to entity" + _inputs.MoveVector);
         character.SetInputs(ref _inputs);
     }
     
@@ -85,7 +85,7 @@ public class StarfallAIController : MonoBehaviour
         _hasPath = false;
     }
 
-    public StarfallCharacterController.StarfallAICharacterInputs FollowPath(StarfallCharacterController.StarfallAICharacterInputs inputs)
+    public AICharacterInputs FollowPath(AICharacterInputs inputs)
     {
         for (int i = 0; i < _path.corners.Length - 1; i++)
         {
@@ -111,21 +111,34 @@ public class StarfallAIController : MonoBehaviour
     }
     
     //Aiming method. This sets "aim" in the given inputs to true. 
-    public StarfallCharacterController.StarfallAICharacterInputs Aim(StarfallCharacterController.StarfallAICharacterInputs inputs)
+    public AICharacterInputs Aim(AICharacterInputs inputs)
     {
         inputs.Aim = true;
         return inputs;
     }
 
-    public StarfallCharacterController.StarfallAICharacterInputs SetLookAtInputs(StarfallCharacterController.StarfallAICharacterInputs inputs)
+    public AICharacterInputs Fire(AICharacterInputs inputs)
+    {
+        inputs.Primary = true;
+        return inputs;
+    }
+
+    //TODO: Distort this value based on the enemy's accuracy
+    public AICharacterInputs SetTarget(AICharacterInputs inputs, Vector3 goalTarget)
+    {
+        inputs.Target = goalTarget;
+        return inputs;
+    }
+
+    public AICharacterInputs SetLookAtInputs(AICharacterInputs inputs)
     {
         switch (_lookAtBehavior)
         {
             case LookAtBehavior.Path:
-                Debug.LogWarning("No need to manually call SetLookAtInputs for Path behavior, entity will automatically look at the path when FollowPath() is called.");
+                // Does nothing
                 break;
             case LookAtBehavior.Character:
-                var temp0 = (_lookAtCharacter.transform.position - character.transform.position).normalized;
+                var temp0 = (_lookAtSCharacter.transform.position - character.transform.position).normalized;
                 inputs.LookVector = new Vector3(temp0.x, 0, temp0.z);
                 break;
             case LookAtBehavior.Point:
@@ -158,14 +171,14 @@ public class StarfallAIController : MonoBehaviour
     /// <param name="c">
     /// The character for the AI character to look towards. If this is null, the character will look at it's path as it traverses it.
     /// </param>
-    public void SetLookAtCharacter(StarfallCharacterController c)
+    public void SetLookAtCharacter(SCharacterController c)
     {
         if (c == null)
         {
             Debug.Log("Character cannot be null.");
             return;
         }
-        _lookAtCharacter = c;
+        _lookAtSCharacter = c;
         _lookAtBehavior = LookAtBehavior.Character;
     }
 

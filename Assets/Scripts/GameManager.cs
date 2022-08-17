@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         
         //Set up Player
         _player = gameObject.AddComponent<Player>();
-        var c = _playerCharacterGameObject.GetComponent<StarfallCharacterController>();
+        var c = _playerCharacterGameObject.GetComponent<SCharacterController>();
         var cam = _playerCameraGameObject.GetComponent<ExampleCharacterCamera>();
         var orbitPoint = c.orbitPoint;
         if (c != null && cam != null)
@@ -75,10 +75,11 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Something went wrong in GameManager's Player setup! One or more essential player components are not properly configured.");
         }
+        _player.playerFiringLayerMask = playerData.playerFiringLayerMask;
         
         //Set up event listeners
-        _player.onPlayerReload.AddListener(_reloadBar.AnimateReloadBar);
-        _player.onPlayerReload.AddListener(_ammoCounter.UpdateAmmoCounter);
+        _player.onPlayerReloadStart.AddListener(_reloadBar.AnimateReloadBar);
+        _player.onPlayerReloadComplete.AddListener(_ammoCounter.UpdateAmmoCounter);
         _player.onPlayerFire.AddListener(_ammoCounter.UpdateAmmoCounter);
         
         

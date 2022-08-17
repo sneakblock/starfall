@@ -1,20 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 using StateMachine;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using Random = UnityEngine.Random;
 
 public class DemoEnemyStateMachine : MonoBehaviour
 {
 
-    public StarfallAIController controller;
+    public AIController controller;
     private FiniteStateMachine<DemoEnemyFsmData> _demoFsm;
 
     public const string IdleStateName = "Idle";
     public const string ChaseStateName = "Chase";
-    public const string MoveAndFireStateName = "MoveAndFire";
+    public const string StayStillAndFireStateName = "StayStillAndFire";
 
     /// <summary>
     /// This struct is the "type" of the state machine, meaning that each state will have access to this data at runtime.
@@ -25,9 +27,9 @@ public class DemoEnemyStateMachine : MonoBehaviour
     {
         public DemoEnemyStateMachine demoFsm { get; private set; }
         public  Player player { get; private set; }
-        public StarfallAIController controller { get; private set; }
+        public AIController controller { get; private set; }
 
-        public DemoEnemyFsmData(DemoEnemyStateMachine demoFsm, StarfallAIController controller)
+        public DemoEnemyFsmData(DemoEnemyStateMachine demoFsm, AIController controller)
         {
             this.demoFsm = demoFsm;
             this.controller = controller;
@@ -51,7 +53,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         //Each state has access to these variables. They are set via the input struct, as shown below.
         protected IFiniteStateMachine<DemoEnemyFsmData> ParentFsm;
         protected DemoEnemyStateMachine DemoFsm;
-        protected StarfallAIController Controller;
+        protected AIController Controller;
         protected Player Player;
         protected LayerMask LayerMask = LayerMask.GetMask("Walkable");
         
@@ -70,12 +72,11 @@ public class DemoEnemyStateMachine : MonoBehaviour
         {
             return (Player.GetCharacter().transform.position - loc).magnitude <= range;
         }
-
         
         public Vector3 CalculateRandomPosInPrefRange(float min, float max, Vector3 target)
         {
-            var randX = Random.Range(min, max);
-            var randZ = Random.Range(min, max);
+            var randX = Random.Range(-max, max);
+            var randZ = Random.Range(-max, max);
             var pos = target;
             //This var contains the randomized x and z, but uses the player's current y position for the y variable.
             //This won't work, as we need to map this y to the ground to get a usable navigation point.
@@ -83,6 +84,22 @@ public class DemoEnemyStateMachine : MonoBehaviour
             //Cast a ray straight down from the point.
             Ray r = new Ray(temp, Vector3.down);
             return Physics.Raycast(r, out RaycastHit hitInfo, 1000f, LayerMask) ? hitInfo.point : temp;
+        }
+
+        public bool FindValidNavPos(Vector3 targetToSeek, out Vector3 navPos)
+        {
+            navPos = new Vector3(0, 0, 0);
+            for (var i = 0; i < 3; i++)
+            {
+                Debug.Log("Calculating a position to seek.");
+                navPos = CalculateRandomPosInPrefRange(Controller.enemyData.minEngagementRange, Controller.enemyData.maxEngagementRange, targetToSeek);
+                if (Controller.SetPath(navPos))
+                {
+                    Debug.Log("Found a navPos");
+                    return true;
+                }
+            }
+            return false;
         }
         
         //Base functions for states
@@ -122,12 +139,12 @@ public class DemoEnemyStateMachine : MonoBehaviour
     {
         public override string Name => IdleStateName;
 
-        private DeferredStateTransition<DemoEnemyFsmData, StarfallCharacterController> _goToChaseStateTransition;
+        private DeferredStateTransition<DemoEnemyFsmData, SCharacterController> _goToChaseStateTransition;
 
         public override void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm, DemoEnemyFsmData demoFsmData)
         {
             base.Init(parentFsm, demoFsmData);
-            _goToChaseStateTransition = parentFsm.CreateStateTransition<StarfallCharacterController>(ChaseStateName, null);
+            _goToChaseStateTransition = parentFsm.CreateStateTransition<SCharacterController>(ChaseStateName, null);
         }
 
         public override void Enter()
@@ -144,7 +161,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         public override DeferredStateTransitionBase<DemoEnemyFsmData> Update()
         {
             //Announce return variable
-            DeferredStateTransition<DemoEnemyFsmData, StarfallCharacterController> ret = null;
+            DeferredStateTransition<DemoEnemyFsmData, SCharacterController> ret = null;
 
             var inputs = Controller.InitInputs();
             Controller.AssignInputsToCharacter(inputs);
@@ -160,42 +177,27 @@ public class DemoEnemyStateMachine : MonoBehaviour
         }
     }
 
-    class ChaseState : DemoEnemyState<StarfallCharacterController>
+    class ChaseState : DemoEnemyState<SCharacterController>
     {
         public override string Name => ChaseStateName;
 
-        private StarfallCharacterController _chaseTarget;
+        private SCharacterController _characterToChase;
         private DeferredStateTransition<DemoEnemyFsmData> _goToIdleStateTransition;
-        private DeferredStateTransition<DemoEnemyFsmData, bool, StarfallCharacterController> _goToMoveAndFireStateTransition;
-        private Vector3 _targetLoc;
+        private DeferredStateTransition<DemoEnemyFsmData> _goToStayStillAndFireStateTransition;
+        private Vector3 _walkToLocation;
 
         public override void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm, DemoEnemyFsmData demoFsmData)
         {
             base.Init(parentFsm, demoFsmData);
             _goToIdleStateTransition = parentFsm.CreateStateTransition(IdleStateName);
-            _goToMoveAndFireStateTransition = parentFsm.CreateStateTransition<bool, StarfallCharacterController>(MoveAndFireStateName, false, null);
+            _goToStayStillAndFireStateTransition = parentFsm.CreateStateTransition(StayStillAndFireStateName);
         }
 
-        public override void Enter(StarfallCharacterController s)
+        public override void Enter(SCharacterController s)
         {
             base.Enter(s);
-            _chaseTarget = s;
+            _characterToChase = s;
             Controller.SetLookAtPath();
-            //Try three times to get a valid location to walk to.
-            for (var i = 0; i < 3; i++)
-            {
-                Debug.Log("Calculating a position to seek.");
-                _targetLoc = CalculateRandomPosInPrefRange(Controller.enemyData.minEngagementRange, Controller.enemyData.maxEngagementRange, _chaseTarget.transform.position);
-                if (Controller.SetPath(_targetLoc))
-                {
-                    break;
-                }
-            }
-
-            if (!Controller.SetPath(_targetLoc))
-            {
-                _targetLoc = s.transform.position;
-            }
         }
 
         public override void Exit(bool globalTransition)
@@ -208,117 +210,108 @@ public class DemoEnemyStateMachine : MonoBehaviour
             DeferredStateTransitionBase<DemoEnemyFsmData> ret = null;
 
             //TODO: Account for min range
-            if (!IsWithinRangeOfPlayer(_targetLoc, Controller.enemyData.maxEngagementRange) || !Controller.HasPath())
+            if (!IsWithinRangeOfPlayer(_walkToLocation, Controller.enemyData.maxEngagementRange) || !Controller.HasPath())
             {
-                //Try three times to get a valid location to walk to.
-                for (var i = 0; i < 3; i++)
+                if (FindValidNavPos(_characterToChase.transform.position, out var navPos))
                 {
-                    Debug.Log("Calculating a position to seek.");
-                    _targetLoc = CalculateRandomPosInPrefRange(Controller.enemyData.minEngagementRange, Controller.enemyData.maxEngagementRange, _chaseTarget.transform.position);
-                    if (Controller.SetPath(_targetLoc))
-                    {
-                        break;
-                    }
+                    _walkToLocation = navPos;
                 }
-            }
-
-            var inputs = Controller.InitInputs();
-            inputs = Controller.FollowPath(inputs);
-            Controller.AssignInputsToCharacter(inputs);
-            Debug.Log(inputs.MoveVector);
-
-            if (IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.enemyData.maxEngagementRange))
-            {
-                //Randomly choose between aiming and not aiming.
-                var aim = Random.Range(0, 2) == 1;
-                _goToMoveAndFireStateTransition.Arg0 = aim;
-                _goToMoveAndFireStateTransition.Arg1 = Player.GetCharacter();
-                ret = _goToMoveAndFireStateTransition;
-            }
-
-            return ret;
-
-        }
-    }
-
-    //The bool determines if the enemy should aim as it moves.
-    class MoveAndFireState : DemoEnemyState<bool, StarfallCharacterController>
-    {
-        public override string Name => MoveAndFireStateName;
-
-        private DeferredStateTransition<DemoEnemyFsmData, StarfallCharacterController> _goToChaseStateTransition;
-        private DeferredStateTransition<DemoEnemyFsmData> _goToIdleStateTransition;
-
-        private StarfallCharacterController _targetChar;
-        private bool _isAiming;
-        private Vector3 _targetLoc;
-
-        public override void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm, DemoEnemyFsmData demoFsmData)
-        {
-            base.Init(parentFsm, demoFsmData);
-            _goToChaseStateTransition = parentFsm.CreateStateTransition<StarfallCharacterController>(ChaseStateName, null);
-            _goToIdleStateTransition = parentFsm.CreateStateTransition(IdleStateName);
-        }
-
-        public override void Enter(bool s0, StarfallCharacterController s1)
-        {
-            base.Enter(s0, s1);
-            _isAiming = s0;
-            _targetChar = s1;
-            Controller.SetLookAtCharacter(Player.GetCharacter());
-        }
-
-        public override DeferredStateTransitionBase<DemoEnemyFsmData> Update()
-        {
-
-            DeferredStateTransitionBase<DemoEnemyFsmData> ret = null;
-
-            //If the character has nowhere to go, assign it a place to go.
-            if (!Controller.HasPath())
-            {
-                for (var i = 0; i < 3; i++)
+                else
                 {
-                    _targetLoc = CalculateRandomPosInPrefRange(Controller.enemyData.minEngagementRange, Controller.enemyData.maxEngagementRange, _targetChar.transform.position);
-                    if (Controller.SetPath(_targetLoc))
-                    {
-                        break;
-                    }
+                    //TODO: This should lead to an error state, or otherwise be handled differently.
+                    return _goToIdleStateTransition;
                 }
             }
 
             var inputs = Controller.InitInputs();
             inputs = Controller.FollowPath(inputs);
             inputs = Controller.SetLookAtInputs(inputs);
-            if (_isAiming)
+            
+            if (IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.enemyData.maxEngagementRange))
             {
-                inputs = Controller.Aim(inputs);
+
+                Controller.SetLookAtCharacter(_characterToChase);
+                inputs = Controller.SetTarget(inputs, _characterToChase.transform.position);
+                inputs = Controller.Fire(inputs);
+                
+                if (!Controller.HasPath())
+                {
+                    ret = _goToStayStillAndFireStateTransition;
+                }
             }
-            var aimPoint = _targetChar.transform.position +
-                           (Random.insideUnitSphere * (1 - Controller.enemyData.accuracy));
-            inputs.Target = aimPoint;
-            inputs.Primary = true;
+            else
+            {
+                Controller.SetLookAtPath();
+            }
+
             Controller.AssignInputsToCharacter(inputs);
-
-            if (!IsWithinRangeOfPlayer(Controller.character.transform.position,
-                    Controller.enemyData.maxEngagementRange))
-            {
-                _goToChaseStateTransition.Arg0 = _targetChar;
-                ret = _goToChaseStateTransition;
-            }
-
             return ret;
 
+        }
+    }
+
+    class StayStillAndFireState : DemoEnemyState
+    {
+        public override string Name => StayStillAndFireStateName;
+
+        private SCharacterController _targetCharacter;
+        private DeferredStateTransition<DemoEnemyFsmData, SCharacterController> _goToChaseStateTransition;
+        private DeferredStateTransition<DemoEnemyFsmData> _goToIdleStateTransition;
+        private float _initialTimeStamp;
+        private float _numSecondsToStayInState;
+
+        public override void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm, DemoEnemyFsmData demoFsmData)
+        {
+            base.Init(parentFsm, demoFsmData);
+            _goToChaseStateTransition = parentFsm.CreateStateTransition<SCharacterController>(ChaseStateName, null);
+            _goToIdleStateTransition = parentFsm.CreateStateTransition(IdleStateName);
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            Controller.StopGoing();
+            _targetCharacter = Player.GetCharacter();
+            Controller.SetLookAtCharacter(_targetCharacter);
+            _numSecondsToStayInState = Random.Range(.5f, 5f);
+            _initialTimeStamp = Time.time;
         }
 
         public override void Exit(bool globalTransition)
         {
             
         }
+
+        public override DeferredStateTransitionBase<DemoEnemyFsmData> Update()
+        {
+            
+            DeferredStateTransitionBase<DemoEnemyFsmData> ret = null;
+
+            var inputs = Controller.InitInputs();
+            inputs = Controller.SetLookAtInputs(inputs);
+            inputs = Controller.SetTarget(inputs, _targetCharacter.transform.position);
+            // THIS IS THE PROBLEM. AIMING A MILLION TIMES CRIPPLES YOUR MOVEMENT TO NOTHING.
+            // inputs = Controller.Aim(inputs);
+            inputs = Controller.Fire(inputs);
+
+            if (Time.time > _initialTimeStamp + _numSecondsToStayInState)
+            {
+                _goToChaseStateTransition.Arg0 = Player.GetCharacter();
+                ret = _goToChaseStateTransition;
+                // ret = _goToIdleStateTransition;
+            }
+            
+            Controller.AssignInputsToCharacter(inputs);
+            
+            return ret;
+
+        }
+        
     }
 
     private void Awake()
     {
-        controller = GetComponent<StarfallAIController>();
+        controller = GetComponent<AIController>();
     }
 
     private void Start()
@@ -328,9 +321,8 @@ public class DemoEnemyStateMachine : MonoBehaviour
         _demoFsm = new FiniteStateMachine<DemoEnemyFsmData>(demoEnemyFsmData);
         
         _demoFsm.AddState(new ChaseState());
+        _demoFsm.AddState(new StayStillAndFireState());
         _demoFsm.AddState(new IdleState(), true);
-        _demoFsm.AddState(new MoveAndFireState());
-        
 
     }
 

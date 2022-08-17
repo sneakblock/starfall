@@ -4,7 +4,7 @@ using KinematicCharacterController;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class StarfallCharacterController : MonoBehaviour, ICharacterController
+public class SCharacterController : MonoBehaviour, ICharacterController
 {
     public KinematicCharacterMotor motor;
 
@@ -68,29 +68,6 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     {
         Default,
     }
-    
-    public struct StarfallPlayerCharacterInputs
-    {
-        public float MoveAxisForward;
-        public float MoveAxisRight;
-        public Quaternion CameraRotation;
-        public bool JumpDown;
-        public bool Primary;
-        public bool Aim;
-        public bool Ability;
-        public bool Gadget;
-        public bool Reload;
-        public Vector3 Target;
-    }
-
-    public struct StarfallAICharacterInputs
-    {
-        public Vector3 MoveVector;
-        public Vector3 LookVector;
-        public bool Aim;
-        public bool Primary;
-        public Vector3 Target;
-    }
 
     public enum OrientationMethod
     {
@@ -106,7 +83,6 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     
     void Update()
     {
-        
         switch (_isAiming)
         {
             case true:
@@ -154,16 +130,11 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
     
     public void RequestFirePrimary()
     {
-
-
         if (!_weapon.GetReloading())
         {
             StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
         }
-        
         _weapon.RequestFire(_target, _wasFiringLastFrame);
-        
-        
     }
 
     IEnumerator OrientationTimer(float duration)
@@ -173,7 +144,7 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         if (!_isAiming && Time.time - _weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
     }
 
-    public void SetInputs(ref StarfallPlayerCharacterInputs inputs)
+    public void SetInputs(ref PlayerCharacterInputs inputs)
     {
         //Just sets the desired move vector, received from Player, and clamps it's magnitude to not exceed 1.
         _moveInputVector = Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
@@ -214,10 +185,9 @@ public class StarfallCharacterController : MonoBehaviour, ICharacterController
         _reloadedThisFrame = inputs.Reload;
     }
 
-    public void SetInputs(ref StarfallAICharacterInputs inputs)
+    public void SetInputs(ref AICharacterInputs inputs)
     {
         _moveInputVector = inputs.MoveVector;
-        Debug.Log("Character is receiving" + inputs.MoveVector);
         _lookInputVector = inputs.LookVector;
         _isAiming = inputs.Aim;
         _isFiring = inputs.Primary;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class KinematicSeek
 {
     
-    protected StarfallCharacterController _character;
+    protected SCharacterController SCharacter;
     protected Vector3 _targetPos;
 
     public KinematicSeek()
@@ -13,16 +13,16 @@ public class KinematicSeek
         
     }
 
-    public KinematicSeek(StarfallCharacterController character, Vector3 targetPos)
+    public KinematicSeek(SCharacterController sCharacter, Vector3 targetPos)
     {
-        _character = character;
+        SCharacter = sCharacter;
         _targetPos = targetPos;
     }
     
     public KinematicSteeringOutput GetSteering()
     {
         var steering = new KinematicSteeringOutput();
-        steering.Velocity = _targetPos - _character.GetPosition();
+        steering.Velocity = _targetPos - SCharacter.GetPosition();
         
         //This always normalizes the velocity vector of seek which probably isn't desired...?
         //Although the alternative would slow the agent down as it approaches the target, which also isn't desired.
