@@ -211,7 +211,11 @@ public abstract class RangedWeapon : MonoBehaviour
 
         //Fire, set the number of bullets in GameManager if applicable.
         Fire(goalDir);
-        if (_isOwnedByPlayer) GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
+        if (_isOwnedByPlayer)
+        {
+            GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
+            GameManager.Instance.GetPlayer().onPlayerFire.Invoke();
+        }
 
         //If this was the last shot, automatically start reloading
         if (_bulletsCurrentlyInMagazine == 0 && !_reloading)
@@ -277,14 +281,17 @@ public abstract class RangedWeapon : MonoBehaviour
         if (_bulletsCurrentlyInMagazine == weaponData.magazineSize) return;
         _reloading = true;
         //Animation and UI stuff here
-        if (_isOwnedByPlayer) GameManager.Instance.GetPlayer().onPlayerReload.Invoke();
         Invoke(nameof(FillMagazine), weaponData.reloadTime);
     }
 
     private void FillMagazine()
     {
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        if (_isOwnedByPlayer) GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
+        if (_isOwnedByPlayer)
+        {
+            GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
+            GameManager.Instance.GetPlayer().onPlayerReload.Invoke();
+        }
         _reloading = false;
     }
     

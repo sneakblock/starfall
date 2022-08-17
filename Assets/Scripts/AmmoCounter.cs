@@ -14,8 +14,13 @@ public class AmmoCounter : MonoBehaviour
         ammoText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    public void UpdateAmmoCounter(int currentAmmo, int totalAmmo)
+    void Start()
     {
-        ammoText.text = currentAmmo.ToString() + " / " + totalAmmo.ToString();
+        UpdateAmmoCounter();
+    }
+
+    public void UpdateAmmoCounter()
+    {
+        ammoText.text = GameManager.Instance.playerData.currentAmmo.ToString() + " / " + GameManager.Instance.playerData.totalAmmo.ToString();
     }
 }

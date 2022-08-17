@@ -78,6 +78,9 @@ public class GameManager : MonoBehaviour
         
         //Set up event listeners
         _player.onPlayerReload.AddListener(_reloadBar.AnimateReloadBar);
+        _player.onPlayerReload.AddListener(_ammoCounter.UpdateAmmoCounter);
+        _player.onPlayerFire.AddListener(_ammoCounter.UpdateAmmoCounter);
+        
         
     }
 
