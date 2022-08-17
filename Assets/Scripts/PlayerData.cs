@@ -8,4 +8,7 @@ public class PlayerData : ScriptableObject
 {
     public GameObject camera;
     public GameObject playerCharacter;
+    public float weaponSpread;
+    public int currentAmmo;
+    public int totalAmmo;
 }

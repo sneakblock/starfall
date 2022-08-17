@@ -11,15 +11,16 @@ public class Player : MonoBehaviour
 {
             public ExampleCharacterCamera orbitCamera;
             public Transform cameraFollowPoint;
-            public StarfallCharacterController character;
+            private StarfallCharacterController _character;
             
             [Header("Player Firing Behavior")]
             public LayerMask playerFiringLayerMask;
             
             //Player Events
-            public UnityEvent onPlayerAimDown;
-            public UnityEvent onPlayerAimUp;
-            public UnityEvent onPlayerFire;
+            public UnityEvent onPlayerAimDown = new UnityEvent();
+            public UnityEvent onPlayerAimUp = new UnityEvent();
+            public UnityEvent onPlayerFire = new UnityEvent();
+            public UnityEvent onPlayerReload = new UnityEvent();
 
             private const string HorizontalInput = "Horizontal";
             private const string VerticalInput = "Vertical";
@@ -27,6 +28,16 @@ public class Player : MonoBehaviour
             private bool _oldFire = false;
             private int _zoom = 1;
             private Camera _cam;
+
+            public StarfallCharacterController GetCharacter()
+            {
+                return _character;
+            }
+
+            public void SetCharacter(StarfallCharacterController c)
+            {
+                _character = c;
+            }
 
             private void Start()
             {
@@ -38,7 +49,7 @@ public class Player : MonoBehaviour
                 onPlayerAimDown.AddListener(ToggleZoom);
                 
                 //Assign whatever character we have the label and layer of player, and all children of that character.
-                var o = character.gameObject;
+                var o = _character.gameObject;
                 foreach (Transform t in o.GetComponentsInChildren<Transform>())
                 {
                     var gameObject1 = t.gameObject;
@@ -53,7 +64,7 @@ public class Player : MonoBehaviour
                 orbitCamera.SetFollowTransform(cameraFollowPoint);
     
                 // Ignore the character's collider(s) for camera obstruction checks
-                orbitCamera.IgnoredColliders = character.GetComponentsInChildren<Collider>().ToList();
+                orbitCamera.IgnoredColliders = _character.GetComponentsInChildren<Collider>().ToList();
             }
     
             private void Update()
@@ -125,6 +136,6 @@ public class Player : MonoBehaviour
                 _oldFire = characterInputs.Primary;
 
                 // Apply inputs to character
-                character.SetInputs(ref characterInputs);
+                _character.SetInputs(ref characterInputs);
             }
 }

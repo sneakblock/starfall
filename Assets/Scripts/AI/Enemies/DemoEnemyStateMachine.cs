@@ -31,7 +31,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         {
             this.demoFsm = demoFsm;
             this.controller = controller;
-            this.player = Player.Instance;
+            this.player = GameManager.Instance.GetPlayer();
         }
     }
     
@@ -68,7 +68,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         //Methods that all states have access to go here.
         public bool IsWithinRangeOfPlayer(Vector3 loc, float range)
         {
-            return (Player.character.transform.position - loc).magnitude <= range;
+            return (Player.GetCharacter().transform.position - loc).magnitude <= range;
         }
 
         
@@ -152,7 +152,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
             //TODO: Give this the capability to transition to the retreat state as well, if the player is already too close for comfort.
             if (!IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.enemyData.maxEngagementRange))
             {
-                _goToChaseStateTransition.Arg0 = Player.character;
+                _goToChaseStateTransition.Arg0 = Player.GetCharacter();
                 ret = _goToChaseStateTransition;
             }
 
@@ -232,7 +232,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
                 //Randomly choose between aiming and not aiming.
                 var aim = Random.Range(0, 2) == 1;
                 _goToMoveAndFireStateTransition.Arg0 = aim;
-                _goToMoveAndFireStateTransition.Arg1 = Player.character;
+                _goToMoveAndFireStateTransition.Arg1 = Player.GetCharacter();
                 ret = _goToMoveAndFireStateTransition;
             }
 
@@ -265,7 +265,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
             base.Enter(s0, s1);
             _isAiming = s0;
             _targetChar = s1;
-            Controller.SetLookAtCharacter(Player.character);
+            Controller.SetLookAtCharacter(Player.GetCharacter());
         }
 
         public override DeferredStateTransitionBase<DemoEnemyFsmData> Update()

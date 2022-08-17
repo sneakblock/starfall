@@ -17,26 +17,26 @@ public abstract class RangedWeapon : MonoBehaviour
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     protected Transform barrelTransform;
-    
-    [SerializeField]
-    public EventReference gunShotEvent;
 
-
-    private Crosshair _crosshair;
-    private ReloadBar _reloadBar;
-    private AmmoCounter _ammoCounter;
-
+    //The owner of the weapon
     private StarfallCharacterController _ownerChar;
+    private bool _isOwnedByPlayer;
+    
+    //Spread data
     private float _currentSpread;
     private float _currentRecoverySharpness;
+    
+    //Firing conditions
     private bool _isAiming;
-    private Vector3 _firedDir;
     private float _timeLastFired = 0f;
-    private int _bulletsCurrentlyInMagazine;
-    private bool _reloading;
     private bool _bursting = false;
-
-
+    private bool _reloading;
+    
+    //The direction in which to fire
+    private Vector3 _firedDir;
+    
+    //The available bullets
+    private int _bulletsCurrentlyInMagazine;
 
     public void SetAiming(bool isAiming)
     {
@@ -53,33 +53,30 @@ public abstract class RangedWeapon : MonoBehaviour
         return _reloading;
     }
 
+    public WeaponData GetWeaponData()
+    {
+        return weaponData;
+    }
+
     protected virtual void Start()
     {
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        if (gameObject.CompareTag("Player"))
-        {
-            _crosshair = Player.Instance.crosshair;
-            _reloadBar = Player.Instance.reloadBar;
-            _ammoCounter = Player.Instance.ammoCounter;
-            _ammoCounter.UpdateAmmoCounter(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
-        }
         _ownerChar = GetComponentInParent<StarfallCharacterController>();
+        _isOwnedByPlayer = GameManager.Instance.GetPlayer().GetCharacter() == _ownerChar;
+        if (_isOwnedByPlayer)
+        {
+            GameManager.Instance.playerData.weaponSpread = _currentSpread;
+            GameManager.Instance.playerData.totalAmmo = weaponData.magazineSize;
+            GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
+        }
     }
 
     private void Update()
     {
         ManageSpread();
     }
-
-    private float RandGaussian(float stddev, float mean = 0f)
-    {
-        float v0 = 1f - Random.Range(0f, 1f);
-        float v1 = 1f - Random.Range(0f, 1f);
-        float randNorm = Mathf.Sqrt(-2f * Mathf.Log(v0)) * Mathf.Sin(2f * Mathf.PI * v1);
-        return mean + stddev * randNorm;
-    }
-
+    
     public void RequestFire(Vector3 targetPoint, bool wasRequestingFireLastFrame)
     {
         switch (weaponData.firingMode)
@@ -202,9 +199,9 @@ public abstract class RangedWeapon : MonoBehaviour
         var barrelPos = barrelTransform.position;
         var goalDir = (targetPoint - barrelPos);
         goalDir = goalDir.normalized;
-        var errorX = RandGaussian(_currentSpread);
-        var errorY = RandGaussian(_currentSpread);
-        var errorZ = RandGaussian(_currentSpread);
+        var errorX = StarfallUtility.RandGaussian(_currentSpread);
+        var errorY = StarfallUtility.RandGaussian(_currentSpread);
+        var errorZ = StarfallUtility.RandGaussian(_currentSpread);
         goalDir.x += errorX;
         goalDir.y += errorY;
         goalDir.z += errorZ;
@@ -212,12 +209,9 @@ public abstract class RangedWeapon : MonoBehaviour
         //We want to reduce the recoverySharpness here
         _currentRecoverySharpness -= weaponData.recoveryImpact;
 
-        //Fire
+        //Fire, set the number of bullets in GameManager if applicable.
         Fire(goalDir);
-        if (_ownerChar == Player.Instance.character)
-        {
-            _ammoCounter.UpdateAmmoCounter(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
-        }
+        if (_isOwnedByPlayer) GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
 
         //If this was the last shot, automatically start reloading
         if (_bulletsCurrentlyInMagazine == 0 && !_reloading)
@@ -264,12 +258,8 @@ public abstract class RangedWeapon : MonoBehaviour
         float goalSpread = _isAiming ? weaponData.minAdsSpread : weaponData.minHipFireSpread;
         _currentSpread = Mathf.Lerp(_currentSpread, goalSpread,
             1 - Mathf.Exp(-_currentRecoverySharpness * Time.deltaTime));
-        
-        //Update UI if applicable
-        if (_crosshair)
-        {
-            _crosshair.UpdateSize(_currentSpread);
-        }
+
+        if (_isOwnedByPlayer) GameManager.Instance.playerData.weaponSpread = _currentSpread;
     }
 
     private bool DoesSpreadNeedCorrection()
@@ -287,26 +277,17 @@ public abstract class RangedWeapon : MonoBehaviour
         if (_bulletsCurrentlyInMagazine == weaponData.magazineSize) return;
         _reloading = true;
         //Animation and UI stuff here
-        if (_reloadBar) _reloadBar.AnimateReloadBar(weaponData.reloadTime);
+        if (_isOwnedByPlayer) GameManager.Instance.GetPlayer().onPlayerReload.Invoke();
         Invoke(nameof(FillMagazine), weaponData.reloadTime);
     }
 
     private void FillMagazine()
     {
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        if (_ownerChar == Player.Instance.character)
-        {
-            _ammoCounter.UpdateAmmoCounter(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
-        }
+        if (_isOwnedByPlayer) GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
         _reloading = false;
     }
-
-    private void OnDrawGizmos()
-    {
-        
-    }
-
-
+    
     public abstract void AnimateAim();
     public abstract void AnimateFire();
     public abstract void AnimateReload();

@@ -9,9 +9,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [Header("Player Data")] public PlayerData playerData;
+
+    [Header("Spawn Point")] public Transform spawnPoint;
     
     private Player _player;
-    
+    private GameObject _playerCharacterGameObject;
+    private GameObject _playerCameraGameObject;
+
     //UI
     private Crosshair _crosshair;
     private AmmoCounter _ammoCounter;
@@ -33,23 +37,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        
-        //Set up Player
-        _player = gameObject.AddComponent<Player>();
-        var c = playerData.playerCharacter.GetComponent<StarfallCharacterController>();
-        var cam = playerData.camera.GetComponent<ExampleCharacterCamera>();
-        var orbitPoint = c.orbitPoint;
-        if (c != null && cam != null)
-        {
-            _player.character = c;
-            _player.orbitCamera = cam;
-            _player.cameraFollowPoint = orbitPoint;
-        }
-        else
-        {
-            Debug.LogWarning("Something went wrong in GameManager's Player setup! One or more essential player components are not properly configured.");
-        }
-        
+
         //Set up UI references
         var crosshair = GameObject.FindObjectOfType<Crosshair>();
         var ammoCounter = GameObject.FindObjectOfType<AmmoCounter>();
@@ -64,9 +52,33 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Something went wrong in GameManager's UI setup! One of more UI components were not found.");
         }
-        
-        
 
+        var position = spawnPoint.position;
+        _playerCharacterGameObject = Instantiate(playerData.playerCharacter, position, Quaternion.identity);
+        _playerCameraGameObject = Instantiate(playerData.camera,
+            position - (spawnPoint.forward *
+                        playerData.camera.GetComponent<ExampleCharacterCamera>().DefaultDistance),
+            Quaternion.identity);
+        
+        //Set up Player
+        _player = gameObject.AddComponent<Player>();
+        var c = _playerCharacterGameObject.GetComponent<StarfallCharacterController>();
+        var cam = _playerCameraGameObject.GetComponent<ExampleCharacterCamera>();
+        var orbitPoint = c.orbitPoint;
+        if (c != null && cam != null)
+        {
+            _player.SetCharacter(c);
+            _player.orbitCamera = cam;
+            _player.cameraFollowPoint = orbitPoint;
+        }
+        else
+        {
+            Debug.LogWarning("Something went wrong in GameManager's Player setup! One or more essential player components are not properly configured.");
+        }
+        
+        //Set up event listeners
+        _player.onPlayerReload.AddListener(_reloadBar.AnimateReloadBar);
+        
     }
 
     private void Start()

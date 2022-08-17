@@ -27,8 +27,9 @@ public class ReloadBar : MonoBehaviour
         _parentGO.SetActive(false);
     }
 
-    public void AnimateReloadBar(float seconds)
+    public void AnimateReloadBar()
     {
+        var seconds = GameManager.Instance.GetPlayer().GetCharacter().GetRangedWeapon().GetWeaponData().reloadTime;
         _rectTransform.sizeDelta = _origSizeDelta;
         _parentGO.SetActive(true);
         StartCoroutine(ShrinkBar(_width - _width, -_width, seconds));

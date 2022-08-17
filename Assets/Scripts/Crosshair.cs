@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,11 @@ public class Crosshair : MonoBehaviour
     void Start()
     {
         _crosshairRectTransform = GetComponent<RectTransform>();
+    }
+
+    private void Update()
+    {
+        UpdateSize(GameManager.Instance.playerData.weaponSpread);
     }
 
     public void UpdateSize(float aValue)
