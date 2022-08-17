@@ -4,11 +4,13 @@ using KinematicCharacterController;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SCharacterController : MonoBehaviour, ICharacterController
+public class SCharacterController : MonoBehaviour, ICharacterController, IDamageable
 {
     public KinematicCharacterMotor motor;
 
     [Header("Camera Info")] public Transform orbitPoint;
+
+    [Header("Health")] [SerializeField] private int health;
     
     [Header("Standard Movement")]
     public float maxStableMoveSpeed = 10f;
@@ -63,6 +65,9 @@ public class SCharacterController : MonoBehaviour, ICharacterController
     private Vector3 _target;
     private bool _reloadedThisFrame;
     
+    //Health
+    private int _maxHealth;
+    
 
     public enum CharacterState
     {
@@ -79,6 +84,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController
     {
         motor.CharacterController = this;
         _cam = Camera.main;
+        _maxHealth = health;
     }
     
     void Update()
@@ -414,5 +420,33 @@ public class SCharacterController : MonoBehaviour, ICharacterController
     public Vector3 GetPosition()
     {
         return transform.position;
+    }
+
+    public void Damage(int damage)
+    {
+        if (health <= 0) return;
+        health -= damage;
+        if (health <= 0)
+        {
+            Kill();
+        }
+    }
+
+    public void Heal(int healing)
+    {
+        health += healing;
+        if (health > _maxHealth) health = _maxHealth;
+    }
+
+    public void Kill()
+    {
+        var rb = gameObject.AddComponent<Rigidbody>();
+        rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
+        var weaponGameObject = _weapon.gameObject;
+        weaponGameObject.AddComponent<Rigidbody>();
+        weaponGameObject.AddComponent<BoxCollider>();
+        weaponGameObject.transform.SetParent(null);
+        motor.enabled = false;
+        this.enabled = false;
     }
 }
