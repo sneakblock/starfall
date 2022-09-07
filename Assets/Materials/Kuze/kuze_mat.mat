@@ -24,40 +24,37 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: kuze_mat
-  m_Shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
+  m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
   m_ValidKeywords:
-  - _ALPHATEST_ON
+  - N_F_CO_ON
+  - N_F_CS_ON
+  - N_F_ESSAO_ON
+  - N_F_ESSGI_ON
+  - N_F_ESSR_ON
+  - N_F_ESSS_ON
+  - N_F_PAL_ON
+  - N_F_RELGI_ON
+  - N_F_SS_ON
+  - N_F_TRANS_ON
+  m_InvalidKeywords:
   - _ALPHATOMASK_ON
   - _DISABLE_SSR_TRANSPARENT
   - _DOUBLESIDED_ON
   - _ENABLE_FOG_ON_TRANSPARENT
   - _NORMALMAP_TANGENT_SPACE
-  - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords:
-  - N_F_CS_ON
-  - N_F_ESSGI_ON
-  - N_F_ESSR_ON
-  - N_F_ESSS_ON
-  - N_F_O_ON
-  - N_F_PAL_ON
-  - N_F_RELGI_ON
-  - N_F_SS_ON
-  - N_F_TRANS_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Transparent
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
   - TransparentDepthPrepass
   - TransparentDepthPostpass
-  m_LockedProperties: 
+  - SRPDEFAULTUNLIT
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -240,7 +237,7 @@ Material:
     - _CustomLightDirectionFollowObjectRotation: 0
     - _CustomLightDirectionIntensity: 0
     - _Cutoff: 1
-    - _Cutout: 0
+    - _Cutout: 0.721
     - _DepthOffsetEnable: 0
     - _DepthThreshold: 900
     - _DetailAlbedoScale: 1
@@ -321,11 +318,11 @@ Material:
     - _N_F_ALSL: 0
     - _N_F_CA: 0
     - _N_F_CLD: 0
-    - _N_F_CO: 0
+    - _N_F_CO: 1
     - _N_F_COEDGL: 0
     - _N_F_CS: 1
     - _N_F_DCS: 0
-    - _N_F_ESSAO: 0
+    - _N_F_ESSAO: 1
     - _N_F_ESSGI: 1
     - _N_F_ESSR: 1
     - _N_F_ESSS: 1
@@ -338,7 +335,7 @@ Material:
     - _N_F_MSSOLTFO: 0
     - _N_F_NLASOBF: 0
     - _N_F_NM: 0
-    - _N_F_O: 1
+    - _N_F_O: 0
     - _N_F_O_NM: 0
     - _N_F_PAL: 1
     - _N_F_PT: 0
@@ -403,7 +400,7 @@ Material:
     - _SelfShadowAffectedByLightShadowStrength: 0
     - _SelfShadowHardness: 1
     - _SelfShadowRealTimeShadowColorPower: 1
-    - _SelfShadowRealtimeShadowIntensity: 1
+    - _SelfShadowRealtimeShadowIntensity: 0.693
     - _SelfShadowShadowTAtViewDirection: 0
     - _SelfShadowThreshold: 0.93
     - _ShadowColorTexturePower: 0

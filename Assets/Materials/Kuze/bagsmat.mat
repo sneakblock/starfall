@@ -25,15 +25,12 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: bagsmat
   m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - N_F_CS_ON
   - N_F_ESSGI_ON
   - N_F_ESSR_ON
   - N_F_ESSS_ON
   - N_F_O_NM_ON
-  - N_F_O_ON
   - N_F_PAL_ON
   - N_F_RELGI_ON
   - N_F_SS_ON
@@ -51,7 +48,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
-  m_LockedProperties: 
+  - SRPDEFAULTUNLIT
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -332,7 +329,7 @@ Material:
     - _N_F_MSSOLTFO: 0
     - _N_F_NLASOBF: 0
     - _N_F_NM: 0
-    - _N_F_O: 1
+    - _N_F_O: 0
     - _N_F_O_NM: 1
     - _N_F_PAL: 1
     - _N_F_PT: 0
