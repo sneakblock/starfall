@@ -1,38 +1,14 @@
 fileFormatVersion: 2
-guid: 7bcc07dda462bbd4197b55c9c32fb4f1
+guid: 1e1eb258907f1f04fbc052d6c7ca5de2
 ModelImporter:
   serializedVersion: 22102
   internalIDToNameTable:
   - first:
-      74: -4644585496320619062
-    second: CTRL_idle
-  - first:
-      74: 6592352341535427261
-    second: CTRL_walk
-  - first:
       74: -8695813407339734599
     second: G_idle
   - first:
-      74: 4118195167291659003
-    second: G_walk.001
-  - first:
-      74: 5552490866618916367
-    second: root|bagsmatAction
-  - first:
-      74: 837545486310360501
-    second: root|G_idle
-  - first:
-      74: 8238505416606424810
-    second: root|G_walk
-  - first:
-      74: -2023620334967785019
-    second: root|Shader NodetreeAction
-  - first:
-      74: 4464149718504806649
-    second: root|G_idle (1)
-  - first:
-      74: -5527421092485503323
-    second: G_idle (1)
+      74: -7327899354230068590
+    second: G_walk
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -73,8 +49,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: root|G_idle
-      takeName: root|G_idle
+      name: G_idle
+      takeName: G_idle
       internalID: 0
       firstFrame: 0
       lastFrame: 119
@@ -102,8 +78,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: root|G_walk
-      takeName: root|G_walk
+      name: G_walk
+      takeName: G_walk
       internalID: 0
       firstFrame: 0
       lastFrame: 60
@@ -188,7 +164,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: root
+    rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
