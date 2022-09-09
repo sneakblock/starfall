@@ -29,6 +29,10 @@ public class Player : MonoBehaviour
             private bool _oldFire = false;
             private int _zoom = 1;
             private Camera _cam;
+            
+            //TEMPORARY, HACKY ANIMATION CONTROLLER FOR PITCH
+            //TODO: FIX THIS TRASH
+            public Animator anim;
 
             public SCharacterController GetCharacter()
             {
@@ -38,6 +42,7 @@ public class Player : MonoBehaviour
             public void SetCharacter(SCharacterController c)
             {
                 _sCharacter = c;
+                anim = c.GetComponentInChildren<Animator>();
             }
 
             private void Start()
@@ -135,6 +140,10 @@ public class Player : MonoBehaviour
 
                 _oldAim = characterInputs.Aim;
                 _oldFire = characterInputs.Primary;
+
+                bool isMoving = characterInputs.MoveAxisForward != 0 || characterInputs.MoveAxisRight != 0;
+                anim.SetBool("isMoving", isMoving);
+                anim.SetBool("isFiring", characterInputs.Primary);
 
                 // Apply inputs to character
                 _sCharacter.SetInputs(ref characterInputs);

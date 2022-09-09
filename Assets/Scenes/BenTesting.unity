@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.38354, g: 325.1084, b: 430.30957, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2887,7 +2887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &811440358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3041,7 +3041,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &816960078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3195,7 +3195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &821176219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4807,7 +4807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1148866380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5243,6 +5243,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: kuze
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 1e1eb258907f1f04fbc052d6c7ca5de2,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ab18f0f1f3ea90944903943399ebf234, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 1e1eb258907f1f04fbc052d6c7ca5de2,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e1eb258907f1f04fbc052d6c7ca5de2, type: 3}
@@ -6425,7 +6435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1663441912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7682,7 +7692,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1768362842134078802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7769,7 +7779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motor: {fileID: 1768362842134078802}
   orbitPoint: {fileID: 0}
-  health: 2000
+  health: 80
   maxStableMoveSpeed: 20
   stableMovementSharpness: 15
   orientationSharpness: 10
