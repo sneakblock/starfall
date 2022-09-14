@@ -109,7 +109,7 @@ MonoBehaviour:
   jumpScalableForwardSpeed: 0
   jumpPreGroundingGraceTime: 0
   jumpPostGroundingGraceTime: 0
-  _weapon: {fileID: 4274834129243778471}
+  _weapon: {fileID: 2029245966124061989, guid: d41f6d43de64f544fb6bcee22ec40447, type: 3}
   aimingMovementPenalty: 0.75
   secondsToLockShootingOrientation: 1
   ignoredColliders: []
@@ -336,15 +336,3 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1020490192, guid: 6b8c77fc4f15e2246b494cb04a6c62b1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6b8c77fc4f15e2246b494cb04a6c62b1, type: 3}
---- !u!114 &4274834129243778471 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5821677454865862400, guid: 6b8c77fc4f15e2246b494cb04a6c62b1,
-    type: 3}
-  m_PrefabInstance: {fileID: 7753371381087380135}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc7191658b8eddc418eb9ad0c877c80a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

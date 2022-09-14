@@ -224,9 +224,11 @@ public abstract class RangedWeapon : MonoBehaviour
         }
 
     }
-
-    //TODO: Make virtual, add sound function
-    protected abstract void Fire(Vector3 dir);
+    
+    protected virtual void Fire(Vector3 dir)
+    {
+        
+    }
 
 
     /// <summary>
