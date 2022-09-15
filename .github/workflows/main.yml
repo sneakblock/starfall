@@ -110,6 +110,7 @@ jobs:
       matrix:
         targetPlatform:
           - StandaloneWindows64
+          - StandaloneOSX
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
