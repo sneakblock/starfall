@@ -105,7 +105,10 @@ name: Unity Actions
 
 on:
   pull_request: {}
-  push: {}
+  # push: {}
+  push:
+    branches:
+      - main
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -181,9 +184,9 @@ jobs:
       matrix:
         targetPlatform:
           - StandaloneLinux64
-          - iOS
-          - Android
-          - WebGL
+          # - iOS
+          # - Android
+          # - WebGL
     steps:
       - uses: actions/checkout@v3
         with:
@@ -246,9 +249,9 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform:
-          - StandaloneWindows
+          # - StandaloneWindows
           - StandaloneWindows64
-          - WSAPlayer
+          # - WSAPlayer
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
