@@ -12,15 +12,21 @@ public class Crosshair : MonoBehaviour
     [SerializeField]
     [Range(55f, 600f)]
     private float size;
+
+    private bool _isGameManagerNotNull;
     
     void Start()
     {
+        _isGameManagerNotNull = GameManager.Instance != null;
         _crosshairRectTransform = GetComponent<RectTransform>();
     }
 
     private void Update()
     {
-        UpdateSize(GameManager.Instance.playerData.weaponSpread);
+        if (_isGameManagerNotNull)
+        {
+            UpdateSize(GameManager.Instance.playerData.weaponSpread);
+        }
     }
 
     public void UpdateSize(float aValue)

@@ -10,7 +10,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
 
     [Header("Camera Info")] public Transform orbitPoint;
 
-    [Header("Health")] [SerializeField] private int health;
+    [Header("Health")] [SerializeField] private int health = 100;
     
     [Header("Standard Movement")]
     public float maxStableMoveSpeed = 10f;
@@ -33,11 +33,11 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     public float jumpPreGroundingGraceTime = 0f;
     public float jumpPostGroundingGraceTime = 0f;
 
-    [Header("Weapons")] [SerializeField] private RangedWeapon _weapon;
-    [Range(0, 1)] public float aimingMovementPenalty;
+    [Header("Weapons")] [SerializeField] private RangedWeapon weapon;
+    [Range(0, 1)] public float aimingMovementPenalty = .75f;
     [SerializeField] 
     [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
-    private float secondsToLockShootingOrientation;
+    private float secondsToLockShootingOrientation = 1f;
 
     [Header("Misc")]
     public List<Collider> ignoredColliders = new List<Collider>();
@@ -67,7 +67,8 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     
     //Health
     private int _maxHealth;
-    
+    private bool _isWeaponNotNull;
+
 
     public enum CharacterState
     {
@@ -82,6 +83,9 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     
     void Start()
     {
+        //Check to see if you can find a weapon in this object's children to auto-assign, in case it was not set in the editor.
+        weapon = GetComponentInChildren<RangedWeapon>();
+        _isWeaponNotNull = weapon != null;
         motor.CharacterController = this;
         _cam = Camera.main;
         _maxHealth = health;
@@ -110,9 +114,9 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
             RequestFirePrimary();
         }
 
-        if (_reloadedThisFrame && _weapon)
+        if (_reloadedThisFrame && weapon)
         {
-            _weapon.Reload();
+            weapon.Reload();
         }
 
         //Update old stuff
@@ -122,32 +126,41 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
 
     public void AimDown()
     {
-        orientationMethod = OrientationMethod.TowardsCamera;
-        maxStableMoveSpeed *= aimingMovementPenalty;
-        _weapon.SetAiming(true);
+        if (_isWeaponNotNull)
+        {
+            orientationMethod = OrientationMethod.TowardsCamera;
+            maxStableMoveSpeed *= aimingMovementPenalty;
+            weapon.SetAiming(true);
+        }
     }
 
     public void AimUp()
     {
-        orientationMethod = OrientationMethod.TowardsMovement;
-        maxStableMoveSpeed /= aimingMovementPenalty;
-        _weapon.SetAiming(false);
+        if (_isWeaponNotNull)
+        {
+            orientationMethod = OrientationMethod.TowardsMovement;
+            maxStableMoveSpeed /= aimingMovementPenalty;
+            weapon.SetAiming(false);
+        }
     }
     
     public void RequestFirePrimary()
     {
-        if (!_weapon.GetReloading())
+        if (_isWeaponNotNull)
         {
-            StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
+            if (!weapon.GetReloading())
+            {
+                StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
+            }
+            weapon.RequestFire(_target, _wasFiringLastFrame);
         }
-        _weapon.RequestFire(_target, _wasFiringLastFrame);
     }
 
     IEnumerator OrientationTimer(float duration)
     {
         orientationMethod = OrientationMethod.TowardsCamera;
         yield return new WaitForSeconds(duration);
-        if (!_isAiming && Time.time - _weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
+        if (!_isAiming && Time.time - weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
     }
 
     public void SetInputs(ref PlayerCharacterInputs inputs)
@@ -409,7 +422,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
 
     public RangedWeapon GetRangedWeapon()
     {
-        return this._weapon;
+        return this.weapon;
     }
 
     public Vector3 GetTarget()
@@ -442,7 +455,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     {
         var rb = gameObject.AddComponent<Rigidbody>();
         rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
-        var weaponGameObject = _weapon.gameObject;
+        var weaponGameObject = weapon.gameObject;
         weaponGameObject.AddComponent<Rigidbody>();
         weaponGameObject.AddComponent<BoxCollider>();
         weaponGameObject.transform.SetParent(null);

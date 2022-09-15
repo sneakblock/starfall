@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 {
             public ExampleCharacterCamera orbitCamera;
             public Transform cameraFollowPoint;
+            
+            [SerializeField]
             private SCharacterController _sCharacter;
             
             [Header("Player Firing Behavior")]
@@ -142,9 +144,12 @@ public class Player : MonoBehaviour
                 _oldFire = characterInputs.Primary;
 
                 bool isMoving = characterInputs.MoveAxisForward != 0 || characterInputs.MoveAxisRight != 0;
-                anim.SetBool("isMoving", isMoving);
-                anim.SetBool("isFiring", characterInputs.Primary);
-
+                if (anim != null)
+                {
+                    anim.SetBool("isMoving", isMoving);
+                    anim.SetBool("isFiring", characterInputs.Primary);
+                }
+                
                 // Apply inputs to character
                 _sCharacter.SetInputs(ref characterInputs);
             }

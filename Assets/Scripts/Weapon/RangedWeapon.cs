@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using FMOD.Studio;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
-using FMODUnity;
 
 public abstract class RangedWeapon : MonoBehaviour
 {
@@ -63,7 +61,9 @@ public abstract class RangedWeapon : MonoBehaviour
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
         _ownerChar = GetComponentInParent<SCharacterController>();
-        _isOwnedByPlayer = GameManager.Instance.GetPlayer().GetCharacter() == _ownerChar;
+        if (GameManager.Instance) {
+            _isOwnedByPlayer = GameManager.Instance.GetPlayer().GetCharacter() == _ownerChar;
+        }
         if (_isOwnedByPlayer)
         {
             GameManager.Instance.playerData.weaponSpread = _currentSpread;
@@ -227,7 +227,7 @@ public abstract class RangedWeapon : MonoBehaviour
     
     protected virtual void Fire(Vector3 dir)
     {
-        
+        Debug.Log("Fire");
     }
 
 

@@ -9,6 +9,8 @@ public class AmmoCounter : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI ammoText;
 
+    private bool _isGameManagerNotNull;
+
     void Awake()
     {
         ammoText = GetComponentInChildren<TextMeshProUGUI>();
@@ -16,11 +18,15 @@ public class AmmoCounter : MonoBehaviour
 
     void Start()
     {
+        _isGameManagerNotNull = GameManager.Instance != null;
         UpdateAmmoCounter();
     }
 
     public void UpdateAmmoCounter()
     {
-        ammoText.text = GameManager.Instance.playerData.currentAmmo.ToString() + " / " + GameManager.Instance.playerData.totalAmmo.ToString();
+        if (_isGameManagerNotNull)
+        {
+            ammoText.text = GameManager.Instance.playerData.currentAmmo.ToString() + " / " + GameManager.Instance.playerData.totalAmmo.ToString();
+        }
     }
 }

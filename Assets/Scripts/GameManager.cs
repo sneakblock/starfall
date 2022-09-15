@@ -53,7 +53,8 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Something went wrong in GameManager's UI setup! One of more UI components were not found.");
         }
 
-        var position = spawnPoint.position;
+        //TODO: (ben) Make this safe w/o a spawn point
+        var position = spawnPoint != null ? spawnPoint.position : transform.position;
         _playerCharacterGameObject = Instantiate(playerData.playerCharacter, position, Quaternion.identity);
         _playerCameraGameObject = Instantiate(playerData.camera,
             position - (spawnPoint.forward *

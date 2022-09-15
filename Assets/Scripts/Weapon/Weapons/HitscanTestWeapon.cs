@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using FMOD.Studio;
 using UnityEngine;
 
 public class HitscanTestWeapon : RangedWeapon
