@@ -6,6 +6,7 @@ using UnityEngine;
 using KinematicCharacterController.Examples;
 using KinematicCharacterController;
 using UnityEngine.Events;
+using Rewired;
 
 public class Player : MonoBehaviour
 {
@@ -31,6 +32,9 @@ public class Player : MonoBehaviour
             private bool _oldFire = false;
             private int _zoom = 1;
             private Camera _cam;
+
+            private int playerID = 0;
+            private Rewired.Player player;
             
             //TEMPORARY, HACKY ANIMATION CONTROLLER FOR PITCH
             //TODO: FIX THIS TRASH
@@ -73,6 +77,8 @@ public class Player : MonoBehaviour
     
                 // Ignore the character's collider(s) for camera obstruction checks
                 orbitCamera.IgnoredColliders = _sCharacter.GetComponentsInChildren<Collider>().ToList();
+
+                player = ReInput.players.GetPlayer(playerID);
             }
     
             private void Update()
@@ -98,8 +104,8 @@ public class Player : MonoBehaviour
             private void HandleCameraInput()
             {
                 // Create the look input vector for the camera
-                float mouseLookAxisUp = Input.GetAxisRaw("Mouse Y");
-                float mouseLookAxisRight = Input.GetAxisRaw("Mouse X");
+                float mouseLookAxisUp = player.GetAxisRaw("LookUp");
+                float mouseLookAxisRight = player.GetAxisRaw("LookRight");
                 Vector3 lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
     
                 // Prevent moving the camera while the cursor isn't locked
@@ -115,15 +121,15 @@ public class Player : MonoBehaviour
             private void HandleCharacterInput()
             {
                 PlayerCharacterInputs characterInputs = new PlayerCharacterInputs();
-                
+                 
                 // Build the CharacterInputs struct
-                characterInputs.MoveAxisForward = Input.GetAxisRaw(VerticalInput);
-                characterInputs.MoveAxisRight = Input.GetAxisRaw(HorizontalInput);
+                characterInputs.MoveAxisForward = player.GetAxisRaw("MoveForward");
+                characterInputs.MoveAxisRight = player.GetAxisRaw("MoveRight");
                 characterInputs.CameraRotation = orbitCamera.Transform.rotation;
-                characterInputs.JumpDown = Input.GetKeyDown(KeyCode.Space);
-                characterInputs.Primary = Input.GetMouseButton(0);
-                characterInputs.Aim = Input.GetMouseButton(1);
-                characterInputs.Reload = Input.GetKeyDown(KeyCode.R);
+                characterInputs.JumpDown = player.GetButtonDown("Jump");
+                characterInputs.Primary = player.GetButton("Fire");
+                characterInputs.Aim = player.GetButton("Aim");
+                characterInputs.Reload = player.GetButtonDown("Reload");
                 //Update the screen center point
                 var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
                 Ray ray = _cam.ScreenPointToRay(screenCenterPoint);
