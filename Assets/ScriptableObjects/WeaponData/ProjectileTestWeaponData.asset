@@ -14,19 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   firingMode: 1
-  bullet: {fileID: 6426730265670875924, guid: a7365a40a3f8a2c4e9baeb895f05b40f, type: 3}
+  bullet: {fileID: 0}
   firingForce: 150
   firingRate: 4
+  firingMask:
+    serializedVersion: 2
+    m_Bits: 0
   magazineSize: 24
   bulletsFiredPerShot: 6
+  burstDelay: 0
   reloadTime: 1.3
   minHipFireSpread: 0.125
   maxHipFireSpread: 0.3
+  hipFireBloomIntensity: 0.079
   minAdsSpread: 0
   maxAdsSpread: 0.227
-  hipFireBloomIntensity: 0.079
   adsBloomIntensity: 0.108
+  recoveryImpact: 50
   maxRecoverySharpness: 8
   minRecoverySharpness: 5
-  recoveryImpact: 50
   recoveryRate: 0.2
