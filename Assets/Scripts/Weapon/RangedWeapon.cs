@@ -15,6 +15,10 @@ public abstract class RangedWeapon : MonoBehaviour
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     protected Transform barrelTransform;
+    
+    [SerializeField]
+    [Tooltip("Defines the targets which this weapon's projectiles will collide with. Defaults to everything except self and friendlies.")]
+    public LayerMask FiringMask { get; }
 
     //The owner of the weapon
     private SCharacterController _ownerChar;

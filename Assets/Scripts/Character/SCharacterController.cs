@@ -33,11 +33,12 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     public float jumpPreGroundingGraceTime = 0f;
     public float jumpPostGroundingGraceTime = 0f;
 
-    [Header("Weapons")] [SerializeField] private RangedWeapon weapon;
+    [Header("Weapons")]
     [Range(0, 1)] public float aimingMovementPenalty = .75f;
     [SerializeField] 
     [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
     private float secondsToLockShootingOrientation = 1f;
+    [SerializeField] public RangedWeapon weapon { get; private set; }
 
     [Header("Misc")]
     public List<Collider> ignoredColliders = new List<Collider>();

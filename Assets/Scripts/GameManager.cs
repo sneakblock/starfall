@@ -76,7 +76,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Something went wrong in GameManager's Player setup! One or more essential player components are not properly configured.");
         }
-        _player.playerFiringLayerMask = playerData.playerFiringLayerMask;
         
         //Set up event listeners
         _player.onPlayerReloadStart.AddListener(_reloadBar.AnimateReloadBar);

@@ -9,8 +9,6 @@ public class PlayerData : ScriptableObject
     [Header("Core Assignments")]
     public GameObject camera;
     public GameObject playerCharacter;
-
-    [Header("Firing Logic")] public LayerMask playerFiringLayerMask;
     
     [Header("Runtime Data")]
     public float weaponSpread;
