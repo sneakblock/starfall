@@ -16,6 +16,10 @@ public abstract class RangedWeapon : MonoBehaviour
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     protected Transform barrelTransform;
 
+    // NOTE(cameron): This is somewhat weird, but I need to put this here because
+    // Player needs a LayerMask in order to raycast and change the player's view.
+    public LayerMask FiringMask { get; private set; }
+    
     //The owner of the weapon
     private SCharacterController _ownerChar;
     private bool _isOwnedByPlayer;
