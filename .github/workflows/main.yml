@@ -2,7 +2,9 @@ name: Unity Actions
 
 on:
   pull_request: {}
-  push: {}
+  push:
+    branches:
+      - main
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -68,38 +70,6 @@ jobs:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
 
-  # buildWithMac:
-  #   needs: [checklicense]
-  #   if: needs.checklicense.outputs.is_unity_license_set == 'true'
-  #   name: Build for ${{ matrix.targetPlatform }}
-  #   runs-on: macos-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       targetPlatform:
-  #         - StandaloneOSX
-  #   steps:
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v3
-  #       with:
-  #         lfs: true
-  #     - uses: actions/cache@v3
-  #       with:
-  #         path: Library
-  #         key: Library-Starfall-${{ matrix.targetPlatform }}
-  #         restore-keys: |
-  #           Library-Starfall-
-  #           Library-
-  #     - uses: game-ci/unity-builder@v2
-  #       with:
-  #         projectPath: ${{ env.PROJECT_PATH }}
-  #         targetPlatform: ${{ matrix.targetPlatform }}
-  #     - name: Upload Build
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: Build-${{ matrix.targetPlatform }}
-  #         path: build
-
   buildWithUbuntu:
     needs: [checklicense]
     if: needs.checklicense.outputs.is_unity_license_set == 'true'
@@ -110,6 +80,7 @@ jobs:
       matrix:
         targetPlatform:
           - StandaloneWindows64
+          - StandaloneLinux64
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
