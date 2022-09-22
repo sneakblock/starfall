@@ -317,17 +317,17 @@ public class DemoEnemyStateMachine : MonoBehaviour
     private void Start()
     {
 
-        var demoEnemyFsmData = new DemoEnemyFsmData(this, controller);
-        _demoFsm = new FiniteStateMachine<DemoEnemyFsmData>(demoEnemyFsmData);
+        //var demoEnemyFsmData = new DemoEnemyFsmData(this, controller);
+        //_demoFsm = new FiniteStateMachine<DemoEnemyFsmData>(demoEnemyFsmData);
         
-        _demoFsm.AddState(new ChaseState());
-        _demoFsm.AddState(new StayStillAndFireState());
-        _demoFsm.AddState(new IdleState(), true);
+        //_demoFsm.AddState(new ChaseState());
+        //_demoFsm.AddState(new StayStillAndFireState());
+        //_demoFsm.AddState(new IdleState(), true);
 
     }
 
     private void Update()
     {
-        _demoFsm.Update();
+        //_demoFsm.Update();
     }
 }
