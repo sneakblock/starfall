@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
     
             private void Update()
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && PauseableScene.isGamePaused == false)
                 {
                     Cursor.lockState = CursorLockMode.Locked;
                 }
