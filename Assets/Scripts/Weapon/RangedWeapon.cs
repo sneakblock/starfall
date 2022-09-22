@@ -66,7 +66,8 @@ public abstract class RangedWeapon : MonoBehaviour
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
         _ownerChar = GetComponentInParent<SCharacterController>();
         if (GameManager.Instance) {
-            _isOwnedByPlayer = GameManager.Instance.GetPlayer().GetCharacter() == _ownerChar;
+            //_isOwnedByPlayer = GameManager.Instance.GetPlayer().GetCharacter() == _ownerChar;
+            _isOwnedByPlayer = false;
         }
         if (_isOwnedByPlayer)
         {
