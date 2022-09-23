@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2606140551033211468}
   - component: {fileID: 2606140551033211469}
+  - component: {fileID: 6496399927584480338}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -77,4 +78,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: cef1a0111a133434686f8c829162a78b, type: 2}
+  kuze: {fileID: 0}
   spawnPoint: {fileID: 850687170}
+--- !u!114 &6496399927584480338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2606140551033211466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d06051d5d30f014eb9ad5bf88847f3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyTypes:
+  - {fileID: 5018326094034803352, guid: 7510be0cadf96874dba8ca3aab50d7c5, type: 3}
+  _currLevelData: {fileID: 11400000, guid: 0ff9a5c94729bfe439460485367ee0e4, type: 2}
+  minRespawnDistance: 50
