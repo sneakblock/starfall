@@ -28,6 +28,8 @@ public abstract class APlayer : SCharacter
     
     protected override void StartCharacter()
     {
+        if (!orbitCamera) orbitCamera = GameObject.FindWithTag("MainCamera").GetComponent<ExampleCharacterCamera>();
+        
         cam = orbitCamera.Camera;
         orbitCamera.SetFollowTransform(base.orbitPoint);
 

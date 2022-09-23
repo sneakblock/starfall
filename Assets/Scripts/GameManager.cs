@@ -11,10 +11,6 @@ public class GameManager : MonoBehaviour
     [Header("Player Character")] public APlayer aPlayer;
     public RangedWeapon playerWeapon { get; private set; }
 
-    private Player _player;
-    private GameObject _playerCharacterGameObject;
-    private GameObject _playerCameraGameObject;
-
     // TODO(mish): have SCharacter main player and set up a function to switch
     // between different players
     private SCharacter _currentPlayer;
@@ -31,8 +27,14 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+        
+        if (!aPlayer) TryFindAPlayer();
 
     }
 
+    void TryFindAPlayer()
+    {
+        aPlayer = GameObject.FindWithTag("Player").GetComponent<APlayer>();
+    }
     
 }
