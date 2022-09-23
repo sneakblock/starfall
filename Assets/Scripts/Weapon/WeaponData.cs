@@ -26,6 +26,8 @@ public class WeaponData : ScriptableObject
     public float firingForce;
     [Tooltip("The rate at which the weapon fires. This is measured in maximum rounds per second(!!!). (Not minute)")]
     public float firingRate;
+    [Tooltip("Defines the targets which this weapon's projectiles will collide with. Defaults to everything except self and friendlies.")]
+    public LayerMask firingMask;
 
     [Header("Ammo & Reloading")]
     [Tooltip("The number of bullets in each magazine.")]

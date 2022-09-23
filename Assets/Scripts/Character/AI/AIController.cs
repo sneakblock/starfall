@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class AIController : MonoBehaviour
 {
-    [SerializeField] public SCharacterController character;
+    [SerializeField] public SCharacter character;
     public EnemyData enemyData;
 
     private KinematicSeek _kinematicSeek;
@@ -19,7 +19,7 @@ public class AIController : MonoBehaviour
     private bool _hasPath = false;
     private float _range = 2f;
     private int _currPathIndex = 0;
-    private SCharacterController _lookAtSCharacter;
+    private SCharacter _lookAtSCharacter;
     private Vector3 _lookAtPoint;
     public LookAtBehavior _lookAtBehavior;
 
@@ -32,7 +32,7 @@ public class AIController : MonoBehaviour
 
     private void Awake()
     {
-        character = GetComponent<SCharacterController>();
+        character = GetComponent<SCharacter>();
     }
 
     private void Start()
@@ -53,7 +53,8 @@ public class AIController : MonoBehaviour
     {
         _inputs = inputs;
         // Debug.Log("Assigned move vector to entity" + _inputs.MoveVector);
-        character.SetInputs(ref _inputs);
+        //TODO(ben): Fix
+        // character.SetInputs(ref _inputs);
     }
     
     public bool SetPath(Vector3 target)
@@ -171,7 +172,7 @@ public class AIController : MonoBehaviour
     /// <param name="c">
     /// The character for the AI character to look towards. If this is null, the character will look at it's path as it traverses it.
     /// </param>
-    public void SetLookAtCharacter(SCharacterController c)
+    public void SetLookAtCharacter(SCharacter c)
     {
         if (c == null)
         {
@@ -205,7 +206,10 @@ public class AIController : MonoBehaviour
 
     public bool IsReloading()
     {
-        return character.GetRangedWeapon().GetReloading();
+        //TODO(ben): fix
+        // return character.GetRangedWeapon().GetReloading();
+        //TEMP
+        return false;
     }
 
 }
