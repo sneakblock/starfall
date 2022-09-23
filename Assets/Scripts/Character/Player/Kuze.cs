@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 
 public class Kuze : APlayer
@@ -28,7 +28,8 @@ public class Kuze : APlayer
     protected override void HandlePlayerInputs()
     {
         HandleAnimationInputs();
-        //Implement other Kuze specific inputs here
+
+        //Implement other Kuze specific inputs here        
     }
 
     // Other players could have different animations.
@@ -45,8 +46,5 @@ public class Kuze : APlayer
             anim.SetBool("isFiring", Input.GetMouseButton(0));
         }
     }
-
-
-
 }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController;
 using UnityEngine;
@@ -183,7 +183,7 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
         if (health > _maxHealth) health = _maxHealth;
     }
 
-	public void Kill()
+	public virtual void Kill()
     {
         var rb = gameObject.AddComponent<Rigidbody>();
         rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
