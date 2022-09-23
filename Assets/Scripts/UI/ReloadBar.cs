@@ -1,37 +1,51 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ReloadBar : MonoBehaviour
 {
     private RectTransform _rectTransform;
-    private GameObject _parentGO;
     private float _width;
     private float _height;
     private Rect _rect;
     private Vector2 _origSizeDelta;
+    private GameObject _parentGameObject;
+    private Image _reloadBarImg;
+    private TextMeshProUGUI _reloadBarText;
 
     public float sizeDeltaX;
     public float sizeDeltaY;
 
     private void Start()
     {
+        _parentGameObject = transform.parent.gameObject;
+        _reloadBarImg = _parentGameObject.GetComponentInChildren<Image>();
+        _reloadBarText = _parentGameObject.GetComponentInChildren<TextMeshProUGUI>();
         _rectTransform = GetComponentInChildren<RectTransform>();
-        _parentGO = transform.parent.gameObject;
         _rect = _rectTransform.rect;
         _height = _rect.height;
         _width = _rect.width;
         _origSizeDelta = new Vector2(_width - _width, _height);
-        _parentGO.SetActive(false);
+        HideReloadBar();
     }
 
-    public void AnimateReloadBar()
+    private void OnEnable()
     {
-        var seconds = GameManager.Instance.GetPlayer().GetCharacter().GetRangedWeapon().GetWeaponData().reloadTime;
+        RangedWeapon.OnPlayerReload += AnimateReloadBar;
+    }
+
+    private void OnDisable()
+    {
+        RangedWeapon.OnPlayerReload -= AnimateReloadBar;
+    }
+
+    private void AnimateReloadBar(float seconds)
+    {
+        ShowReloadBar();
         _rectTransform.sizeDelta = _origSizeDelta;
-        _parentGO.SetActive(true);
         StartCoroutine(ShrinkBar(_width - _width, -_width, seconds));
     }
 
@@ -47,6 +61,32 @@ public class ReloadBar : MonoBehaviour
             _rectTransform.sizeDelta = new Vector2(Mathf.Lerp(widthA, widthB, t / numSeconds), 3f);
             yield return null;
         }
-        _parentGO.SetActive(false);
+        HideReloadBar();
+    }
+
+    void ShowReloadBar()
+    {
+        if (_reloadBarImg)
+        {
+            _reloadBarImg.enabled = true;
+        }
+
+        if (_reloadBarText)
+        {
+            _reloadBarText.enabled = true;
+        }
+    }
+
+    void HideReloadBar()
+    {
+        if (_reloadBarImg)
+        {
+            _reloadBarImg.enabled = false;
+        }
+
+        if (_reloadBarText)
+        {
+            _reloadBarText.enabled = false;
+        }
     }
 }

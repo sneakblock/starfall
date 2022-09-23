@@ -15,19 +15,11 @@ public class Kuze : APlayer
         // TODO(ben): Will this be player specific or general for all the
         // players?
         anim = base.GetComponentInChildren<Animator>();
-
-        // TODO(ben): Describe the usage of the following bc why?
-        var o = base.gameObject;
-        foreach (Transform t in o.GetComponentsInChildren<Transform>())
-        {
-            var gameObject1 = t.gameObject;
-            gameObject1.layer = 6;
-            gameObject1.tag = "Player";
-        }
     }
 
     protected override void UpdatePlayer()
     {
+        base.UpdatePlayer();
         
         // Implement Kuze specific update code here
 
