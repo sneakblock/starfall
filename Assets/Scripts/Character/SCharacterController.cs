@@ -33,7 +33,8 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     public float jumpPreGroundingGraceTime = 0f;
     public float jumpPostGroundingGraceTime = 0f;
 
-    [Header("Weapons")] [SerializeField] private RangedWeapon weapon;
+    [Header("Weapons")]
+    [SerializeField] public RangedWeapon Weapon;
     [Range(0, 1)] public float aimingMovementPenalty = .75f;
     [SerializeField] 
     [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
@@ -84,8 +85,8 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     void Start()
     {
         //Check to see if you can find a weapon in this object's children to auto-assign, in case it was not set in the editor.
-        weapon = GetComponentInChildren<RangedWeapon>();
-        _isWeaponNotNull = weapon != null;
+        Weapon = GetComponentInChildren<RangedWeapon>();
+        _isWeaponNotNull = Weapon != null;
         motor.CharacterController = this;
         _cam = Camera.main;
         _maxHealth = health;
@@ -114,9 +115,9 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
             RequestFirePrimary();
         }
 
-        if (_reloadedThisFrame && weapon)
+        if (_reloadedThisFrame && Weapon)
         {
-            weapon.Reload();
+            Weapon.Reload();
         }
 
         //Update old stuff
@@ -130,7 +131,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
         {
             orientationMethod = OrientationMethod.TowardsCamera;
             maxStableMoveSpeed *= aimingMovementPenalty;
-            weapon.SetAiming(true);
+            Weapon.SetAiming(true);
         }
     }
 
@@ -140,7 +141,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
         {
             orientationMethod = OrientationMethod.TowardsMovement;
             maxStableMoveSpeed /= aimingMovementPenalty;
-            weapon.SetAiming(false);
+            Weapon.SetAiming(false);
         }
     }
     
@@ -148,11 +149,11 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     {
         if (_isWeaponNotNull)
         {
-            if (!weapon.GetReloading())
+            if (!Weapon.GetReloading())
             {
                 StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
             }
-            weapon.RequestFire(_target, _wasFiringLastFrame);
+            Weapon.RequestFire(_target, _wasFiringLastFrame);
         }
     }
 
@@ -160,7 +161,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     {
         orientationMethod = OrientationMethod.TowardsCamera;
         yield return new WaitForSeconds(duration);
-        if (!_isAiming && Time.time - weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
+        if (!_isAiming && Time.time - Weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
     }
 
     public void SetInputs(ref PlayerCharacterInputs inputs)
@@ -422,7 +423,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
 
     public RangedWeapon GetRangedWeapon()
     {
-        return this.weapon;
+        return this.Weapon;
     }
 
     public Vector3 GetTarget()
@@ -455,7 +456,7 @@ public class SCharacterController : MonoBehaviour, ICharacterController, IDamage
     {
         var rb = gameObject.AddComponent<Rigidbody>();
         rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
-        var weaponGameObject = weapon.gameObject;
+        var weaponGameObject = Weapon.gameObject;
         weaponGameObject.AddComponent<Rigidbody>();
         weaponGameObject.AddComponent<BoxCollider>();
         weaponGameObject.transform.SetParent(null);
