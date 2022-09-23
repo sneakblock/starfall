@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    private String key;
+    [SerializeField] private string key;
+    [SerializeField] private DialogueManager dm;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,5 +16,19 @@ public class DialogueTrigger : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnTriggerEnter(Collider other) {
+        Debug.Log("hi");
+        if (other.tag == "Player") {
+            dm.TriggerDialogue("test");
+        }
+    }
+
+    void OnTriggerExit(Collider other) {
+        Debug.Log("hi");
+        if (other.tag == "Player") {
+            dm.TriggerDialogue("clear");
+        }
     }
 }
