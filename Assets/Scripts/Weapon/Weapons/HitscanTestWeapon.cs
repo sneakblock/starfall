@@ -18,6 +18,7 @@ public class HitscanTestWeapon : RangedWeapon
             }
         }
         Debug.DrawRay(position, dir * 1000f, Color.red, .5f);
+        PlayFireEffect();
     }
     
 }
