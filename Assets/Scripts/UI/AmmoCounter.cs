@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,24 +10,23 @@ public class AmmoCounter : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI ammoText;
 
-    private bool _isGameManagerNotNull;
-
     void Awake()
     {
         ammoText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    void Start()
+    private void OnEnable()
     {
-        _isGameManagerNotNull = GameManager.Instance != null;
-        UpdateAmmoCounter();
+        RangedWeapon.OnUpdatePlayerAmmo += UpdateAmmoCounter;
     }
 
-    public void UpdateAmmoCounter()
+    private void OnDisable()
     {
-        if (_isGameManagerNotNull)
-        {
-            ammoText.text = GameManager.Instance.playerData.currentAmmo.ToString() + " / " + GameManager.Instance.playerData.totalAmmo.ToString();
-        }
+        RangedWeapon.OnUpdatePlayerAmmo -= UpdateAmmoCounter;
+    }
+
+    private void UpdateAmmoCounter(int currAmmo, int maxAmmo)
+    {
+        ammoText.text = currAmmo.ToString() + " / " + maxAmmo.ToString();
     }
 }

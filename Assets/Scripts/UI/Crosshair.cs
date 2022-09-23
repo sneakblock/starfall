@@ -13,20 +13,19 @@ public class Crosshair : MonoBehaviour
     [Range(55f, 600f)]
     private float size;
 
-    private bool _isGameManagerNotNull;
-    
     void Start()
     {
-        _isGameManagerNotNull = GameManager.Instance != null;
         _crosshairRectTransform = GetComponent<RectTransform>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (_isGameManagerNotNull)
-        {
-            UpdateSize(GameManager.Instance.playerData.weaponSpread);
-        }
+        RangedWeapon.OnCalculatePlayerSpread += UpdateSize;
+    }
+
+    private void OnDisable()
+    {
+        RangedWeapon.OnCalculatePlayerSpread -= UpdateSize;
     }
 
     public void UpdateSize(float aValue)

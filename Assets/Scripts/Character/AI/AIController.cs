@@ -19,7 +19,7 @@ public class AIController : MonoBehaviour
     private bool _hasPath = false;
     private float _range = 2f;
     private int _currPathIndex = 0;
-    private SCharacterController _lookAtSCharacter;
+    private SCharacter _lookAtSCharacter;
     private Vector3 _lookAtPoint;
     public LookAtBehavior _lookAtBehavior;
 
@@ -171,7 +171,7 @@ public class AIController : MonoBehaviour
     /// <param name="c">
     /// The character for the AI character to look towards. If this is null, the character will look at it's path as it traverses it.
     /// </param>
-    public void SetLookAtCharacter(SCharacterController c)
+    public void SetLookAtCharacter(SCharacter c)
     {
         if (c == null)
         {

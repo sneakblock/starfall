@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
         var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = _cam.ScreenPointToRay(screenCenterPoint);
         // NOTE(cameron): Maybe we can move this guy to firing code? Why does targetPoint need to be an "input?"
-        var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _sCharacter.Weapon.FiringMask) ? hit.point : ray.GetPoint(1000f);
+        var targetPoint = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, GameManager.Instance.aPlayer.layerMask) ? hit.point : ray.GetPoint(1000f);
         characterInputs.Target = targetPoint;
         
         switch (characterInputs.Aim)

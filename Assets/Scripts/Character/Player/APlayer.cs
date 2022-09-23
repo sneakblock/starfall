@@ -11,44 +11,31 @@ using UnityEngine.Events;
 public abstract class APlayer : SCharacter
 {
     [Header("Orbit Camera")]  public ExampleCharacterCamera orbitCamera;
-
-    [Header("Firing Logic")] public LayerMask playerFiringLayerMask;
-
-    public UnityEvent onPlayerAimDown = new UnityEvent();
-    public UnityEvent onPlayerAimUp = new UnityEvent();
-    public UnityEvent onPlayerFire = new UnityEvent();
-    public UnityEvent onPlayerReloadStart = new UnityEvent();
-    public UnityEvent onPlayerReloadComplete = new UnityEvent();
+    
+    [SerializeField]
+    [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
+    private float secondsToLockShootingOrientation = 1f;
 
     protected const string HorizontalInput = "Horizontal";
     protected const string VerticalInput = "Vertical";
     private bool _oldAim = false;
-    private bool _oldFire = false;
 
     // Camera exists for APlayer and not SCharacter because Enemy is an
     // SCharacter and they do not deserve a camera.
     protected Camera cam;
 
     private int _zoom = 1;
-
-
+    
     protected override void StartCharacter()
     {
         cam = orbitCamera.Camera;
-
         orbitCamera.SetFollowTransform(base.orbitPoint);
-
-        //Subscribe ToggleZoom to the OnPlayerAimDown event
-        onPlayerAimDown.AddListener(ToggleZoom);
-        onPlayerAimUp.AddListener(ToggleZoom);
 
         //Lock the cursor
         Cursor.lockState = CursorLockMode.Locked;
-        
 
         // Ignore the character's collider(s) for camera obstruction checks
         orbitCamera.IgnoredColliders = base.GetComponentsInChildren<Collider>().ToList();
-
 
         StartPlayer();
     }
@@ -94,7 +81,7 @@ public abstract class APlayer : SCharacter
         //Update the screen center point
         var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = cam.ScreenPointToRay(screenCenterPoint);
-        bool rayhit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, playerFiringLayerMask);
+        bool rayhit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask);
         var targetPoint =  rayhit ? hit.point : ray.GetPoint(1000f);
 
         base.target = targetPoint;
@@ -109,7 +96,40 @@ public abstract class APlayer : SCharacter
 
     protected abstract void HandlePlayerInputs();
     protected abstract void StartPlayer();
-    protected abstract void UpdatePlayer();
+
+    protected virtual void UpdatePlayer()
+    {
+        
+    }
+
+    protected override void AimDown()
+    {
+        base.AimDown();
+        orientationMethod = OrientationMethod.TowardsCamera;
+    }
+
+    protected override void AimUp()
+    {
+        base.AimUp();
+        orientationMethod = OrientationMethod.TowardsMovement;
+    }
+
+    protected override void RequestFirePrimary()
+    {
+        base.RequestFirePrimary();
+        if (!_weapon.GetReloading())
+        {
+            //TODO(ben): Right now this works fine, but it's running a lot of coroutines in the background. Can probably clean this up with a simpler Time.time approach.
+            StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
+        }
+    }
+
+    private IEnumerator OrientationTimer(float duration)
+    {
+        orientationMethod = OrientationMethod.TowardsCamera;
+        yield return new WaitForSeconds(duration);
+        if (!isAiming && Time.time - _weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
+    }
 
     private void ToggleZoom()
     {
@@ -146,22 +166,20 @@ public abstract class APlayer : SCharacter
 
         if (base.isAiming && !_oldAim)
         {
-            onPlayerAimDown.Invoke();
+            ToggleZoom();
         }
         if (!base.isAiming && _oldAim)
         {
-            onPlayerAimUp.Invoke();
+            ToggleZoom();
         }
 
         _oldAim = base.isAiming;
-        _oldFire = base.isFiring;
     }
 
     private void SetOrientation(Vector3 cameraPlanarDirection)
     {
         // Allows setting if the player should look in the direction of the
         // camera, e.g aiming, or in the direction of movement for navigation.
-
         switch (orientationMethod)
         {
             case OrientationMethod.TowardsCamera:

@@ -16,13 +16,9 @@ public abstract class RangedWeapon : MonoBehaviour
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     protected Transform barrelTransform;
 
-    // NOTE(cameron): This is somewhat weird, but I need to put this here because
-    // Player needs a LayerMask in order to raycast and change the player's view.
-    public LayerMask FiringMask { get; private set; }
-    
     //The owner of the weapon
-    private SCharacterController _ownerChar;
-    private bool _isOwnedByPlayer;
+    protected SCharacter OwnerChar;
+    private bool _isOwnedByPlayer = false;
     
     //Spread data
     private float _currentSpread;
@@ -39,41 +35,28 @@ public abstract class RangedWeapon : MonoBehaviour
     
     //The available bullets
     private int _bulletsCurrentlyInMagazine;
+    
+    //Events
+    //Invoked when the player fires. The first int represents the bullets currently in the magazine, the second the total bullets in the magazine.
+    public static event Action<int, int> OnUpdatePlayerAmmo;
+    
+    //Invoked on player reload. The float is reload time in seconds.
+    public static event Action<float> OnPlayerReload;
 
-    public void SetAiming(bool isAiming)
-    {
-        _isAiming = isAiming;
-    }
-
-    public float GetTimeLastFired()
-    {
-        return _timeLastFired;
-    }
-
-    public bool GetReloading()
-    {
-        return _reloading;
-    }
-
-    public WeaponData GetWeaponData()
-    {
-        return weaponData;
-    }
+    //Invoked each time the spread is calculated (every frame). The float is the current spread.
+    public static event Action<float> OnCalculatePlayerSpread;
 
     protected virtual void Start()
     {
         _currentSpread = weaponData.minHipFireSpread;
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        _ownerChar = GetComponentInParent<SCharacterController>();
+        OwnerChar = GetComponentInParent<SCharacter>();
         if (GameManager.Instance) {
-            //_isOwnedByPlayer = GameManager.Instance.GetPlayer().GetCharacter() == _ownerChar;
-            _isOwnedByPlayer = false;
-        }
-        if (_isOwnedByPlayer)
-        {
-            GameManager.Instance.playerData.weaponSpread = _currentSpread;
-            GameManager.Instance.playerData.totalAmmo = weaponData.magazineSize;
-            GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
+            if (GameManager.Instance.aPlayer == OwnerChar)
+            {
+                _isOwnedByPlayer = true;
+                OnUpdatePlayerAmmo?.Invoke(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
+            }
         }
     }
 
@@ -82,6 +65,17 @@ public abstract class RangedWeapon : MonoBehaviour
         ManageSpread();
     }
     
+    /// <summary>
+    /// This method checks the validity of the requested fire. If the weapon cannot fire, e.g, its fire rate is too low,
+    /// it's out of ammunition, or it's a semi-auto weapon and the trigger has not been released, it will return and do nothing.
+    /// However, if the request is valid, it will call CalculateTrajectory(), which will continue the firing process.
+    /// </summary>
+    /// <param name="targetPoint">
+    /// The goal point in space that the agents *wants* the bullet to hit.
+    /// </param>
+    /// <param name="wasRequestingFireLastFrame">
+    /// Was the agent requesting fire last frame? Some weapons require a release of the trigger before they will fire again.
+    /// </param>
     public void RequestFire(Vector3 targetPoint, bool wasRequestingFireLastFrame)
     {
         switch (weaponData.firingMode)
@@ -149,7 +143,7 @@ public abstract class RangedWeapon : MonoBehaviour
                     !_reloading && !_bursting)
                 {
                     _bursting = true;
-                    StartCoroutine(FireBurst(weaponData.bulletsFiredPerShot, weaponData.burstDelay));
+                    StartCoroutine(FireBurst(weaponData.bulletsFiredPerShot, weaponData.burstDelay, targetPoint));
                     //Adding some kick
                     if (_isAiming)
                     {
@@ -165,13 +159,26 @@ public abstract class RangedWeapon : MonoBehaviour
         }
     }
 
-    IEnumerator FireBurst(int bulletsPerBurst, float burstDelay)
+    /// <summary>
+    /// For burst weapons, a parallel coroutine must handle their burst fire.
+    /// </summary>
+    /// <param name="bulletsPerBurst">
+    /// How many total bullets to fire in this burst.
+    /// </param>
+    /// <param name="burstDelay">
+    /// The number of seconds between each shot fired in the burst.
+    /// </param>
+    /// <param name="targetPoint">
+    /// The point that the agent *wants* to hit.
+    /// </param>
+    /// <returns></returns>
+    IEnumerator FireBurst(int bulletsPerBurst, float burstDelay, Vector3 targetPoint)
     {
         for (var i = 0; i < weaponData.bulletsFiredPerShot; i++)
         {
             if (_bulletsCurrentlyInMagazine > 0)
             {
-                CalculateTrajectory(_ownerChar.GetTarget());
+                CalculateTrajectory(targetPoint);
                 yield return new WaitForSeconds(burstDelay);
             }
             else
@@ -183,13 +190,12 @@ public abstract class RangedWeapon : MonoBehaviour
                 break;
             }
         }
-
         _bursting = false;
     }
 
     /// <summary>
     /// This method fires the weapon from the barrelTransform to the targetPoint. This method should account for bullet
-    /// spread, e.g the targetPoint is not sure to be hit if the spread is less than zero. Because it represents a successful
+    /// spread, e.g the targetPoint is not sure to be hit if the spread is greater than zero. Because it represents a successful
     /// firing of the bullet, it also sets _timeSinceLastBulletFired to 0. 
     /// </summary>
     /// <param name="targetPoint">
@@ -197,9 +203,6 @@ public abstract class RangedWeapon : MonoBehaviour
     /// </param>
     private void CalculateTrajectory(Vector3 targetPoint)
     {
-        _timeLastFired = Time.time;
-        _bulletsCurrentlyInMagazine--;
-
         //The perfect direction to the targetPoint.
         var barrelPos = barrelTransform.position;
         var goalDir = (targetPoint - barrelPos);
@@ -216,11 +219,6 @@ public abstract class RangedWeapon : MonoBehaviour
 
         //Fire, set the number of bullets in GameManager if applicable.
         Fire(goalDir);
-        if (_isOwnedByPlayer)
-        {
-            GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
-            GameManager.Instance.GetPlayer().onPlayerFire.Invoke();
-        }
 
         //If this was the last shot, automatically start reloading
         if (_bulletsCurrentlyInMagazine == 0 && !_reloading)
@@ -232,7 +230,12 @@ public abstract class RangedWeapon : MonoBehaviour
     
     protected virtual void Fire(Vector3 dir)
     {
-        Debug.Log("Fire");
+        _timeLastFired = Time.time;
+        _bulletsCurrentlyInMagazine--;
+        if (_isOwnedByPlayer)
+        {
+            OnUpdatePlayerAmmo?.Invoke(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
+        }
     }
 
 
@@ -270,7 +273,7 @@ public abstract class RangedWeapon : MonoBehaviour
         _currentSpread = Mathf.Lerp(_currentSpread, goalSpread,
             1 - Mathf.Exp(-_currentRecoverySharpness * Time.deltaTime));
 
-        if (_isOwnedByPlayer) GameManager.Instance.playerData.weaponSpread = _currentSpread;
+        if (_isOwnedByPlayer) OnCalculatePlayerSpread?.Invoke(_currentSpread);
     }
 
     private bool DoesSpreadNeedCorrection()
@@ -281,36 +284,46 @@ public abstract class RangedWeapon : MonoBehaviour
             false => Math.Abs(_currentSpread - weaponData.minHipFireSpread) > .00001f
         };
     }
-    
 
     public void Reload()
     {
         if (_bulletsCurrentlyInMagazine == weaponData.magazineSize) return;
         _reloading = true;
-        if(_isOwnedByPlayer) GameManager.Instance.GetPlayer().onPlayerReloadStart.Invoke();
-        //Animation and UI stuff here
+        if(_isOwnedByPlayer) OnPlayerReload?.Invoke(weaponData.reloadTime);
         Invoke(nameof(FillMagazine), weaponData.reloadTime);
     }
 
     private void FillMagazine()
     {
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
-        if (_isOwnedByPlayer)
-        {
-            GameManager.Instance.playerData.currentAmmo = _bulletsCurrentlyInMagazine;
-            GameManager.Instance.GetPlayer().onPlayerReloadComplete.Invoke();
-        }
+        OnUpdatePlayerAmmo?.Invoke(_bulletsCurrentlyInMagazine, weaponData.magazineSize);
         _reloading = false;
     }
-    
-    public abstract void AnimateAim();
-    public abstract void AnimateFire();
-    public abstract void AnimateReload();
-    public abstract void DoFireEffects();
 
+    //TODO: Clean these up with appropriate { get; set; } syntax for each of them
     public float GetCurrentSpread()
     {
         return this._currentSpread;
+    }
+    
+    public void SetAiming(bool isAiming)
+    {
+        _isAiming = isAiming;
+    }
+
+    public float GetTimeLastFired()
+    {
+        return _timeLastFired;
+    }
+
+    public bool GetReloading()
+    {
+        return _reloading;
+    }
+
+    public WeaponData GetWeaponData()
+    {
+        return weaponData;
     }
 
 }

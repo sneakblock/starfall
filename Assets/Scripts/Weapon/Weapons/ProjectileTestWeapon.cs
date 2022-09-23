@@ -29,24 +29,4 @@ public class ProjectileTestWeapon : RangedWeapon
         }
         rb.AddForce(dir.normalized * weaponData.firingForce, ForceMode.Impulse);
     }
-
-    public override void AnimateAim()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void AnimateFire()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void AnimateReload()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void DoFireEffects()
-    {
-        throw new System.NotImplementedException();
-    }
 }
