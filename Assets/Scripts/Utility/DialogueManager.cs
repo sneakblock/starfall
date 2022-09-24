@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     private TextMeshProUGUI dialogueText;
     private int lettersPerSecond = 30;
     private SpriteAnimator spriteAnimator = null;
+    [SerializeField] private AudioSource audioSource;
 
     void Start()
     {
@@ -40,6 +41,8 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true);
         spriteAnimator = currentEvent.Animator;
         spriteAnimator.Start();
+        audioSource.clip = currentEvent.Clip;
+        audioSource.Play(0);
         for (int i = 0; i < currentEvent.Dialogue.Count; i++)
         {
             yield return StartCoroutine(TypeDialogue(currentEvent.Dialogue[i]));

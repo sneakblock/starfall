@@ -8,6 +8,7 @@ public class DialogueEvent : ScriptableObject
     [SerializeField] private List<Sprite> sprites;
     private SpriteAnimator animator; // set by dialogue manager
     [SerializeField] private List<string> dialogue;
+    [SerializeField] private AudioClip clip;
     
     public List<Sprite> Sprites
     {
@@ -23,5 +24,10 @@ public class DialogueEvent : ScriptableObject
     public List<string> Dialogue
     {
         get { return dialogue; }
+    }
+
+    public AudioClip Clip
+    {
+        get { return clip; }
     }
 }
