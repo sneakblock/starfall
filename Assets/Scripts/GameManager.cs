@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GAME OVER YEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAH");
         // Do whatever cleanup
+        PlayerDeath -= OnPlayerDeath;
+        EnemyDeath -= OnEnemyDeath;
         Invoke("LoadCharacterSelectScene", 3.0f);
     }
     
