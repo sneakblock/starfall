@@ -21,14 +21,7 @@ public class DialogueTrigger : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         Debug.Log("hi");
         if (other.tag == "Player") {
-            dm.TriggerDialogue("test");
-        }
-    }
-
-    void OnTriggerExit(Collider other) {
-        Debug.Log("hi");
-        if (other.tag == "Player") {
-            dm.TriggerDialogue("clear");
+            StartCoroutine(dm.TriggerDialogue("LowHP"));
         }
     }
 }
