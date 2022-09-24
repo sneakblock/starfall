@@ -1,8 +1,10 @@
 using System;
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController.Examples;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,12 +49,19 @@ public class GameManager : MonoBehaviour
     private void OnPlayerDeath(APlayer player)
     {
         Debug.Log("GAME OVER YEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAH");
-        // Do whatever cleanup/transition to character select
+        // Do whatever cleanup
+        Invoke("LoadCharacterSelectScene", 3.0f);
     }
     
     private void OnEnemyDeath(GameObject enemy)
     {
         Debug.Log("bitchass mofo dead");
         Destroy(enemy);
+    }
+
+    private void LoadCharacterSelectScene()
+    {
+        //Replace the Testing scene with the name of the character select scene
+        SceneManager.LoadScene("ElizabethTesting", LoadSceneMode.Single);
     }
 }

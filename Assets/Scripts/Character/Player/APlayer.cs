@@ -49,6 +49,10 @@ public abstract class APlayer : SCharacter
 
     protected override void HandleInputs()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Kill();
+        }
         if (Input.GetMouseButtonDown(0))
         {
             Cursor.lockState = CursorLockMode.Locked;
