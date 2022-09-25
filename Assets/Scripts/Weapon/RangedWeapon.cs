@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
+using UnityEngine.VFX;
 
 public abstract class RangedWeapon : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public abstract class RangedWeapon : MonoBehaviour
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     protected Transform barrelTransform;
+
+    [SerializeField] VisualEffect _fireEffect;
 
     //The owner of the weapon
     protected SCharacter OwnerChar;
@@ -319,6 +322,10 @@ public abstract class RangedWeapon : MonoBehaviour
     public bool GetReloading()
     {
         return _reloading;
+    }
+    public void PlayFireEffect()
+    {
+        _fireEffect.Play();
     }
 
     public WeaponData GetWeaponData()
