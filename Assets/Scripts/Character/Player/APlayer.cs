@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +49,10 @@ public abstract class APlayer : SCharacter
 
     protected override void HandleInputs()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Kill();
+        }
         if (Input.GetMouseButtonDown(0))
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -191,6 +195,13 @@ public abstract class APlayer : SCharacter
                 lookInputVector = moveInputVector.normalized;
                 break;
         }
+    }
+    
+    public override void Kill()
+    {
+        base.Kill();
+        // Snake? Snaaaaaaaaaaaaaaaaaaaaaaaaaaake!
+        GameManager.PlayerDeath?.Invoke(this);
     }
 }
 
