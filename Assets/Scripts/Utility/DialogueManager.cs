@@ -41,8 +41,11 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true);
         spriteAnimator = currentEvent.Animator;
         spriteAnimator.Start();
-        audioSource.clip = currentEvent.Clip;
-        audioSource.Play(0);
+        if (audioSource)
+        {
+            audioSource.clip = currentEvent.Clip;
+            audioSource.Play(0);
+        }
         for (int i = 0; i < currentEvent.Dialogue.Count; i++)
         {
             yield return StartCoroutine(TypeDialogue(currentEvent.Dialogue[i]));

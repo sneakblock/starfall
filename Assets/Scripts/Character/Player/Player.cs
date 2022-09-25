@@ -8,13 +8,15 @@ using KinematicCharacterController;
 using UnityEngine.Events;
 using Rewired;
 
+//DEPRECATE ASAP
+
 public class Player : MonoBehaviour
 {
             public ExampleCharacterCamera orbitCamera;
             public Transform cameraFollowPoint;
             
-            [SerializeField]
-            private SCharacterController _sCharacter;
+            // [SerializeField]
+            // private SCharacterController _sCharacter;
             
             [Header("Player Firing Behavior")]
             public LayerMask playerFiringLayerMask;
@@ -40,16 +42,16 @@ public class Player : MonoBehaviour
             //TODO: FIX THIS TRASH
             public Animator anim;
 
-            public SCharacterController GetCharacter()
-            {
-                return _sCharacter;
-            }
+            // public SCharacterController GetCharacter()
+            // {
+            //     return _sCharacter;
+            // }
 
-            public void SetCharacter(SCharacterController c)
-            {
-                _sCharacter = c;
-                anim = c.GetComponentInChildren<Animator>();
-            }
+            // public void SetCharacter(SCharacterController c)
+            // {
+            //     _sCharacter = c;
+            //     anim = c.GetComponentInChildren<Animator>();
+            // }
 
             private void Start()
             {
@@ -61,13 +63,13 @@ public class Player : MonoBehaviour
                 onPlayerAimUp.AddListener(ToggleZoom);
                 
                 //Assign whatever character we have the label and layer of player, and all children of that character.
-                var o = _sCharacter.gameObject;
-                foreach (Transform t in o.GetComponentsInChildren<Transform>())
-                {
-                    var gameObject1 = t.gameObject;
-                    gameObject1.layer = 6;
-                    gameObject1.tag = "Player";
-                }
+                // var o = _sCharacter.gameObject;
+                // foreach (Transform t in o.GetComponentsInChildren<Transform>())
+                // {
+                //     var gameObject1 = t.gameObject;
+                //     gameObject1.layer = 6;
+                //     gameObject1.tag = "Player";
+                // }
                 
                 //Lock the cursor
                 Cursor.lockState = CursorLockMode.Locked;
@@ -76,7 +78,7 @@ public class Player : MonoBehaviour
                 orbitCamera.SetFollowTransform(cameraFollowPoint);
     
                 // Ignore the character's collider(s) for camera obstruction checks
-                orbitCamera.IgnoredColliders = _sCharacter.GetComponentsInChildren<Collider>().ToList();
+                // orbitCamera.IgnoredColliders = _sCharacter.GetComponentsInChildren<Collider>().ToList();
 
                 player = ReInput.players.GetPlayer(playerID);
             }
@@ -157,6 +159,6 @@ public class Player : MonoBehaviour
                 }
                 
                 // Apply inputs to character
-                _sCharacter.SetInputs(ref characterInputs);
+                // _sCharacter.SetInputs(ref characterInputs);
             }
 }
