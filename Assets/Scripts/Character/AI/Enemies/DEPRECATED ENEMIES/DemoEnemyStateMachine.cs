@@ -26,14 +26,14 @@ public class DemoEnemyStateMachine : MonoBehaviour
     public struct DemoEnemyFsmData
     {
         public DemoEnemyStateMachine demoFsm { get; private set; }
-        public  Player player { get; private set; }
+        // public  Player player { get; private set; }
         public AIController controller { get; private set; }
 
         public DemoEnemyFsmData(DemoEnemyStateMachine demoFsm, AIController controller)
         {
             this.demoFsm = demoFsm;
             this.controller = controller;
-            this.player = GameManager.Instance.GetPlayer();
+            // this.player = GameManager.Instance.GetPlayer();
         }
     }
     
@@ -54,7 +54,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         protected IFiniteStateMachine<DemoEnemyFsmData> ParentFsm;
         protected DemoEnemyStateMachine DemoFsm;
         protected AIController Controller;
-        protected Player Player;
+        // protected Player Player;
         protected LayerMask LayerMask = LayerMask.GetMask("Walkable");
         
         //Init is called by the parent state machine, and sets up the states, their transitions, etc.
@@ -64,13 +64,13 @@ public class DemoEnemyStateMachine : MonoBehaviour
             ParentFsm = parentFsm;
             DemoFsm = demoFsmData.demoFsm;
             Controller = demoFsmData.controller;
-            Player = demoFsmData.player;
+            // Player = demoFsmData.player;
         }
         
         //Methods that all states have access to go here.
         public bool IsWithinRangeOfPlayer(Vector3 loc, float range)
         {
-            return (Player.GetCharacter().transform.position - loc).magnitude <= range;
+            return (GameManager.Instance.aPlayer.transform.position - loc).magnitude <= range;
         }
         
         public Vector3 CalculateRandomPosInPrefRange(float min, float max, Vector3 target)
@@ -139,12 +139,12 @@ public class DemoEnemyStateMachine : MonoBehaviour
     {
         public override string Name => IdleStateName;
 
-        private DeferredStateTransition<DemoEnemyFsmData, SCharacterController> _goToChaseStateTransition;
+        private DeferredStateTransition<DemoEnemyFsmData, SCharacter> _goToChaseStateTransition;
 
         public override void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm, DemoEnemyFsmData demoFsmData)
         {
             base.Init(parentFsm, demoFsmData);
-            _goToChaseStateTransition = parentFsm.CreateStateTransition<SCharacterController>(ChaseStateName, null);
+            _goToChaseStateTransition = parentFsm.CreateStateTransition<SCharacter>(ChaseStateName, null);
         }
 
         public override void Enter()
@@ -161,7 +161,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         public override DeferredStateTransitionBase<DemoEnemyFsmData> Update()
         {
             //Announce return variable
-            DeferredStateTransition<DemoEnemyFsmData, SCharacterController> ret = null;
+            DeferredStateTransition<DemoEnemyFsmData, SCharacter> ret = null;
 
             var inputs = Controller.InitInputs();
             Controller.AssignInputsToCharacter(inputs);
@@ -169,7 +169,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
             //TODO: Give this the capability to transition to the retreat state as well, if the player is already too close for comfort.
             if (!IsWithinRangeOfPlayer(Controller.character.transform.position, Controller.enemyData.maxEngagementRange))
             {
-                _goToChaseStateTransition.Arg0 = Player.GetCharacter();
+                _goToChaseStateTransition.Arg0 = GameManager.Instance.aPlayer;
                 ret = _goToChaseStateTransition;
             }
 
@@ -177,11 +177,11 @@ public class DemoEnemyStateMachine : MonoBehaviour
         }
     }
 
-    class ChaseState : DemoEnemyState<SCharacterController>
+    class ChaseState : DemoEnemyState<SCharacter>
     {
         public override string Name => ChaseStateName;
 
-        private SCharacterController _characterToChase;
+        private SCharacter _characterToChase;
         private DeferredStateTransition<DemoEnemyFsmData> _goToIdleStateTransition;
         private DeferredStateTransition<DemoEnemyFsmData> _goToStayStillAndFireStateTransition;
         private Vector3 _walkToLocation;
@@ -193,7 +193,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
             _goToStayStillAndFireStateTransition = parentFsm.CreateStateTransition(StayStillAndFireStateName);
         }
 
-        public override void Enter(SCharacterController s)
+        public override void Enter(SCharacter s)
         {
             base.Enter(s);
             _characterToChase = s;
@@ -254,8 +254,8 @@ public class DemoEnemyStateMachine : MonoBehaviour
     {
         public override string Name => StayStillAndFireStateName;
 
-        private SCharacterController _targetCharacter;
-        private DeferredStateTransition<DemoEnemyFsmData, SCharacterController> _goToChaseStateTransition;
+        private SCharacter _targetCharacter;
+        private DeferredStateTransition<DemoEnemyFsmData, SCharacter> _goToChaseStateTransition;
         private DeferredStateTransition<DemoEnemyFsmData> _goToIdleStateTransition;
         private float _initialTimeStamp;
         private float _numSecondsToStayInState;
@@ -263,7 +263,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         public override void Init(IFiniteStateMachine<DemoEnemyFsmData> parentFsm, DemoEnemyFsmData demoFsmData)
         {
             base.Init(parentFsm, demoFsmData);
-            _goToChaseStateTransition = parentFsm.CreateStateTransition<SCharacterController>(ChaseStateName, null);
+            _goToChaseStateTransition = parentFsm.CreateStateTransition<SCharacter>(ChaseStateName, null);
             _goToIdleStateTransition = parentFsm.CreateStateTransition(IdleStateName);
         }
 
@@ -271,7 +271,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
         {
             base.Enter();
             Controller.StopGoing();
-            _targetCharacter = Player.GetCharacter();
+            _targetCharacter = GameManager.Instance.aPlayer;
             Controller.SetLookAtCharacter(_targetCharacter);
             _numSecondsToStayInState = Random.Range(.5f, 5f);
             _initialTimeStamp = Time.time;
@@ -296,7 +296,7 @@ public class DemoEnemyStateMachine : MonoBehaviour
 
             if (Time.time > _initialTimeStamp + _numSecondsToStayInState)
             {
-                _goToChaseStateTransition.Arg0 = Player.GetCharacter();
+                _goToChaseStateTransition.Arg0 = GameManager.Instance.aPlayer;
                 ret = _goToChaseStateTransition;
                 // ret = _goToIdleStateTransition;
             }

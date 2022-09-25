@@ -1,54 +1,50 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KinematicCharacterController.Examples;
 using KinematicCharacterController;
+using Rewired;
 using UnityEngine.Events;
 
 
 public abstract class APlayer : SCharacter
 {
     [Header("Orbit Camera")]  public ExampleCharacterCamera orbitCamera;
-
-    [Header("Firing Logic")] public LayerMask playerFiringLayerMask;
-
-    public UnityEvent onPlayerAimDown = new UnityEvent();
-    public UnityEvent onPlayerAimUp = new UnityEvent();
-    public UnityEvent onPlayerFire = new UnityEvent();
-    public UnityEvent onPlayerReloadStart = new UnityEvent();
-    public UnityEvent onPlayerReloadComplete = new UnityEvent();
+    
+    [SerializeField]
+    [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
+    private float secondsToLockShootingOrientation = 1f;
 
     protected const string HorizontalInput = "Horizontal";
     protected const string VerticalInput = "Vertical";
     private bool _oldAim = false;
-    private bool _oldFire = false;
 
     // Camera exists for APlayer and not SCharacter because Enemy is an
     // SCharacter and they do not deserve a camera.
     protected Camera cam;
+    
+    //Rewired input system
+    protected const int PlayerID = 0;
+    protected Rewired.Player RewiredPlayer;
 
     private int _zoom = 1;
-
-
+    
     protected override void StartCharacter()
     {
+        if (!orbitCamera) orbitCamera = GameObject.FindWithTag("MainCamera").GetComponent<ExampleCharacterCamera>();
+        
         cam = orbitCamera.Camera;
-
         orbitCamera.SetFollowTransform(base.orbitPoint);
-
-        //Subscribe ToggleZoom to the OnPlayerAimDown event
-        onPlayerAimDown.AddListener(ToggleZoom);
-        onPlayerAimUp.AddListener(ToggleZoom);
 
         //Lock the cursor
         Cursor.lockState = CursorLockMode.Locked;
-        
 
         // Ignore the character's collider(s) for camera obstruction checks
         orbitCamera.IgnoredColliders = base.GetComponentsInChildren<Collider>().ToList();
 
+        RewiredPlayer = ReInput.players.GetPlayer(PlayerID);
 
         StartPlayer();
     }
@@ -60,6 +56,11 @@ public abstract class APlayer : SCharacter
 
     protected override void HandleInputs()
     {
+        //TODO: Old input system used here. Update to Rewired.
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Kill();
+        }
         if (Input.GetMouseButtonDown(0))
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -76,8 +77,8 @@ public abstract class APlayer : SCharacter
 
         SetOrientation(cameraPlanarDirection);
 
-        float moveAxisForward = Input.GetAxisRaw(VerticalInput);
-        float moveAxisRight = Input.GetAxisRaw(HorizontalInput);
+        float moveAxisForward = RewiredPlayer.GetAxisRaw("MoveForward");
+        float moveAxisRight = RewiredPlayer.GetAxisRaw("MoveRight");
 
         //Just sets the desired move vector, received from Player, and clamps it's magnitude to not exceed 1.
         Vector3 inputVector = Vector3.ClampMagnitude(new Vector3(moveAxisRight, 0f, moveAxisForward), 1f);
@@ -85,16 +86,17 @@ public abstract class APlayer : SCharacter
         //Sets this local character's move and look inputs to what we've found.
         base.moveInputVector = cameraPlanarRotation * inputVector;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (RewiredPlayer.GetButtonDown("Jump"))
         {
             timeSinceJumpRequested = 0f;
             jumpRequested = true;
         }
 
+        //TODO(ben): Not sure if this is the best way to handle this-- target needs to be set on the SCharacter level because AI agents also have ideal target points. But calculating the center screen point every frame seems a bit silly and/or goofy. (It's only like this right now because moving the Unity window mid-play will break the "center" of the screen.)
         //Update the screen center point
         var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = cam.ScreenPointToRay(screenCenterPoint);
-        bool rayhit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, playerFiringLayerMask);
+        bool rayhit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask);
         var targetPoint =  rayhit ? hit.point : ray.GetPoint(1000f);
 
         base.target = targetPoint;
@@ -109,7 +111,40 @@ public abstract class APlayer : SCharacter
 
     protected abstract void HandlePlayerInputs();
     protected abstract void StartPlayer();
-    protected abstract void UpdatePlayer();
+
+    protected virtual void UpdatePlayer()
+    {
+        
+    }
+
+    protected override void AimDown()
+    {
+        base.AimDown();
+        orientationMethod = OrientationMethod.TowardsCamera;
+    }
+
+    protected override void AimUp()
+    {
+        base.AimUp();
+        orientationMethod = OrientationMethod.TowardsMovement;
+    }
+
+    protected override void RequestFirePrimary()
+    {
+        base.RequestFirePrimary();
+        if (!_weapon.GetReloading())
+        {
+            //TODO(ben): Right now this works fine, but it's running a lot of coroutines in the background. Can probably clean this up with a simpler Time.time approach.
+            StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
+        }
+    }
+
+    private IEnumerator OrientationTimer(float duration)
+    {
+        orientationMethod = OrientationMethod.TowardsCamera;
+        yield return new WaitForSeconds(duration);
+        if (!isAiming && Time.time - _weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
+    }
 
     private void ToggleZoom()
     {
@@ -124,8 +159,8 @@ public abstract class APlayer : SCharacter
     private void HandleCameraInput()
     {
         // Create the look input vector for the camera
-        float mouseLookAxisUp = Input.GetAxisRaw("Mouse Y");
-        float mouseLookAxisRight = Input.GetAxisRaw("Mouse X");
+        float mouseLookAxisUp = RewiredPlayer.GetAxisRaw("LookUp");
+        float mouseLookAxisRight = RewiredPlayer.GetAxisRaw("LookRight");
         Vector3 lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
 
         // Prevent moving the camera while the cursor isn't locked
@@ -140,28 +175,26 @@ public abstract class APlayer : SCharacter
 
     private void HandleFiringInputs()
     {
-        base.isAiming = Input.GetMouseButton(1);
-        base.isFiring = Input.GetMouseButton(0);
-        base.reloadedThisFrame = Input.GetKeyDown(KeyCode.R);
+        base.isAiming = RewiredPlayer.GetButton("Aim");
+        base.isFiring = RewiredPlayer.GetButton("Fire");
+        base.reloadedThisFrame = RewiredPlayer.GetButtonDown("Reload");
 
         if (base.isAiming && !_oldAim)
         {
-            onPlayerAimDown.Invoke();
+            ToggleZoom();
         }
         if (!base.isAiming && _oldAim)
         {
-            onPlayerAimUp.Invoke();
+            ToggleZoom();
         }
 
         _oldAim = base.isAiming;
-        _oldFire = base.isFiring;
     }
 
     private void SetOrientation(Vector3 cameraPlanarDirection)
     {
         // Allows setting if the player should look in the direction of the
         // camera, e.g aiming, or in the direction of movement for navigation.
-
         switch (orientationMethod)
         {
             case OrientationMethod.TowardsCamera:
@@ -171,6 +204,13 @@ public abstract class APlayer : SCharacter
                 lookInputVector = moveInputVector.normalized;
                 break;
         }
+    }
+    
+    public override void Kill()
+    {
+        base.Kill();
+        // Snake? Snaaaaaaaaaaaaaaaaaaaaaaaaaaake!
+        GameManager.PlayerDeath?.Invoke(this);
     }
 }
 

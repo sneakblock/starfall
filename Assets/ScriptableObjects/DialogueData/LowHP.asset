@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df186da5b298439429b35c52c7dbbcd8, type: 3}
+  m_Name: LowHP
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 497851435, guid: 10ed3462721717a4b94c5da2fda16455, type: 3}
+  - {fileID: -83161097, guid: 10ed3462721717a4b94c5da2fda16455, type: 3}
+  - {fileID: 1088470707, guid: 10ed3462721717a4b94c5da2fda16455, type: 3}
+  - {fileID: 2016939427, guid: 10ed3462721717a4b94c5da2fda16455, type: 3}
+  - {fileID: 13356462, guid: 10ed3462721717a4b94c5da2fda16455, type: 3}
+  - {fileID: -844457810, guid: 10ed3462721717a4b94c5da2fda16455, type: 3}
+  - {fileID: 873281419, guid: 10ed3462721717a4b94c5da2fda16455, type: 3}
+  dialogue:
+  - Your health is super low.
+  - You should run away.
+  - You are going to die.
+  clip: {fileID: 8300000, guid: ce8d7d60c5bb1c14abb4e772ddfd74fa, type: 3}

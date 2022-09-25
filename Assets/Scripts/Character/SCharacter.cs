@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController;
 using UnityEngine;
@@ -35,14 +35,12 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
     public float jumpPreGroundingGraceTime = 0f;
     public float jumpPostGroundingGraceTime = 0f;
 
-    [Header("Weapons")][SerializeField] private RangedWeapon _weapon;
-    [Range(0, 1)] public float aimingMovementPenalty;
-    [SerializeField]
-    [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
-    private float secondsToLockShootingOrientation;
+    [Header("Weapons")][SerializeField] protected RangedWeapon _weapon;
+    [Range(0, 1)] public float aimingMovementPenalty = .75f;
 
     [Header("Misc")]
     public List<Collider> ignoredColliders = new List<Collider>();
+    public LayerMask layerMask;
     public Vector3 gravity = new Vector3(0, -30f, 0);
 
     // TODO(tbd): Moving and jumping should be moved to some struct.
@@ -77,6 +75,14 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
         //TODO(mish): describe what this does
         motor.CharacterController = this;
         _maxHealth = health;
+        
+        //If the weapon was not set in editor, the SCharacter will attempt to find a weapon in its children.
+        //This is more or less a quality of life functionality, allowing quicker weapon swaps without needing to always wire things up
+        //in the editor. However, if a weapon is assigned in editor, this will not execute. 
+        if (!_weapon)
+        {
+            _weapon = GetComponentInChildren<RangedWeapon>(false);
+        }
         StartCharacter();
     }
 
@@ -85,7 +91,7 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
         HandleInputs();
         UpdateCharacter();
         UpdateAbility();
-        UpdateWeapon();
+        if (_weapon) UpdateWeapon();
 	}
 
     protected abstract void HandleInputs();
@@ -121,17 +127,13 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
         //Aim down: First time aiming
         if (isAiming && !wasAimingLastFrame)
         {
-            orientationMethod = OrientationMethod.TowardsCamera;
-            maxStableMoveSpeed *= aimingMovementPenalty;
-            _weapon.SetAiming(true);
+            AimDown();
         }
 
         //Aim up: Stopped aiming
         if (!isAiming && wasAimingLastFrame)
         {
-            orientationMethod = OrientationMethod.TowardsMovement;
-            maxStableMoveSpeed /= aimingMovementPenalty;
-            _weapon.SetAiming(false);
+            AimUp();
         }
 
         if (isFiring)
@@ -147,22 +149,22 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
         wasAimingLastFrame = isAiming;
         _wasFiringLastFrame = isFiring;
     }
-   
-    public void RequestFirePrimary()
+
+    protected virtual void AimDown()
     {
-        //Waiting to lock in target
-        //if (!_weapon.GetReloading())
-        //{
-        //    StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
-        //}
-        //_weapon.RequestFire(_target, _wasFiringLastFrame);
+        maxStableMoveSpeed *= aimingMovementPenalty;
+        _weapon.SetAiming(true);
     }
 
-    IEnumerator OrientationTimer(float duration)
+    protected virtual void AimUp()
     {
-        orientationMethod = OrientationMethod.TowardsCamera;
-        yield return new WaitForSeconds(duration);
-        if (!isAiming && Time.time - _weapon.GetTimeLastFired() >= duration - .1f) orientationMethod = OrientationMethod.TowardsMovement;
+        maxStableMoveSpeed /= aimingMovementPenalty;
+        _weapon.SetAiming(false);
+    }
+   
+    protected virtual void RequestFirePrimary()
+    {
+        _weapon.RequestFire(target, _wasFiringLastFrame);
     }
 
     public void Damage(int damage)
@@ -181,7 +183,7 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
         if (health > _maxHealth) health = _maxHealth;
     }
 
-	public void Kill()
+	public virtual void Kill()
     {
         var rb = gameObject.AddComponent<Rigidbody>();
         rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);

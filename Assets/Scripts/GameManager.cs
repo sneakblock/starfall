@@ -1,40 +1,27 @@
+using System;
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController.Examples;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    
+
     public static GameManager Instance { get; private set; }
 
-    // TODO: (ben) Fully depricate player data
-    [Header("Player Data")] public PlayerData playerData;
-
-    [Header("Initial Player")] public Kuze kuze;
-
-    [Header("Spawn Point")] public Transform spawnPoint;
-    
-    private Player _player;
-    private GameObject _playerCharacterGameObject;
-    private GameObject _playerCameraGameObject;
-
+    [Header("Player Character")] public APlayer aPlayer;
+    public RangedWeapon playerWeapon { get; private set; }
 
     // TODO(mish): have SCharacter main player and set up a function to switch
     // between different players
     private SCharacter _currentPlayer;
     //private Kuze _kuze;
-
-
-    //UI
-    private Crosshair _crosshair;
-    private AmmoCounter _ammoCounter;
-    private ReloadBar _reloadBar;
-
-    public Player GetPlayer()
-    {
-        return _player;
-    }
+    
+    // TODO(cameron): use more specific types if desired
+    public static Action<APlayer> PlayerDeath;
+    public static Action<GameObject> EnemyDeath;
 
     private void Awake()
     {
@@ -47,67 +34,36 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        //Set up UI references
-        var crosshair = GameObject.FindObjectOfType<Crosshair>();
-        var ammoCounter = GameObject.FindObjectOfType<AmmoCounter>();
-        var reloadBar = GameObject.FindObjectOfType<ReloadBar>();
-        if (crosshair != null && ammoCounter != null && reloadBar != null)
-        {
-            _crosshair = crosshair;
-            _ammoCounter = ammoCounter;
-            _reloadBar = reloadBar;
-        }
-        else
-        {
-            Debug.LogWarning("Something went wrong in GameManager's UI setup! One of more UI components were not found.");
-        }
-
-        //TODO: (ben) Make this safe w/o a spawn point
-        //var position = spawnPoint != null ? spawnPoint.position : transform.position;
-        //_playerCharacterGameObject = Instantiate(playerData.playerCharacter, position, Quaternion.identity);
-        //_playerCameraGameObject = Instantiate(playerData.camera,
-        //    position - (spawnPoint.forward *
-        //                playerData.camera.GetComponent<ExampleCharacterCamera>().DefaultDistance),
-        //    Quaternion.identity);
-
-        //Set up Player
-        //_player = gameObject.AddComponent<Player>();
-        //var c = _playerCharacterGameObject.GetComponent<SCharacterController>();
-        //var cam = _playerCameraGameObject.GetComponent<ExampleCharacterCamera>();
-        //var orbitPoint = c.orbitPoint;
-        //if (c != null && cam != null)
-        //{
-        //    _player.SetCharacter(c);
-        //    _player.orbitCamera = cam;
-        //    _player.cameraFollowPoint = orbitPoint;
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("Something went wrong in GameManager's Player setup! One or more essential player components are not properly configured.");
-        //}
-        //_player.playerFiringLayerMask = playerData.playerFiringLayerMask;
-
-        //Set up event listeners
-        //_player.onPlayerReloadStart.AddListener(_reloadBar.AnimateReloadBar);
-        //_player.onPlayerReloadComplete.AddListener(_ammoCounter.UpdateAmmoCounter);
-        //_player.onPlayerFire.AddListener(_ammoCounter.UpdateAmmoCounter);
-
-
-        //kuze.orbitCamera = cam;
-
-        //kuze.playerFiringLayerMask = playerData.playerFiringLayerMask;
-
-        ////Set up event listeners
-        kuze.onPlayerReloadStart.AddListener(_reloadBar.AnimateReloadBar);
-        kuze.onPlayerReloadComplete.AddListener(_ammoCounter.UpdateAmmoCounter);
-        kuze.onPlayerFire.AddListener(_ammoCounter.UpdateAmmoCounter);
-
+        
+        if (!aPlayer) TryFindAPlayer();
+        
+        PlayerDeath += OnPlayerDeath;
+        EnemyDeath += OnEnemyDeath;
     }
 
-    private void Start()
+    void TryFindAPlayer()
     {
-        
+        aPlayer = GameObject.FindWithTag("Player").GetComponent<APlayer>();
     }
     
+    private void OnPlayerDeath(APlayer player)
+    {
+        Debug.Log("GAME OVER YEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAH");
+        // Do whatever cleanup
+        PlayerDeath -= OnPlayerDeath;
+        EnemyDeath -= OnEnemyDeath;
+        Invoke("LoadCharacterSelectScene", 3.0f);
+    }
+    
+    private void OnEnemyDeath(GameObject enemy)
+    {
+        Debug.Log("bitchass mofo dead");
+        Destroy(enemy);
+    }
+
+    private void LoadCharacterSelectScene()
+    {
+        //Replace the Testing scene with the name of the character select scene
+        SceneManager.LoadScene("ElizabethTesting", LoadSceneMode.Single);
+    }
 }
