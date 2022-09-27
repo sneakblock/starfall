@@ -10,11 +10,16 @@ public class Kuze : APlayer
     // loader.
     public Animator anim;
 
+    private MoveFastAbility _moveFastAbility;
+
     protected override void StartPlayer()
     {
         // TODO(ben): Will this be player specific or general for all the
         // players?
         anim = base.GetComponentInChildren<Animator>();
+
+        // Giving a new ability to kuze
+        base.RegisterAbility(_moveFastAbility = new MoveFastAbility(this));
     }
 
     protected override void UpdatePlayer()
@@ -29,7 +34,10 @@ public class Kuze : APlayer
     {
         HandleAnimationInputs();
 
-        //Implement other Kuze specific inputs here        
+        // Implement other Kuze specific inputs here
+
+        // If you press a specific key, call this function to toggle the ability
+        // _moveFastAbility.Toggle();
     }
 
     // Other players could have different animations.
