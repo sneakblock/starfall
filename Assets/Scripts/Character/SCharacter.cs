@@ -9,8 +9,6 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public KinematicCharacterMotor motor;
     
     public AbilityManager abilityManager;
-
-    [Header("Camera Info")] public Transform orbitPoint;
     
     [Header("Health")][SerializeField] private int health = 100;
     private int _maxHealth;
