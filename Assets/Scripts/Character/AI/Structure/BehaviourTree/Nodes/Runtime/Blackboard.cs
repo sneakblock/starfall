@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace TheKiwiCoder {
 
@@ -9,6 +10,11 @@ namespace TheKiwiCoder {
     // Add other properties here that make sense for your specific use case.
     [System.Serializable]
     public class Blackboard {
+
+        //Location storage
         public Vector3 moveToPosition;
+        public Vector3 lastKnownPlayerLocation;
+        public Vector3 lookAtPoint;
+
     }
 }

@@ -7,12 +7,12 @@ using UnityEngine.Events;
 public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterController
 {
     public KinematicCharacterMotor motor;
-
+    
     public AbilityManager abilityManager;
 
     [Header("Camera Info")] public Transform orbitPoint;
-
-    [Header("Health")][SerializeField] private int health;
+    
+    [Header("Health")][SerializeField] private int health = 100;
     private int _maxHealth;
 
     //TODO(mish): make these private vars
@@ -21,7 +21,6 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public float stableMovementSharpness = 15f;
     [Tooltip("The speed of the interpolation between the desired look direction and the character's current forward orientation.")]
     public float orientationSharpness = 10f;
-    public OrientationMethod orientationMethod = OrientationMethod.TowardsMovement;
 
     [Header("Air Movement")]
     public float maxAirMoveSpeed = 15f;
@@ -45,7 +44,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public LayerMask layerMask;
     public Vector3 gravity = new Vector3(0, -30f, 0);
 
-    // TODO(tbd): Moving and jumping should be moved to some struct.
+
     //Moving and jumping
     protected Vector3 moveInputVector;
     protected Vector3 lookInputVector;
@@ -56,7 +55,6 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
 
-    // TODO(tbd): Firing stuff HAS to be moved to some struct.
     //Firing stuff
     protected bool isAiming;
     protected bool isFiring;
@@ -66,11 +64,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected Vector3 target;
     protected bool reloadedThisFrame;
 
-    public enum OrientationMethod
-    {
-        TowardsCamera,
-        TowardsMovement,
-    }
+    
 
     void Start()
 	{
@@ -102,11 +96,30 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
         if (_weapon) UpdateWeapon();
 	}
-
+    
     // NEW: subclasses (players or... enemies...) should call this function to pair an ability to a player
     protected void RegisterAbility(Ability ability)
     {
         abilityManager.Register(ability);
+    }
+
+    /// <summary>
+    /// Movement and firing logic fires according to local variables set in the class, like moveVector, isFiring, and so on.
+    /// It is important, however, that the SCharacter also accept an SCharacterInputs struct to set these variables. This, ideally, should allow for inputs to be overwritten by later logic-- e.g an ability which nulls out a desired moveVector and replaces it with a fixed one.
+    /// Also, for the AI, building a single struct and assigning it to the character at the end of the loop makes more sense than having nodes individually setting these variables.
+    /// </summary>
+    /// <param name="inputs">
+    /// The SCharacter inputs which will subsequently be assigned to the SCharacter's local variables.
+    /// </param>
+    //TODO: Should the rest of the SCharacter logic reference a struct alone, circumventing the need to "copy" the struct into local variables? Will that work?
+    public void AssignInputs(ref SCharacterInputs inputs)
+    {
+        moveInputVector = inputs.MoveVector;
+        lookInputVector = inputs.LookVector;
+        target = inputs.Target;
+        jumpRequested = inputs.Jump;
+        isAiming = inputs.Aim;
+        isFiring = inputs.Fire;
     }
 
     protected abstract void HandleInputs();

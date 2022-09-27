@@ -11,7 +11,11 @@ using UnityEngine.Events;
 
 public abstract class APlayer : SCharacter
 {
+    [Header("Camera Info")] public Transform orbitPoint;
+    
     [Header("Orbit Camera")]  public ExampleCharacterCamera orbitCamera;
+    
+    public OrientationMethod orientationMethod = OrientationMethod.TowardsMovement;
     
     [SerializeField]
     [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
@@ -31,12 +35,18 @@ public abstract class APlayer : SCharacter
 
     private int _zoom = 1;
     
+    public enum OrientationMethod
+    {
+        TowardsCamera,
+        TowardsMovement,
+    }
+    
     protected override void StartCharacter()
     {
         if (!orbitCamera) orbitCamera = GameObject.FindWithTag("MainCamera").GetComponent<ExampleCharacterCamera>();
         
         cam = orbitCamera.Camera;
-        orbitCamera.SetFollowTransform(base.orbitPoint);
+        orbitCamera.SetFollowTransform(orbitPoint);
 
         //Lock the cursor
         Cursor.lockState = CursorLockMode.Locked;

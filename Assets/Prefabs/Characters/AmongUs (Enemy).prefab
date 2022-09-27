@@ -387,9 +387,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1768362842341019646}
   - component: {fileID: 1768362842341019641}
+  - component: {fileID: 4749216460063770973}
+  - component: {fileID: 4554078474999039036}
   - component: {fileID: 1768362842341019640}
-  - component: {fileID: -3105059073624174259}
-  - component: {fileID: -3202075193177240163}
   m_Layer: 0
   m_Name: AmongUs (Enemy)
   m_TagString: Untagged
@@ -428,6 +428,52 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4749216460063770973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768362842341019642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96ffc258edcaefd409bd0633ece05485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  motor: {fileID: 1768362842341019640}
+  health: 100
+  maxStableMoveSpeed: 10
+  stableMovementSharpness: 15
+  orientationSharpness: 10
+  maxAirMoveSpeed: 15
+  airAccelerationSpeed: 15
+  drag: 0.1
+  allowJumpingWhenSliding: 1
+  canDoubleJump: 0
+  jumpUpSpeed: 10
+  jumpScalableForwardSpeed: 10
+  jumpPreGroundingGraceTime: 0
+  jumpPostGroundingGraceTime: 0
+  _weapon: {fileID: 0}
+  aimingMovementPenalty: 0.75
+  ignoredColliders: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  gravity: {x: 0, y: -30, z: 0}
+--- !u!114 &4554078474999039036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768362842341019642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c6f9b140a52a14881ec09eaebb66eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tree: {fileID: 11400000, guid: b90e94f3b43da6b47aa3e8fd1f555a30, type: 2}
 --- !u!114 &1768362842341019640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,34 +516,6 @@ MonoBehaviour:
   CheckMovementInitialOverlaps: 1
   KillVelocityWhenExceedMaxMovementIterations: 1
   KillRemainingMovementWhenExceedMaxMovementIterations: 1
---- !u!114 &-3105059073624174259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768362842341019642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f7af5ea824adf04591313fc3560d740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: -3202075193177240163}
---- !u!114 &-3202075193177240163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768362842341019642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 998985c6e3780a44f8cecd6169b0d7b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 0}
-  enemyData: {fileID: 11400000, guid: 9624f8a2a61bbe74e86780aeb0619706, type: 2}
-  _lookAtBehavior: 0
 --- !u!1 &2116265223185688165
 GameObject:
   m_ObjectHideFlags: 0
