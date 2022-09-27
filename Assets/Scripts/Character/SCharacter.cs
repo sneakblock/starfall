@@ -4,9 +4,11 @@ using KinematicCharacterController;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharacterController
+public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterController
 {
     public KinematicCharacterMotor motor;
+
+    public AbilityManager abilityManager;
 
     [Header("Camera Info")] public Transform orbitPoint;
 
@@ -72,7 +74,7 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
 
     void Start()
 	{
-        //TODO(mish): describe what this does
+        abilityManager = new AbilityManager();
         motor.CharacterController = this;
         _maxHealth = health;
         
@@ -83,44 +85,35 @@ public abstract class SCharacter : MonoBehaviour, IAbility, IDamageable, ICharac
         {
             _weapon = GetComponentInChildren<RangedWeapon>(false);
         }
+
         StartCharacter();
+
+        // NEW: calls start function for every single registered ability once
+        abilityManager.Start();
     }
 
 	void Update()
 	{
         HandleInputs();
         UpdateCharacter();
-        UpdateAbility();
+
+        // NEW: calls update function for every single registered ability
+        abilityManager.Update();
+
         if (_weapon) UpdateWeapon();
 	}
+
+    // NEW: subclasses (players or... enemies...) should call this function to pair an ability to a player
+    protected void RegisterAbility(Ability ability)
+    {
+        abilityManager.Register(ability);
+    }
 
     protected abstract void HandleInputs();
 
     protected abstract void StartCharacter();
 
     protected abstract void UpdateCharacter();
-
-    //TODO: determine ability inputs and invoke main ability and secondary
-    //abilty within this function
-    public void UpdateAbility()
-    {
-    
-    }
-
-    public void InitAbility()
-    {
-
-    }
-
-    public void MainAbility()
-    {
-
-    }
-
-    public void SecondaryAbility()
-    {
-
-    }
 
     void UpdateWeapon()
     {
