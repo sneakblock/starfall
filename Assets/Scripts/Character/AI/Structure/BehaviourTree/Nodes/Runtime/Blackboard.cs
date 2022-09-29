@@ -13,8 +13,6 @@ namespace TheKiwiCoder {
 
         //Location storage
         public Vector3 moveToPosition;
-        public Vector3 lastKnownPlayerLocation;
-        public Vector3 lookAtPoint;
 
     }
 }

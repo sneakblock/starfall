@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1015281094}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: barreltrans
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1335235865}
   - component: {fileID: 1335235864}
   - component: {fileID: 1335235863}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: testgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1768362841089364347}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 1768362841477323816}
   - component: {fileID: 1768362841477323822}
   - component: {fileID: 1768362841477323817}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 1768362841669013933}
   - component: {fileID: 1768362841669013920}
   - component: {fileID: 1768362841669013923}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1768362841948066262}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: orbitPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,9 +390,9 @@ GameObject:
   - component: {fileID: 4749216460063770973}
   - component: {fileID: 4554078474999039036}
   - component: {fileID: 1768362842341019640}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AmongUs (Enemy)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motor: {fileID: 1768362842341019640}
-  health: 100
+  health: 30
   maxStableMoveSpeed: 10
   stableMovementSharpness: 15
   orientationSharpness: 10
@@ -459,8 +459,18 @@ MonoBehaviour:
   ignoredColliders: []
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65
   gravity: {x: 0, y: -30, z: 0}
+  Collider: {fileID: 0}
+  lookAtBehavior: 1
+  pathStatus: 3
+  stopDistance: 0.1
+  triggerStatus: 1
+  aimStatus: 1
+  targetChar: {fileID: 0}
+  accuracy: 0.1
+  coll: {fileID: 0}
+  debug: 1
 --- !u!114 &4554078474999039036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c6f9b140a52a14881ec09eaebb66eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tree: {fileID: 11400000, guid: b90e94f3b43da6b47aa3e8fd1f555a30, type: 2}
+  tree: {fileID: 11400000, guid: 3bda6306a9736814393ad1e63a6eabf1, type: 2}
 --- !u!114 &1768362842341019640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,7 +537,7 @@ GameObject:
   - component: {fileID: 7898075616725959981}
   - component: {fileID: 1617030067555420450}
   - component: {fileID: 6818979551986617938}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: VFXTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}

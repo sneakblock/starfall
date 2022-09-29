@@ -109,7 +109,7 @@ public abstract class APlayer : SCharacter
         bool rayhit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask);
         var targetPoint =  rayhit ? hit.point : ray.GetPoint(1000f);
 
-        base.target = targetPoint;
+        base.targetPoint = targetPoint;
 
         HandleFiringInputs();
 

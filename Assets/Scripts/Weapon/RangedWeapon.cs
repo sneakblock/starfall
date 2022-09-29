@@ -15,7 +15,7 @@ public abstract class RangedWeapon : MonoBehaviour
     protected WeaponData weaponData;
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
-    protected Transform barrelTransform;
+    public Transform barrelTransform;
 
     [SerializeField] VisualEffect _fireEffect;
 

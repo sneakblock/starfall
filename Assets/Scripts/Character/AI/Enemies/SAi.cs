@@ -8,6 +8,7 @@ public class SAi : SCharacter
 {
     protected BehaviourTreeRunner TreeRunner;
     protected BehaviourTree BehaviourTree;
+    protected SAiInputs Inputs;
 
     public LookAtBehavior lookAtBehavior = LookAtBehavior.AtPath;
 
@@ -15,9 +16,18 @@ public class SAi : SCharacter
     public PathStatus pathStatus = PathStatus.None;
     public float stopDistance = .1f;
 
-    public Collider coll;
+    public TriggerStatus triggerStatus = TriggerStatus.isUp;
+    public AimStatus aimStatus = AimStatus.isUp;
+    public SCharacter targetChar;
+    
+    //Accuracy ranges from 0 to 1, and is referenced by various firing and ability cast methods.
+    //An accuracy of 1 means every shot will hit, or will at least be fired at the perfect center/led to properly hit assuming 
+    //the same trajectory of the target entity.
+    [Range(0f, 1f)]
+    public float accuracy = 1f;
 
-    protected SCharacterInputs Inputs;
+    public Collider coll;
+    
     private int _currCornersIndex = 0;
 
     [Header("Debug")] public bool debug = false;
@@ -25,7 +35,7 @@ public class SAi : SCharacter
     public enum LookAtBehavior
     {
         AtPath,
-        AtPoint
+        AtTargetCharacter
     }
 
     public enum PathStatus
@@ -34,6 +44,18 @@ public class SAi : SCharacter
         Reached,
         Failed,
         None
+    }
+
+    public enum TriggerStatus
+    {
+        isHeld,
+        isUp
+    }
+
+    public enum AimStatus
+    {
+        isHeld,
+        isUp
     }
 
     protected override void StartCharacter()
@@ -50,15 +72,32 @@ public class SAi : SCharacter
     protected override void HandleInputs()
     {
         InitInputs();
+        if (lookAtBehavior == LookAtBehavior.AtTargetCharacter) LookAtTargetCharacter();
+        ExecuteAim();
+        if (triggerStatus == TriggerStatus.isHeld && _weapon) ExecuteFire();
         MoveAgent();
+    }
+
+    void InitInputs()
+    {
+        Inputs = new SAiInputs();
     }
 
     protected override void UpdateCharacter()
     {
-        AssignInputs(ref Inputs);
+        AssignInputs();
     }
     
-    public bool SetDestination(Vector3 destination)
+    void AssignInputs()
+    {
+        moveInputVector = Inputs.MoveVector;
+        lookInputVector = Inputs.LookVector;
+        isAiming = Inputs.Aim;
+        isFiring = Inputs.Fire;
+        jumpRequested = Inputs.Jump;
+    }
+    
+    public void SetDestination(Vector3 destination)
     {
         var valid = NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, NavMeshPath);
         if (valid)
@@ -66,12 +105,6 @@ public class SAi : SCharacter
             pathStatus = PathStatus.Pending;
             _currCornersIndex = 0;
         }
-        return valid;
-    }
-
-    private void InitInputs()
-    {
-        Inputs = new SCharacterInputs();
     }
 
     //TODO: Add some logic to fail or abandon a path if the agent gets stuck.
@@ -81,7 +114,7 @@ public class SAi : SCharacter
     /// </summary>
     protected virtual void MoveAgent()
     {
-        if (pathStatus != PathStatus.Pending) return;
+        if (pathStatus != PathStatus.Pending || NavMeshPath.corners.Length <= 0) return;
         //Nowhere to move!
 
         if (debug)
@@ -92,7 +125,7 @@ public class SAi : SCharacter
             }
         }
         //Draw the path for the SAi.
-
+        
         //We use a point on the collider because using the transform may result in an unreachable point at low stopDistances
         if (Vector3.Distance((coll.ClosestPoint(NavMeshPath.corners[_currCornersIndex])), NavMeshPath.corners[_currCornersIndex]) <= stopDistance)
         {
@@ -108,6 +141,69 @@ public class SAi : SCharacter
         if (lookAtBehavior == LookAtBehavior.AtPath)
             Inputs.LookVector = new Vector3(Inputs.MoveVector.x, 0, Inputs.MoveVector.z);
         //Ignores Y so the character doesn't look at the ground in a silly/goofy way.
+    }
+
+    void ExecuteAim()
+    {
+        if (aimStatus == AimStatus.isHeld) Inputs.Aim = true;
+        if (aimStatus == AimStatus.isUp) Inputs.Aim = false;
+    }
+
+   
+    void ExecuteFire()
+    {
+        //Clamp accuracy to accepted ranges.
+        if (accuracy is < 0 or > 1) Mathf.Clamp(accuracy, 0f, 1f);
+
+        //If the SAi has both a targetPoint and a targetCharacter set, use the targetCharacter.
+        var target = targetChar ? targetChar.Collider.bounds.center : targetPoint;
+        var targetVelocity = targetChar ? targetChar.motor.Velocity : Vector3.zero;
+
+        NoiseTarget(target, accuracy, targetVelocity);
+        //TODO: If using projectile weapon, should lead the target as well.
+
+        targetPoint = target;
+        Inputs.Fire = true;
+    }
+
+    //TODO: These numbers probably need significant tweaking
+    void NoiseTarget(Vector3 targetToNoise, float thisAccuracy, Vector3 targetVelocity)
+    {
+        //Reduce accuracy if target is moving
+        thisAccuracy -= StarfallUtility.Map(targetVelocity.magnitude, 0f, 40f, 0f, 1f);
+        var gaussianSpread = StarfallUtility.Map(Mathf.Abs(thisAccuracy - 1f), 0f, 1f, 0f, .3f);
+        targetToNoise.x += StarfallUtility.RandGaussian(gaussianSpread);
+        targetToNoise.y += StarfallUtility.RandGaussian(gaussianSpread);
+        targetToNoise.z += StarfallUtility.RandGaussian(gaussianSpread);
+    }
+    
+    //void LeadTarget()
+
+    void LookAtTargetCharacter()
+    {
+        if (!targetChar) return;
+        Inputs.LookVector = (targetChar.Collider.bounds.center - Collider.bounds.center).normalized;
+        Inputs.LookVector.y = 0f;
+    }
+
+    public void SetTargetCharacter(SCharacter character)
+    {
+        targetChar = character;
+    }
+
+    public SCharacter GetTargetCharacter()
+    {
+        return targetChar;
+    }
+
+    public void SetTargetPoint(Vector3 point)
+    {
+        targetPoint = point;
+    }
+
+    public Vector3 GetTargetPoint()
+    {
+        return targetPoint;
     }
 
 }
