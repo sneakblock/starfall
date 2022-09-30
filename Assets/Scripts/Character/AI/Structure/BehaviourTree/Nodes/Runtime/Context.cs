@@ -7,7 +7,7 @@ namespace TheKiwiCoder {
 
     // The context is a shared object every node has access to.
     // Commonly used components and subsytems should be stored here
-    // It will be somewhat specfic to your game exactly what to add here.
+    // It will be somewhat specific to your game exactly what to add here.
     // Feel free to extend this class 
     public class Context {
         public GameObject gameObject;
@@ -20,6 +20,7 @@ namespace TheKiwiCoder {
         public CapsuleCollider capsuleCollider;
         public CharacterController characterController;
         // Add other game specific systems here
+        public SAi SAi;
 
         public static Context CreateFromGameObject(GameObject gameObject) {
             // Fetch all commonly used components
@@ -35,6 +36,8 @@ namespace TheKiwiCoder {
             context.characterController = gameObject.GetComponent<CharacterController>();
             
             // Add whatever else you need here...
+            context.SAi = gameObject.GetComponent<SAi>();
+            
 
             return context;
         }
