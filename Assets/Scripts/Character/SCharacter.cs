@@ -49,7 +49,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected Vector3 lookInputVector;
     protected float timeSinceJumpRequested;
     protected bool jumpRequested;
-    private bool _jumpedThisFrame;
+    protected bool _jumpedThisFrame;
     private bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;

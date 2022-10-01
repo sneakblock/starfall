@@ -17,7 +17,7 @@ public abstract class RangedWeapon : MonoBehaviour
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     public Transform barrelTransform;
 
-    [SerializeField] VisualEffect _fireEffect;
+    [SerializeField] GameObject fireEffect;
 
     //The owner of the weapon
     protected SCharacter OwnerChar;
@@ -325,12 +325,26 @@ public abstract class RangedWeapon : MonoBehaviour
     }
     public void PlayFireEffect()
     {
-        _fireEffect.Play();
+        var fireEffectInstance = Instantiate(fireEffect, barrelTransform.position, barrelTransform.rotation, barrelTransform);
+        Destroy(fireEffectInstance, 4);
     }
 
     public WeaponData GetWeaponData()
     {
         return weaponData;
     }
+    
+    // GameObject GetTerrainImpactEffect(GameObject impactedGameObject)
+    // {
+    //     var materialType = impactedGameObject.GetComponent<MaterialType>();
+    //     if (materialType==null)
+    //         return null;
+    //     foreach (var impactInfo in TerrainImpactElements)
+    //     {
+    //         if (impactInfo.MaterialType==materialType.TypeOfMaterial)
+    //             return impactInfo.ImpactEffect;
+    //     }
+    //     return null;
+    // }
 
 }

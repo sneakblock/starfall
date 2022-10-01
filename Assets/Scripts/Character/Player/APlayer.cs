@@ -33,6 +33,10 @@ public abstract class APlayer : SCharacter
     protected const int PlayerID = 0;
     protected Rewired.Player RewiredPlayer;
 
+    //The input vector, clamped to 1, as read by the input system, before any transformations regarding camera/into world space.
+    //Useful for animations.
+    protected Vector3 inputVector;
+
     private int _zoom = 1;
     
     public enum OrientationMethod
@@ -91,7 +95,7 @@ public abstract class APlayer : SCharacter
         float moveAxisRight = RewiredPlayer.GetAxisRaw("MoveRight");
 
         //Just sets the desired move vector, received from Player, and clamps it's magnitude to not exceed 1.
-        Vector3 inputVector = Vector3.ClampMagnitude(new Vector3(moveAxisRight, 0f, moveAxisForward), 1f);
+        inputVector = Vector3.ClampMagnitude(new Vector3(moveAxisRight, 0f, moveAxisForward), 1f);
 
         //Sets this local character's move and look inputs to what we've found.
         base.moveInputVector = cameraPlanarRotation * inputVector;
