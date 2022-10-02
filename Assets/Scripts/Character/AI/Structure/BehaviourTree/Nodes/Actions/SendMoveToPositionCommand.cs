@@ -19,6 +19,7 @@ public class SendMoveToPositionCommand : ActionNode
     protected override State OnUpdate() {
         if (context.SAi.NavMeshPath.status == NavMeshPathStatus.PathInvalid || context.SAi.pathStatus == SAi.PathStatus.Failed)
         {
+            Debug.LogWarning("Agent's NavMeshPath failed.");
             return State.Failure;
         }
 

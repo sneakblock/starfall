@@ -11,7 +11,7 @@ public class SAi : SCharacter
     protected SAiInputs Inputs;
 
     public LookAtBehavior lookAtBehavior = LookAtBehavior.AtPath;
-
+    
     public NavMeshPath NavMeshPath;
     public PathStatus pathStatus = PathStatus.None;
     public float stopDistance = .1f;
