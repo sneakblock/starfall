@@ -3,7 +3,7 @@
 public class Ability
 {
     protected SCharacter character;
-    private bool _enabled;
+    protected bool _enabled;
 
     public Ability(SCharacter character)
     {

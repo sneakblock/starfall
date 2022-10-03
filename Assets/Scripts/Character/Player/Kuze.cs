@@ -10,7 +10,11 @@ public class Kuze : APlayer
     // loader.
     private Animator _anim;
 
+    // Sample Abilities
     private MoveFastAbility _moveFastAbility;
+    private BlinkAbility _blinkAbility;
+    private DashAbility _dashAbility;
+
     private static readonly int IsFiring = Animator.StringToHash("isFiring");
     private static readonly int VelX = Animator.StringToHash("velX");
     private static readonly int VelY = Animator.StringToHash("velY");
@@ -28,8 +32,15 @@ public class Kuze : APlayer
         // players?
         _anim = base.GetComponentInChildren<Animator>();
 
-        // Giving a new ability to kuze
+        // NEW: GIVING ABILITIES TO KUZE
         // base.RegisterAbility(_moveFastAbility = new MoveFastAbility(this));
+
+        // NEW: Blink ability where you can blink every 45 seconds. To blink, call onEnable.
+        base.RegisterAbility(_blinkAbility = new BlinkAbility(this, 45f));
+
+        // NEW: This uses the default dash cooldown and cast delay
+        base.RegisterAbility(_dashAbility = new DashAbility(this));
+
     }
 
     protected override void UpdatePlayer()
