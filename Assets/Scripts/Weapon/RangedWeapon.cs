@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,7 +18,11 @@ public abstract class RangedWeapon : MonoBehaviour
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     public Transform barrelTransform;
 
-    [SerializeField] GameObject fireEffect;
+    [SerializeField] 
+    private GameObject fireEffect;
+
+    [SerializeField]
+    private ImpactEffect[] impactEffects;
 
     //The owner of the weapon
     protected SCharacter OwnerChar;
@@ -333,18 +338,64 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         return weaponData;
     }
-    
-    // GameObject GetTerrainImpactEffect(GameObject impactedGameObject)
-    // {
-    //     var materialType = impactedGameObject.GetComponent<MaterialType>();
-    //     if (materialType==null)
-    //         return null;
-    //     foreach (var impactInfo in TerrainImpactElements)
-    //     {
-    //         if (impactInfo.MaterialType==materialType.TypeOfMaterial)
-    //             return impactInfo.ImpactEffect;
-    //     }
-    //     return null;
-    // }
+
+    protected void HandleImpactEffects(GameObject impactedObj, RaycastHit hit)
+    {
+        var impactedObjMaterialType = impactedObj.GetComponent<ImpactEffectSurface>();
+        if (impactedObjMaterialType == null) return;
+        GameObject effectObj = null;
+        foreach (var e in impactEffects)
+        {
+            if (e.SurfaceType == impactedObjMaterialType.impactSurfaceType)
+            {
+                if (e.Effects.Length == 0) return;
+                if (e.Effects.Length == 1) effectObj = e.Effects[0];
+                int randomIdx = Random.Range(0, e.Effects.Length - 1);
+                effectObj = e.Effects[randomIdx];
+            }
+        }
+
+        if (effectObj == null) return;
+        if (effectObj.GetComponent<BFX_BloodSettings>())
+        {
+            HandleBloodInstantiation(effectObj, hit);
+        }
+        else
+        {
+            HandleImpactInstantiation(effectObj, hit);
+        }
+    }
+
+    private void HandleBloodInstantiation(GameObject bloodObj, RaycastHit hit)
+    {
+        float angle = Mathf.Atan2(hit.normal.x, hit.normal.z) * Mathf.Rad2Deg + 180;
+        var bloodInstance = Instantiate(bloodObj, hit.point, Quaternion.Euler(0, angle + 90, 0));
+        var settings = bloodInstance.GetComponent<BFX_BloodSettings>();
+        if (GameManager.Instance != null && GameManager.Instance.dirLight != null)
+        {
+            settings.LightIntensityMultiplier = GameManager.Instance.dirLight.intensity;
+        }
+
+        var r = new Ray(hit.point, Vector3.down);
+        if (Physics.Raycast(r, out var groundHit, 10f, 1 << LayerMask.NameToLayer("Default")))
+        {
+            Debug.Log($"Hit found with height {groundHit.point.y} on object {groundHit.collider.gameObject.name}");
+            settings.GroundHeight = groundHit.point.y;
+        }
+        else
+        {
+            Debug.LogWarning("No hit found with ground.");
+        }
+        settings.AnimationSpeed = 2;
+        settings.FreezeDecalDisappearance = true;
+        //TODO: Handle effect fadeout at high load.
+    }
+
+    private void HandleImpactInstantiation(GameObject impactObj, RaycastHit hit)
+    {
+        var thisEffect = Instantiate(impactObj, hit.point, new Quaternion()) as GameObject;
+        thisEffect.transform.LookAt(hit.point + hit.normal);
+        //TODO: Handle the effect de-spawning after enough effects have been created.
+    }
 
 }

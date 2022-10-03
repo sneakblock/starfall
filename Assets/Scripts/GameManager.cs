@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Character")] public APlayer aPlayer;
     public RangedWeapon playerWeapon { get; private set; }
+    public Light dirLight;
 
     // TODO(mish): have SCharacter main player and set up a function to switch
     // between different players
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
         }
         
         if (!aPlayer) TryFindAPlayer();
+        if (!dirLight) dirLight = TryFindDirLight();
         
         PlayerDeath += OnPlayerDeath;
         EnemyDeath += OnEnemyDeath;
@@ -44,6 +46,16 @@ public class GameManager : MonoBehaviour
     void TryFindAPlayer()
     {
         aPlayer = GameObject.FindWithTag("Player").GetComponent<APlayer>();
+    }
+
+    Light TryFindDirLight()
+    {
+        foreach (var light in GameObject.FindObjectsOfType<Light>())
+        {
+            if (light.type == LightType.Directional) return light;
+        }
+
+        return null;
     }
     
     private void OnPlayerDeath(APlayer player)

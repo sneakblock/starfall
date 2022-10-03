@@ -16,6 +16,7 @@ public class HitscanTestWeapon : RangedWeapon
             {
                 hit.collider.gameObject.GetComponent<IDamageable>().Damage(weaponData.damage);
             }
+            HandleImpactEffects(hit.collider.gameObject, hit);
         }
         Debug.DrawRay(position, dir * 1000f, Color.red, .5f);
         PlayFireEffect();
