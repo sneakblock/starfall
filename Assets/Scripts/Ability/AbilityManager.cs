@@ -30,6 +30,14 @@ public class AbilityManager
             if (ability.IsEnabled())
             {
                 ability.Update();
+            } 
+            else
+            {
+                if (ability is ICooldown)
+                {
+                    ICooldown abilityWithCooldown = ability as ICooldown;
+                    abilityWithCooldown.DecrementCooldownTimer();
+                }
             }
         }
     }

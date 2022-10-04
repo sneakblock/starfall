@@ -1,18 +1,20 @@
 ﻿using System;
+using UnityEngine;
 
 public class AdvancedAbility : Ability, ICooldown, ICastable
 {
-    float startTime;
-    float castStart;
-    float cooldownDelay;
-    float castDelay;
+    float cooldownTime;
+
+    protected float cooldownTimer;
+    float castTime;
+
+    protected float castTimer;
 
     // Cooldown and CastDelay should both be in seconds
-    public AdvancedAbility(SCharacter character, float cooldown, float castDelay) : base(character)
+    public AdvancedAbility(SCharacter character, float cooldownTime, float castTime) : base(character)
     {
-        this.cooldownDelay = cooldown * 1000;
-        this.castDelay = castDelay * 1000;
-        this.startTime = -cooldownDelay;
+        this.cooldownTime = cooldownTime;
+        this.castTime = castTime;
     }
 
     // Happens only once every time the player activates this ability
@@ -31,10 +33,13 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
 
     public void StartCast()
     {
-        castStart = Time();
+        castTimer = castTime;
+        cooldownTimer = cooldownTime;
+        base._enabled = true;
+        OnCastStarted();
     }
 
-    public void OnUpdate()
+    public override void Update()
     {
         if (IsCasting())
         {
@@ -42,30 +47,43 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
             return;
         }
 
-        // Call the OnCast function only once and call disable afterwards.
-        OnCast();
+        // Call the OnCastEnded function only once and call disable afterwards.
+        OnCastEnded();
         // Internally calls OnDisable() 
         Disable();
     }
 
     public override void OnDisable()
     {
-        this.startTime = Time();
     }
 
     public bool IsReady()
     {
-        return Time() - startTime >= this.cooldownDelay;
+        return cooldownTimer <= 0;
     }
 
     public bool IsCasting()
     {
-        return Time() - castStart <= this.castDelay;
+        castTimer -= Time.deltaTime;
+        return castTimer > 0;
+    }
+
+    public void DecrementCooldownTimer()
+    {
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        } 
     }
 
     // Child class should override this if it wants to do something when the player
     // activates an ability, but the ability is cooling down
     public virtual void NotReadyYet()
+    {
+
+    }
+
+    public virtual void OnCastStarted()
     {
 
     }
@@ -79,14 +97,9 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
     // Child class should override this and this is where you write the actual
     // ability code
     // Gets invoked once the cooldown AND castDelay has passed
-    public virtual void OnCast()
+    public virtual void OnCastEnded()
     {
 
-    }
-
-    public float Time()
-    {
-        return DateTime.UtcNow.Millisecond;
     }
 
 }

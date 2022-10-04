@@ -17,7 +17,7 @@ public class BlinkAbility : AdvancedAbility
 
     }
 
-    public override void OnCast()
+    public override void OnCastEnded()
     {
 
     }

@@ -38,4 +38,9 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable
     {
         Destroy(gameObject);
     }
+
+    public bool IsAlive()
+    {
+        return health > 0;
+    }
 }
