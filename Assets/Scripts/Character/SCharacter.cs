@@ -41,6 +41,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public List<Collider> ignoredColliders = new List<Collider>();
     public LayerMask layerMask;
     public Vector3 gravity = new Vector3(0, -30f, 0);
+    public Collider Collider;
 
 
     //Moving and jumping
@@ -48,7 +49,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected Vector3 lookInputVector;
     protected float timeSinceJumpRequested;
     protected bool jumpRequested;
-    private bool _jumpedThisFrame;
+    protected bool _jumpedThisFrame;
     private bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
@@ -57,9 +58,9 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected bool isAiming;
     protected bool isFiring;
     protected bool wasAimingLastFrame = false;
-    private bool _wasFiringLastFrame = false;
+    protected bool _wasFiringLastFrame = false;
     private Vector3 _screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-    protected Vector3 target;
+    protected Vector3 targetPoint;
     protected bool reloadedThisFrame;
 
     
@@ -69,6 +70,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         abilityManager = new AbilityManager();
         motor.CharacterController = this;
         _maxHealth = health;
+        Collider = GetComponent<Collider>();
         
         //If the weapon was not set in editor, the SCharacter will attempt to find a weapon in its children.
         //This is more or less a quality of life functionality, allowing quicker weapon swaps without needing to always wire things up
@@ -99,25 +101,6 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected void RegisterAbility(Ability ability)
     {
         abilityManager.Register(ability);
-    }
-
-    /// <summary>
-    /// Movement and firing logic fires according to local variables set in the class, like moveVector, isFiring, and so on.
-    /// It is important, however, that the SCharacter also accept an SCharacterInputs struct to set these variables. This, ideally, should allow for inputs to be overwritten by later logic-- e.g an ability which nulls out a desired moveVector and replaces it with a fixed one.
-    /// Also, for the AI, building a single struct and assigning it to the character at the end of the loop makes more sense than having nodes individually setting these variables.
-    /// </summary>
-    /// <param name="inputs">
-    /// The SCharacter inputs which will subsequently be assigned to the SCharacter's local variables.
-    /// </param>
-    //TODO: Should the rest of the SCharacter logic reference a struct alone, circumventing the need to "copy" the struct into local variables? Will that work?
-    public void AssignInputs(ref SCharacterInputs inputs)
-    {
-        moveInputVector = inputs.MoveVector;
-        lookInputVector = inputs.LookVector;
-        target = inputs.Target;
-        jumpRequested = inputs.Jump;
-        isAiming = inputs.Aim;
-        isFiring = inputs.Fire;
     }
 
     protected abstract void HandleInputs();
@@ -168,7 +151,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
    
     protected virtual void RequestFirePrimary()
     {
-        _weapon.RequestFire(target, _wasFiringLastFrame);
+        _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
     }
 
     public void Damage(int damage)
@@ -405,6 +388,11 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
 
+    }
+
+    public RangedWeapon GetRangedWeapon()
+    {
+        return _weapon;
     }
 
 }

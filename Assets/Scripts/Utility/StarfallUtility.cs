@@ -11,5 +11,12 @@ public static class StarfallUtility
         float randNorm = Mathf.Sqrt(-2f * Mathf.Log(v0)) * Mathf.Sin(2f * Mathf.PI * v1);
         return mean + stddev * randNorm;
     }
+
+    public static float Map(float aValue, float aLow, float aHigh, float bLow, float bHigh)
+    {
+        float normal = Mathf.InverseLerp(aLow, aHigh, aValue);
+        return Mathf.Lerp(bLow, bHigh, normal);
+    }
+    
 }
 
