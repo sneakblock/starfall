@@ -10,5 +10,7 @@ public interface IDamageable
     void Heal(int healing);
 
     void Kill();
+
+    bool IsAlive();
     
 }

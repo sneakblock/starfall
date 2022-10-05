@@ -106,6 +106,17 @@ public abstract class APlayer : SCharacter
             jumpRequested = true;
         }
 
+        if (RewiredPlayer.GetButtonDown("Ability1"))
+        {
+            UseAbility1();
+        }
+
+        if (RewiredPlayer.GetButtonDown("Ability2"))
+        {
+            UseAbility2();
+        }
+
+
         //TODO(ben): Not sure if this is the best way to handle this-- target needs to be set on the SCharacter level because AI agents also have ideal target points. But calculating the center screen point every frame seems a bit silly and/or goofy. (It's only like this right now because moving the Unity window mid-play will break the "center" of the screen.)
         //Update the screen center point
         var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -127,6 +138,17 @@ public abstract class APlayer : SCharacter
     protected abstract void StartPlayer();
 
     protected virtual void UpdatePlayer()
+    {
+        
+    }
+
+    protected virtual void UseAbility1()
+    {
+        //If there's any generic stuff like updating ui or something, it can go here,
+        //as every character should call base.UseAbility1()
+    }
+
+    protected virtual void UseAbility2()
     {
         
     }
