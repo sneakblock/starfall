@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32fffa5dcadb1a549a3a334c4ff16efb, type: 3}
   m_Name: TestLevelData
   m_EditorClassIdentifier: 
-  enemyTypes:
-  - {fileID: 5018326094034803352, guid: 7510be0cadf96874dba8ca3aab50d7c5, type: 3}
-  maxAliveEnemyCount: 10
-  maxEnemyRespawns: 50
+  enemies:
+  - enemyType: {fileID: 1768362842341019642, guid: 07af59c76c2549b4c9bbe58e6608466b,
+      type: 3}
+    enemyNumRespawns: 10

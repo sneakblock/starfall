@@ -4,15 +4,19 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Level/LevelData")]
 public class LevelData : ScriptableObject
-{ 
-    [Header("Enemy Spawning")]
+{
+    [System.Serializable]
+    public struct Enemies
+    {
+        [Tooltip(
+        "An enemy type found in the level.")]
+        public GameObject enemyType;
+        [Tooltip(
+        "The max amount of times this enemy type can respawn in this level.")]
+        public int enemyNumRespawns;
+    }
+
     [Tooltip(
-        "The enemy types found in the level.")]
-    public List<GameObject> enemyTypes = new List<GameObject>();
-    [Tooltip(
-        "If the number of alive enemies falls below this threshold, enemies will respawn until this number is reached.")]
-    public int maxAliveEnemyCount;
-    [Tooltip(
-        "Enemies will stop respawning after the number of total respawns passes this threshold.")]
-    public int maxEnemyRespawns;
+        "An array of enemy types and their number of respawns for the current level.")]
+    public Enemies[] enemies;
 }

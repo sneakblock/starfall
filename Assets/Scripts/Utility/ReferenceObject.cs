@@ -9,7 +9,9 @@ public class ReferenceObject : MonoBehaviour
     // Hides reference obj upon entering Play mode.
     void Start()
     {
-        obj = GetComponent<MeshRenderer>();
-        obj.enabled = false;
+        obj = this.gameObject.GetComponent<MeshRenderer>();
+        Color newColor = obj.material.color;
+        newColor.a = 0;
+        obj.material.color = newColor;
     }
 }

@@ -9,7 +9,7 @@ public class SAi : SCharacter
     protected BehaviourTreeRunner TreeRunner;
     protected BehaviourTree BehaviourTree;
     protected SAiInputs Inputs;
-
+    
     public LookAtBehavior lookAtBehavior = LookAtBehavior.AtPath;
     
     public NavMeshPath NavMeshPath;
@@ -105,6 +105,19 @@ public class SAi : SCharacter
             pathStatus = PathStatus.Pending;
             _currCornersIndex = 0;
         }
+    }
+
+    public override void Kill()
+    {
+        this.tag = "Dead";
+        var rb = gameObject.AddComponent<Rigidbody>();
+        rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
+        var weaponGameObject = _weapon.gameObject;
+        weaponGameObject.AddComponent<Rigidbody>();
+        weaponGameObject.AddComponent<BoxCollider>();
+        weaponGameObject.transform.SetParent(null);
+        motor.enabled = false;
+        this.enabled = false;
     }
 
     //TODO: Add some logic to fail or abandon a path if the agent gets stuck.

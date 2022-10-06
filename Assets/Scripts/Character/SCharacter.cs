@@ -12,7 +12,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public CharacterData characterData;
     
-    [Header("Health")][SerializeField] private int health = 100;
+    [Header("Link")][SerializeField] private int health = 100;
     private int _maxHealth;
 
     //TODO(mish): make these private vars
