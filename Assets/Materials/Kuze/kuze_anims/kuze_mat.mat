@@ -21,54 +21,24 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: kuze_mat
-  m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
-  m_ValidKeywords:
-  - N_F_CO_ON
-  - N_F_EAL_ON
-  - N_F_RDC_ON
-  - N_F_RELGI_ON
-  - N_F_SS_ON
-  - N_F_TRANSAFFSHA_ON
-  - N_F_TRANS_ON
-  - _ALPHATEST_ON
-  m_InvalidKeywords:
-  - N_F_TRANSAFFSHA
-  - _ALPHAMODULATE_ON
-  - _CUSTOMLIGHTDIRECTIONFOLLOWOBJECTROTATION_OFF
-  - _EMISSION
-  - _GIFLATSHADE_OFF
-  - _GLOSSTEXTUREFOLLOWOBJECTROTATION_OFF
-  - _LIGHTAFFECTOUTLINECOLOR_OFF
-  - _LIGHTAFFECTRIMLIGHTCOLOR_OFF
-  - _LIGHTAFFECTSHADOW_OFF
-  - _LIGHTFALLOFFAFFECTSHADOWT_OFF
-  - _LIGIGNOYNORDIR_OFF
-  - _MCIALO_OFF
-  - _MIXMAINTEXTOOUTLINE_OFF
-  - _MVCOL_OFF
-  - _OUTLINEWIDTHAFFECTEDBYVIEWDISTANCE_OFF
-  - _PSGLOTEX_OFF
-  - _SELFSHADOWAFFECTEDBYLIGHTSHADOWSTRENGTH_OFF
-  - _SELFSHADOWSHADOWTATVIEWDIRECTION_OFF
-  - _SHOWNORMAL_OFF
-  - _SPECMODE_OFF
-  - _STIL_OFF
-  - _TEXTUREPATTERNSTYLE_OFF
-  - _USESECONDARYCUTOUT_OFF
-  - _VERTEXCOLORBLUEAFFECTOUTLINEWITDH_OFF
-  - _VERTEXCOLORGREENCONTROLSELFSHADOWTHRESHOLD_OFF
-  - _VERTEXCOLORREDCONTROLSMOOTHOBJECTNORMAL_OFF
+  m_Shader: {fileID: -6465566751694194690, guid: 2b3b7d0b179748b449e12721ea4fcfa6,
+    type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TransparentCutout
+  m_CustomRenderQueue: 2000
+  stringTagMap: {}
   disabledShaderPasses:
   - SRPDEFAULTUNLIT
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_4450AB74:
+        m_Texture: {fileID: 2800000, guid: a14524f8c1e2be94588e8a9f7ac89803, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: a14524f8c1e2be94588e8a9f7ac89803, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -183,11 +153,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Boolean_193028D2: 1
+    - Boolean_3F1A8DAB: 1
+    - Boolean_43476D73: 0
+    - Boolean_7165A49C: 0
+    - Boolean_85059BBE: 1
+    - Boolean_8BBF99CD: 0
+    - Boolean_D258FF8E: 0
+    - Vector1_21C41D02: 256
+    - Vector1_6F288C5B: 0.5
+    - Vector1_B2CC132F: 139.9
+    - Vector1_B9994903: 11
+    - Vector1_E8746023: 16
     - _AlphaBaseCutout: 1
     - _AlphaClip: 1
     - _BleModDest: 10
     - _BleModSour: 5
-    - _Blend: 3
+    - _Blend: 0
+    - _BlendOp: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -197,14 +180,14 @@ Material:
     - _Culling: 2
     - _CustomLightDirectionFollowObjectRotation: 0
     - _CustomLightDirectionIntensity: 0
-    - _Cutoff: 0.5
+    - _Cutoff: 0.073
     - _Cutout: 0.5
     - _DepthThreshold: 900
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DirectionalLightIntensity: 0
     - _DoubleSidedOutline: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _DynamicNoisyOutline: 0
     - _EnvironmentReflections: 1
     - _EnvironmentalLightingIntensity: 1
@@ -280,6 +263,7 @@ Material:
     - _PTexturePower: 1
     - _Parallax: 0.02
     - _PointSpotlightIntensity: 0
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _RELG: 1
     - _ReceiveShadows: 1
@@ -296,6 +280,7 @@ Material:
     - _SPECIN: 1
     - _SPECMODE: 0
     - _STIL: 0
+    - _SampleGI: 0
     - _Saturation: 1
     - _SelfLitHighContrast: 1
     - _SelfLitIntensity: 0
@@ -321,8 +306,8 @@ Material:
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _SrcBlend: 5
+    - _Surface: 1
     - _TEXMCOLINT: 1
     - _TRANSMODE: 1
     - _TexturePatternStyle: 0
@@ -335,8 +320,10 @@ Material:
     - _VertexColorGreenControlSelfShadowThreshold: 0
     - _VertexColorRedControlSmoothObjectNormal: 0
     - _WorkflowMode: 1
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
+    - Color_2E5415DE: {r: 1, g: 1, b: 1, a: 0}
+    - Vector2_8044833E: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _CustomLightDirection: {r: 0, g: 0, b: 10, a: 0}
