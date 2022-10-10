@@ -9,6 +9,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public KinematicCharacterMotor motor;
     
     public AbilityManager abilityManager;
+
+    public CharacterData characterData;
     
     [Header("Link")][SerializeField] private int health = 100;
     private int _maxHealth;
@@ -182,6 +184,11 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         this.enabled = false;
     }
 
+    public bool IsAlive()
+    {
+        return health > 0;
+    }
+
     //These functions can be overridden in subclasses for more flexibility
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
@@ -200,7 +207,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         currentRotation = Quaternion.FromToRotation(currentUp, smoothedGravityDir) * currentRotation;
     }
 
-    public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
+    public virtual void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         //if the character is grounded
         if (motor.GroundingStatus.IsStableOnGround)
@@ -393,6 +400,16 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public RangedWeapon GetRangedWeapon()
     {
         return _weapon;
+    }
+
+    public Vector3 GetTargetMovementDirection()
+    {
+        Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
+        //Gets the vector for horizontal movement according to the upward orientation of the character, useful for slopes or the char being tilted.
+            Vector3 inputRight = Vector3.Cross(moveInputVector, motor.CharacterUp);
+            Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized *
+                                      moveInputVector.magnitude;
+        return reorientedInput.normalized;
     }
 
 }

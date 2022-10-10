@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4785519670469263991}
   - component: {fileID: 8896973853783254033}
   - component: {fileID: 6851086224892493266}
+  - component: {fileID: 1575708571}
   m_Layer: 0
   m_Name: ExampleCamera
   m_TagString: MainCamera
@@ -104,7 +105,7 @@ MonoBehaviour:
   FollowingSharpness: 1e+9
   DefaultDistance: 2
   MinDistance: 1
-  MaxDistance: 3
+  MaxDistance: 2
   DistanceMovementSpeed: 5
   DistanceMovementSharpness: 10
   InvertX: 0
@@ -144,7 +145,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -162,3 +163,20 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4785519670723143201}
   m_Enabled: 1
+--- !u!114 &1575708571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4785519670723143201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: da2ebd51c6a04864ea3807b2f6ee9076, type: 2}

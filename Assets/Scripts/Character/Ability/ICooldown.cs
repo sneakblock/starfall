@@ -11,4 +11,6 @@ public interface ICooldown
     // activate delicate ability when it is not ready yet
     void NotReadyYet();
 
+    void DecrementCooldownTimer();
+
 }

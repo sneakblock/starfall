@@ -9,7 +9,6 @@ public class Kuze : APlayer
     // TODO(mish question): This should be refactored? Maybe have an automatic animation
     // loader.
     private Animator _anim;
-
     // Sample Abilities
     private MoveFastAbility _moveFastAbility;
     private BlinkAbility _blinkAbility;
@@ -39,8 +38,7 @@ public class Kuze : APlayer
         base.RegisterAbility(_blinkAbility = new BlinkAbility(this, 45f));
 
         // NEW: This uses the default dash cooldown and cast delay
-        base.RegisterAbility(_dashAbility = new DashAbility(this));
-
+        base.RegisterAbility(_dashAbility = new DashAbility(this, characterData.dashAbilityCooldownTime, characterData.dashAbilityTime));
     }
 
     protected override void UpdatePlayer()
@@ -59,6 +57,17 @@ public class Kuze : APlayer
 
         // If you press a specific key, call this function to toggle the ability
         // _moveFastAbility.Toggle();
+    }
+
+    protected override void UseAbility1()
+    {
+        base.UseAbility1();
+        _dashAbility.Enable();
+    }
+
+    protected override void UseAbility2()
+    {
+        base.UseAbility2();
     }
 
     // Other players could have different animations.
@@ -84,4 +93,3 @@ public class Kuze : APlayer
         _anim.SetBool(LookAtCamera, orientationMethod == OrientationMethod.TowardsCamera);
     }
 }
-
