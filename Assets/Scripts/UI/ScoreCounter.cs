@@ -13,8 +13,17 @@ public class ScoreCounter : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI scoreText;
 
+    public static ScoreCounter Instance;
+
     void Awake()
     {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+            Destroy(transform.parent);
+        } else {
+            Instance = this;
+            DontDestroyOnLoad(transform.parent);
+        }
         scoreText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
