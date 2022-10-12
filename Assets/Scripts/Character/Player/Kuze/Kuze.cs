@@ -103,8 +103,8 @@ public class Kuze : APlayer
                 _anim.SetFloat(DistToGround, hit.distance);
             }
         }
-        _anim.SetFloat(VelX, Mathf.MoveTowards(_anim.GetFloat(VelX), inputVector.x, .025f));
-        _anim.SetFloat(VelY, Mathf.MoveTowards(_anim.GetFloat(VelY), inputVector.z, .025f));
+        _anim.SetFloat(VelX,  inputVector.x);
+        _anim.SetFloat(VelY, inputVector.z);
         _anim.SetBool(IsMoving, inputVector.magnitude > 0.5f);
         _anim.SetBool(LookAtCamera, orientationMethod == OrientationMethod.TowardsCamera);
     }
