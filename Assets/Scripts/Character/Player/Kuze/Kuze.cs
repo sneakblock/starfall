@@ -25,8 +25,12 @@ public class Kuze : APlayer
     private static readonly int JumpDown = Animator.StringToHash("jumpDown");
     private static readonly int IsFalling = Animator.StringToHash("isFalling");
 
+    private LinkBar linkBarUI;
+
     protected override void StartPlayer()
     {
+        linkBarUI = GameObject.Find("Link Bar").GetComponent<LinkBar>();
+
         // TODO(ben): Will this be player specific or general for all the
         // players?
         _anim = base.GetComponentInChildren<Animator>();
@@ -57,6 +61,18 @@ public class Kuze : APlayer
 
         // If you press a specific key, call this function to toggle the ability
         // _moveFastAbility.Toggle();
+    }
+
+    public override void Damage(int damage)
+    {
+        linkBarUI.RemoveLink(damage);
+        base.Damage(damage);
+    }
+
+    public override void Heal(int healing)
+    {
+        linkBarUI.AddLink(healing);
+        base.Heal(healing);
     }
 
     protected override void UseAbility1()
