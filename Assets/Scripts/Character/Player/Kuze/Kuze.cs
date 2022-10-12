@@ -69,7 +69,7 @@ public class Kuze : APlayer
     protected override void UseAbility2()
     {
         base.UseAbility2();
-        _grenadeAbility.Enable();
+        _dashAbility.Enable();
     }
 
     // Other players could have different animations.

@@ -6,7 +6,7 @@ public class GrenadeAbility : AdvancedAbility
 {
     private GrenadeSpawn grenadeSpawner;
 
-    public GrenadeAbility(SCharacter character) : base(character, 0f, 0.2f)
+    public GrenadeAbility(SCharacter character) : base(character, 5f, 0.2f)
     {
 
         grenadeSpawner = character.transform.Find("GrenadeSpawner").GetComponent<GrenadeSpawn>();
@@ -14,8 +14,7 @@ public class GrenadeAbility : AdvancedAbility
 
     public override void OnCastStarted() {
         base.OnCastStarted();
-        Vector3 direction = character.transform.forward;
-        Debug.Log(direction);
+        Vector3 direction = character.transform.forward + new Vector3(0, 1, 0);
         grenadeSpawner.CreateGrenade(direction);
         
     }
