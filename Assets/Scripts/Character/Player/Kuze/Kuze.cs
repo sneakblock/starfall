@@ -13,6 +13,7 @@ public class Kuze : APlayer
     private MoveFastAbility _moveFastAbility;
     private BlinkAbility _blinkAbility;
     private DashAbility _dashAbility;
+    private GrenadeAbility _grenadeAbility;
 
     private static readonly int IsFiring = Animator.StringToHash("isFiring");
     private static readonly int VelX = Animator.StringToHash("velX");
@@ -35,7 +36,7 @@ public class Kuze : APlayer
         // base.RegisterAbility(_moveFastAbility = new MoveFastAbility(this));
 
         // NEW: Blink ability where you can blink every 45 seconds. To blink, call onEnable.
-        base.RegisterAbility(_blinkAbility = new BlinkAbility(this, 45f));
+        base.RegisterAbility(_grenadeAbility = new GrenadeAbility(this));
 
         // NEW: This uses the default dash cooldown and cast delay
         base.RegisterAbility(_dashAbility = new DashAbility(this, characterData.dashAbilityCooldownTime, characterData.dashAbilityTime));
@@ -62,12 +63,13 @@ public class Kuze : APlayer
     protected override void UseAbility1()
     {
         base.UseAbility1();
-        _dashAbility.Enable();
+        _grenadeAbility.Enable();
     }
 
     protected override void UseAbility2()
     {
         base.UseAbility2();
+        _grenadeAbility.Enable();
     }
 
     // Other players could have different animations.
