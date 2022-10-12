@@ -52,7 +52,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected float timeSinceJumpRequested;
     protected bool jumpRequested;
     protected bool _jumpedThisFrame;
-    private bool _jumpConsumed = false;
+    protected bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
 

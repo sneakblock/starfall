@@ -21,6 +21,8 @@ public abstract class RangedWeapon : MonoBehaviour
     [SerializeField] 
     private GameObject fireEffect;
 
+    public AudioSource AudioSource;
+
     [SerializeField]
     private ImpactEffect[] impactEffects;
 
@@ -331,6 +333,7 @@ public abstract class RangedWeapon : MonoBehaviour
     public void PlayFireEffect()
     {
         var fireEffectInstance = Instantiate(fireEffect, barrelTransform.position, barrelTransform.rotation, barrelTransform);
+        if (AudioSource) AudioSource.PlayOneShot(AudioSource.clip);
         Destroy(fireEffectInstance, 4);
     }
 
@@ -344,6 +347,7 @@ public abstract class RangedWeapon : MonoBehaviour
         var impactedObjMaterialType = impactedObj.GetComponent<ImpactEffectSurface>();
         if (impactedObjMaterialType == null) return;
         GameObject effectObj = null;
+        AudioClip impactClip = null;
         foreach (var e in impactEffects)
         {
             if (e.SurfaceType == impactedObjMaterialType.impactSurfaceType)
@@ -352,10 +356,16 @@ public abstract class RangedWeapon : MonoBehaviour
                 if (e.Effects.Length == 1) effectObj = e.Effects[0];
                 int randomIdx = Random.Range(0, e.Effects.Length - 1);
                 effectObj = e.Effects[randomIdx];
+
+                if (e.ImpactClips.Length <= 0) continue;
+                if (e.ImpactClips.Length == 1) impactClip = e.ImpactClips[0];
+                randomIdx = Random.Range(0, e.ImpactClips.Length - 1);
+                impactClip = e.ImpactClips[randomIdx];
             }
         }
 
         if (effectObj == null) return;
+        if (impactClip) AudioSource.PlayClipAtPoint(impactClip, hit.point);
         if (effectObj.GetComponent<BFX_BloodSettings>())
         {
             HandleBloodInstantiation(effectObj, hit);
@@ -388,6 +398,7 @@ public abstract class RangedWeapon : MonoBehaviour
         }
         settings.AnimationSpeed = 2;
         settings.FreezeDecalDisappearance = true;
+        settings.DecalRenderinMode = BFX_BloodSettings._DecalRenderinMode.AverageRayBetwenForwardAndFloor;
         //TODO: Handle effect fadeout at high load.
     }
 

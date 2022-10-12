@@ -46,15 +46,15 @@ public class Grunta : SAi
         var transform1 = transform;
         var forward = transform1.forward;
         var right = transform1.right;
-        _anim.SetFloat(VelX, Vector3.Dot(Vector3.Project(moveInputVector, right), Vector3.right));
-        _anim.SetFloat(VelY, Vector3.Dot(Vector3.Project(moveInputVector, forward), forward));
+        _anim.SetFloat(VelX, Vector3.Dot(Vector3.Project(moveInputVector, right), Vector3.right), .2f, Time.deltaTime);
+        _anim.SetFloat(VelY, Vector3.Dot(Vector3.Project(moveInputVector, forward), forward), .2f, Time.deltaTime);
         _anim.SetBool(IsMoving, moveInputVector.magnitude > 0.5f);
         _anim.SetBool(LookAtPlayer, lookAtBehavior == LookAtBehavior.AtTargetCharacter);
         
-        // Debug.DrawRay(transform.position, moveInputVector, Color.white);
-        // Debug.DrawRay(transform.position, Vector3.Project(moveInputVector, right), Color.red);
-        // Debug.DrawRay(transform.position, Vector3.Project(moveInputVector, forward), Color.blue);
-        // Debug.Log($"Velx is {_anim.GetFloat(VelX)}");
-        // Debug.Log($"Vely is {_anim.GetFloat(VelY)}");
+        Debug.DrawRay(transform.position, moveInputVector, Color.white);
+        Debug.DrawRay(transform.position, Vector3.Project(moveInputVector, right), Color.red);
+        Debug.DrawRay(transform.position, Vector3.Project(moveInputVector, forward), Color.blue);
+        Debug.Log($"Velx is {_anim.GetFloat(VelX)}");
+        Debug.Log($"Vely is {_anim.GetFloat(VelY)}");
     }
 }
