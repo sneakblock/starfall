@@ -62,7 +62,7 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
         return cooldownTimer <= 0;
     }
 
-    public bool IsCasting()
+    public virtual bool IsCasting()
     {
         castTimer -= Time.deltaTime;
         return castTimer > 0;

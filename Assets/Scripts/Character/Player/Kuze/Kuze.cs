@@ -13,6 +13,7 @@ public class Kuze : APlayer
     private MoveFastAbility _moveFastAbility;
     private BlinkAbility _blinkAbility;
     private DashAbility _dashAbility;
+    private GrappleAbility _grappleAbility;
 
     private static readonly int IsFiring = Animator.StringToHash("isFiring");
     private static readonly int VelX = Animator.StringToHash("velX");
@@ -43,6 +44,9 @@ public class Kuze : APlayer
 
         // NEW: This uses the default dash cooldown and cast delay
         base.RegisterAbility(_dashAbility = new DashAbility(this, characterData.dashAbilityCooldownTime, characterData.dashAbilityTime));
+
+        // NEW: 
+        base.RegisterAbility(_grappleAbility = new GrappleAbility(this, 5f));
     }
 
     protected override void UpdatePlayer()
