@@ -39,21 +39,21 @@ public class DashAbility : AdvancedAbility
         {
             //7 is the Enemy layer
             character.motor.CollidableLayers &= ~(1 << 7);
-            APlayer player = (APlayer) character;
+            APlayer player = (APlayer)character;
 
             //if the player isn't inputting a direction
             if (movementVector == Vector3.zero)
             {
                 movementVector = player.orbitCamera.transform.forward.normalized;
                 movementVector.y = 0;
-                
+
                 //if the player is looking straight up or straight down
                 if (movementVector == Vector3.zero)
                 {
                     movementVector = player.motor.CharacterForward.normalized;
                 }
                 player.motor.SetRotation(Quaternion.LookRotation(movementVector, player.motor.CharacterUp));
-                movementVector *=  character.characterData.dashAbilitySpeed;
+                movementVector *= character.characterData.dashAbilitySpeed;
             }
         }
     }
@@ -86,7 +86,8 @@ public class DashAbility : AdvancedAbility
             if (damageableEnemy != null)
             {
                 damageableEnemy.Damage(character.characterData.dashAbilityDamage * enemiesToHit.Count);
-                if (damageableEnemy.IsAlive() == false) {
+                if (damageableEnemy.IsAlive() == false)
+                {
                     {
                         enemiesKilled++;
                     }
@@ -112,12 +113,12 @@ public class DashAbility : AdvancedAbility
         {
             layerMask |= (1 << 7);
         }
-       int numberOfHits = character.motor.CharacterOverlap(
-                                character.motor.TransientPosition,
-                                character.motor.TransientRotation,
-                                enemiesOverlapped,
-                                layerMask,
-                                QueryTriggerInteraction.Ignore);
+        int numberOfHits = character.motor.CharacterOverlap(
+                                 character.motor.TransientPosition,
+                                 character.motor.TransientRotation,
+                                 enemiesOverlapped,
+                                 layerMask,
+                                 QueryTriggerInteraction.Ignore);
 
         for (int i = 0; i < numberOfHits; i++)
         {

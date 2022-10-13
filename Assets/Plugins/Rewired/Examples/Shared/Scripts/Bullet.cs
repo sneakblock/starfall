@@ -22,7 +22,7 @@ namespace Rewired.Demos {
         }
 
         void Update() {
-            if(die && Time.time >= deathTime) Destroy(gameObject);
+            if (die && Time.time >= deathTime) ;
         }
     }
 }

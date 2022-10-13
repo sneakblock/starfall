@@ -19,4 +19,12 @@ public class CharacterData : ScriptableObject
     public float dashAbilityCooldownReductionPerKill;
     [SerializeField]
     public int dashAbilityDamage;
+
+    [Header("Grapple Ability Variables")]
+    [SerializeField]
+    public float grappleMaxLength;
+    [SerializeField]
+    public float grappleSpeed;
+    [SerializeField]
+    public float grappleAbilityCooldownTime;
 }
