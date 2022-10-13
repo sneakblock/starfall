@@ -247,10 +247,12 @@ public abstract class APlayer : SCharacter
         }
     }
     
+    
     public override void Damage(int damage) {
         OnDamage?.Invoke();
-        super.Damage();
+        base.Damage(damage);
     }
+
     public override void Kill()
     {
         base.Kill();

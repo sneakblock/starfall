@@ -156,7 +156,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
     }
 
-    public void Damage(int damage)
+    public virtual void Damage(int damage)
     {
         if (health <= 0) return;
         health -= damage;
