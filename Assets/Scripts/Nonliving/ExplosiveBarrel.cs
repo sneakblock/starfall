@@ -8,7 +8,7 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable
 {
     
     [SerializeField]
-    private int health;
+    private float health;
 
     private TextMeshPro _tm;
 
@@ -23,7 +23,7 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable
         _tm.text = health.ToString();
     }
 
-    public void Damage(int damage)
+    public void Damage(float damage)
     {
         health -= damage;
         if (health <= 0) Kill();

@@ -12,7 +12,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public CharacterData characterData;
     
-    [Header("Link")][SerializeField] protected int health = 100;
+    [Header("Link")][SerializeField] protected float health = 100;
     protected int _maxHealth;
 
     //TODO(mish): make these private vars
@@ -71,7 +71,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 	{
         abilityManager = new AbilityManager();
         motor.CharacterController = this;
-        _maxHealth = health;
+        _maxHealth = (int)health;
         Collider = GetComponent<Collider>();
         
         //If the weapon was not set in editor, the SCharacter will attempt to find a weapon in its children.
@@ -156,7 +156,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
     }
 
-    public virtual void Damage(int damage)
+    public virtual void Damage(float damage)
     {
         if (health <= 0) return;
         health -= damage;

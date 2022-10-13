@@ -67,7 +67,7 @@ public class Kuze : APlayer
         // _moveFastAbility.Toggle();
     }
 
-    public override void Damage(int damage)
+    public override void Damage(float damage)
     {
         linkBarUI.RemoveLink(damage);
         base.Damage(damage);
