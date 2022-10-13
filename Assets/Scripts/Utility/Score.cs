@@ -59,12 +59,12 @@ public class Score : MonoBehaviour
     IEnumerator shrinkMultiplier() {
         for (double i = 1; i > 0; i -= 0.2) {
             yield return new WaitForSeconds(2.0f);
-            scoreMultiplier -= 0.2;
+            decrMultiplier(0.2);
         }
     }
 
-    private void decrMultiplier() {
-        scoreMultiplier -= 0.1;
+    private void decrMultiplier(double decrease) {
+        scoreMultiplier -= decrease;
         if (scoreMultiplier < 1) scoreMultiplier = 1;
     }
 
