@@ -8,6 +8,7 @@ using KinematicCharacterController;
 using Rewired;
 using UnityEngine.Events;
 
+[System.Serializable] public class _UnityEventFloat:UnityEvent<float> {}
 
 public abstract class APlayer : SCharacter
 {
@@ -37,7 +38,12 @@ public abstract class APlayer : SCharacter
     //Useful for animations.
     protected Vector3 inputVector;
 
+    public _UnityEventFloat invokeLinkSlider = new _UnityEventFloat();
+
     private int _zoom = 1;
+
+    protected int linkDamagePerSec = 2;
+    protected bool isDying = true;
     
     public enum OrientationMethod
     {
@@ -61,6 +67,8 @@ public abstract class APlayer : SCharacter
         RewiredPlayer = ReInput.players.GetPlayer(PlayerID);
 
         StartPlayer();
+
+        base._maxHealth = 200;
     }
 
     protected override void UpdateCharacter()
@@ -73,7 +81,7 @@ public abstract class APlayer : SCharacter
         //TODO: Old input system used here. Update to Rewired.
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Kill();
+            //Kill();
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -139,7 +147,11 @@ public abstract class APlayer : SCharacter
 
     protected virtual void UpdatePlayer()
     {
-        
+        //kill player by x amount every second
+        if(isDying) {
+            Damage(linkDamagePerSec * (int)Time.deltaTime);
+            invokeLinkSlider.Invoke(linkDamagePerSec * Time.deltaTime);
+        }
     }
 
     protected virtual void UseAbility1()

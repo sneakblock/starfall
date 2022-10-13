@@ -13,6 +13,7 @@ public class Kuze : APlayer
     private MoveFastAbility _moveFastAbility;
     private BlinkAbility _blinkAbility;
     private DashAbility _dashAbility;
+    private GrappleAbility _grappleAbility;
 
     private static readonly int IsFiring = Animator.StringToHash("isFiring");
     private static readonly int VelX = Animator.StringToHash("velX");
@@ -25,8 +26,12 @@ public class Kuze : APlayer
     private static readonly int JumpDown = Animator.StringToHash("jumpDown");
     private static readonly int IsFalling = Animator.StringToHash("isFalling");
 
+    private LinkBar linkBarUI;
+
     protected override void StartPlayer()
     {
+        linkBarUI = GameObject.Find("Link Bar").GetComponent<LinkBar>();
+
         // TODO(ben): Will this be player specific or general for all the
         // players?
         _anim = base.GetComponentInChildren<Animator>();
@@ -39,6 +44,9 @@ public class Kuze : APlayer
 
         // NEW: This uses the default dash cooldown and cast delay
         base.RegisterAbility(_dashAbility = new DashAbility(this, characterData.dashAbilityCooldownTime, characterData.dashAbilityTime));
+
+        // NEW: 
+        base.RegisterAbility(_grappleAbility = new GrappleAbility(this, 5f));
     }
 
     protected override void UpdatePlayer()
@@ -57,6 +65,18 @@ public class Kuze : APlayer
 
         // If you press a specific key, call this function to toggle the ability
         // _moveFastAbility.Toggle();
+    }
+
+    public override void Damage(int damage)
+    {
+        linkBarUI.RemoveLink(damage);
+        base.Damage(damage);
+    }
+
+    public override void Heal(int healing)
+    {
+        linkBarUI.AddLink(healing);
+        base.Heal(healing);
     }
 
     protected override void UseAbility1()
