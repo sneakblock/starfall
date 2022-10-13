@@ -42,7 +42,7 @@ public abstract class APlayer : SCharacter
     //Event to reset score on player death
     public static event Action OnPlayerDeath;
     //Event to decrease multiplier when damage is taken
-    public static event Action OnDamage;
+    public static event Action<double> OnDamage;
     
     public enum OrientationMethod
     {

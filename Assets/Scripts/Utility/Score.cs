@@ -91,7 +91,8 @@ public class Score : MonoBehaviour
         }
     }
 
-    IEnumerator disableMultDecr() {
+    IEnumerator disableMultDecr() 
+    {
             dmgMultDecrEn = false;
             yield return new WaitForSeconds(damageMultDecrCooldown);
             dmgMultDecrEn = true;
