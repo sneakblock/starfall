@@ -12,8 +12,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public CharacterData characterData;
     
-    [Header("Link")][SerializeField] private int health = 100;
-    private int _maxHealth;
+    [Header("Link")][SerializeField] protected int health = 100;
+    protected int _maxHealth;
 
     //TODO(mish): make these private vars
     [Header("Standard Movement")]
@@ -166,7 +166,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         }
     }
 
-	public void Heal(int healing)
+	public virtual void Heal(int healing)
     {
         health += healing;
         if (health > _maxHealth) health = _maxHealth;
