@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TheKiwiCoder;
@@ -19,6 +20,9 @@ public class SAi : SCharacter
     public TriggerStatus triggerStatus = TriggerStatus.isUp;
     public AimStatus aimStatus = AimStatus.isUp;
     public SCharacter targetChar;
+
+    //Event, used to update score when enemy dies
+    public static event Action OnAIDeath;
     
     //Accuracy ranges from 0 to 1, and is referenced by various firing and ability cast methods.
     //An accuracy of 1 means every shot will hit, or will at least be fired at the perfect center/led to properly hit assuming 
@@ -110,8 +114,9 @@ public class SAi : SCharacter
     public override void Kill()
     {
         this.tag = "Dead";
+        OnAIDeath?.Invoke();
         var rb = gameObject.AddComponent<Rigidbody>();
-        rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
+        rb.AddForce(UnityEngine.Random.insideUnitSphere * 5f, ForceMode.Impulse);
         var weaponGameObject = _weapon.gameObject;
         weaponGameObject.AddComponent<Rigidbody>();
         weaponGameObject.AddComponent<BoxCollider>();
