@@ -37,7 +37,7 @@ public class LinkBar : MonoBehaviour
     // TEMP: manipulate the Link bar's values.
     void Update()
     {
-
+        /*
         if (Input.GetKeyDown(KeyCode.F))
         {
             RemoveLink(30f);
@@ -46,12 +46,14 @@ public class LinkBar : MonoBehaviour
         {
             AddLink(30f);
         }
-
+        */
     }
 
     // Remove a certain amount of Link from the Link bar.
     public void RemoveLink(float linkAmt)
-    {
+    {  
+        //for some reason this isn't registered as being in Start() when using UnityEvents
+        _currLinkSlider = _LinkSliders[_currSliderNum];
         // Update the player's total amount of Link
         if (_currentLink - linkAmt < 0)
         {
@@ -87,6 +89,8 @@ public class LinkBar : MonoBehaviour
     // Add a certain amount of Link to the Link Bar.
     public void AddLink(float linkAmt)
     {
+        //for some reason this isn't registered as being in Start() when using UnityEvents
+        _currLinkSlider = _LinkSliders[_currSliderNum];
         // Update the player's total amount of Link
         if (_currentLink + linkAmt > _maxExcessLink)
         {

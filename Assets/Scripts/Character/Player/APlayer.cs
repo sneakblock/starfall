@@ -154,7 +154,7 @@ public abstract class APlayer : SCharacter
     {
         //kill player by x amount every second
         if(isDying) {
-            Damage(linkDamagePerSec * (int)Time.deltaTime);
+            Damage(linkDamagePerSec * Time.deltaTime);
             invokeLinkSlider.Invoke(linkDamagePerSec * Time.deltaTime);
         }
     }
@@ -260,7 +260,7 @@ public abstract class APlayer : SCharacter
     }
     
     
-    public override void Damage(int damage) {
+    public override void Damage(float damage) {
         OnDamage?.Invoke();
         base.Damage(damage);
     }
