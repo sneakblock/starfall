@@ -67,13 +67,13 @@ public class Kuze : APlayer
         // _moveFastAbility.Toggle();
     }
 
-    public override void Damage(int damage)
+    public override void Damage(float damage)
     {
         linkBarUI.RemoveLink(damage);
         base.Damage(damage);
     }
 
-    public override void Heal(int healing)
+    public override void Heal(float healing)
     {
         linkBarUI.AddLink(healing);
         base.Heal(healing);

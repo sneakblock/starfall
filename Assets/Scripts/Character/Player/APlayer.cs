@@ -47,7 +47,8 @@ public abstract class APlayer : SCharacter
     //Event to decrease multiplier when damage is taken
     public static event Action OnDamage;
     
-    protected int linkDamagePerSec = 2;
+    
+    public int linkDamagePerSec = 3;
     protected bool isDying = true;
     
     public enum OrientationMethod
@@ -154,7 +155,7 @@ public abstract class APlayer : SCharacter
     {
         //kill player by x amount every second
         if(isDying) {
-            Damage(linkDamagePerSec * (int)Time.deltaTime);
+            Damage(linkDamagePerSec * Time.deltaTime);
             invokeLinkSlider.Invoke(linkDamagePerSec * Time.deltaTime);
         }
     }
@@ -260,9 +261,10 @@ public abstract class APlayer : SCharacter
     }
     
     
-    public override void Damage(int damage) {
+    public override void Damage(float damage) {
         OnDamage?.Invoke();
         base.Damage(damage);
+        Debug.Log(damage);
     }
 
     public override void Kill()

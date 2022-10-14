@@ -354,18 +354,18 @@ public abstract class RangedWeapon : MonoBehaviour
             {
                 if (e.Effects.Length == 0) return;
                 if (e.Effects.Length == 1) effectObj = e.Effects[0];
-                int randomIdx = Random.Range(0, e.Effects.Length - 1);
+                int randomIdx = Random.Range(0, e.Effects.Length);
                 effectObj = e.Effects[randomIdx];
 
                 if (e.ImpactClips.Length <= 0) continue;
                 if (e.ImpactClips.Length == 1) impactClip = e.ImpactClips[0];
-                randomIdx = Random.Range(0, e.ImpactClips.Length - 1);
+                randomIdx = Random.Range(0, e.ImpactClips.Length);
                 impactClip = e.ImpactClips[randomIdx];
             }
         }
 
         if (effectObj == null) return;
-        if (impactClip) AudioSource.PlayClipAtPoint(impactClip, hit.point);
+        if (impactClip) AudioSource.PlayClipAtPoint(impactClip, hit.point, .5f);
         if (effectObj.GetComponent<BFX_BloodSettings>())
         {
             HandleBloodInstantiation(effectObj, hit);
