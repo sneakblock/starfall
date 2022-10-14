@@ -8,4 +8,5 @@ public struct ImpactEffect
 {
     public ImpactEffectSurface.ImpactSurfaceType SurfaceType;
     public GameObject[] Effects;
+    public AudioClip[] ImpactClips;
 }

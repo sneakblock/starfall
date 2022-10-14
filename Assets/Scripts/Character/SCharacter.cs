@@ -12,8 +12,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public CharacterData characterData;
     
-    [Header("Link")][SerializeField] private int health = 100;
-    private int _maxHealth;
+    [Header("Link")][SerializeField] protected int health = 100;
+    protected int _maxHealth;
 
     //TODO(mish): make these private vars
     [Header("Standard Movement")]
@@ -52,7 +52,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected float timeSinceJumpRequested;
     protected bool jumpRequested;
     protected bool _jumpedThisFrame;
-    private bool _jumpConsumed = false;
+    protected bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
 
@@ -156,7 +156,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
     }
 
-    public void Damage(int damage)
+    public virtual void Damage(int damage)
     {
         if (health <= 0) return;
         health -= damage;
@@ -166,7 +166,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         }
     }
 
-	public void Heal(int healing)
+	public virtual void Heal(int healing)
     {
         health += healing;
         if (health > _maxHealth) health = _maxHealth;

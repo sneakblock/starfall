@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motor: {fileID: 5751729091738824338}
   characterData: {fileID: 11400000, guid: 6451f51e07e28b44f8cd05324e98c5f3, type: 2}
-  health: 9999999
+  health: 100
   maxStableMoveSpeed: 10
   stableMovementSharpness: 15
   orientationSharpness: 15
@@ -75,6 +75,9 @@ MonoBehaviour:
   orbitCamera: {fileID: 0}
   orientationMethod: 1
   secondsToLockShootingOrientation: 1
+  invokeLinkSlider:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &5751729091738824339
 CapsuleCollider:
   m_ObjectHideFlags: 8
