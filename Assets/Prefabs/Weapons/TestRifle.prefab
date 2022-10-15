@@ -383,13 +383,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7191658b8eddc418eb9ad0c877c80a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: e527e56f4b66b654abb3ac4d4c25aedc, type: 2}
+  weaponData: {fileID: 11400000, guid: 0bb436265ef93f546be1d38067119f5e, type: 2}
   barrelTransform: {fileID: 6437781830331889672}
   fireEffect: {fileID: 141106, guid: 0c2fb496ab06a364fb16faf0f4528004, type: 3}
+  AudioSource: {fileID: 0}
   impactEffects:
   - SurfaceType: 0
     Effects:
     - {fileID: 178032, guid: ea6cf4c5efb69b94db988e2fbfd72698, type: 3}
+    ImpactClips: []
   - SurfaceType: 7
     Effects:
     - {fileID: 2656253210798625995, guid: a78e9ef18b366424b84e0c7410d2fe72, type: 3}
@@ -409,9 +411,22 @@ MonoBehaviour:
     - {fileID: 5936082179827903908, guid: cb58ece77d11ef945aecd072f2e46a8d, type: 3}
     - {fileID: 5494213943435191861, guid: db51fe09adf27d640b4e10018c2d76ba, type: 3}
     - {fileID: 5371219466416337994, guid: f9e099178c81bee439a79eecec91dacb, type: 3}
+    ImpactClips:
+    - {fileID: 8300000, guid: be01686de39204c40b7c60021fd1b50d, type: 3}
   - SurfaceType: 3
     Effects:
     - {fileID: 108086, guid: 547c2e12da8d4214098216299e70a3ba, type: 3}
+    ImpactClips:
+    - {fileID: 8300000, guid: 263ebb4a229dd944081d6b7c07cdc2bb, type: 3}
   - SurfaceType: 4
     Effects:
     - {fileID: 168394, guid: 93983eaa39ee5d4408c0b10200e234b4, type: 3}
+    ImpactClips: []
+  - SurfaceType: 1
+    Effects:
+    - {fileID: 180772, guid: 697d9a1e52bb99d468a5d727e5a4b435, type: 3}
+    ImpactClips:
+    - {fileID: 8300000, guid: 615d80ba6a750144a8ef15c2aca86b55, type: 3}
+    - {fileID: 8300000, guid: 9f34af2c200a0b44d9c36edcc5608634, type: 3}
+  hitscanBulletTrail: {fileID: 6774897497785466354, guid: 8cfe437906c21dd41ae4d2c242640624,
+    type: 3}

@@ -29,6 +29,8 @@ public class Grunta : SAi
         {
             _animOff = true;
         }
+
+        if (!targetChar) targetChar = GameObject.FindObjectOfType<APlayer>();
     }
     
     protected override void UpdateCharacter()
@@ -37,6 +39,7 @@ public class Grunta : SAi
         HandleAnimation();
     }
 
+    //TODO: These animations are not correct.
     private void HandleAnimation()
     {
         if (_animNull || _animOff) return;

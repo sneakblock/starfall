@@ -4,9 +4,15 @@ using System.Collections.Generic;
 using TheKiwiCoder;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class SAi : SCharacter
 {
+    [Range(0, 100)]
+    public float linkValue = 20;
+
+    public GameObject linkObj;
+    
     protected BehaviourTreeRunner TreeRunner;
     protected BehaviourTree BehaviourTree;
     protected SAiInputs Inputs;
@@ -121,8 +127,9 @@ public class SAi : SCharacter
         weaponGameObject.AddComponent<Rigidbody>();
         weaponGameObject.AddComponent<BoxCollider>();
         weaponGameObject.transform.SetParent(null);
+        _weapon.enabled = false;
         motor.enabled = false;
-        this.enabled = false;
+        StartCoroutine(LinkSpawner());
     }
 
     //TODO: Add some logic to fail or abandon a path if the agent gets stuck.
@@ -222,6 +229,25 @@ public class SAi : SCharacter
     public Vector3 GetTargetPoint()
     {
         return targetPoint;
+    }
+
+    IEnumerator LinkSpawner()
+    {
+        var numLinkDrops = Mathf.Floor(linkValue / 5f);
+        
+        for (var i = 0; i < numLinkDrops; i++)
+        {
+            Debug.Log($"Dropping link {i} of {numLinkDrops}");
+            var randomX = Random.Range(-1f, 1f);
+            var randomY = Random.Range(.3f, .8f);
+            var randomZ = Random.Range(-1f, 1f);
+            var throwVector = new Vector3(randomX, randomY, randomZ).normalized;
+            var linkDrop = Instantiate(linkObj, transform.position, Quaternion.identity);
+            linkDrop.GetComponentInChildren<LinkDrop>().value = linkValue / 5f;
+            linkDrop.GetComponentInChildren<Rigidbody>().AddForce(throwVector, ForceMode.Impulse);
+            yield return new WaitForSeconds(.5f);
+        }
+        this.enabled = false;
     }
 
 }

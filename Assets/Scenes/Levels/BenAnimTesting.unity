@@ -18125,6 +18125,47 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
+        type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
+        type: 3}
+      propertyPath: invokeLinkSlider.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
+        type: 3}
+      propertyPath: invokeLinkSlider.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
+        type: 3}
+      propertyPath: invokeLinkSlider.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2055308139583232852, guid: d5aa80ed7db44e146a15032086259902,
+        type: 3}
+    - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
+        type: 3}
+      propertyPath: invokeLinkSlider.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
+        type: 3}
+      propertyPath: invokeLinkSlider.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemoveLink
+      objectReference: {fileID: 0}
+    - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
+        type: 3}
+      propertyPath: invokeLinkSlider.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LinkBar, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
+        type: 3}
+      propertyPath: invokeLinkSlider.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5751729091738824349, guid: fa166f60e418001478edbb9d49465641,
         type: 3}
       propertyPath: m_RootOrder
