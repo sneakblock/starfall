@@ -70,10 +70,10 @@ public class DashAbility : AdvancedAbility
             Debug.Log("No animator");
         }
 
-        foreach (var renderer in renderers)
-        {
-            renderer.material.SetFloat(VertexJitter, 1);
-        }
+        // foreach (var renderer in renderers)
+        // {
+        //     renderer.material.SetFloat(VertexJitter, 1);
+        // }
     }
 
     public override void DuringCast()

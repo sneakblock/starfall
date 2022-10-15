@@ -22,6 +22,7 @@ public class LinkDrop : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance) return;
         if (!(Vector3.Distance(transform.position, GameManager.Instance.aPlayer.gameObject.transform.position) <=
               3)) return;
         GameManager.Instance.aPlayer.Heal(value);
