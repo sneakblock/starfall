@@ -7,7 +7,7 @@ public interface IDamageable
 
     void Damage(float damage);
 
-    void Heal(int healing);
+    void Heal(float healing);
 
     void Kill();
 

@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motor: {fileID: 1768362842341019640}
   characterData: {fileID: 0}
-  health: 15
+  health: 13
   maxStableMoveSpeed: 5
   stableMovementSharpness: 15
   orientationSharpness: 10
@@ -131,6 +131,8 @@ MonoBehaviour:
     m_Bits: 65
   gravity: {x: 0, y: -30, z: 0}
   Collider: {fileID: 0}
+  linkValue: 20
+  linkObj: {fileID: 1210114176842607944, guid: 73b4cddbbab90744c8d202c5bd01a1c7, type: 3}
   lookAtBehavior: 0
   pathStatus: 3
   stopDistance: 0.1

@@ -73,7 +73,7 @@ public class Kuze : APlayer
         base.Damage(damage);
     }
 
-    public override void Heal(int healing)
+    public override void Heal(float healing)
     {
         linkBarUI.AddLink(healing);
         base.Heal(healing);

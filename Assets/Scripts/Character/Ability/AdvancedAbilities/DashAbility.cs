@@ -11,6 +11,8 @@ public class DashAbility : AdvancedAbility
     Collider[] enemiesOverlapped = new Collider[16];
 
     List<Collider> enemiesToHit = new List<Collider>();
+    private static readonly int Dash = Animator.StringToHash("dash");
+    private static readonly int VertexJitter = Shader.PropertyToID("_useVertexJitter");
 
     public DashAbility(SCharacter character, float cooldownTime, float castTime) : base(character, cooldownTime, castTime)
     {
@@ -56,6 +58,22 @@ public class DashAbility : AdvancedAbility
                 movementVector *= character.characterData.dashAbilitySpeed;
             }
         }
+
+        var anim = character.gameObject.GetComponentInChildren<Animator>();
+        var renderers = GameObject.Find("kuze_anims").GetComponentsInChildren<Renderer>();
+        if (anim)
+        {
+            anim.SetTrigger(Dash);
+        }
+        else
+        {
+            Debug.Log("No animator");
+        }
+
+        // foreach (var renderer in renderers)
+        // {
+        //     renderer.material.SetFloat(VertexJitter, 1);
+        // }
     }
 
     public override void DuringCast()

@@ -29,7 +29,7 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable
         if (health <= 0) Kill();
     }
 
-    public void Heal(int healing)
+    public void Heal(float healing)
     {
         health += healing;
     }

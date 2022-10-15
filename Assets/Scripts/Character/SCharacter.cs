@@ -13,7 +13,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public CharacterData characterData;
     
     [Header("Link")][SerializeField] protected float health = 100;
-    protected int _maxHealth;
+    protected float _maxHealth;
 
     //TODO(mish): make these private vars
     [Header("Standard Movement")]
@@ -153,6 +153,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
    
     protected virtual void RequestFirePrimary()
     {
+        if (!_weapon) return;
         _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
     }
 
@@ -166,7 +167,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         }
     }
 
-	public virtual void Heal(int healing)
+	public virtual void Heal(float healing)
     {
         health += healing;
         if (health > _maxHealth) health = _maxHealth;
