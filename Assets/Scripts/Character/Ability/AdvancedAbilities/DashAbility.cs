@@ -11,6 +11,8 @@ public class DashAbility : AdvancedAbility
     Collider[] enemiesOverlapped = new Collider[16];
 
     List<Collider> enemiesToHit = new List<Collider>();
+    private static readonly int Dash = Animator.StringToHash("dash");
+    private static readonly int VertexJitter = Shader.PropertyToID("_useVertexJitter");
 
     public DashAbility(SCharacter character, float cooldownTime, float castTime) : base(character, cooldownTime, castTime)
     {
@@ -39,23 +41,39 @@ public class DashAbility : AdvancedAbility
         {
             //7 is the Enemy layer
             character.motor.CollidableLayers &= ~(1 << 7);
-            APlayer player = (APlayer) character;
+            APlayer player = (APlayer)character;
 
             //if the player isn't inputting a direction
             if (movementVector == Vector3.zero)
             {
                 movementVector = player.orbitCamera.transform.forward.normalized;
                 movementVector.y = 0;
-                
+
                 //if the player is looking straight up or straight down
                 if (movementVector == Vector3.zero)
                 {
                     movementVector = player.motor.CharacterForward.normalized;
                 }
                 player.motor.SetRotation(Quaternion.LookRotation(movementVector, player.motor.CharacterUp));
-                movementVector *=  character.characterData.dashAbilitySpeed;
+                movementVector *= character.characterData.dashAbilitySpeed;
             }
         }
+
+        var anim = character.gameObject.GetComponentInChildren<Animator>();
+        var renderers = GameObject.Find("kuze_anims").GetComponentsInChildren<Renderer>();
+        if (anim)
+        {
+            anim.SetTrigger(Dash);
+        }
+        else
+        {
+            Debug.Log("No animator");
+        }
+
+        // foreach (var renderer in renderers)
+        // {
+        //     renderer.material.SetFloat(VertexJitter, 1);
+        // }
     }
 
     public override void DuringCast()
@@ -86,7 +104,8 @@ public class DashAbility : AdvancedAbility
             if (damageableEnemy != null)
             {
                 damageableEnemy.Damage(character.characterData.dashAbilityDamage * enemiesToHit.Count);
-                if (damageableEnemy.IsAlive() == false) {
+                if (damageableEnemy.IsAlive() == false)
+                {
                     {
                         enemiesKilled++;
                     }
@@ -112,12 +131,12 @@ public class DashAbility : AdvancedAbility
         {
             layerMask |= (1 << 7);
         }
-       int numberOfHits = character.motor.CharacterOverlap(
-                                character.motor.TransientPosition,
-                                character.motor.TransientRotation,
-                                enemiesOverlapped,
-                                layerMask,
-                                QueryTriggerInteraction.Ignore);
+        int numberOfHits = character.motor.CharacterOverlap(
+                                 character.motor.TransientPosition,
+                                 character.motor.TransientRotation,
+                                 enemiesOverlapped,
+                                 layerMask,
+                                 QueryTriggerInteraction.Ignore);
 
         for (int i = 0; i < numberOfHits; i++)
         {

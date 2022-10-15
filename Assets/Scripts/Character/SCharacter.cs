@@ -12,8 +12,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public CharacterData characterData;
     
-    [Header("Link")][SerializeField] private int health = 100;
-    private int _maxHealth;
+    [Header("Link")][SerializeField] protected float health = 100;
+    protected float _maxHealth;
 
     //TODO(mish): make these private vars
     [Header("Standard Movement")]
@@ -52,7 +52,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected float timeSinceJumpRequested;
     protected bool jumpRequested;
     protected bool _jumpedThisFrame;
-    private bool _jumpConsumed = false;
+    protected bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
 
@@ -71,7 +71,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 	{
         abilityManager = new AbilityManager();
         motor.CharacterController = this;
-        _maxHealth = health;
+        _maxHealth = (int)health;
         Collider = GetComponent<Collider>();
         
         //If the weapon was not set in editor, the SCharacter will attempt to find a weapon in its children.
@@ -153,10 +153,11 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
    
     protected virtual void RequestFirePrimary()
     {
+        if (!_weapon) return;
         _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
     }
 
-    public void Damage(int damage)
+    public virtual void Damage(float damage)
     {
         if (health <= 0) return;
         health -= damage;
@@ -166,7 +167,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         }
     }
 
-	public void Heal(int healing)
+	public virtual void Heal(float healing)
     {
         health += healing;
         if (health > _maxHealth) health = _maxHealth;

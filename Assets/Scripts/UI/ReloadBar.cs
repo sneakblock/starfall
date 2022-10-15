@@ -13,8 +13,10 @@ public class ReloadBar : MonoBehaviour
     private Rect _rect;
     private Vector2 _origSizeDelta;
     private GameObject _parentGameObject;
+    private GameObject _grandParentGameObject;
     private Image _reloadBarImg;
     private TextMeshProUGUI _reloadBarText;
+    private Image _reloadAnimImg;
 
     public float sizeDeltaX;
     public float sizeDeltaY;
@@ -22,6 +24,8 @@ public class ReloadBar : MonoBehaviour
     private void Start()
     {
         _parentGameObject = transform.parent.gameObject;
+        _grandParentGameObject = _parentGameObject.transform.parent.gameObject;
+        _reloadAnimImg = _grandParentGameObject.GetComponent<Image>();
         _reloadBarImg = _parentGameObject.GetComponentInChildren<Image>();
         _reloadBarText = _parentGameObject.GetComponentInChildren<TextMeshProUGUI>();
         _rectTransform = GetComponentInChildren<RectTransform>();
@@ -75,6 +79,8 @@ public class ReloadBar : MonoBehaviour
         {
             _reloadBarText.enabled = true;
         }
+        
+        if (_reloadAnimImg) _reloadAnimImg.enabled = true;
     }
 
     void HideReloadBar()
@@ -88,5 +94,7 @@ public class ReloadBar : MonoBehaviour
         {
             _reloadBarText.enabled = false;
         }
+        
+        if (_reloadAnimImg) _reloadAnimImg.enabled = false;
     }
 }

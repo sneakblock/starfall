@@ -87,8 +87,8 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   overrideCharacterDefaultAccuracy: 1
-  accuracy: 0.2
-  useSecondsRange: 0
+  accuracy: 0.3
+  useSecondsRange: 1
   secondsToHoldDownTrigger: 2
   minSecondsToHoldDownTrigger: 0.2
   maxSecondsToHoldDownTrigger: 5
@@ -263,9 +263,9 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
-  overrideCharacterDefaultAccuracy: 0
-  accuracy: 0
-  useSecondsRange: 0
+  overrideCharacterDefaultAccuracy: 1
+  accuracy: 0.2
+  useSecondsRange: 1
   secondsToHoldDownTrigger: 0.5
   minSecondsToHoldDownTrigger: 0.2
   maxSecondsToHoldDownTrigger: 5
@@ -310,7 +310,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
-  duration: 1
+  duration: 4
 --- !u!114 &1083281656649032317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,7 +468,7 @@ MonoBehaviour:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
-  duration: 1
+  duration: 2
 --- !u!114 &3995566145067161840
 MonoBehaviour:
   m_ObjectHideFlags: 0
