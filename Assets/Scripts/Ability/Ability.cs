@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Ability
+public class Ability 
 {
     protected SCharacter character;
     protected bool _enabled;
