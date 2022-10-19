@@ -13,6 +13,7 @@ public class Kuze : APlayer
     private MoveFastAbility _moveFastAbility;
     private BlinkAbility _blinkAbility;
     private DashAbility _dashAbility;
+    private GrenadeAbility _grenadeAbility;
     private GrappleAbility _grappleAbility;
 
     private static readonly int IsFiring = Animator.StringToHash("isFiring");
@@ -40,7 +41,7 @@ public class Kuze : APlayer
         // base.RegisterAbility(_moveFastAbility = new MoveFastAbility(this));
 
         // NEW: Blink ability where you can blink every 45 seconds. To blink, call onEnable.
-        base.RegisterAbility(_blinkAbility = new BlinkAbility(this, 45f));
+        base.RegisterAbility(_grenadeAbility = new GrenadeAbility(this));
 
         // NEW: This uses the default dash cooldown and cast delay
         base.RegisterAbility(_dashAbility = new DashAbility(this, characterData.dashAbilityCooldownTime, characterData.dashAbilityTime));
@@ -67,13 +68,13 @@ public class Kuze : APlayer
         // _moveFastAbility.Toggle();
     }
 
-    public override void Damage(int damage)
+    public override void Damage(float damage)
     {
         linkBarUI.RemoveLink(damage);
         base.Damage(damage);
     }
 
-    public override void Heal(int healing)
+    public override void Heal(float healing)
     {
         linkBarUI.AddLink(healing);
         base.Heal(healing);
@@ -82,12 +83,13 @@ public class Kuze : APlayer
     protected override void UseAbility1()
     {
         base.UseAbility1();
-        _dashAbility.Enable();
+        _grenadeAbility.Enable();
     }
 
     protected override void UseAbility2()
     {
         base.UseAbility2();
+        _dashAbility.Enable();
     }
 
     // Other players could have different animations.
@@ -96,7 +98,11 @@ public class Kuze : APlayer
         if (!_anim) return;
         _anim.SetBool(IsFiring, isFiring);
         _anim.SetBool(IsAiming, isAiming);
-        _anim.SetBool(JumpDown, _jumpedThisFrame);
+        if (jumpRequested && !_jumpConsumed)
+        {
+            _anim.SetTrigger(JumpDown);
+        }
+        
         _anim.SetBool(InAir, !motor.GroundingStatus.IsStableOnGround);
         _anim.SetBool(IsFalling, !motor.GroundingStatus.IsStableOnGround && motor.Velocity.y <= -.05f);
         if (_anim.GetBool(InAir) || _anim.GetBool(IsFalling))
@@ -107,8 +113,8 @@ public class Kuze : APlayer
                 _anim.SetFloat(DistToGround, hit.distance);
             }
         }
-        _anim.SetFloat(VelX,  inputVector.x);
-        _anim.SetFloat(VelY, inputVector.z);
+        _anim.SetFloat(VelX,  inputVector.x, .05f, Time.deltaTime);
+        _anim.SetFloat(VelY, inputVector.z, .05f, Time.deltaTime);
         _anim.SetBool(IsMoving, inputVector.magnitude > 0.5f);
         _anim.SetBool(LookAtCamera, orientationMethod == OrientationMethod.TowardsCamera);
     }

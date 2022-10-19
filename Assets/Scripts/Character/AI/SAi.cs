@@ -1,11 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TheKiwiCoder;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class SAi : SCharacter
 {
+    [Range(0, 100)]
+    public float linkValue = 20;
+
+    public GameObject linkObj;
+    
     protected BehaviourTreeRunner TreeRunner;
     protected BehaviourTree BehaviourTree;
     protected SAiInputs Inputs;
@@ -19,6 +26,9 @@ public class SAi : SCharacter
     public TriggerStatus triggerStatus = TriggerStatus.isUp;
     public AimStatus aimStatus = AimStatus.isUp;
     public SCharacter targetChar;
+
+    //Event, used to update score when enemy dies
+    public static event Action OnAIDeath;
     
     //Accuracy ranges from 0 to 1, and is referenced by various firing and ability cast methods.
     //An accuracy of 1 means every shot will hit, or will at least be fired at the perfect center/led to properly hit assuming 
@@ -110,14 +120,16 @@ public class SAi : SCharacter
     public override void Kill()
     {
         this.tag = "Dead";
+        OnAIDeath?.Invoke();
         var rb = gameObject.AddComponent<Rigidbody>();
-        rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
+        rb.AddForce(UnityEngine.Random.insideUnitSphere * 5f, ForceMode.Impulse);
         var weaponGameObject = _weapon.gameObject;
         weaponGameObject.AddComponent<Rigidbody>();
         weaponGameObject.AddComponent<BoxCollider>();
         weaponGameObject.transform.SetParent(null);
+        _weapon.enabled = false;
         motor.enabled = false;
-        this.enabled = false;
+        StartCoroutine(LinkSpawner());
     }
 
     //TODO: Add some logic to fail or abandon a path if the agent gets stuck.
@@ -217,6 +229,25 @@ public class SAi : SCharacter
     public Vector3 GetTargetPoint()
     {
         return targetPoint;
+    }
+
+    IEnumerator LinkSpawner()
+    {
+        var numLinkDrops = Mathf.Floor(linkValue / 5f);
+        
+        for (var i = 0; i < numLinkDrops; i++)
+        {
+            Debug.Log($"Dropping link {i} of {numLinkDrops}");
+            var randomX = Random.Range(-1f, 1f);
+            var randomY = Random.Range(.3f, .8f);
+            var randomZ = Random.Range(-1f, 1f);
+            var throwVector = new Vector3(randomX, randomY, randomZ).normalized;
+            var linkDrop = Instantiate(linkObj, transform.position, Quaternion.identity);
+            linkDrop.GetComponentInChildren<LinkDrop>().value = linkValue / 5f;
+            linkDrop.GetComponentInChildren<Rigidbody>().AddForce(throwVector, ForceMode.Impulse);
+            yield return new WaitForSeconds(.5f);
+        }
+        this.enabled = false;
     }
 
 }

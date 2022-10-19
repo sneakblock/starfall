@@ -60,11 +60,11 @@ public class GameManager : MonoBehaviour
     
     private void OnPlayerDeath(APlayer player)
     {
-        Debug.Log("GAME OVER YEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAH");
+        Debug.Log("SNAKE? SNAAAAAAAAAAAAAAAAKE!!!!");
         // Do whatever cleanup
         PlayerDeath -= OnPlayerDeath;
         EnemyDeath -= OnEnemyDeath;
-        Invoke("LoadCharacterSelectScene", 3.0f);
+        Invoke(nameof(LoadCharacterSelectScene), 3.0f);
     }
     
     private void OnEnemyDeath(GameObject enemy)
@@ -76,6 +76,6 @@ public class GameManager : MonoBehaviour
     private void LoadCharacterSelectScene()
     {
         //Replace the Testing scene with the name of the character select scene
-        SceneManager.LoadScene("ElizabethTesting", LoadSceneMode.Single);
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }
