@@ -34,9 +34,7 @@ public class LinkMagnet : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("coll on magnet");
         if (collision.gameObject.GetComponent<APlayer>() != GameManager.Instance.aPlayer) return;
-        Debug.Log("collide with player!");
         _target = collision.gameObject.transform;
     }
 
@@ -44,7 +42,7 @@ public class LinkMagnet : MonoBehaviour
     {
         if (!_linkDrop) Destroy(this);
         if (!_target) return;
-        Debug.Log("adding magnet force");
+        // Debug.Log("adding magnet force");
         var dirToPlayer = (_target.position - _linkDrop.gameObject.transform.position).normalized;
         _linkDropRigidbody.AddForce(dirToPlayer * attractForce, ForceMode.Force);
     }
