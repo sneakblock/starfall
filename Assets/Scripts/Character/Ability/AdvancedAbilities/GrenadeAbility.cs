@@ -8,7 +8,7 @@ public class GrenadeAbility : AdvancedAbility
 
     public GrenadeAbility(SCharacter character) : base(character, 5f, 0.2f)
     {
-
+        if (!character.transform.Find("GrenadeSpawner")) return;
         grenadeSpawner = character.transform.Find("GrenadeSpawner").GetComponent<GrenadeSpawn>();
     }
 
