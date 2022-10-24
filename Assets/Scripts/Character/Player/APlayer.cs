@@ -264,7 +264,7 @@ public abstract class APlayer : SCharacter
     public override void Damage(float damage) {
         OnDamage?.Invoke();
         base.Damage(damage);
-        Debug.Log(damage);
+        // Debug.Log(damage);
     }
 
     public override void Kill()

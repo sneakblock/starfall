@@ -389,12 +389,12 @@ public abstract class RangedWeapon : MonoBehaviour
         var r = new Ray(hit.point, Vector3.down);
         if (Physics.Raycast(r, out var groundHit, 10f, 1 << LayerMask.NameToLayer("Default")))
         {
-            Debug.Log($"Hit found with height {groundHit.point.y} on object {groundHit.collider.gameObject.name}");
+            // Debug.Log($"Hit found with height {groundHit.point.y} on object {groundHit.collider.gameObject.name}");
             settings.GroundHeight = groundHit.point.y;
         }
         else
         {
-            Debug.LogWarning("No hit found with ground.");
+            // Debug.LogWarning("No hit found with ground.");
         }
         settings.AnimationSpeed = 2;
         settings.FreezeDecalDisappearance = true;

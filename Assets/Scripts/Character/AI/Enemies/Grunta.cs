@@ -57,7 +57,7 @@ public class Grunta : SAi
         Debug.DrawRay(transform.position, moveInputVector, Color.white);
         Debug.DrawRay(transform.position, Vector3.Project(moveInputVector, right), Color.red);
         Debug.DrawRay(transform.position, Vector3.Project(moveInputVector, forward), Color.blue);
-        Debug.Log($"Velx is {_anim.GetFloat(VelX)}");
-        Debug.Log($"Vely is {_anim.GetFloat(VelY)}");
+        //Debug.Log($"Velx is {_anim.GetFloat(VelX)}");
+        //Debug.Log($"Vely is {_anim.GetFloat(VelY)}");
     }
 }
