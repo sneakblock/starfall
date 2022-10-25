@@ -41,7 +41,7 @@ public class Kuze : APlayer
         // base.RegisterAbility(_moveFastAbility = new MoveFastAbility(this));
 
         // NEW: Blink ability where you can blink every 45 seconds. To blink, call onEnable.
-        base.RegisterAbility(_grenadeAbility = new GrenadeAbility(this));
+        RegisterAbility(_grenadeAbility = new GrenadeAbility(this));
 
         // NEW: This uses the default dash cooldown and cast delay
         base.RegisterAbility(_dashAbility = new DashAbility(this, characterData.dashAbilityCooldownTime, characterData.dashAbilityTime));

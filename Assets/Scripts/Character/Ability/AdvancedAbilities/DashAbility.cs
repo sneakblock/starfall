@@ -37,11 +37,10 @@ public class DashAbility : AdvancedAbility
             character.motor.CollidableLayers &= ~(1 << 6);
         }
 
-        if (character is APlayer)
+        if (character is APlayer player)
         {
             //7 is the Enemy layer
-            character.motor.CollidableLayers &= ~(1 << 7);
-            APlayer player = (APlayer)character;
+            player.motor.CollidableLayers &= ~(1 << 7);
 
             //if the player isn't inputting a direction
             if (movementVector == Vector3.zero)
@@ -55,7 +54,7 @@ public class DashAbility : AdvancedAbility
                     movementVector = player.motor.CharacterForward.normalized;
                 }
                 player.motor.SetRotation(Quaternion.LookRotation(movementVector, player.motor.CharacterUp));
-                movementVector *= character.characterData.dashAbilitySpeed;
+                movementVector *= player.characterData.dashAbilitySpeed;
             }
         }
 
