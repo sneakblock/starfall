@@ -111,7 +111,7 @@ MonoBehaviour:
   motor: {fileID: 1768362842341019640}
   characterData: {fileID: 0}
   health: 13
-  maxStableMoveSpeed: 5
+  maxStableMoveSpeed: 10
   stableMovementSharpness: 15
   orientationSharpness: 10
   maxAirMoveSpeed: 15
@@ -123,7 +123,7 @@ MonoBehaviour:
   jumpScalableForwardSpeed: 10
   jumpPreGroundingGraceTime: 0
   jumpPostGroundingGraceTime: 0
-  _weapon: {fileID: 0}
+  _weapon: {fileID: 9168064521010932163}
   aimingMovementPenalty: 0.75
   ignoredColliders: []
   layerMask:
@@ -266,6 +266,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43bc8385963c42c4dbd1cc960dda844c, type: 3}
+--- !u!114 &9168064521010932163 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6437781830929478806, guid: 43bc8385963c42c4dbd1cc960dda844c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2768616922532814165}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7191658b8eddc418eb9ad0c877c80a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3719859257345106509
 PrefabInstance:
   m_ObjectHideFlags: 0
