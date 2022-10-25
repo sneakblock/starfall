@@ -237,7 +237,6 @@ public class SAi : SCharacter
         
         for (var i = 0; i < numLinkDrops; i++)
         {
-            Debug.Log($"Dropping link {i} of {numLinkDrops}");
             var randomX = Random.Range(-1f, 1f);
             var randomY = Random.Range(.3f, .8f);
             var randomZ = Random.Range(-1f, 1f);

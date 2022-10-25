@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,8 @@ public class AIManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            //TODO(Soham): This is a band-aid solution, however, I have no issue with the Instance being reinitialized on level load.
+            // DontDestroyOnLoad(this.gameObject);
         }
 
         InitializeLevel();
@@ -172,7 +174,7 @@ public class AIManager : MonoBehaviour
         // 'Respawn' the enemy at the chosen respawn point
         MoveEnemyPos(enemy, respawnPoint.transform.position);
         _numRespawns++;
-        Debug.Log("respawned an enemy");
+        // Debug.Log("respawned an enemy");
 
         // Wait to respawn more enemies
         yield return new WaitForSeconds(_respawnDelay);
