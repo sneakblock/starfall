@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5751729091738824339}
   - component: {fileID: 5751729091738824338}
   - component: {fileID: 711518484545904889}
+  - component: {fileID: 1242472005}
   m_Layer: 6
   m_Name: Kuze
   m_TagString: Player
@@ -51,7 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motor: {fileID: 5751729091738824338}
-  characterData: {fileID: 11400000, guid: 6451f51e07e28b44f8cd05324e98c5f3, type: 2}
   health: 100
   maxStableMoveSpeed: 10
   stableMovementSharpness: 15
@@ -150,6 +150,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impactSurfaceType: 7
+--- !u!114 &1242472005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5751729091738824351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d35481514e54909b090e14ff1141c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownTime: 5
+  castTime: 0.2
+  speed: 5
+  damage: 15
+  coolDownReductionPerKill: 3
 --- !u!1 &5751729092140714124
 GameObject:
   m_ObjectHideFlags: 0

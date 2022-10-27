@@ -3,22 +3,19 @@ using UnityEngine;
 
 public class AdvancedAbility : Ability, ICooldown, ICastable
 {
-    float cooldownTime;
+    [SerializeField]
+    [Tooltip("The time, in seconds, after casting that the ability will be ready to use again.")]
+    public float cooldownTime;
+    
+    [SerializeField]
+    [Tooltip("The time, in seconds, that the ability will be in its casting state on use.")]
+    public float castTime;
 
     protected float cooldownTimer;
-    float castTime;
-
     protected float castTimer;
 
-    // Cooldown and CastDelay should both be in seconds
-    public AdvancedAbility(SCharacter character, float cooldownTime, float castTime) : base(character)
-    {
-        this.cooldownTime = cooldownTime;
-        this.castTime = castTime;
-    }
-
     // Happens only once every time the player activates this ability
-    public override void OnEnable()
+    public override void OnEnableAbility()
     {
         if (!IsReady())
         {
@@ -39,7 +36,7 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
         OnCastStarted();
     }
 
-    public override void Update()
+    public override void Tick()
     {
         if (IsCasting())
         {
@@ -53,7 +50,7 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
         Disable();
     }
 
-    public override void OnDisable()
+    public override void OnDisableAbility()
     {
     }
 

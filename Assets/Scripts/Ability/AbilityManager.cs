@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class AbilityManager
 {
@@ -7,7 +9,7 @@ public class AbilityManager
 
     public AbilityManager()
     {
-        this.abilities = new List<Ability>();
+        abilities = new List<Ability>();
     }
 
     public void Register(Ability ability)
@@ -19,7 +21,7 @@ public class AbilityManager
     {
         foreach (Ability ability in abilities)
         {
-            ability.Start();
+            ability.StartAbility();
         }
     }
 
@@ -29,7 +31,7 @@ public class AbilityManager
         {
             if (ability.IsEnabled())
             {
-                ability.Update();
+                ability.Tick();
             } 
             else
             {

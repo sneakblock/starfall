@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class GrenadeAbility : AdvancedAbility
 {
-    private GrenadeSpawn grenadeSpawner;
-
-    public GrenadeAbility(SCharacter character) : base(character, 5f, 0.2f)
-    {
-        if (!character.transform.Find("GrenadeSpawner")) return;
-        grenadeSpawner = character.transform.Find("GrenadeSpawner").GetComponent<GrenadeSpawn>();
-    }
+    [SerializeField] private float throwPower = 5f;
+    [SerializeField] private GameObject grenade;
+    [SerializeField] private Transform grenadeSpawnPoint;
 
     public override void OnCastStarted() {
         base.OnCastStarted();
         Vector3 direction = character.transform.forward + new Vector3(0, 1, 0);
-        grenadeSpawner.CreateGrenade(direction);
-        
+        var createdGrenade = Instantiate(grenade, grenadeSpawnPoint.position, Quaternion.identity);
+        createdGrenade.transform.LookAt(direction);
+        Physics.IgnoreCollision(character.Collider, createdGrenade.GetComponent<Collider>());
+        createdGrenade.GetComponent<Rigidbody>().AddForce(direction * throwPower, ForceMode.Impulse);
     }
-
 }
