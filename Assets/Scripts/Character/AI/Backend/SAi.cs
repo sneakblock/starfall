@@ -70,6 +70,7 @@ public class SAi : SCharacter
 
     protected override void StartCharacter()
     {
+        base.StartCharacter();
         NavMeshPath = new NavMeshPath();
         coll = GetComponent<Collider>();
         TreeRunner = GetComponent<BehaviourTreeRunner>();

@@ -59,6 +59,7 @@ public abstract class APlayer : SCharacter
     
     protected override void StartCharacter()
     {
+        base.StartCharacter();
         if (!orbitCamera) orbitCamera = GameObject.FindWithTag("MainCamera").GetComponent<ExampleCharacterCamera>();
         
         cam = orbitCamera.Camera;
@@ -130,6 +131,11 @@ public abstract class APlayer : SCharacter
             UseAbility2();
         }
 
+        if (RewiredPlayer.GetButtonDown("Ability3"))
+        {
+            UseAbility3();
+        }
+
 
         //TODO(ben): Not sure if this is the best way to handle this-- target needs to be set on the SCharacter level because AI agents also have ideal target points. But calculating the center screen point every frame seems a bit silly and/or goofy. (It's only like this right now because moving the Unity window mid-play will break the "center" of the screen.)
         //Update the screen center point
@@ -158,17 +164,6 @@ public abstract class APlayer : SCharacter
             Damage(linkDamagePerSec * Time.deltaTime);
             invokeLinkSlider.Invoke(linkDamagePerSec * Time.deltaTime);
         }
-    }
-
-    protected virtual void UseAbility1()
-    {
-        //If there's any generic stuff like updating ui or something, it can go here,
-        //as every character should call base.UseAbility1()
-    }
-
-    protected virtual void UseAbility2()
-    {
-        
     }
 
     protected override void AimDown()

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class DashAbility : AdvancedAbility
 {
+    [SerializeField] private float speed;
+    [SerializeField] private float damage;
+    [SerializeField] private float coolDownReductionPerKill;
+    
     Vector3 targetDirection;
     Vector3 movementVector;
 
@@ -14,14 +18,6 @@ public class DashAbility : AdvancedAbility
     private static readonly int Dash = Animator.StringToHash("dash");
     private static readonly int VertexJitter = Shader.PropertyToID("_useVertexJitter");
 
-    public DashAbility(SCharacter character, float cooldownTime, float castTime) : base(character, cooldownTime, castTime)
-    {
-    }
-
-    public DashAbility(SCharacter character) : base(character, 5f, 0.2f)
-    {
-    }
-
     public override void NotReadyYet()
     {
 
@@ -30,7 +26,7 @@ public class DashAbility : AdvancedAbility
     public override void OnCastStarted()
     {
         base.OnCastStarted();
-        movementVector = character.GetTargetMovementDirection() * character.characterData.dashAbilitySpeed;
+        movementVector = character.GetTargetMovementDirection() * speed;
         if (character is SAi)
         {
             //6 is the player layer
@@ -54,7 +50,7 @@ public class DashAbility : AdvancedAbility
                     movementVector = player.motor.CharacterForward.normalized;
                 }
                 player.motor.SetRotation(Quaternion.LookRotation(movementVector, player.motor.CharacterUp));
-                movementVector *= player.characterData.dashAbilitySpeed;
+                movementVector *= speed;
             }
         }
 
@@ -102,7 +98,7 @@ public class DashAbility : AdvancedAbility
             IDamageable damageableEnemy = enemy.gameObject.GetComponent<IDamageable>();
             if (damageableEnemy != null)
             {
-                damageableEnemy.Damage(character.characterData.dashAbilityDamage * enemiesToHit.Count);
+                damageableEnemy.Damage(damage * enemiesToHit.Count);
                 if (damageableEnemy.IsAlive() == false)
                 {
                     {
@@ -114,7 +110,7 @@ public class DashAbility : AdvancedAbility
 
         enemiesToHit.Clear();
 
-        cooldownTimer -= enemiesKilled * character.characterData.dashAbilityCooldownReductionPerKill;
+        cooldownTimer -= enemiesKilled * coolDownReductionPerKill;
     }
 
     private void CheckCollisions()

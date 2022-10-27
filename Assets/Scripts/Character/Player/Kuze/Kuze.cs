@@ -3,11 +3,7 @@ using UnityEngine;
 
 public class Kuze : APlayer
 {
-
-    //TEMPORARY, HACKY ANIMATION CONTROLLER FOR PITCH
-    //TODO (ben): FIX THIS TRASH
-    // TODO(mish question): This should be refactored? Maybe have an automatic animation
-    // loader.
+    
     private Animator _anim;
     // Sample Abilities
     private MoveFastAbility _moveFastAbility;
@@ -41,13 +37,13 @@ public class Kuze : APlayer
         // base.RegisterAbility(_moveFastAbility = new MoveFastAbility(this));
 
         // NEW: Blink ability where you can blink every 45 seconds. To blink, call onEnable.
-        RegisterAbility(_grenadeAbility = new GrenadeAbility(this));
-
-        // NEW: This uses the default dash cooldown and cast delay
-        base.RegisterAbility(_dashAbility = new DashAbility(this, characterData.dashAbilityCooldownTime, characterData.dashAbilityTime));
-
-        // NEW: 
-        base.RegisterAbility(_grappleAbility = new GrappleAbility(this, 5f));
+        // RegisterAbility(_grenadeAbility = new GrenadeAbility(this));
+        //
+        // // NEW: This uses the default dash cooldown and cast delay
+        // base.RegisterAbility(_dashAbility = new DashAbility(this, characterData.dashAbilityCooldownTime, characterData.dashAbilityTime));
+        //
+        // // NEW: 
+        // base.RegisterAbility(_grappleAbility = new GrappleAbility(this, 5f));
     }
 
     protected override void UpdatePlayer()
@@ -80,17 +76,17 @@ public class Kuze : APlayer
         base.Heal(healing);
     }
 
-    protected override void UseAbility1()
-    {
-        base.UseAbility1();
-        _grenadeAbility.Enable();
-    }
-
-    protected override void UseAbility2()
-    {
-        base.UseAbility2();
-        _dashAbility.Enable();
-    }
+    // protected override void UseAbility1()
+    // {
+    //     base.UseAbility1();
+    //     _grenadeAbility.Enable();
+    // }
+    //
+    // protected override void UseAbility2()
+    // {
+    //     base.UseAbility2();
+    //     _dashAbility.Enable();
+    // }
 
     // Other players could have different animations.
     private void HandleAnimationInputs()
