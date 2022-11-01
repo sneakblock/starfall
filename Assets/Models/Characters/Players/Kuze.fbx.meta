@@ -1,0 +1,918 @@
+fileFormatVersion: 2
+guid: a9ab30d6230dc374d85ff6c55045b775
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      74: -203655887218126122
+    second: mixamo.com
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bagsmat
+    second: {fileID: 2100000, guid: 28c82da49a318b741a984cf30f8ad9a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kuze_mat
+    second: {fileID: 2100000, guid: 9ac561d3c44d0644093b8e40f0b5fdd0, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: mixamorig:Hips
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftUpLeg
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightUpLeg
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftLeg
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightLeg
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftFoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightFoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:Spine
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:Spine1
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:Neck
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:Head
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftShoulder
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightShoulder
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftArm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightArm
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftForeArm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightForeArm
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftHand
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: -10, z: -80}
+        max: {x: 0, y: 10, z: 80}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 1
+    - boneName: mixamorig:RightHand
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: -10, z: -80}
+        max: {x: 0, y: 10, z: 80}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 1
+    - boneName: mixamorig:LeftToeBase
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightToeBase
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftHandIndex1
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftHandIndex2
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:LeftHandIndex3
+      humanName: Left Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightHandIndex1
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightHandIndex2
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:RightHandIndex3
+      humanName: Right Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: mixamorig:Spine2
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: kuze_anims(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: kuze
+      parentName: kuze_anims(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: skirt
+      parentName: kuze_anims(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: WGTS_rig
+      parentName: kuze_anims(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: WGT-rig_root
+      parentName: WGTS_rig
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.84550077, y: 0.8455007, z: 0.84550077}
+    - name: WGT-rig_spine_fk
+      parentName: WGTS_rig
+      position: {x: -2.7236967e-20, y: 0.00006657214, z: 0.010649992}
+      rotation: {x: 0.7904555, y: 0, z: -0, w: 0.61251944}
+      scale: {x: 0.093782194, y: 0.09378219, z: 0.09378218}
+    - name: WGT-rig_spine_fk.001
+      parentName: WGTS_rig
+      position: {x: -2.7236967e-20, y: -0.00003693249, z: 0.011485424}
+      rotation: {x: 0.7493175, y: 0, z: -0, w: 0.6622109}
+      scale: {x: 0.08418192, y: 0.08418192, z: 0.084181905}
+    - name: WGT-rig_spine_fk.002
+      parentName: WGTS_rig
+      position: {x: -2.7236967e-20, y: -0.00003693249, z: 0.011485424}
+      rotation: {x: 0.6957685, y: -0.00000008562399, z: -0.00000008294204, w: 0.7182661}
+      scale: {x: 0.106515914, y: 0.106515914, z: 0.10651591}
+    - name: WGT-rig_spine_fk.003
+      parentName: WGTS_rig
+      position: {x: 5.831325e-18, y: -0.0000030470312, z: 0.012550044}
+      rotation: {x: 0.6142245, y: -1.9931768e-14, z: -1.6528605e-14, w: 0.78913134}
+      scale: {x: 0.12777959, y: 0.12777959, z: 0.12777959}
+    - name: WGT-rig_tweak_spine
+      parentName: WGTS_rig
+      position: {x: -2.7236967e-20, y: 0.00030069, z: 0.009741863}
+      rotation: {x: 0.7904556, y: 0, z: -0, w: 0.6125194}
+      scale: {x: 0.046891097, y: 0.046891097, z: 0.046891093}
+    - name: WGT-rig_tweak_spine.001
+      parentName: WGTS_rig
+      position: {x: -2.7236967e-20, y: 0.00006657221, z: 0.010649992}
+      rotation: {x: 0.74931765, y: 0, z: -0, w: 0.66221076}
+      scale: {x: 0.0420909, y: 0.042090897, z: 0.042090897}
+    - name: WGT-rig_tweak_spine.002
+      parentName: WGTS_rig
+      position: {x: -2.2242e-18, y: -0.00003693247, z: 0.011485424}
+      rotation: {x: 0.6957685, y: -0.00000008562399, z: -0.00000008294205, w: 0.7182661}
+      scale: {x: 0.053257957, y: 0.053257953, z: 0.053257957}
+    - name: WGT-rig_tweak_spine.003
+      parentName: WGTS_rig
+      position: {x: 5.8313247e-18, y: -0.0000030470674, z: 0.012550044}
+      rotation: {x: 0.6142243, y: -1.9931763e-14, z: -1.6528598e-14, w: 0.78913146}
+      scale: {x: 0.063889734, y: 0.063889734, z: 0.06388973}
+    - name: WGT-rig_tweak_spine.004
+      parentName: WGTS_rig
+      position: {x: 5.8651283e-18, y: 0.0003105967, z: 0.0137887485}
+      rotation: {x: 0.77000785, y: -0.00000007605964, z: -0.00000009179211, w: 0.6380344}
+      scale: {x: 0.011844823, y: 0.011844826, z: 0.011844824}
+    - name: WGT-rig_torso
+      parentName: WGTS_rig
+      position: {x: -2.7236967e-20, y: 0.00018363146, z: 0.010195928}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.24735573, y: 0.24735571, z: 0.24735573}
+    - name: WGT-rig_hips
+      parentName: WGTS_rig
+      position: {x: -2.7236967e-20, y: 0.00030069, z: 0.009741863}
+      rotation: {x: 0.7904557, y: 0, z: -0, w: 0.6125192}
+      scale: {x: 0.10306493, y: 0.103064924, z: 0.10306492}
+    - name: WGT-rig_chest
+      parentName: WGTS_rig
+      position: {x: 5.8313247e-18, y: -0.0000030470674, z: 0.012550044}
+      rotation: {x: 0.6142243, y: -1.993176e-14, z: -1.6528603e-14, w: 0.78913146}
+      scale: {x: 0.13741988, y: 0.13741986, z: 0.13741986}
+    - name: WGT-rig_breast.L
+      parentName: WGTS_rig
+      position: {x: -0.00065297005, y: 0.00022300037, z: 0.012400798}
+      rotation: {x: -0.000025707894, y: 0.09467609, z: 0.9953919, w: 0.0152124325}
+      scale: {x: 0.10816014, y: 0.108160175, z: 0.10816015}
+    - name: WGT-rig_breast.R
+      parentName: WGTS_rig
+      position: {x: 0.00065297005, y: 0.00022300037, z: 0.012400798}
+      rotation: {x: 0.000025707894, y: 0.09467609, z: 0.9953919, w: -0.0152124325}
+      scale: {x: 0.10816014, y: 0.108160175, z: 0.10816015}
+    - name: WGT-rig_shoulder.L
+      parentName: WGTS_rig
+      position: {x: -0.00011668025, y: -0.0002194739, z: 0.013613093}
+      rotation: {x: -0.020458812, y: -0.011742565, z: 0.49630257, w: 0.8678291}
+      scale: {x: 0.086179614, y: 0.08617962, z: 0.08617963}
+    - name: WGT-rig_upper_arm_parent.L
+      parentName: WGTS_rig
+      position: {x: -0.0009767595, y: 0.00027328177, z: 0.013432725}
+      rotation: {x: -0.12424991, y: -0.000000029149842, z: 0.7026455, w: 0.7006079}
+      scale: {x: 0.04698299, y: 0.046983, z: 0.046983}
+    - name: WGT-rig_upper_arm_fk.L
+      parentName: WGTS_rig
+      position: {x: -0.0009767595, y: 0.0002732818, z: 0.013432725}
+      rotation: {x: -0.4775448, y: 0.5523713, z: -0.53018737, w: -0.43097356}
+      scale: {x: 0.187932, y: 0.18793203, z: 0.18793198}
+    - name: WGT-rig_forearm_fk.L
+      parentName: WGTS_rig
+      position: {x: -0.0028270583, y: 0.00023889598, z: 0.013105531}
+      rotation: {x: 0.46476248, y: -0.49621445, z: 0.55144536, w: 0.48339948}
+      scale: {x: 0.26183578, y: 0.26183578, z: 0.2618357}
+    - name: WGT-rig_hand_fk.L
+      parentName: WGTS_rig
+      position: {x: -0.005430703, y: 0.00013365792, z: 0.012849093}
+      rotation: {x: 0.454092, y: -0.48608696, z: 0.5216795, w: 0.5342007}
+      scale: {x: 0.16661792, y: 0.16661792, z: 0.16661789}
+    - name: WGT-rig_upper_arm_ik.L
+      parentName: WGTS_rig
+      position: {x: -0.0009767595, y: 0.0002732818, z: 0.013432725}
+      rotation: {x: -0.47754508, y: 0.5523709, z: -0.5301878, w: -0.4309733}
+      scale: {x: 0.18793197, y: 0.187932, z: 0.18793195}
+    - name: WGT-rig_upper_arm_ik_target.L
+      parentName: WGTS_rig
+      position: {x: -0.0023034618, y: 0.001470269, z: 0.008815158}
+      rotation: {x: 0.7922425, y: 0.0000000030849863, z: 0.09668532, w: 0.6024979}
+      scale: {x: 0.05617733, y: 0.056177333, z: 0.056177333}
+    - name: WGT-rig_hand_ik.L
+      parentName: WGTS_rig
+      position: {x: -0.005430703, y: 0.00013365824, z: 0.012849093}
+      rotation: {x: 0.45409214, y: -0.48608682, z: 0.52167964, w: 0.5342006}
+      scale: {x: 0.16661794, y: 0.16661794, z: 0.16661794}
+    - name: WGT-rig_VIS_upper_arm_ik_pole.L
+      parentName: WGTS_rig
+      position: {x: -0.0028270588, y: 0.00023889539, z: 0.013105531}
+      rotation: {x: -0.4934169, y: 0.50649756, z: 0.50649756, w: -0.49341688}
+      scale: {x: 0.44941887, y: 0.44941887, z: 0.4494189}
+    - name: WGT-rig_upper_arm_tweak.L
+      parentName: WGTS_rig
+      position: {x: -0.0009767594, y: 0.00027328182, z: 0.013432725}
+      rotation: {x: -0.47754577, y: 0.552371, z: -0.5301871, w: -0.43097332}
+      scale: {x: 0.046983015, y: 0.046983015, z: 0.046983007}
+    - name: WGT-rig_upper_arm_tweak.L.001
+      parentName: WGTS_rig
+      position: {x: -0.0019019097, y: 0.0002560891, z: 0.013269128}
+      rotation: {x: -0.4775458, y: 0.55237085, z: -0.53018725, w: -0.43097326}
+      scale: {x: 0.046982985, y: 0.046982992, z: 0.046982978}
+    - name: WGT-rig_forearm_tweak.L
+      parentName: WGTS_rig
+      position: {x: -0.00282706, y: 0.00023889625, z: 0.013105531}
+      rotation: {x: 0.4647623, y: -0.49621466, z: 0.5514453, w: 0.48339954}
+      scale: {x: 0.065458946, y: 0.065458946, z: 0.06545894}
+    - name: WGT-rig_forearm_tweak.L.001
+      parentName: WGTS_rig
+      position: {x: -0.0041288817, y: 0.00018627725, z: 0.012977312}
+      rotation: {x: 0.4647624, y: -0.49621457, z: 0.55144536, w: 0.48339945}
+      scale: {x: 0.06545895, y: 0.06545896, z: 0.06545895}
+    - name: WGT-rig_hand_tweak.L
+      parentName: WGTS_rig
+      position: {x: -0.0054307044, y: 0.00013365819, z: 0.012849093}
+      rotation: {x: 0.45409206, y: -0.48608688, z: 0.5216796, w: 0.53420067}
+      scale: {x: 0.041654464, y: 0.041654468, z: 0.041654468}
+    - name: WGT-rig_shoulder.R
+      parentName: WGTS_rig
+      position: {x: 0.00011668025, y: -0.0002194739, z: 0.013613093}
+      rotation: {x: -0.020458812, y: 0.011742565, z: -0.49630257, w: 0.8678291}
+      scale: {x: 0.086179614, y: 0.08617962, z: 0.08617963}
+    - name: WGT-rig_upper_arm_parent.R
+      parentName: WGTS_rig
+      position: {x: 0.0009767595, y: 0.00027328177, z: 0.013432725}
+      rotation: {x: -0.12424991, y: 0.000000029149842, z: -0.7026455, w: 0.7006079}
+      scale: {x: 0.04698299, y: 0.046983, z: 0.046983}
+    - name: WGT-rig_upper_arm_fk.R
+      parentName: WGTS_rig
+      position: {x: 0.0009767595, y: 0.0002732818, z: 0.013432725}
+      rotation: {x: 0.4775448, y: 0.5523713, z: -0.53018737, w: 0.43097356}
+      scale: {x: 0.187932, y: 0.18793203, z: 0.18793198}
+    - name: WGT-rig_forearm_fk.R
+      parentName: WGTS_rig
+      position: {x: 0.0028270583, y: 0.00023889598, z: 0.013105531}
+      rotation: {x: -0.46476248, y: -0.49621445, z: 0.55144536, w: -0.48339948}
+      scale: {x: 0.26183578, y: 0.26183578, z: 0.2618357}
+    - name: WGT-rig_hand_fk.R
+      parentName: WGTS_rig
+      position: {x: 0.005430703, y: 0.00013365792, z: 0.012849093}
+      rotation: {x: 0.454092, y: 0.48608696, z: -0.5216795, w: 0.5342007}
+      scale: {x: 0.16661792, y: 0.16661792, z: 0.16661789}
+    - name: WGT-rig_upper_arm_ik.R
+      parentName: WGTS_rig
+      position: {x: 0.0009767595, y: 0.0002732818, z: 0.013432725}
+      rotation: {x: 0.47754508, y: 0.5523709, z: -0.5301878, w: 0.4309733}
+      scale: {x: 0.18793197, y: 0.187932, z: 0.18793195}
+    - name: WGT-rig_upper_arm_ik_target.R
+      parentName: WGTS_rig
+      position: {x: 0.0023034618, y: 0.001470269, z: 0.008815158}
+      rotation: {x: 0.7922425, y: -0.0000000030849863, z: -0.09668532, w: 0.6024979}
+      scale: {x: 0.05617733, y: 0.056177333, z: 0.056177333}
+    - name: WGT-rig_hand_ik.R
+      parentName: WGTS_rig
+      position: {x: 0.005430703, y: 0.00013365824, z: 0.012849093}
+      rotation: {x: 0.45409214, y: 0.48608682, z: -0.52167964, w: 0.5342006}
+      scale: {x: 0.16661794, y: 0.16661794, z: 0.16661794}
+    - name: WGT-rig_VIS_upper_arm_ik_pole.R
+      parentName: WGTS_rig
+      position: {x: 0.0028270588, y: 0.00023889539, z: 0.013105531}
+      rotation: {x: 0.4934169, y: 0.50649756, z: 0.50649756, w: 0.49341688}
+      scale: {x: 0.44941887, y: 0.44941887, z: 0.4494189}
+    - name: WGT-rig_upper_arm_tweak.R
+      parentName: WGTS_rig
+      position: {x: 0.0009767594, y: 0.00027328182, z: 0.013432725}
+      rotation: {x: 0.47754577, y: 0.552371, z: -0.5301871, w: 0.43097332}
+      scale: {x: 0.046983015, y: 0.046983015, z: 0.046983007}
+    - name: WGT-rig_upper_arm_tweak.R.001
+      parentName: WGTS_rig
+      position: {x: 0.0019019097, y: 0.0002560891, z: 0.013269128}
+      rotation: {x: 0.47754562, y: 0.5523712, z: -0.5301869, w: 0.4309735}
+      scale: {x: 0.046983, y: 0.046983007, z: 0.046982992}
+    - name: WGT-rig_forearm_tweak.R
+      parentName: WGTS_rig
+      position: {x: 0.00282706, y: 0.00023889625, z: 0.013105531}
+      rotation: {x: -0.4647623, y: -0.49621466, z: 0.5514453, w: -0.48339954}
+      scale: {x: 0.065458946, y: 0.065458946, z: 0.06545894}
+    - name: WGT-rig_forearm_tweak.R.001
+      parentName: WGTS_rig
+      position: {x: 0.0041288817, y: 0.00018627725, z: 0.012977312}
+      rotation: {x: -0.4647624, y: -0.49621457, z: 0.55144536, w: -0.48339945}
+      scale: {x: 0.06545895, y: 0.06545896, z: 0.06545895}
+    - name: WGT-rig_hand_tweak.R
+      parentName: WGTS_rig
+      position: {x: 0.0054307044, y: 0.00013365819, z: 0.012849093}
+      rotation: {x: 0.45409206, y: 0.48608688, z: -0.5216796, w: 0.53420067}
+      scale: {x: 0.041654464, y: 0.041654468, z: 0.041654468}
+    - name: WGT-rig_neck
+      parentName: WGTS_rig
+      position: {x: 5.8651287e-18, y: 0.0003105967, z: 0.0137887485}
+      rotation: {x: 0.71129864, y: -0.00000008379106, z: -0.000000084793406, w: 0.7028899}
+      scale: {x: 0.045927435, y: 0.045927443, z: 0.045927435}
+    - name: WGT-rig_head
+      parentName: WGTS_rig
+      position: {x: -3.357667e-17, y: 0.00030513539, z: 0.01424799}
+      rotation: {x: 0.7219207, y: -0.00000008248994, z: -0.00000008605967, w: 0.6919758}
+      scale: {x: 0.27826455, y: 0.2782646, z: 0.2782646}
+    - name: WGT-rig_tweak_spine.005
+      parentName: WGTS_rig
+      position: {x: 5.5511148e-18, y: 0.00026657563, z: 0.0140215205}
+      rotation: {x: 0.6450391, y: 0.00000018218746, z: 0.00000015378927, w: 0.7641496}
+      scale: {x: 0.011486413, y: 0.011486415, z: 0.011486413}
+    - name: WGT-rig_thigh_parent.L
+      parentName: WGTS_rig
+      position: {x: -0.0007840563, y: 0.0001033328, z: 0.01022685}
+      rotation: {x: -0.7186779, y: 0, z: -0, w: 0.69534326}
+      scale: {x: 0.105403714, y: 0.105403714, z: 0.10540371}
+    - name: WGT-rig_thigh_fk.L
+      parentName: WGTS_rig
+      position: {x: -0.0007840563, y: 0.000103332844, z: 0.01022685}
+      rotation: {x: -0.7186777, y: 0, z: -0, w: 0.6953434}
+      scale: {x: 0.42161486, y: 0.4216148, z: 0.4216148}
+    - name: WGT-rig_shin_fk.L
+      parentName: WGTS_rig
+      position: {x: -0.0007840563, y: -0.00003577997, z: 0.006012998}
+      rotation: {x: -0.7026591, y: -0.0058358447, z: -0.0066644335, w: 0.7114716}
+      scale: {x: 0.4985616, y: 0.4985615, z: 0.4985615}
+    - name: WGT-rig_foot_fk.L
+      parentName: WGTS_rig
+      position: {x: -0.00069588906, y: 0.00002630025, z: 0.0010285488}
+      rotation: {x: 0.93123406, y: -0.0058978014, z: 0.007417627, w: -0.36429837}
+      scale: {x: 0.11946025, y: 0.11946022, z: 0.119460225}
+    - name: WGT-rig_toe.L
+      parentName: WGTS_rig
+      position: {x: -0.00070255494, y: -0.00085113954, z: 0.00021791308}
+      rotation: {x: -0.0000002582121, y: -0.15592888, z: 0.9877683, w: 0.000000035671498}
+      scale: {x: 0.051209655, y: 0.051209554, z: 0.051209785}
+    - name: WGT-rig_thigh_ik.L
+      parentName: WGTS_rig
+      position: {x: -0.0007840563, y: 0.000103332844, z: 0.01022685}
+      rotation: {x: -0.7186777, y: 0, z: -0, w: 0.6953434}
+      scale: {x: 0.42161486, y: 0.4216148, z: 0.4216148}
+    - name: WGT-rig_thigh_ik_target.L
+      parentName: WGTS_rig
+      position: {x: -0.004119688, y: -0.008608668, z: 0.006052841}
+      rotation: {x: -0.0022035085, y: 2.2738155e-12, z: -0.18446952, w: 0.98283577}
+      scale: {x: 0.11498809, y: 0.11498808, z: 0.11498808}
+    - name: WGT-rig_foot_ik.L
+      parentName: WGTS_rig
+      position: {x: -0.00069588906, y: 0.000026300466, z: 0.001028549}
+      rotation: {x: 0, y: 0, z: -0.0037984077, w: 0.9999928}
+      scale: {x: 0.1194602, y: 0.1194602, z: 0.11946022}
+    - name: WGT-rig_VIS_thigh_ik_pole.L
+      parentName: WGTS_rig
+      position: {x: -0.0007840563, y: -0.000035780664, z: 0.006012998}
+      rotation: {x: 0.70708305, y: -0.005799852, z: -0.005799849, w: 0.707083}
+      scale: {x: 0.9199046, y: 0.9199046, z: 0.91990453}
+    - name: WGT-rig_thigh_tweak.L
+      parentName: WGTS_rig
+      position: {x: -0.0007840563, y: 0.00010333278, z: 0.01022685}
+      rotation: {x: -0.7186777, y: 0, z: -0, w: 0.6953434}
+      scale: {x: 0.105403714, y: 0.10540371, z: 0.10540382}
+    - name: WGT-rig_thigh_tweak.L.001
+      parentName: WGTS_rig
+      position: {x: -0.0007840563, y: 0.00003377651, z: 0.008119923}
+      rotation: {x: -0.7186779, y: 0, z: -0, w: 0.69534314}
+      scale: {x: 0.10540377, y: 0.10540376, z: 0.10540353}
+    - name: WGT-rig_shin_tweak.L
+      parentName: WGTS_rig
+      position: {x: -0.0007840563, y: -0.000035779874, z: 0.0060129976}
+      rotation: {x: -0.7026592, y: -0.005835842, z: -0.0066644275, w: 0.71147144}
+      scale: {x: 0.12464038, y: 0.12464037, z: 0.1246401}
+    - name: WGT-rig_shin_tweak.L.001
+      parentName: WGTS_rig
+      position: {x: -0.00073997275, y: -0.000004739762, z: 0.0035207728}
+      rotation: {x: -0.7026592, y: -0.005835842, z: -0.0066644275, w: 0.71147144}
+      scale: {x: 0.12464038, y: 0.12464037, z: 0.1246401}
+    - name: WGT-rig_foot_tweak.L
+      parentName: WGTS_rig
+      position: {x: -0.00069588906, y: 0.00002630045, z: 0.0010285481}
+      rotation: {x: 0.9312343, y: -0.005897795, z: 0.007417592, w: -0.3642978}
+      scale: {x: 0.029865108, y: 0.029865054, z: 0.029865086}
+    - name: WGT-rig_foot_spin_ik.L
+      parentName: WGTS_rig
+      position: {x: -0.00070255494, y: -0.0008511393, z: 0.00021791391}
+      rotation: {x: 0, y: 0, z: -0.0037984077, w: 0.9999928}
+      scale: {x: 0.0597301, y: 0.0597301, z: 0.05973011}
+    - name: WGT-rig_foot_heel_ik.L
+      parentName: WGTS_rig
+      position: {x: -0.00069588906, y: 0.000026300624, z: 0.001028549}
+      rotation: {x: 0, y: 0, z: -0.0037984082, w: 0.9999928}
+      scale: {x: 0.059730098, y: 0.059730098, z: 0.059730098}
+    - name: WGT-rig_thigh_parent.R
+      parentName: WGTS_rig
+      position: {x: 0.0007840563, y: 0.0001033328, z: 0.01022685}
+      rotation: {x: -0.7186779, y: 0, z: -0, w: 0.69534326}
+      scale: {x: 0.105403714, y: 0.105403714, z: 0.10540371}
+    - name: WGT-rig_thigh_fk.R
+      parentName: WGTS_rig
+      position: {x: 0.0007840563, y: 0.000103332844, z: 0.01022685}
+      rotation: {x: -0.7186777, y: 0, z: -0, w: 0.6953434}
+      scale: {x: 0.42161486, y: 0.4216148, z: 0.4216148}
+    - name: WGT-rig_shin_fk.R
+      parentName: WGTS_rig
+      position: {x: 0.0007840563, y: -0.00003577997, z: 0.006012998}
+      rotation: {x: -0.7026591, y: 0.0058358447, z: 0.0066644335, w: 0.7114716}
+      scale: {x: 0.4985616, y: 0.4985615, z: 0.4985615}
+    - name: WGT-rig_foot_fk.R
+      parentName: WGTS_rig
+      position: {x: 0.00069588906, y: 0.00002630025, z: 0.0010285488}
+      rotation: {x: 0.93123406, y: 0.0058978014, z: -0.007417627, w: -0.36429837}
+      scale: {x: 0.11946025, y: 0.11946022, z: 0.119460225}
+    - name: WGT-rig_toe.R
+      parentName: WGTS_rig
+      position: {x: 0.00070255494, y: -0.00085113954, z: 0.00021791308}
+      rotation: {x: 0.0000002582121, y: -0.15592888, z: 0.9877683, w: -0.000000035671498}
+      scale: {x: 0.051209655, y: 0.051209554, z: 0.051209785}
+    - name: WGT-rig_thigh_ik.R
+      parentName: WGTS_rig
+      position: {x: 0.0007840563, y: 0.000103332844, z: 0.01022685}
+      rotation: {x: -0.7186777, y: 0, z: -0, w: 0.6953434}
+      scale: {x: 0.42161486, y: 0.4216148, z: 0.4216148}
+    - name: WGT-rig_thigh_ik_target.R
+      parentName: WGTS_rig
+      position: {x: 0.004119688, y: -0.008608668, z: 0.006052841}
+      rotation: {x: -0.0022035085, y: -2.2738155e-12, z: 0.18446952, w: 0.98283577}
+      scale: {x: 0.11498809, y: 0.11498808, z: 0.11498808}
+    - name: WGT-rig_foot_ik.R
+      parentName: WGTS_rig
+      position: {x: 0.00069588906, y: 0.000026300466, z: 0.001028549}
+      rotation: {x: 0, y: 0, z: 0.0037984077, w: 0.9999928}
+      scale: {x: 0.1194602, y: 0.1194602, z: 0.11946022}
+    - name: WGT-rig_VIS_thigh_ik_pole.R
+      parentName: WGTS_rig
+      position: {x: 0.0007840563, y: -0.000035780664, z: 0.006012998}
+      rotation: {x: 0.70708305, y: 0.005799852, z: 0.005799849, w: 0.707083}
+      scale: {x: 0.9199046, y: 0.9199046, z: 0.91990453}
+    - name: WGT-rig_thigh_tweak.R
+      parentName: WGTS_rig
+      position: {x: 0.0007840563, y: 0.00010333278, z: 0.01022685}
+      rotation: {x: -0.7186777, y: 0, z: -0, w: 0.6953434}
+      scale: {x: 0.105403714, y: 0.10540371, z: 0.10540382}
+    - name: WGT-rig_thigh_tweak.R.001
+      parentName: WGTS_rig
+      position: {x: 0.0007840563, y: 0.00003377651, z: 0.008119923}
+      rotation: {x: -0.7186779, y: 0, z: -0, w: 0.69534314}
+      scale: {x: 0.10540377, y: 0.10540376, z: 0.10540353}
+    - name: WGT-rig_shin_tweak.R
+      parentName: WGTS_rig
+      position: {x: 0.0007840563, y: -0.000035779874, z: 0.0060129976}
+      rotation: {x: -0.7026592, y: 0.005835842, z: 0.0066644275, w: 0.71147144}
+      scale: {x: 0.12464038, y: 0.12464037, z: 0.1246401}
+    - name: WGT-rig_shin_tweak.R.001
+      parentName: WGTS_rig
+      position: {x: 0.00073997275, y: -0.000004739762, z: 0.0035207728}
+      rotation: {x: -0.7026592, y: 0.005835843, z: 0.0066644275, w: 0.71147144}
+      scale: {x: 0.12464041, y: 0.1246404, z: 0.12464013}
+    - name: WGT-rig_foot_tweak.R
+      parentName: WGTS_rig
+      position: {x: 0.00069588906, y: 0.00002630045, z: 0.0010285481}
+      rotation: {x: 0.9312343, y: 0.005897795, z: -0.007417592, w: -0.3642978}
+      scale: {x: 0.029865108, y: 0.029865054, z: 0.029865086}
+    - name: WGT-rig_foot_spin_ik.R
+      parentName: WGTS_rig
+      position: {x: 0.00070255494, y: -0.0008511393, z: 0.00021791391}
+      rotation: {x: 0, y: 0, z: 0.0037984077, w: 0.9999928}
+      scale: {x: 0.0597301, y: 0.0597301, z: 0.05973011}
+    - name: WGT-rig_foot_heel_ik.R
+      parentName: WGTS_rig
+      position: {x: 0.00069588906, y: 0.000026300624, z: 0.001028549}
+      rotation: {x: 0, y: 0, z: 0.0037984082, w: 0.9999928}
+      scale: {x: 0.059730098, y: 0.059730098, z: 0.059730098}
+    - name: mixamorig:Hips
+      parentName: kuze_anims(Clone)
+      position: {x: -0.000042283944, y: 1.0207671, z: -0.022061262}
+      rotation: {x: -0.00002404139, y: -0.000015410362, z: 0.0005088838, w: 0.9999999}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Spine
+      parentName: mixamorig:Hips
+      position: {x: -0, y: 0.07087219, z: 0.004267759}
+      rotation: {x: 0.030092066, y: 0.000000101930645, z: -0.00050911715, w: 0.99954706}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Spine1
+      parentName: mixamorig:Spine
+      position: {x: -0, y: 0.082833946, z: 2.2481056e-10}
+      rotation: {x: 1.0615906e-27, y: -1.5532818e-15, z: 6.834501e-13, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Spine2
+      parentName: mixamorig:Spine1
+      position: {x: -0, y: 0.09466725, z: 1.0781974e-10}
+      rotation: {x: 0, y: 0, z: 2.524355e-29, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftShoulder
+      parentName: mixamorig:Spine2
+      position: {x: -0.031034503, y: 0.09443932, z: 0.0005152634}
+      rotation: {x: 0.5796061, y: -0.40829825, z: 0.571484, w: 0.41322553}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftArm
+      parentName: mixamorig:LeftShoulder
+      position: {x: -6.147747e-11, y: 0.066895224, z: -8.45999e-10}
+      rotation: {x: -0.1720731, y: 0.0043299696, z: 0.0069245556, w: 0.9850503}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftForeArm
+      parentName: mixamorig:LeftArm
+      position: {x: -4.720914e-10, y: 0.22027588, z: -5.7391614e-10}
+      rotation: {x: 0.00000042737148, y: -0.0006985894, z: -0.00000006699852, w: 0.99999976}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftHand
+      parentName: mixamorig:LeftForeArm
+      position: {x: -5.8366555e-11, y: 0.25344408, z: 1.9702412e-10}
+      rotation: {x: -0.00000022752967, y: -0.002873831, z: -0.00000003664973, w: 0.9999959}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftHandIndex1
+      parentName: mixamorig:LeftHand
+      position: {x: -1.178857e-11, y: 0.06766378, z: 6.328761e-11}
+      rotation: {x: 0.0000001324777, y: -0.107514575, z: -0.000000051012513, w: 0.9942035}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftHandIndex2
+      parentName: mixamorig:LeftHandIndex1
+      position: {x: 2.8401806e-10, y: 0.022974802, z: 6.44207e-10}
+      rotation: {x: 0.19779542, y: 0.0000000936559, z: -0.03403796, w: 0.9796522}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftHandIndex3
+      parentName: mixamorig:LeftHandIndex2
+      position: {x: -0.0024128414, y: 0.03326746, z: -0.014022348}
+      rotation: {x: 0.03464947, y: 0.11202386, z: 0.25981224, w: 0.9585133}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftHandIndex4
+      parentName: mixamorig:LeftHandIndex3
+      position: {x: 0.013248101, y: 0.021224022, z: -0.010917923}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Neck
+      parentName: mixamorig:Spine2
+      position: {x: -0, y: 0.10650078, z: -0.000000010305715}
+      rotation: {x: -0.030068073, y: 4.9450312e-14, z: 2.2598911e-13, w: 0.9995479}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Head
+      parentName: mixamorig:Neck
+      position: {x: -0, y: 0.042450868, z: 0.006295111}
+      rotation: {x: 0, y: 0, z: 1.6362695e-29, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:HeadTop_End
+      parentName: mixamorig:Head
+      position: {x: -0, y: 0.27393067, z: 0.040621653}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightShoulder
+      parentName: mixamorig:Spine2
+      position: {x: 0.031034503, y: 0.09446465, z: 0.00093581586}
+      rotation: {x: 0.5836742, y: 0.4053426, z: -0.5669467, w: 0.4166454}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightArm
+      parentName: mixamorig:RightShoulder
+      position: {x: 4.5552964e-11, y: 0.066895224, z: -8.4703355e-10}
+      rotation: {x: -0.17163938, y: -0.0023994623, z: -0.014103022, w: 0.985056}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightForeArm
+      parentName: mixamorig:RightArm
+      position: {x: -4.1565298e-10, y: 0.22022186, z: -2.0273773e-10}
+      rotation: {x: -0.00000012976281, y: 0.0006058812, z: -0.000000055969718, w: 0.9999998}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightHand
+      parentName: mixamorig:RightForeArm
+      position: {x: -9.035242e-11, y: 0.2534344, z: 3.9402862e-10}
+      rotation: {x: 0.00000033324844, y: 0.00052682316, z: -0.0000002327872, w: 0.9999999}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightHandIndex1
+      parentName: mixamorig:RightHand
+      position: {x: -2.6265691e-11, y: 0.066883914, z: 1.4752572e-11}
+      rotation: {x: 0.00000021246149, y: -0.017777434, z: -0.000000011974233, w: 0.999842}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightHandIndex2
+      parentName: mixamorig:RightHandIndex1
+      position: {x: -3.3204745e-10, y: 0.024155507, z: -8.097657e-11}
+      rotation: {x: 0.16475831, y: 0.000000017772571, z: -0.03233791, w: 0.9858037}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightHandIndex3
+      parentName: mixamorig:RightHandIndex2
+      position: {x: -0.0022763477, y: 0.03368535, z: -0.011596445}
+      rotation: {x: -0.043077312, y: -0.08181373, z: -0.22920406, w: 0.968977}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightHandIndex4
+      parentName: mixamorig:RightHandIndex3
+      position: {x: -0.014249593, y: 0.022382388, z: -0.0053108297}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightUpLeg
+      parentName: mixamorig:Hips
+      position: {x: 0.1098249, y: -0.039372787, z: 0.024512338}
+      rotation: {x: -0.0029856493, y: 0.04219245, z: 0.99891603, w: -0.019433675}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightLeg
+      parentName: mixamorig:RightUpLeg
+      position: {x: -7.928342e-12, y: 0.42519242, z: 6.0134936e-10}
+      rotation: {x: -0.11009747, y: 0.0057020234, z: -0.037780058, w: 0.9931862}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightFoot
+      parentName: mixamorig:RightLeg
+      position: {x: 0.0000000021766147, y: 0.4982755, z: -3.2618733e-10}
+      rotation: {x: 0.45537582, y: -0.008902124, z: -0.018761666, w: 0.8900571}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightToeBase
+      parentName: mixamorig:RightFoot
+      position: {x: 1.1595731e-10, y: 0.08750716, z: 0.0000000031511211}
+      rotation: {x: 0.33563417, y: 0.27291578, z: -0.10225784, w: 0.8957735}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightToe_End
+      parentName: mixamorig:RightToeBase
+      position: {x: -5.778709e-11, y: 0.024288287, z: -2.7360345e-11}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftUpLeg
+      parentName: mixamorig:Hips
+      position: {x: -0.1098249, y: -0.039372787, z: 0.014135451}
+      rotation: {x: 0.0022284093, y: 0.04235702, z: 0.99888897, w: 0.020534983}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftLeg
+      parentName: mixamorig:LeftUpLeg
+      position: {x: 3.6834234e-11, y: 0.42267066, z: 0.000000001866732}
+      rotation: {x: -0.09969424, y: -0.0047371294, z: 0.03752302, w: 0.9942991}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftFoot
+      parentName: mixamorig:LeftLeg
+      position: {x: -0.000000001595162, y: 0.49911642, z: -0.0000000017894001}
+      rotation: {x: 0.5347639, y: 0.011405988, z: 0.017926736, w: 0.8447344}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftToeBase
+      parentName: mixamorig:LeftFoot
+      position: {x: -8.148861e-11, y: 0.11415523, z: -0.0000000019554243}
+      rotation: {x: 0.25335374, y: -0.20276934, z: 0.05440157, w: 0.94431823}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftToe_End
+      parentName: mixamorig:LeftToeBase
+      position: {x: -2.5243213e-10, y: 0.043091875, z: 3.1667998e-11}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

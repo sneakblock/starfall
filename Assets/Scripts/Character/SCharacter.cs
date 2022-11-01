@@ -1,17 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using KinematicCharacterController;
 using UnityEngine;
 using UnityEngine.Events;
 
 public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterController
 {
+    [HideInInspector]
     public KinematicCharacterMotor motor;
-    
-    public AbilityManager abilityManager;
 
-    public CharacterData characterData;
-    
     [Header("Link")][SerializeField] protected float health = 100;
     protected float _maxHealth;
 
@@ -65,10 +63,14 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected Vector3 targetPoint;
     protected bool reloadedThisFrame;
 
+    //Abilities
+    private List<Ability> _abilities;
+    private AbilityManager abilityManager;
+    private const int MAX_ABILITIES = 3;
     
 
     void Start()
-	{
+    {
         abilityManager = new AbilityManager();
         motor.CharacterController = this;
         _maxHealth = (int)health;
@@ -107,7 +109,18 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     protected abstract void HandleInputs();
 
-    protected abstract void StartCharacter();
+    protected virtual void StartCharacter()
+    {
+        // Get all abilities attached to this GameObject
+        _abilities = GetComponents<Ability>().ToList();
+        
+        for (int i = 0; i < MAX_ABILITIES; i++)
+        {
+            if (i >= _abilities.Count || !_abilities[i]) break;
+            _abilities[i].SetCharacter(this);
+            abilityManager.Register(_abilities[i]);
+        }
+    }
 
     protected abstract void UpdateCharacter();
 
@@ -411,6 +424,26 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
             Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized *
                                       moveInputVector.magnitude;
         return reorientedInput.normalized;
+    }
+    
+    protected virtual void UseAbility1()
+    {
+        //If there's any generic stuff like updating ui or something, it can go here,
+        //as every character should call base.UseAbility1()
+        if (!_abilities[0]) return;
+        _abilities[0].Enable();
+    }
+
+    protected virtual void UseAbility2()
+    {
+        if (!_abilities[1]) return;
+        _abilities[1].Enable();
+    }
+
+    protected virtual void UseAbility3()
+    {
+        if (!_abilities[2]) return;
+        _abilities[2].Enable();
     }
 
 }

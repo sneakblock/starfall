@@ -5,20 +5,24 @@ using System.Collections.Generic;
 
 public class GrappleAbility : AdvancedAbility
 {
+
+    [SerializeField] private float grappleMaxLength;
+    [SerializeField] private float grappleSpeed;
+    
     // The location of the grapple's destination.
     private Vector3 targetPos;
     // LineRenderer that draws a line representing the grapple.
     private LineRenderer grapple;
 
-    private float startTime, grappleMaxLength, grappleSpeed;
+    private float startTime;
 
-    public GrappleAbility(SCharacter character, float cooldownTime) : base(character, cooldownTime, 0f)
-    {
-    }
-
-    public GrappleAbility(SCharacter character) : base(character, 10f, 0f)
-    {
-    }
+    // public GrappleAbility(SCharacter character, float cooldownTime) : base(character, cooldownTime, 0f)
+    // {
+    // }
+    //
+    // public GrappleAbility(SCharacter character) : base(character, 10f, 0f)
+    // {
+    // }
 
     public override void NotReadyYet()
     {
@@ -34,9 +38,7 @@ public class GrappleAbility : AdvancedAbility
     public override void OnCastStarted()
     {
         base.OnCastStarted();
-
-        grappleMaxLength = character.characterData.grappleMaxLength;
-        grappleSpeed = character.characterData.grappleSpeed;
+        
         grapple = character.GetComponent<LineRenderer>();
         grapple.positionCount = 2;
 

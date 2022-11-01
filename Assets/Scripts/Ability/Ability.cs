@@ -1,15 +1,11 @@
-﻿using System;
+﻿
+using System;
+using UnityEngine;
 
-public class Ability 
+public class Ability : MonoBehaviour
 {
     protected SCharacter character;
     protected bool _enabled;
-
-    public Ability(SCharacter character)
-    {
-        this.character = character;
-        this._enabled = false;
-    }
 
     public bool IsEnabled()
     {
@@ -19,13 +15,13 @@ public class Ability
     public void Enable()
     {
         _enabled = true;
-        OnEnable();
+        OnEnableAbility();
     }
 
     public void Disable()
     {
         _enabled = false;
-        OnDisable();
+        OnDisableAbility();
     }
 
     public void Toggle()
@@ -40,24 +36,29 @@ public class Ability
         }
     }
 
-    public virtual void Start()
+    public virtual void StartAbility()
     {
 
     }
 
-    public virtual void OnEnable()
+    public virtual void OnEnableAbility()
     {
         
     }
 
-    public virtual void Update()
+    public virtual void Tick()
     {
 
     }
 
-    public virtual void OnDisable()
+    public virtual void OnDisableAbility()
     {
 
+    }
+
+    public void SetCharacter(SCharacter aCharacter)
+    {
+        this.character = aCharacter;
     }
 }
 
