@@ -40,7 +40,7 @@ public class AIManager : MonoBehaviour
     private List<GameObject> alreadyMarkedDead = new List<GameObject>();
 
     private GameObject _player;
-    private static int _currLevelNum = 0;
+    private int _currLevelNum = -1;
     private LevelData _currlevelData;
 
     private void Start()
@@ -54,7 +54,7 @@ public class AIManager : MonoBehaviour
         {
             Instance = this;
             //TODO(Soham): This is a band-aid solution, however, I have no issue with the Instance being reinitialized on level load.
-            //DontDestroyOnLoad(this.gameObject);
+            // DontDestroyOnLoad(this.gameObject);
         }
 
         InitializeLevel();
@@ -64,6 +64,7 @@ public class AIManager : MonoBehaviour
     public void InitializeLevel()
     {
         // Access the scriptable object for this level
+        _currLevelNum++;
         _currlevelData = levelsData[_currLevelNum];
 
         // Temporarily disable enemy respawning
@@ -141,8 +142,7 @@ public class AIManager : MonoBehaviour
             if (aliveEnemies.Count == 0)
             {
                 Debug.Log("all enemies dead");
-                // TODO: GO TO NEXT LEVEL //
-                // _currLevelNum++;
+                // TODO: go to next level
             }
         }
     }
