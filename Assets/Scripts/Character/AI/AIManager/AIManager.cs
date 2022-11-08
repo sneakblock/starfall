@@ -8,6 +8,8 @@ using UnityEngine.AI;
 
 public class AIManager : MonoBehaviour
 {
+    public GameObject test;
+
     // Singleton reference.
     public static AIManager Instance { get; private set; }
 
@@ -25,10 +27,8 @@ public class AIManager : MonoBehaviour
     private Dictionary<GameObject, int> enemyRespawnData = new Dictionary<GameObject, int>();
     // Dictionary containing references to instantiated enemies that can be used as 'respawned' enemies when needed.
     private Dictionary<string, List<GameObject>> respawnedEnemies = new Dictionary<string, List<GameObject>>();
-    // Array containing all of the respawn points enemies can use in this level.
-    private GameObject[] enemyRespawnPoints;
-    // List that contains all of the valid respawn points enemies can use to respawn at any given moment in the game.
-    private List<GameObject> validRespawnPoints = new List<GameObject>();
+    // Array containing all of the respawn zones enemies can use in this level.
+    private GameObject[] enemyRespawnZones;
 
     // Enable or disable enemy respawning.
     private bool _allowEnemyRespawning = false;
@@ -40,7 +40,7 @@ public class AIManager : MonoBehaviour
     private List<GameObject> alreadyMarkedDead = new List<GameObject>();
 
     private GameObject _player;
-    private int _currLevelNum = -1;
+    private static int _currLevelNum = -1;
     private LevelData _currlevelData;
 
     private void Start()
@@ -72,8 +72,8 @@ public class AIManager : MonoBehaviour
 
         // Grab the player game object
         _player = GameObject.FindGameObjectWithTag("Player");
-        // Grab all of the respawn points in this level
-        enemyRespawnPoints = GameObject.FindGameObjectsWithTag("EnemyRespawn");
+        // Grab all of the respawn zones in this level
+        enemyRespawnZones = GameObject.FindGameObjectsWithTag("EnemyRespawn");
 
         // Create a dictionary with enemy types as keys and the amount of times they respawn as values
         foreach (LevelData.Enemies enemy in _currlevelData.enemies)
@@ -150,29 +150,20 @@ public class AIManager : MonoBehaviour
     private IEnumerator RespawnEnemy(GameObject enemy)
     {
         _allowEnemyRespawning = false;
-        validRespawnPoints.Clear();
+        BoxCollider randSpawnZone = enemyRespawnZones[0].GetComponent<BoxCollider>();
 
-        // Determine a valid set of respawn points to choose from
-        foreach (GameObject rp in enemyRespawnPoints)
+        foreach (GameObject respawnZone in enemyRespawnZones)
         {
-            // Check if this respawn point is far enough away from the player
-            float distance = Vector3.Distance(_player.transform.position, rp.transform.position);
-            if (distance > _minRespawnDistance)
-            {
-                // Check if the location of this respawn point is currently visible to the player
-                if (!rp.GetComponent<MeshRenderer>().isVisible)
-                {
-                    validRespawnPoints.Add(rp);
-                }
-            }
+            BoxCollider volume = respawnZone.GetComponent<BoxCollider>();
+            if (Vector3.Distance(volume.center, _player.transform.position) >= _minRespawnDistance)
+                if (!respawnZone.GetComponent<Renderer>().isVisible)
+                    randSpawnZone = respawnZone.GetComponent<BoxCollider>();
         }
 
-        // Randomly select a valid respawn point
-        int rand = Random.Range(0, validRespawnPoints.Count);
-        GameObject respawnPoint = validRespawnPoints[rand];
+        Vector3 respawnPoint = SelectRespawnPoint(randSpawnZone);
 
         // 'Respawn' the enemy at the chosen respawn point
-        MoveEnemyPos(enemy, respawnPoint.transform.position);
+        MoveEnemyPos(enemy, respawnPoint);
         _numRespawns++;
         // Debug.Log("respawned an enemy");
 
@@ -188,5 +179,29 @@ public class AIManager : MonoBehaviour
         enemy.GetComponent<KinematicCharacterController.KinematicCharacterMotor>().SetPosition(newPos);
         enemy.GetComponent<KinematicCharacterController.KinematicCharacterMotor>().enabled = true;
         enemy.SetActive(true);
+    }
+
+    private Vector3 SelectRespawnPoint(BoxCollider spawnZone)
+    {
+        Vector3 respawnPoint = Vector3.zero;
+        Vector3 extents = spawnZone.bounds.size / 2f;
+        bool validRespawnPoint = false;
+
+        while (!validRespawnPoint)
+        {
+            respawnPoint = new Vector3(
+                            Random.Range(-extents.x, extents.x),
+                            Random.Range(-extents.y, extents.y),
+                            Random.Range(-extents.z, extents.z)
+                           ) + spawnZone.bounds.center;
+            validRespawnPoint = true;
+
+            // NOTE: causes a crash for some reason?? // 
+            //Collider[] hitColliders = Physics.OverlapSphere(respawnPoint, 3f);
+            //if (hitColliders.Length <= 1)
+                //validRespawnPoint = true;
+        }
+
+        return respawnPoint;
     }
 }
