@@ -15,4 +15,7 @@ MonoBehaviour:
   enemies:
   - enemyType: {fileID: 1768362842341019642, guid: d47fc86c931d97f46ba22c2d4f70781d,
       type: 3}
-    enemyNumRespawns: 1000
+    enemyNumSpawns: 25
+    enemyNumRespawns: 50
+    enemyMaxAlive: 25
+    enemyIncrementMaxAlive: 3

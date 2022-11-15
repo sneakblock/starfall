@@ -248,6 +248,9 @@ public class SAi : SCharacter
             yield return new WaitForSeconds(.5f);
         }
         this.enabled = false;
+
+        yield return new WaitForSeconds(15f);
+        this.gameObject.SetActive(false);
     }
 
 }
