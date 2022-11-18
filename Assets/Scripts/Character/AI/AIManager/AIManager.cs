@@ -41,7 +41,7 @@ public class AIManager : MonoBehaviour
     private static int _currLevelNum = -1;
     private LevelData _currlevelData;
 
-    private void Start()
+    private void Awake()
     {
         // Create singleton instance.
         if (Instance != null && Instance != this)
