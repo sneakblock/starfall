@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 849289885516377144}
   - component: {fileID: 8680943509771422275}
   - component: {fileID: 2711776937888421278}
+  - component: {fileID: 5952372437098901175}
   m_Layer: 0
   m_Name: TowerLG_04_Metal.002
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5952372437098901175
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705885482924185376}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8853838707585858959, guid: 8529240d39ff82941adac2bdfd568d77, type: 3}
 --- !u!1 &3292532816750030662
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 5248745912792573298}
   - component: {fileID: 6906663137952742492}
   - component: {fileID: 3769813637167753640}
+  - component: {fileID: 6100565292429465964}
   m_Layer: 0
   m_Name: TowerLG_04_Metal
   m_TagString: Untagged
@@ -166,6 +182,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6100565292429465964
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3292532816750030662}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3998020304906026785, guid: 8529240d39ff82941adac2bdfd568d77, type: 3}
 --- !u!1 &3618351019339419836
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +207,7 @@ GameObject:
   - component: {fileID: 2057594631535346080}
   - component: {fileID: 3907526128915628066}
   - component: {fileID: 2735659586977402640}
+  - component: {fileID: 8403763103937840354}
   m_Layer: 0
   m_Name: TowerLG_04_Glass
   m_TagString: Untagged
@@ -249,6 +280,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8403763103937840354
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3618351019339419836}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7894804819437396864, guid: 8529240d39ff82941adac2bdfd568d77, type: 3}
 --- !u!1 &3756015047312337108
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +305,7 @@ GameObject:
   - component: {fileID: 1022289931127227026}
   - component: {fileID: 96980472608381613}
   - component: {fileID: 5691122855776720108}
+  - component: {fileID: 7830244936915902948}
   m_Layer: 0
   m_Name: TowerLG_04_LightMetal
   m_TagString: Untagged
@@ -332,6 +378,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7830244936915902948
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3756015047312337108}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8577515698026450966, guid: 8529240d39ff82941adac2bdfd568d77, type: 3}
 --- !u!1 &7699543298750141663
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +403,7 @@ GameObject:
   - component: {fileID: 3717720100538340629}
   - component: {fileID: 8416181917565432612}
   - component: {fileID: 5571184612766129708}
+  - component: {fileID: 9111083690054105472}
   m_Layer: 0
   m_Name: TowerLG_04_DkMetal
   m_TagString: Untagged
@@ -415,6 +476,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &9111083690054105472
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7699543298750141663}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -309858793533714001, guid: 8529240d39ff82941adac2bdfd568d77, type: 3}
 --- !u!1 &8607609576632153661
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +499,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8953032787591998599}
-  - component: {fileID: 109396097777982250}
   m_Layer: 0
   m_Name: treeoflife
   m_TagString: Untagged
@@ -453,20 +527,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &109396097777982250
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8607609576632153661}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8738336101628186615
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,6 +538,7 @@ GameObject:
   - component: {fileID: 329930716870324290}
   - component: {fileID: 7388170319223737433}
   - component: {fileID: 8139285091411219637}
+  - component: {fileID: 591460222465489491}
   m_Layer: 0
   m_Name: TowerLG_04_Metal.001
   m_TagString: Untagged
@@ -550,3 +611,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &591460222465489491
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8738336101628186615}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4222432859179159604, guid: 8529240d39ff82941adac2bdfd568d77, type: 3}

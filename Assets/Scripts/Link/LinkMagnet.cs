@@ -46,4 +46,9 @@ public class LinkMagnet : MonoBehaviour
         var dirToPlayer = (_target.position - _linkDrop.gameObject.transform.position).normalized;
         _linkDropRigidbody.AddForce(dirToPlayer * attractForce, ForceMode.Force);
     }
+
+    public void ResetTarget()
+    {
+        _target = null;
+    }
 }

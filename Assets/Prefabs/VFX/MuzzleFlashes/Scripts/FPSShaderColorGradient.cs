@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FPSShaderColorGradient : MonoBehaviour
 {
+    public ImpactEffectSurface.ImpactSurfaceType surfaceType;
     public RFX4_ShaderProperties ShaderColorProperty = RFX4_ShaderProperties._TintColor;
     public Gradient Color = new Gradient();
     public float TimeMultiplier = 1;
@@ -48,6 +49,12 @@ public class FPSShaderColorGradient : MonoBehaviour
     private void Update()
     {
         rend.GetPropertyBlock(props);
+
+        if (props.GetColor(propertyID).a == 0)
+        {
+            GameManager.Instance.SurfaceImpactPools[surfaceType].Release(transform.parent.gameObject);
+            return;
+        }
 
         var time = Time.time - startTime;
         if (canUpdate)

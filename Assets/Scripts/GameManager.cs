@@ -3,7 +3,9 @@ using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController.Examples;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -24,6 +26,22 @@ public class GameManager : MonoBehaviour
     public static Action<APlayer> PlayerDeath;
     public static Action<GameObject> EnemyDeath;
 
+    private BloodPool _bloodPoolComponent;
+    public ObjectPool<GameObject> BloodPool;
+
+    private MuzzleFlashPool _muzzleFlashPoolComponent;
+    public ObjectPool<GameObject> MuzzleFlashPool;
+
+    private BulletTrailPool _bulletTrailPoolComponent;
+    public ObjectPool<GameObject> BulletTrailPool;
+
+    private SurfaceImpactPool[] _surfaceImpactPoolComponents;
+    public readonly Dictionary<ImpactEffectSurface.ImpactSurfaceType, ObjectPool<GameObject>> SurfaceImpactPools = new();
+
+    private LinkPool _linkPoolComponent;
+    public ObjectPool<GameObject> LinkPool;
+
+
     private void Awake()
     {
         //Initialize the instance of the Game Manager.
@@ -41,6 +59,24 @@ public class GameManager : MonoBehaviour
         
         PlayerDeath += OnPlayerDeath;
         EnemyDeath += OnEnemyDeath;
+
+        _bloodPoolComponent = GetComponent<BloodPool>();
+        BloodPool = _bloodPoolComponent.Pool;
+
+        _muzzleFlashPoolComponent = GetComponent<MuzzleFlashPool>();
+        MuzzleFlashPool = _muzzleFlashPoolComponent.Pool;
+
+        _bulletTrailPoolComponent = GetComponent<BulletTrailPool>();
+        BulletTrailPool = _bulletTrailPoolComponent.Pool;
+
+        _surfaceImpactPoolComponents = GetComponents<SurfaceImpactPool>();
+        foreach (var component in _surfaceImpactPoolComponents)
+        {
+            SurfaceImpactPools.Add(component.surfaceType, component.Pool);
+        }
+
+        _linkPoolComponent = GetComponent<LinkPool>();
+        LinkPool = _linkPoolComponent.Pool;
     }
 
     void TryFindAPlayer()
@@ -50,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     Light TryFindDirLight()
     {
-        foreach (var light in GameObject.FindObjectsOfType<Light>())
+        foreach (var light in FindObjectsOfType<Light>())
         {
             if (light.type == LightType.Directional) return light;
         }

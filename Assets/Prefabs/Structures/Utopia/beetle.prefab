@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4719616938433748458}
   - component: {fileID: 6265325985494594800}
   - component: {fileID: 1532369808607303938}
+  - component: {fileID: 6330712398074344634}
   m_Layer: 0
   m_Name: BldgSM_07_LightMetal.001
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6330712398074344634
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515748344653088599}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6878338767165395277, guid: 5a17b9ce8550d524987ebd610a3b40d2, type: 3}
 --- !u!1 &2849135291626445762
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 6018193248245343724}
   - component: {fileID: 7764703380061863327}
   - component: {fileID: 2603191834298132554}
+  - component: {fileID: 8961759012806725739}
   m_Layer: 0
   m_Name: BldgSM_07_Glass
   m_TagString: Untagged
@@ -166,6 +182,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8961759012806725739
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2849135291626445762}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1395423595448175561, guid: 5a17b9ce8550d524987ebd610a3b40d2, type: 3}
 --- !u!1 &3313592830639997885
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +207,7 @@ GameObject:
   - component: {fileID: 4862679593843746344}
   - component: {fileID: 553847920493055784}
   - component: {fileID: 1283409150607769789}
+  - component: {fileID: 8459048494102048251}
   m_Layer: 0
   m_Name: BldgSM_07_Metal.001
   m_TagString: Untagged
@@ -249,6 +280,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8459048494102048251
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313592830639997885}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7529304551317839904, guid: 5a17b9ce8550d524987ebd610a3b40d2, type: 3}
 --- !u!1 &3568789614656126273
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +305,7 @@ GameObject:
   - component: {fileID: 2622322186102776817}
   - component: {fileID: 2938464143417098531}
   - component: {fileID: 3541380732195333029}
+  - component: {fileID: 6513103256877189629}
   m_Layer: 0
   m_Name: BldgSM_07_Metal
   m_TagString: Untagged
@@ -332,6 +378,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6513103256877189629
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3568789614656126273}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1899867680559072044, guid: 5a17b9ce8550d524987ebd610a3b40d2, type: 3}
 --- !u!1 &4312464344132015378
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +403,7 @@ GameObject:
   - component: {fileID: 901227448465810011}
   - component: {fileID: 7952370387725636389}
   - component: {fileID: 8000914827013417022}
+  - component: {fileID: 714274303211474740}
   m_Layer: 0
   m_Name: BldgSM_07_DkMetal
   m_TagString: Untagged
@@ -415,6 +476,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &714274303211474740
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312464344132015378}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5021345144713629380, guid: 5a17b9ce8550d524987ebd610a3b40d2, type: 3}
 --- !u!1 &5354557247587928631
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +501,7 @@ GameObject:
   - component: {fileID: 461457899655399759}
   - component: {fileID: 5692593113162162368}
   - component: {fileID: 9018436644110903392}
+  - component: {fileID: 8991735649649285868}
   m_Layer: 0
   m_Name: BldgSM_07_Glass.001
   m_TagString: Untagged
@@ -498,6 +574,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8991735649649285868
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5354557247587928631}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3261297355247161455, guid: 5a17b9ce8550d524987ebd610a3b40d2, type: 3}
 --- !u!1 &9088739466588738934
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +597,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8460681264639774668}
-  - component: {fileID: 3616259115033532608}
   m_Layer: 0
   m_Name: beetle
   m_TagString: Untagged
@@ -536,17 +625,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &3616259115033532608
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9088739466588738934}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}

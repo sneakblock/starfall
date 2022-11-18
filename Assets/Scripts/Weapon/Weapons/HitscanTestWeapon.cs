@@ -30,19 +30,29 @@ public class HitscanTestWeapon : RangedWeapon
         PlayFireEffect();
         DrawHitscanBulletTrail(hitPoint);
     }
+    
+    public void PlayFireEffect()
+    {
+        var fireEffectInstance = GameManager.Instance.MuzzleFlashPool.Get();
+        fireEffectInstance.transform.position = barrelTransform.position;
+        fireEffectInstance.transform.rotation = barrelTransform.rotation;
+        fireEffectInstance.transform.parent = barrelTransform;
+        if (AudioSource) AudioSource.PlayOneShot(AudioSource.clip);
+        StartCoroutine(ReleaseMuzzleFlashWaiter(4f, fireEffectInstance));
+    }
+    
+    IEnumerator ReleaseMuzzleFlashWaiter(float numSeconds, GameObject toRelease)
+    {
+        yield return new WaitForSeconds(numSeconds);
+        GameManager.Instance.MuzzleFlashPool.Release(toRelease);
+    }
 
     private void DrawHitscanBulletTrail(Vector3 hitPos)
     {
-        if (!hitscanBulletTrail) return;
-        
-        var trailObj = Instantiate(hitscanBulletTrail, barrelTransform.position, Quaternion.identity);
+        var trailObj = GameManager.Instance.BulletTrailPool.Get();
         var lineRenderer = trailObj.GetComponent<LineRenderer>();
-        
-        if (!lineRenderer) return;
-        
         lineRenderer.SetPosition(0, barrelTransform.position);
         lineRenderer.SetPosition(1, hitPos);
-        Destroy(trailObj, 1f);
     }
 
 }
