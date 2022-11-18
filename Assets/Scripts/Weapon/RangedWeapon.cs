@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using KinematicCharacterController;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,9 +18,6 @@ public abstract class RangedWeapon : MonoBehaviour
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
     public Transform barrelTransform;
-
-    [SerializeField] 
-    private GameObject fireEffect;
 
     public AudioSource AudioSource;
 
@@ -313,7 +311,7 @@ public abstract class RangedWeapon : MonoBehaviour
     //TODO: Clean these up with appropriate { get; set; } syntax for each of them
     public float GetCurrentSpread()
     {
-        return this._currentSpread;
+        return _currentSpread;
     }
     
     public void SetAiming(bool isAiming)
@@ -330,12 +328,7 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         return _reloading;
     }
-    public void PlayFireEffect()
-    {
-        var fireEffectInstance = Instantiate(fireEffect, barrelTransform.position, barrelTransform.rotation, barrelTransform);
-        if (AudioSource) AudioSource.PlayOneShot(AudioSource.clip);
-        Destroy(fireEffectInstance, 4);
-    }
+    
 
     public WeaponData GetWeaponData()
     {
@@ -346,67 +339,54 @@ public abstract class RangedWeapon : MonoBehaviour
     {
         var impactedObjMaterialType = impactedObj.GetComponent<ImpactEffectSurface>();
         if (impactedObjMaterialType == null) return;
-        GameObject effectObj = null;
-        AudioClip impactClip = null;
-        foreach (var e in impactEffects)
+        if (impactedObjMaterialType.impactSurfaceType == ImpactEffectSurface.ImpactSurfaceType.Flesh)
         {
-            if (e.SurfaceType == impactedObjMaterialType.impactSurfaceType)
-            {
-                if (e.Effects.Length == 0) return;
-                if (e.Effects.Length == 1) effectObj = e.Effects[0];
-                int randomIdx = Random.Range(0, e.Effects.Length);
-                effectObj = e.Effects[randomIdx];
-
-                if (e.ImpactClips.Length <= 0) continue;
-                if (e.ImpactClips.Length == 1) impactClip = e.ImpactClips[0];
-                randomIdx = Random.Range(0, e.ImpactClips.Length);
-                impactClip = e.ImpactClips[randomIdx];
-            }
-        }
-
-        if (effectObj == null) return;
-        if (impactClip) AudioSource.PlayClipAtPoint(impactClip, hit.point, .5f);
-        if (effectObj.GetComponent<BFX_BloodSettings>())
-        {
-            HandleBloodInstantiation(effectObj, hit);
+            HandleBloodInstantiation(impactedObj, hit);
         }
         else
         {
-            HandleImpactInstantiation(effectObj, hit);
+            foreach (var kv in GameManager.Instance.SurfaceImpactPools)
+            {
+                if (kv.Key == impactedObjMaterialType.impactSurfaceType)
+                {
+                    HandleImpactInstantiation(kv.Value.Get(), hit);
+                }
+            }
         }
     }
 
-    private void HandleBloodInstantiation(GameObject bloodObj, RaycastHit hit)
+    private void HandleBloodInstantiation(GameObject impactedObj, RaycastHit hit)
     {
+        var bloodInstance = GameManager.Instance.BloodPool.Get();
         float angle = Mathf.Atan2(hit.normal.x, hit.normal.z) * Mathf.Rad2Deg + 180;
-        var bloodInstance = Instantiate(bloodObj, hit.point, Quaternion.Euler(0, angle + 90, 0));
+        bloodInstance.transform.position = hit.point;
+        bloodInstance.transform.rotation = Quaternion.Euler(0, angle + 90, 0);
         var settings = bloodInstance.GetComponent<BFX_BloodSettings>();
-        if (GameManager.Instance != null && GameManager.Instance.dirLight != null)
+        var motor = impactedObj.GetComponent<KinematicCharacterMotor>();
+        float groundHeight;
+        if (motor && motor.GroundingStatus.FoundAnyGround)
         {
-            settings.LightIntensityMultiplier = GameManager.Instance.dirLight.intensity;
-        }
-
-        var r = new Ray(hit.point, Vector3.down);
-        if (Physics.Raycast(r, out var groundHit, 10f, 1 << LayerMask.NameToLayer("Default")))
-        {
-            // Debug.Log($"Hit found with height {groundHit.point.y} on object {groundHit.collider.gameObject.name}");
-            settings.GroundHeight = groundHit.point.y;
+            groundHeight = motor.GroundingStatus.GroundPoint.y;
         }
         else
         {
-            // Debug.LogWarning("No hit found with ground.");
+            var r = new Ray(hit.point, Vector3.down);
+            if (Physics.Raycast(r, out var groundHit, 10f, 1 << LayerMask.NameToLayer("Default")))
+            {
+                groundHeight = groundHit.point.y;
+            }
+            else
+            {
+                groundHeight = -1000f;
+            }
         }
-        settings.AnimationSpeed = 2;
-        settings.FreezeDecalDisappearance = true;
-        settings.DecalRenderinMode = BFX_BloodSettings._DecalRenderinMode.AverageRayBetwenForwardAndFloor;
-        //TODO: Handle effect fadeout at high load.
+        settings.GroundHeight = groundHeight;
     }
 
     private void HandleImpactInstantiation(GameObject impactObj, RaycastHit hit)
     {
-        var thisEffect = Instantiate(impactObj, hit.point, new Quaternion()) as GameObject;
-        thisEffect.transform.LookAt(hit.point + hit.normal);
-        //TODO: Handle the effect de-spawning after enough effects have been created.
+        impactObj.transform.position = hit.point;
+        impactObj.transform.LookAt(hit.point + hit.normal);
     }
 
 }
