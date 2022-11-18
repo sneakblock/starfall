@@ -1,10 +1,12 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class AIManager : MonoBehaviour
 {
@@ -64,7 +66,7 @@ public class AIManager : MonoBehaviour
     {
         // Access the scriptable object for this level
         _currLevelNum++;
-        _currlevelData = levelsData[_currLevelNum];
+        _currlevelData = levelsData[_currLevelNum % levelsData.Count];
 
         // Temporarily disable enemy respawning
         _allowEnemyRespawning = false;

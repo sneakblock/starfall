@@ -188,8 +188,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
 	public virtual void Kill()
     {
-        var rb = gameObject.AddComponent<Rigidbody>();
-        rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
+        // var rb = gameObject.AddComponent<Rigidbody>();
+        // rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
         var weaponGameObject = _weapon.gameObject;
         weaponGameObject.AddComponent<Rigidbody>();
         weaponGameObject.AddComponent<BoxCollider>();
