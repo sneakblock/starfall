@@ -8,8 +8,6 @@ using UnityEngine.AI;
 
 public class AIManager : MonoBehaviour
 {
-    public GameObject test;
-
     // Singleton reference.
     public static AIManager Instance { get; private set; }
 

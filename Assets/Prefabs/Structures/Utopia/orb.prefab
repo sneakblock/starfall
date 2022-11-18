@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 206222744646528894}
   - component: {fileID: 2769953426158825929}
   - component: {fileID: 3014422354022950459}
+  - component: {fileID: 8977615820512225497}
   m_Layer: 0
   m_Name: BldgSM_10_Metal.001
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8977615820512225497
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490118671452040510}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5555276821760239340, guid: 1dac291bef98d6f4ca3a0e3e3c3fa25c, type: 3}
 --- !u!1 &3728799651570488247
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 161990916752834716}
   - component: {fileID: 6087149952738502231}
   - component: {fileID: 8505711515281836958}
+  - component: {fileID: 4347929358313961484}
   m_Layer: 0
   m_Name: BldgSM_10_Metal.002
   m_TagString: Untagged
@@ -166,6 +182,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4347929358313961484
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3728799651570488247}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -262771977637459357, guid: 1dac291bef98d6f4ca3a0e3e3c3fa25c, type: 3}
 --- !u!1 &5350859810516157078
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +207,7 @@ GameObject:
   - component: {fileID: 3611629550798146788}
   - component: {fileID: 8789527302919772195}
   - component: {fileID: 5242667302890180206}
+  - component: {fileID: 1525549329656146499}
   m_Layer: 0
   m_Name: BldgSM_10_Metal
   m_TagString: Untagged
@@ -249,6 +280,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1525549329656146499
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350859810516157078}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8480951157744993812, guid: 1dac291bef98d6f4ca3a0e3e3c3fa25c, type: 3}
 --- !u!1 &5722740068067411602
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +305,7 @@ GameObject:
   - component: {fileID: 6590754726489753598}
   - component: {fileID: 1614330171534998272}
   - component: {fileID: 5205798299046215278}
+  - component: {fileID: 4982899967823589699}
   m_Layer: 0
   m_Name: BldgSM_10_Metal.003
   m_TagString: Untagged
@@ -332,6 +378,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4982899967823589699
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722740068067411602}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1598756808084617197, guid: 1dac291bef98d6f4ca3a0e3e3c3fa25c, type: 3}
 --- !u!1 &5886996610276226530
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +403,7 @@ GameObject:
   - component: {fileID: 7812702642218589366}
   - component: {fileID: 4107457627994638327}
   - component: {fileID: 8026871614838401093}
+  - component: {fileID: 6551042899078872395}
   m_Layer: 0
   m_Name: BldgSM_10_Glass
   m_TagString: Untagged
@@ -415,6 +476,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6551042899078872395
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5886996610276226530}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9203246539719902156, guid: 1dac291bef98d6f4ca3a0e3e3c3fa25c, type: 3}
 --- !u!1 &7560237160550241065
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +501,7 @@ GameObject:
   - component: {fileID: 5778039268099462705}
   - component: {fileID: 4144437381220629502}
   - component: {fileID: 8544645830109745358}
+  - component: {fileID: 7147905554664738185}
   m_Layer: 0
   m_Name: BldgSM_10_DkMetal
   m_TagString: Untagged
@@ -498,6 +574,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7147905554664738185
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560237160550241065}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4661816019498696858, guid: 1dac291bef98d6f4ca3a0e3e3c3fa25c, type: 3}
 --- !u!1 &7669240636082480460
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +597,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7000085949348560886}
-  - component: {fileID: 3271459228570250529}
   m_Layer: 0
   m_Name: orb
   m_TagString: Untagged
@@ -537,20 +626,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &3271459228570250529
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7669240636082480460}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8393280531243044314
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +637,7 @@ GameObject:
   - component: {fileID: 4593898374733530546}
   - component: {fileID: 2984014625591699595}
   - component: {fileID: 1353367304389576251}
+  - component: {fileID: 4252464162199921228}
   m_Layer: 0
   m_Name: BldgSM_10_LightMetal
   m_TagString: Untagged
@@ -634,3 +710,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4252464162199921228
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393280531243044314}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -185624164107820420, guid: 1dac291bef98d6f4ca3a0e3e3c3fa25c, type: 3}

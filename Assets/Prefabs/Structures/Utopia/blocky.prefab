@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5909686037876639478}
   - component: {fileID: 7558790113262901586}
   - component: {fileID: 2233431195777319157}
+  - component: {fileID: 8641527808539743178}
   m_Layer: 0
   m_Name: TowerSM_06_DkMetal
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8641527808539743178
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789482696908998110}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6463409827284720288, guid: 9929487f6c755bc43bcc279875ca6d81, type: 3}
 --- !u!1 &859157639195947285
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 1537423223129230716}
   - component: {fileID: 7278817336817613223}
   - component: {fileID: 6783642318225849197}
+  - component: {fileID: 1110623117770254352}
   m_Layer: 0
   m_Name: TowerSM_06_DkMetal.001
   m_TagString: Untagged
@@ -166,6 +182,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1110623117770254352
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859157639195947285}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7140883250489458945, guid: 9929487f6c755bc43bcc279875ca6d81, type: 3}
 --- !u!1 &3002970439504530584
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +205,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2515085676225680930}
-  - component: {fileID: 2775449250393244444}
   m_Layer: 0
   m_Name: blocky
   m_TagString: Untagged
@@ -206,20 +235,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &2775449250393244444
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3002970439504530584}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &3748970310626717130
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,6 +246,7 @@ GameObject:
   - component: {fileID: 2765657307162157884}
   - component: {fileID: 1717375330424821387}
   - component: {fileID: 5250046990238804684}
+  - component: {fileID: 7192956681766324453}
   m_Layer: 0
   m_Name: TowerSM_06_Metal
   m_TagString: Untagged
@@ -303,6 +319,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7192956681766324453
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3748970310626717130}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1304351296481451532, guid: 9929487f6c755bc43bcc279875ca6d81, type: 3}
 --- !u!1 &5997696696512210989
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +344,7 @@ GameObject:
   - component: {fileID: 524174619619067706}
   - component: {fileID: 914320682645785150}
   - component: {fileID: 7518117939369313902}
+  - component: {fileID: 276311185287022349}
   m_Layer: 0
   m_Name: TowerSM_06_Glass
   m_TagString: Untagged
@@ -386,6 +417,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &276311185287022349
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5997696696512210989}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1698146167749099677, guid: 9929487f6c755bc43bcc279875ca6d81, type: 3}
 --- !u!1 &7437929750997766573
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +442,7 @@ GameObject:
   - component: {fileID: 4555106081420244544}
   - component: {fileID: 7460169561460240190}
   - component: {fileID: 5832762495617874998}
+  - component: {fileID: 906986353290601345}
   m_Layer: 0
   m_Name: TowerSM_06_Metal.001
   m_TagString: Untagged
@@ -469,6 +515,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &906986353290601345
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7437929750997766573}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1833136702726943527, guid: 9929487f6c755bc43bcc279875ca6d81, type: 3}
 --- !u!1 &8030953406106332480
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +540,7 @@ GameObject:
   - component: {fileID: 3005662469655831057}
   - component: {fileID: 66804397108185485}
   - component: {fileID: 321599714397500963}
+  - component: {fileID: 1997848461735991397}
   m_Layer: 0
   m_Name: TowerSM_06_Metal.002
   m_TagString: Untagged
@@ -552,6 +613,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1997848461735991397
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8030953406106332480}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6311035493437179162, guid: 9929487f6c755bc43bcc279875ca6d81, type: 3}
 --- !u!1 &8441039186033676478
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +638,7 @@ GameObject:
   - component: {fileID: 1795346611772201295}
   - component: {fileID: 8044667124862949560}
   - component: {fileID: 4507703776562574152}
+  - component: {fileID: 914133436058680351}
   m_Layer: 0
   m_Name: TowerSM_06_LightMetal
   m_TagString: Untagged
@@ -635,6 +711,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &914133436058680351
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8441039186033676478}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9154590898546664143, guid: 9929487f6c755bc43bcc279875ca6d81, type: 3}
 --- !u!1 &9058358163155681712
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,6 +736,7 @@ GameObject:
   - component: {fileID: 7245147715850452003}
   - component: {fileID: 5521238438116069638}
   - component: {fileID: 9201721176348597285}
+  - component: {fileID: 5695829530618370415}
   m_Layer: 0
   m_Name: TowerSM_06_DkMetal.002
   m_TagString: Untagged
@@ -718,3 +809,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5695829530618370415
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9058358163155681712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1119023094749939562, guid: 9929487f6c755bc43bcc279875ca6d81, type: 3}

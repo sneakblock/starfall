@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4071023477716289423}
   - component: {fileID: 6479716435948351989}
   - component: {fileID: 8927825683332754555}
+  - component: {fileID: 2315215419565983814}
   m_Layer: 0
   m_Name: TowerLG_05_LightMetal.001
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2315215419565983814
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3343050378183282938}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5326199770804910403, guid: f8d18f000761db040a82ea60b9f396ae, type: 3}
 --- !u!1 &3731696136092366619
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 1738595200896988292}
   - component: {fileID: 5562997022797617186}
   - component: {fileID: 6342875635899467164}
+  - component: {fileID: 4477573595344173058}
   m_Layer: 0
   m_Name: TowerLG_05_Glass
   m_TagString: Untagged
@@ -166,6 +182,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4477573595344173058
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3731696136092366619}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6691471922673130096, guid: f8d18f000761db040a82ea60b9f396ae, type: 3}
 --- !u!1 &6113614565697700385
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +207,7 @@ GameObject:
   - component: {fileID: 1643599670862656886}
   - component: {fileID: 4937864626586862230}
   - component: {fileID: 502347612955725646}
+  - component: {fileID: 5010409740211044122}
   m_Layer: 0
   m_Name: TowerLG_05_DkMetal
   m_TagString: Untagged
@@ -249,6 +280,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5010409740211044122
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6113614565697700385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7639017583823774339, guid: f8d18f000761db040a82ea60b9f396ae, type: 3}
 --- !u!1 &7461338502279486809
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +305,7 @@ GameObject:
   - component: {fileID: 5990576658182430887}
   - component: {fileID: 3598749439860866598}
   - component: {fileID: 6247103340368608497}
+  - component: {fileID: 3983983308436086058}
   m_Layer: 0
   m_Name: TowerLG_05_LightMetal
   m_TagString: Untagged
@@ -332,6 +378,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3983983308436086058
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461338502279486809}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3493515687993322385, guid: f8d18f000761db040a82ea60b9f396ae, type: 3}
 --- !u!1 &7736622465958908370
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,7 +401,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6923670388198722408}
-  - component: {fileID: 5496187183994633288}
   m_Layer: 0
   m_Name: flower
   m_TagString: Untagged
@@ -369,20 +428,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &5496187183994633288
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7736622465958908370}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8966122084665735348
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +439,7 @@ GameObject:
   - component: {fileID: 903582041049424502}
   - component: {fileID: 4803506451733141258}
   - component: {fileID: 914728505893599936}
+  - component: {fileID: 3283217608170049489}
   m_Layer: 0
   m_Name: TowerLG_05_Metal
   m_TagString: Untagged
@@ -466,3 +512,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3283217608170049489
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8966122084665735348}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6789441648834537066, guid: f8d18f000761db040a82ea60b9f396ae, type: 3}
