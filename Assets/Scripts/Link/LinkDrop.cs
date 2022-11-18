@@ -27,7 +27,7 @@ public class LinkDrop : MonoBehaviour
               3)) return;
         GameManager.Instance.aPlayer.Heal(value);
         // StartCoroutine(ReduceBleed(2f, 1));
-        Destroy(gameObject);
+        GameManager.Instance.LinkPool.Release(gameObject);
     }
 
     // IEnumerator ReduceBleed(float seconds, int amount)

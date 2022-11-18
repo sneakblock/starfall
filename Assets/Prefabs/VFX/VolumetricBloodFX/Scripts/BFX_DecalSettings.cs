@@ -43,6 +43,7 @@ public class BFX_DecalSettings : MonoBehaviour
     private void ShaderCurve_OnAnimationFinished()
     {
         GetComponent<Renderer>().enabled = false;
+        GameManager.Instance.BloodPool.Release(tParent.gameObject);
     }
 
     private void Update()
