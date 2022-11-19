@@ -1,9 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.VFX;
 
 public class DashAbility : AdvancedAbility
 {
+    [SerializeField] private VisualEffect effect;
     //ITS A BLINK NOW!
     [SerializeField] private float speed;
     [SerializeField] private float damage;
@@ -11,13 +13,20 @@ public class DashAbility : AdvancedAbility
     
     Vector3 targetDirection;
     Vector3 movementVector;
+    private Animator anim;
 
     //I set it to a max of 16 because that is the KinematicCharacterMotor's max rigidbody overlap budget
     Collider[] enemiesOverlapped = new Collider[16];
 
     List<Collider> enemiesToHit = new List<Collider>();
     private static readonly int Dash = Animator.StringToHash("dash");
-    private static readonly int VertexJitter = Shader.PropertyToID("_useVertexJitter");
+    //TODO(ben): Add shader stuff during the blink.
+
+    protected override void SetupReferences(SCharacter character)
+    {
+        anim = character.gameObject.GetComponentInChildren<Animator>();
+        if (effect) effect.Stop();
+    }
 
     public override void NotReadyYet()
     {
@@ -27,91 +36,54 @@ public class DashAbility : AdvancedAbility
     public override void OnCastStarted()
     {
         base.OnCastStarted();
-        movementVector = character.GetTargetMovementDirection() * speed;
-        if (character is SAi)
-        {
-            //6 is the player layer
-            character.motor.CollidableLayers &= ~(1 << 6);
-        }
-
         if (character is APlayer player)
         {
-            //7 is the Enemy layer
-            player.motor.CollidableLayers &= ~(1 << 7);
-
-            //if the player isn't inputting a direction
-            if (movementVector == Vector3.zero)
-            {
-                movementVector = player.orbitCamera.transform.forward.normalized;
-                movementVector.y = 0;
-
-                //if the player is looking straight up or straight down
-                if (movementVector == Vector3.zero)
-                {
-                    movementVector = player.motor.CharacterForward.normalized;
-                }
-                player.motor.SetRotation(Quaternion.LookRotation(movementVector, player.motor.CharacterUp));
-                movementVector *= speed;
-            }
+            movementVector = player.orbitCamera.transform.forward * speed;
+            player.orientationMethod = APlayer.OrientationMethod.TowardsCamera;
         }
-
-        var anim = character.gameObject.GetComponentInChildren<Animator>();
-        var renderers = GameObject.Find("kuze_anims").GetComponentsInChildren<Renderer>();
+        
         if (anim)
         {
             anim.SetTrigger(Dash);
         }
-        else
-        {
-            Debug.Log("No animator");
-        }
-
-        // foreach (var renderer in renderers)
-        // {
-        //     renderer.material.SetFloat(VertexJitter, 1);
-        // }
+        
+        if (effect) effect.Play();
     }
 
     public override void DuringCast()
     {
         character.motor.BaseVelocity = movementVector;
-        CheckCollisions();
+        // CheckCollisions();
     }
 
     public override void OnCastEnded()
     {
-        if (character is SAi)
+        if (character is APlayer player)
         {
-            //6 is the player layer
-            character.motor.CollidableLayers |= (1 << 6);
+            player.orientationMethod = APlayer.OrientationMethod.TowardsMovement;
         }
-
-        if (character is APlayer)
-        {
-            //7 is the Enemy layer
-            character.motor.CollidableLayers |= (1 << 7);
-        }
-
-        int enemiesKilled = 0;
-
-        foreach (Collider enemy in enemiesToHit)
-        {
-            IDamageable damageableEnemy = enemy.gameObject.GetComponent<IDamageable>();
-            if (damageableEnemy != null)
-            {
-                damageableEnemy.Damage(damage * enemiesToHit.Count);
-                if (damageableEnemy.IsAlive() == false)
-                {
-                    {
-                        enemiesKilled++;
-                    }
-                }
-            }
-        }
-
-        enemiesToHit.Clear();
-
-        cooldownTimer -= enemiesKilled * coolDownReductionPerKill;
+        
+        //Maybe move to a "root motion" approach?
+        character.motor.BaseVelocity = Vector3.zero;
+        
+        // int enemiesKilled = 0;
+        //
+        // foreach (Collider enemy in enemiesToHit)
+        // {
+        //     IDamageable damageableEnemy = enemy.gameObject.GetComponent<IDamageable>();
+        //     if (damageableEnemy != null)
+        //     {
+        //         damageableEnemy.Damage(damage * enemiesToHit.Count);
+        //         if (damageableEnemy.IsAlive() == false)
+        //         {
+        //             {
+        //                 enemiesKilled++;
+        //             }
+        //         }
+        //     }
+        // }
+        // enemiesToHit.Clear();
+        // cooldownTimer -= enemiesKilled * coolDownReductionPerKill;
     }
 
     private void CheckCollisions()
