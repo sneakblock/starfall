@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class DashAbility : AdvancedAbility
 {
+    //ITS A BLINK NOW!
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     [SerializeField] private float coolDownReductionPerKill;
