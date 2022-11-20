@@ -561,6 +561,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 158352840}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &161798590 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8400933354123992196, guid: fa166f60e418001478edbb9d49465641,
+    type: 3}
+  m_PrefabInstance: {fileID: 1906996291}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &189524039 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d627c3a9bd46a6e43a2b3a64cc2c2d69,
@@ -40416,10 +40422,26 @@ PrefabInstance:
       propertyPath: effectRoot
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1242472005, guid: fa166f60e418001478edbb9d49465641, type: 3}
+      propertyPath: characterMeshObject
+      value: 
+      objectReference: {fileID: 161798590}
+    - target: {fileID: 1242472005, guid: fa166f60e418001478edbb9d49465641, type: 3}
+      propertyPath: applyVertexJitterOnCast
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242472005, guid: fa166f60e418001478edbb9d49465641, type: 3}
+      propertyPath: vertexResolutionDuringCast
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242472005, guid: fa166f60e418001478edbb9d49465641, type: 3}
+      propertyPath: vertexDisplacementAmountDuringCast
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
         type: 3}
       propertyPath: health
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5751729091738824349, guid: fa166f60e418001478edbb9d49465641,
         type: 3}
