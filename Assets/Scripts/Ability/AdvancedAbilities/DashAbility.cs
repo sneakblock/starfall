@@ -14,6 +14,9 @@ public class DashAbility : AdvancedAbility
     Vector3 targetDirection;
     Vector3 movementVector;
     private Animator anim;
+    private float _stopwatch;
+    private float effectDuration;
+    private const string Duration = "Duration";
 
     //I set it to a max of 16 because that is the KinematicCharacterMotor's max rigidbody overlap budget
     Collider[] enemiesOverlapped = new Collider[16];
@@ -24,8 +27,7 @@ public class DashAbility : AdvancedAbility
 
     protected override void SetupReferences(SCharacter character)
     {
-        anim = character.gameObject.GetComponentInChildren<Animator>();
-        if (effect) effect.Stop();
+        // anim = character.gameObject.GetComponentInChildren<Animator>();
     }
 
     public override void NotReadyYet()
@@ -40,19 +42,23 @@ public class DashAbility : AdvancedAbility
         {
             movementVector = player.orbitCamera.transform.forward * speed;
             player.orientationMethod = APlayer.OrientationMethod.TowardsCamera;
+            if (effect)
+            {
+                effect.Play();
+            }
         }
         
         if (anim)
         {
             anim.SetTrigger(Dash);
         }
-        
-        if (effect) effect.Play();
+
     }
 
     public override void DuringCast()
     {
-        character.motor.BaseVelocity = movementVector;
+        character.motor.BaseVelocity = Vector3.zero;
+        character.motor.MoveCharacter(character.motor.GetState().Position + (movementVector * Time.deltaTime));
         // CheckCollisions();
     }
 
@@ -61,11 +67,12 @@ public class DashAbility : AdvancedAbility
         if (character is APlayer player)
         {
             player.orientationMethod = APlayer.OrientationMethod.TowardsMovement;
+            if (effect)
+            {
+                
+            }
         }
-        
-        //Maybe move to a "root motion" approach?
-        character.motor.BaseVelocity = Vector3.zero;
-        
+
         // int enemiesKilled = 0;
         //
         // foreach (Collider enemy in enemiesToHit)
