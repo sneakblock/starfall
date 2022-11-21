@@ -6,6 +6,7 @@ using UnityEngine.VFX;
 
 public class DashAbility : AdvancedAbility
 {
+    [SerializeField] private Material effectMaterial;
     [SerializeField] private VisualEffect effect;
     [SerializeField] private GameObject characterMeshObject;
     [SerializeField] private bool applyVertexJitterOnCast = true;
@@ -24,7 +25,7 @@ public class DashAbility : AdvancedAbility
     private Animator anim;
     private float _stopwatch;
     private float effectDuration;
-    private List<Material> _mats = new();
+    private Dictionary<Renderer, List<Material>> _renderersMats = new();
 
     //I set it to a max of 16 because that is the KinematicCharacterMotor's max rigidbody overlap budget
     Collider[] enemiesOverlapped = new Collider[16];
@@ -41,10 +42,12 @@ public class DashAbility : AdvancedAbility
         anim = character.gameObject.GetComponentInChildren<Animator>();
         foreach (var r in characterMeshObject.GetComponentsInChildren<Renderer>())
         {
+            var materials = new List<Material>();
             foreach (var m in r.materials)
             {
-                _mats.Add(m);
+                materials.Add(m);
             }
+            _renderersMats.Add(r, materials);
         }
     }
 
@@ -79,6 +82,7 @@ public class DashAbility : AdvancedAbility
     {
         character.motor.BaseVelocity = Vector3.zero;
         character.motor.MoveCharacter(character.motor.GetState().Position + (movementVector * Time.deltaTime));
+        UpdateMaterialEffects();
         // CheckCollisions();
     }
 
@@ -146,18 +150,53 @@ public class DashAbility : AdvancedAbility
 
     void ToggleMaterialEffects(bool enabled)
     {
-        foreach (var m in _mats)
+        foreach (var kv in _renderersMats)
         {
-            if (applyVertexJitterOnCast)
+            //Swap actual material used
+            //Is this dumb?
+            if (enabled)
             {
-                m.SetInt(UseVertexJitter, enabled ? 1 : 0);
-                m.SetFloat(VertexResolution, enabled ? vertexResolutionDuringCast : 1000f);
+                Material[] newMaterials = new Material[kv.Key.materials.Length];
+                for (var i = 0; i < newMaterials.Length; i++)
+                {
+                    newMaterials[i] = effectMaterial;
+                }
+                kv.Key.materials = newMaterials;
             }
-
-            if (applyVertexDisplacementOnCast)
+            else
             {
-                m.SetInt(UseVertexDisplacement, enabled ? 1 : 0);
-                m.SetFloat(VertexDisplacmentAmount, enabled ? vertexDisplacementAmountDuringCast : 0);
+                kv.Key.materials = _renderersMats[kv.Key].ToArray();
+            }
+            
+            //Configuring shader properties
+            foreach (var m in kv.Key.materials)
+            {
+                if (applyVertexJitterOnCast)
+                {
+                    m.SetInt(UseVertexJitter, enabled ? 1 : 0);
+                    m.SetFloat(VertexResolution, enabled ? vertexResolutionDuringCast : 1000f);
+                }
+
+                if (applyVertexDisplacementOnCast)
+                {
+                    m.SetInt(UseVertexDisplacement, enabled ? 1 : 0);
+                    m.SetFloat(VertexDisplacmentAmount, enabled ? vertexDisplacementAmountDuringCast : 0);
+                }
+            }
+            
+        }
+    }
+
+    void UpdateMaterialEffects()
+    {
+        foreach (var kv in _renderersMats)
+        {
+            foreach (var m in kv.Key.materials)
+            {
+                if (applyVertexDisplacementOnCast)
+                {
+                    m.SetFloat(VertexDisplacmentAmount, Mathf.Lerp(m.GetFloat(VertexDisplacmentAmount), .1f, 1 - castTimer / castTime));
+                }
             }
         }
     }

@@ -1992,6 +1992,11 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1312441041944130850, guid: b115928cef1e0394db71925df6e60851,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[5].m_Value
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 1312441041944130860, guid: b115928cef1e0394db71925df6e60851,
         type: 3}
       propertyPath: m_Name
@@ -36713,7 +36718,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &798399537
 Transform:
   m_ObjectHideFlags: 0
@@ -37162,7 +37167,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh54434
+  m_Name: pb_Mesh52950
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -38654,10 +38659,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4785519670469263990, guid: e14bc0772cf8e3b49aed8553214629e2,
+        type: 3}
+      propertyPath: m_HDR
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4785519670723143201, guid: e14bc0772cf8e3b49aed8553214629e2,
         type: 3}
       propertyPath: m_Name
       value: CharacterCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8896973853783254033, guid: e14bc0772cf8e3b49aed8553214629e2,
+        type: 3}
+      propertyPath: m_RendererIndex
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8896973853783254033, guid: e14bc0772cf8e3b49aed8553214629e2,
         type: 3}
@@ -40423,6 +40438,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1242472005, guid: fa166f60e418001478edbb9d49465641, type: 3}
+      propertyPath: effectMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 16bc9834913185c4cb3d9a6be3cc1e91, type: 2}
+    - target: {fileID: 1242472005, guid: fa166f60e418001478edbb9d49465641, type: 3}
       propertyPath: characterMeshObject
       value: 
       objectReference: {fileID: 161798590}
@@ -40436,7 +40455,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1242472005, guid: fa166f60e418001478edbb9d49465641, type: 3}
       propertyPath: vertexDisplacementAmountDuringCast
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5751729091738824348, guid: fa166f60e418001478edbb9d49465641,
         type: 3}
@@ -42666,6 +42685,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 868175593736048080, guid: 600d0454f21423b42b2801985b79ba93,
+        type: 3}
+      propertyPath: patternIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 868175593736048080, guid: 600d0454f21423b42b2801985b79ba93,
+        type: 3}
+      propertyPath: ditherThreshold
+      value: 26.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 868175593736048081, guid: 600d0454f21423b42b2801985b79ba93,
+        type: 3}
+      propertyPath: isEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 868175593736048081, guid: 600d0454f21423b42b2801985b79ba93,
+        type: 3}
+      propertyPath: colorPrecision
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 868175593736048082, guid: 600d0454f21423b42b2801985b79ba93,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 868175593736048085, guid: 600d0454f21423b42b2801985b79ba93,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6152253649195890864, guid: 600d0454f21423b42b2801985b79ba93,
         type: 3}
       propertyPath: m_RootOrder
