@@ -5,6 +5,11 @@ using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum DaggerAbilityMode {
+    Throw,
+    Recall
+}
+
 public class DaggerAbility : AdvancedAbility
 {
     
@@ -15,8 +20,9 @@ public class DaggerAbility : AdvancedAbility
     [SerializeField] private float throwForce = 5f;
     [Tooltip("Where are the daggers thrown from?")]
     [SerializeField] private Transform handTransform;
-    
-    
+    [SerializeField] private float catchRange = 2f;
+
+    private DaggerAbilityMode _mode = DaggerAbilityMode.Throw;
     private List<Dagger> _daggers = new();
 
     public override void StartAbility()
@@ -39,13 +45,28 @@ public class DaggerAbility : AdvancedAbility
 
     public override void OnCastStarted()
     {
-        var daggersToThrow = new List<Dagger>();
-        foreach (var d in _daggers)
+        var dagsList = new List<Dagger>();
+        switch (_mode)
         {
-            if (d.IsOutbound()) return;
-            if (d.IsHeld()) daggersToThrow.Add(d);
+            case DaggerAbilityMode.Throw:
+                foreach (var d in _daggers)
+                {
+                    if (d.IsOutbound()) return;
+                    if (d.IsHeld()) dagsList.Add(d);
+                }
+                ThrowDaggers(dagsList);
+                break;
+            case DaggerAbilityMode.Recall:
+                foreach (var d in _daggers)
+                {
+                    if (d.IsStuck() || d.IsOutbound()) dagsList.Add(d);
+                }
+                RecallDaggers(dagsList);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
-        ThrowDaggers(daggersToThrow);
+        
     }
 
     public override void DuringCast()
@@ -60,6 +81,7 @@ public class DaggerAbility : AdvancedAbility
 
     private void ThrowDaggers(List<Dagger> daggersToThrow)
     {
+        if (daggersToThrow.Count == 0) return;
         var handPos = handTransform.position;
         var direction = (character.GetTargetPoint() - handPos).normalized;
         Debug.DrawRay(handPos, direction * 5f, Color.green, 5f);
@@ -80,5 +102,24 @@ public class DaggerAbility : AdvancedAbility
             daggerObj.transform.LookAt(handPos + adjustedDir);
             daggersToThrow[i].Throw(adjustedDir * throwForce);
         }
+
+        _mode = DaggerAbilityMode.Recall;
     }
+
+    private void RecallDaggers(List<Dagger> daggersToRecall)
+    {
+        foreach (var d in daggersToRecall)
+        {
+            d.Recall();
+        }
+
+        _mode = DaggerAbilityMode.Throw;
+    }
+
+    public float GetCatchRange()
+    {
+        return catchRange;
+    }
+    
+    
 }

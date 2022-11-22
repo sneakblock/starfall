@@ -82,8 +82,30 @@ public class Dagger : MonoBehaviour
         return daggerState == DaggerState.Outbound;
     }
 
+    public bool IsStuck()
+    {
+        return daggerState == DaggerState.Stuck;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        
+        if (stickableLayers == (stickableLayers | collision.gameObject.layer) && collision.collider != _stuckCollider)
+        {
+            Stick(collision.collider);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (daggerState == DaggerState.Inbound)
+        {
+            _rigidbody.AddForce(owner.transform.position - transform.position * recallForce);
+            if (Vector3.Distance(owner.transform.position, transform.position) <= daggerAbility.GetCatchRange())
+            {
+                daggerState = DaggerState.Held;
+                _stuckCollider = null;
+                gameObject.SetActive(false);
+            }
+        }
     }
 }
