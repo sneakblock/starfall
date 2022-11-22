@@ -446,5 +446,10 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         _abilities[2].Enable();
     }
 
+    public Vector3 GetTargetPoint()
+    {
+        return targetPoint;
+    }
+
 }
 
