@@ -67,7 +67,11 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     private List<Ability> _abilities;
     private AbilityManager abilityManager;
     private const int MAX_ABILITIES = 3;
-    
+
+    //Events
+    //Invoked when the entity is damaged
+    public static event Action<int, int> OnHit;
+
 
     void Start()
     {
@@ -172,6 +176,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public virtual void Damage(float damage)
     {
+        //call event for hitmarker
+        OnHit?.Invoke();
         if (health <= 0) return;
         health -= damage;
         if (health <= 0)
