@@ -18,8 +18,9 @@ public class DaggerAbility : AdvancedAbility
     [SerializeField] private float lostDaggerCooldown = 20f;
     [SerializeField] private float throwAngle = 45f;
     [SerializeField] private float throwForce = 5f;
+    [SerializeField] public float recallForce = 5f;
     [Tooltip("Where are the daggers thrown from?")]
-    [SerializeField] private Transform handTransform;
+    [SerializeField] public Transform handTransform;
     [SerializeField] private float catchRange = 2f;
 
     private DaggerAbilityMode _mode = DaggerAbilityMode.Throw;
@@ -85,7 +86,7 @@ public class DaggerAbility : AdvancedAbility
         var handPos = handTransform.position;
         var direction = (character.GetTargetPoint() - handPos).normalized;
         Debug.DrawRay(handPos, direction * 5f, Color.green, 5f);
-        var axis = Vector3.Cross(direction, character.transform.right);
+        var axis = Vector3.Cross(Vector3.ProjectOnPlane(direction, character.motor.CharacterUp), character.transform.right);
         Debug.DrawRay(handPos, axis, Color.blue, 5f);
         var minAngle = Quaternion.AngleAxis(-throwAngle / 2, axis) * direction;
         var maxAngle = Quaternion.AngleAxis(throwAngle / 2, axis) * direction;

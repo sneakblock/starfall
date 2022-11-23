@@ -24,8 +24,6 @@ public class Dagger : MonoBehaviour
     [SerializeField] private float burstDamage = 25f;
 
     [Header("Recovery")]
-    [Tooltip("The magnitude of the recall vector.")]
-    [SerializeField] private float recallForce = 5f;
     [Tooltip("The layers that daggers can get stuck in.")] [SerializeField]
     private LayerMask stickableLayers;
 
@@ -99,7 +97,8 @@ public class Dagger : MonoBehaviour
     {
         if (daggerState == DaggerState.Inbound)
         {
-            _rigidbody.AddForce(owner.transform.position - transform.position * recallForce);
+            var dirToHand = (daggerAbility.handTransform.position - transform.position).normalized;
+            _rigidbody.velocity = dirToHand * daggerAbility.recallForce;
             if (Vector3.Distance(owner.transform.position, transform.position) <= daggerAbility.GetCatchRange())
             {
                 daggerState = DaggerState.Held;

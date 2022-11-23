@@ -36627,7 +36627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &798399537
 Transform:
   m_ObjectHideFlags: 0
@@ -40405,7 +40405,8 @@ MonoBehaviour:
   numDaggers: 5
   lostDaggerCooldown: 20
   throwAngle: 45
-  throwForce: 30
+  throwForce: 60
+  recallForce: 30
   handTransform: {fileID: 1906996292}
   catchRange: 2
 --- !u!1001 &1908895952
