@@ -63,10 +63,6 @@ public class Dagger : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.isKinematic = true;
         daggerState = daggerState == DaggerState.Outbound ? DaggerState.Stuck : DaggerState.Lost;
-        if (daggerState == DaggerState.Lost)
-        {
-            Invoke(nameof(Recover), daggerAbility.lostDaggerRecoveryTime);
-        }
     }
 
     private void Unstick()
@@ -101,7 +97,9 @@ public class Dagger : MonoBehaviour
     {
         if (daggerState == DaggerState.Inbound)
         {
-            var dirToHand = (daggerAbility.handTransform.position - transform.position).normalized;
+            var position = transform.position;
+            var dirToHand = (daggerAbility.handTransform.position - position).normalized;
+            transform.LookAt(position + dirToHand);
             _rigidbody.velocity = dirToHand * daggerAbility.recallForce;
             if (Vector3.Distance(owner.transform.position, transform.position) <= daggerAbility.GetCatchRange())
             {
@@ -110,7 +108,7 @@ public class Dagger : MonoBehaviour
         }
     }
 
-    private void Recover()
+    public void Recover()
     {
         daggerState = DaggerState.Held;
         _stuckCollider = null;

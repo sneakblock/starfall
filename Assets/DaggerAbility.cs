@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,11 +16,10 @@ public class DaggerAbility : AdvancedAbility
     
     [SerializeField] private GameObject dagger;
     [SerializeField] private int numDaggers = 5;
-    [SerializeField] private float lostDaggerCooldown = 20f;
     [SerializeField] private float throwAngle = 45f;
     [SerializeField] private float throwForce = 5f;
     [SerializeField] public float recallForce = 5f;
-    [SerializeField] public float lostDaggerRecoveryTime = 20f;
+    [SerializeField] public float lostDaggerRecoveryTime = 10f;
     [Tooltip("How long after throwing can you recall?")]
     [SerializeField] private float recallCooldown = 1f;
     [Tooltip("Where are the daggers thrown from?")]
@@ -28,6 +28,9 @@ public class DaggerAbility : AdvancedAbility
 
     private DaggerAbilityMode _mode = DaggerAbilityMode.Throw;
     private List<Dagger> _daggers = new();
+    private Dagger _currentRechargingDagger;
+    private float _rechargingDaggerTimer = 0f;
+    private float _baseCooldown;
 
     public override void StartAbility()
     {
@@ -40,6 +43,8 @@ public class DaggerAbility : AdvancedAbility
             daggerComponent.daggerAbility = this;
             daggerObject.SetActive(false);
         }
+
+        _baseCooldown = cooldownTime;
     }
 
     public override void NotReadyYet()
@@ -107,6 +112,7 @@ public class DaggerAbility : AdvancedAbility
             daggersToThrow[i].Throw(adjustedDir * throwForce);
         }
 
+        cooldownTimer = recallCooldown;
         _mode = DaggerAbilityMode.Recall;
     }
 
@@ -117,6 +123,7 @@ public class DaggerAbility : AdvancedAbility
             d.Recall();
         }
 
+        cooldownTimer = _baseCooldown;
         _mode = DaggerAbilityMode.Throw;
     }
 
@@ -124,6 +131,24 @@ public class DaggerAbility : AdvancedAbility
     {
         return catchRange;
     }
-    
-    
+
+    private void Update()
+    {
+        if (_currentRechargingDagger)
+        {
+            _rechargingDaggerTimer += Time.deltaTime;
+            if (!(_rechargingDaggerTimer >= lostDaggerRecoveryTime)) return;
+            _currentRechargingDagger.Recover();
+            _currentRechargingDagger = null;
+            _rechargingDaggerTimer = 0f;
+        }
+        else
+        {
+            foreach (var d in _daggers.Where(d => d.daggerState == DaggerState.Lost))
+            {
+                _currentRechargingDagger = d;
+                break;
+            }
+        }
+    }
 }
