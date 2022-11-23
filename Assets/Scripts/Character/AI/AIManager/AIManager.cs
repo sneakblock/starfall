@@ -1,15 +1,15 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class AIManager : MonoBehaviour
 {
-    public GameObject test;
-
     // Singleton reference.
     public static AIManager Instance { get; private set; }
 
@@ -43,7 +43,7 @@ public class AIManager : MonoBehaviour
     private static int _currLevelNum = -1;
     private LevelData _currlevelData;
 
-    private void Start()
+    private void Awake()
     {
         // Create singleton instance.
         if (Instance != null && Instance != this)
@@ -66,7 +66,7 @@ public class AIManager : MonoBehaviour
     {
         // Access the scriptable object for this level
         _currLevelNum++;
-        _currlevelData = levelsData[_currLevelNum];
+        _currlevelData = levelsData[_currLevelNum % levelsData.Count];
 
         // Temporarily disable enemy respawning
         _allowEnemyRespawning = false;

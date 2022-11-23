@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1400691073787959819}
-  - component: {fileID: 8071681071805810522}
   m_Layer: 0
   m_Name: cablesandflaps
   m_TagString: Untagged
@@ -36,20 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &8071681071805810522
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746149469386260657}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2120709040383668227
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +46,7 @@ GameObject:
   - component: {fileID: 7740044503722450750}
   - component: {fileID: 8688931553863805090}
   - component: {fileID: 3055834865460120078}
+  - component: {fileID: 4715543066729554205}
   m_Layer: 0
   m_Name: TowerSM_03_Glass
   m_TagString: Untagged
@@ -133,6 +119,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4715543066729554205
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120709040383668227}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2541775883154001797, guid: a3ad9458f2845ba45a11c08d8fb9ffe8, type: 3}
 --- !u!1 &4514702143970354804
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 6054070819471492172}
   - component: {fileID: 4632945340355424406}
   - component: {fileID: 1065724656096273280}
+  - component: {fileID: 7071775933904728479}
   m_Layer: 0
   m_Name: TowerSM_03_DkMetal
   m_TagString: Untagged
@@ -216,6 +217,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7071775933904728479
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4514702143970354804}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 814403038582704225, guid: a3ad9458f2845ba45a11c08d8fb9ffe8, type: 3}
 --- !u!1 &6092983375784779655
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +242,7 @@ GameObject:
   - component: {fileID: 4806690343080098889}
   - component: {fileID: 6853446142118387027}
   - component: {fileID: 7502403142928484275}
+  - component: {fileID: 5384198732326282299}
   m_Layer: 0
   m_Name: TowerSM_03_LightMetal.001
   m_TagString: Untagged
@@ -299,6 +315,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5384198732326282299
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6092983375784779655}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9149337208310998575, guid: a3ad9458f2845ba45a11c08d8fb9ffe8, type: 3}
 --- !u!1 &8678305687263120349
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +340,7 @@ GameObject:
   - component: {fileID: 1585944694820835725}
   - component: {fileID: 3223259222871695004}
   - component: {fileID: 3868231414050196953}
+  - component: {fileID: 1933017591614652238}
   m_Layer: 0
   m_Name: TowerSM_03_LightMetal
   m_TagString: Untagged
@@ -382,3 +413,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1933017591614652238
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8678305687263120349}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8551136042296666857, guid: a3ad9458f2845ba45a11c08d8fb9ffe8, type: 3}
