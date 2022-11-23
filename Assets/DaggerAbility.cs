@@ -19,6 +19,9 @@ public class DaggerAbility : AdvancedAbility
     [SerializeField] private float throwAngle = 45f;
     [SerializeField] private float throwForce = 5f;
     [SerializeField] public float recallForce = 5f;
+    [SerializeField] public float lostDaggerRecoveryTime = 20f;
+    [Tooltip("How long after throwing can you recall?")]
+    [SerializeField] private float recallCooldown = 1f;
     [Tooltip("Where are the daggers thrown from?")]
     [SerializeField] public Transform handTransform;
     [SerializeField] private float catchRange = 2f;
