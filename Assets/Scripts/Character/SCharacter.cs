@@ -68,6 +68,12 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     private AbilityManager abilityManager;
     private const int MAX_ABILITIES = 3;
     
+    //Bleed
+    protected bool isBleeding = false;
+    protected float bleedTimer = 0f;
+    protected float bleedTickRate = .25f;
+    protected float bleedTickTracker = 0f;
+    protected float bleedDmgPerTick;
 
     void Start()
     {
@@ -99,7 +105,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         abilityManager.Update();
 
         if (_weapon) UpdateWeapon();
-	}
+        if (isBleeding) UpdateBleed();
+    }
     
     // NEW: subclasses (players or... enemies...) should call this function to pair an ability to a player
     protected void RegisterAbility(Ability ability)
@@ -196,6 +203,47 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         weaponGameObject.transform.SetParent(null);
         motor.enabled = false;
         this.enabled = false;
+    }
+
+    public void StartBleeding(float totalDamage, float duration)
+    {
+        isBleeding = true;
+        bleedTimer = duration;
+        float ticksInDuration = duration / bleedTickRate;
+        Debug.Log($"number of ticks for {gameObject.name} set to {ticksInDuration}");
+        bleedDmgPerTick = totalDamage / ticksInDuration;
+        Debug.Log($"Bleed damage per tick for {gameObject.name} set to {bleedDmgPerTick}");
+    }
+
+    public void StopBleeding()
+    {
+        isBleeding = false;
+    }
+
+    public bool IsBleeding()
+    {
+        return isBleeding;
+    }
+
+    public virtual void UpdateBleed()
+    {
+        bleedTickTracker += Time.deltaTime;
+        if (bleedTickTracker >= bleedTickRate)
+        {
+            //Bleed here
+            Damage(bleedDmgPerTick);
+            Debug.Log($"Bled {gameObject.name} for {bleedDmgPerTick}");
+            //TODO: Add blood effects here.
+
+            //Reset the tick tracker
+            bleedTickTracker = 0f;
+        }
+
+        bleedTimer -= Time.deltaTime;
+        if (bleedTimer <= 0f)
+        {
+            StopBleeding();
+        }
     }
 
     public bool IsAlive()

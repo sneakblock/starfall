@@ -15,6 +15,8 @@ public class DaggerAbility : AdvancedAbility
 {
     
     [SerializeField] private GameObject dagger;
+    [SerializeField] private float totalDamage = 10f;
+    [SerializeField] private float bleedDuration = 5f;
     [SerializeField] private int numDaggers = 5;
     [SerializeField] private float throwAngle = 45f;
     [SerializeField] private float throwForce = 5f;
@@ -41,6 +43,8 @@ public class DaggerAbility : AdvancedAbility
             _daggers.Add(daggerComponent);
             daggerComponent.owner = (Kuze)character;
             daggerComponent.daggerAbility = this;
+            daggerComponent.bleedDamage = totalDamage;
+            daggerComponent.bleedDuration = bleedDuration;
             daggerObject.SetActive(false);
         }
 

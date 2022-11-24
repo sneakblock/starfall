@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ExplosiveBarrel : MonoBehaviour, IDamageable
+public class ExplosiveBarrel : MonoBehaviour
 {
     
     [SerializeField]
@@ -42,5 +42,10 @@ public class ExplosiveBarrel : MonoBehaviour, IDamageable
     public bool IsAlive()
     {
         return health > 0;
+    }
+
+    public void StartBleeding(float totalDamage, float duration)
+    {
+        return;
     }
 }

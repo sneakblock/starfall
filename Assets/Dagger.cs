@@ -17,9 +17,9 @@ public class Dagger : MonoBehaviour
 {
     [Header("Damage")]
     [Tooltip("The total amount of damage applied by the bleed, over bleedDuration seconds.")]
-    [SerializeField] private float bleedDamage = 10f;
+    [SerializeField] public float bleedDamage = 10f;
     [Tooltip("The number of seconds that the bleed lasts.")]
-    [SerializeField] private float bleedDuration = 3f;
+    [SerializeField] public float bleedDuration = 3f;
     [Tooltip("The amount of damage dealt to an already bleeding enemy, instantly, on recall hit.")]
     [SerializeField] private float burstDamage = 25f;
 
@@ -35,11 +35,13 @@ public class Dagger : MonoBehaviour
     private Rigidbody _rigidbody;
     private Collider _collider;
     private Collider _stuckCollider;
+    private static int _enemyLayer;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
+        _enemyLayer = LayerMask.NameToLayer("Enemy");
     }
 
     public void Throw(Vector3 force)
@@ -90,6 +92,10 @@ public class Dagger : MonoBehaviour
         if (stickableLayers == (stickableLayers | collision.gameObject.layer) && collision.collider != _stuckCollider)
         {
             Stick(collision.collider);
+        } else if (collision.gameObject.layer == _enemyLayer)
+        {
+            SCharacter sCharacter = collision.gameObject.GetComponent<SCharacter>();
+            if (!sCharacter.IsBleeding()) sCharacter.StartBleeding(bleedDamage, bleedDuration);
         }
     }
 
