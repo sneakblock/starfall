@@ -233,7 +233,33 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
             //Bleed here
             Damage(bleedDmgPerTick);
             Debug.Log($"Bled {gameObject.name} for {bleedDmgPerTick}");
-            //TODO: Add blood effects here.
+            
+            //Blood effects
+            var bloodInstance = GameManager.Instance.BloodPool.Get();
+            var position = transform.position;
+            var center = new Vector3(position.x, position.y + motor.Capsule.center.y, position.z);
+            float angle = Mathf.Atan2(position.x, position.z) * Mathf.Rad2Deg + 180;
+            bloodInstance.transform.position = center;
+            bloodInstance.transform.rotation = Quaternion.Euler(0, angle + 90, 0);
+            var settings = bloodInstance.GetComponent<BFX_BloodSettings>();
+            float groundHeight;
+            if (motor && motor.GroundingStatus.FoundAnyGround)
+            {
+                groundHeight = motor.GroundingStatus.GroundPoint.y;
+            }
+            else
+            {
+                var r = new Ray(center, Vector3.down);
+                if (Physics.Raycast(r, out var groundHit, 10f, 1 << LayerMask.NameToLayer("Default")))
+                {
+                    groundHeight = groundHit.point.y;
+                }
+                else
+                {
+                    groundHeight = -1000f;
+                }
+            }
+            settings.GroundHeight = groundHeight;
 
             //Reset the tick tracker
             bleedTickTracker = 0f;

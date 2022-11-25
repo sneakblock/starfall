@@ -35,14 +35,12 @@ public class Dagger : MonoBehaviour
     private Rigidbody _rigidbody;
     private CapsuleCollider _collider;
     private Collider _stuckCollider;
-    private static int _enemyLayer;
-    private List<SCharacter> _entitiesBledThisFlight = new();
+    
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<CapsuleCollider>();
-        _enemyLayer = LayerMask.NameToLayer("Enemy");
     }
 
     public void Throw(Vector3 force)
@@ -57,7 +55,6 @@ public class Dagger : MonoBehaviour
     {
         if (daggerState is not DaggerState.Stuck or DaggerState.Outbound) return;
         Unstick();
-        ResetFlight();
         daggerState = DaggerState.Inbound;
     }
 
@@ -94,26 +91,6 @@ public class Dagger : MonoBehaviour
         if (stickableLayers == (stickableLayers | collision.gameObject.layer) && collision.collider != _stuckCollider)
         {
             Stick(collision.collider);
-        } 
-        // else if (collision.gameObject.layer == _enemyLayer)
-        // {
-        //     SCharacter sCharacter = collision.gameObject.GetComponent<SCharacter>();
-        //     if (!sCharacter.IsBleeding()) sCharacter.StartBleeding(bleedDamage, bleedDuration);
-        // }
-    }
-
-    //This isn't working because of Physics ignored layers.
-    private void Update()
-    {
-        if (daggerState is not DaggerState.Inbound or DaggerState.Outbound) return;
-        //Is overlap capsule too expensive? Maybe keep an eye on this.
-        foreach (var enemyCollider in Physics.OverlapCapsule(_collider.bounds.max, _collider.bounds.min, _collider.radius, _enemyLayer))
-        {
-            if (!enemyCollider.gameObject.GetComponent<SCharacter>()) continue;
-            var sCharacter = enemyCollider.gameObject.GetComponent<SCharacter>();
-            if (_entitiesBledThisFlight.Contains(sCharacter)) continue;
-            sCharacter.StartBleeding(bleedDamage, bleedDuration);
-            _entitiesBledThisFlight.Add(sCharacter);
         }
     }
 
@@ -136,12 +113,8 @@ public class Dagger : MonoBehaviour
     {
         daggerState = DaggerState.Held;
         _stuckCollider = null;
-        ResetFlight();
         gameObject.SetActive(false);
     }
 
-    private void ResetFlight()
-    {
-        _entitiesBledThisFlight = new List<SCharacter>();
-    }
+    
 }
