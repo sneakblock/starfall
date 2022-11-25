@@ -70,7 +70,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     //Events
     //Invoked when the entity is damaged
-    public static event Action<int, int> OnHit;
+    //public static event Action<int, int> OnHit;
 
 
     void Start()
