@@ -59,6 +59,12 @@ public class Ability : MonoBehaviour
     public void SetCharacter(SCharacter aCharacter)
     {
         this.character = aCharacter;
+        SetupReferences(aCharacter);
+    }
+
+    protected virtual void SetupReferences(SCharacter character)
+    {
+        
     }
 }
 

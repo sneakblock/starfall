@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 678818385670741239}
-  - component: {fileID: 9169943484009530040}
   m_Layer: 0
   m_Name: layered
   m_TagString: Untagged
@@ -38,20 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &9169943484009530040
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 153251121230038605}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2202980063187010109
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,6 +48,7 @@ GameObject:
   - component: {fileID: 2740285125432866065}
   - component: {fileID: 380335053841226123}
   - component: {fileID: 1795000825002122830}
+  - component: {fileID: 662396744373724458}
   m_Layer: 0
   m_Name: BldgSM_06_Metal
   m_TagString: Untagged
@@ -135,6 +121,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &662396744373724458
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2202980063187010109}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2931582708754196377, guid: e6f5eff79a2559e4ea4564198c9924f7, type: 3}
 --- !u!1 &2711650851977945580
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 6742811848143945906}
   - component: {fileID: 8030364767494096492}
   - component: {fileID: 8489326297920599643}
+  - component: {fileID: 3194655679810846641}
   m_Layer: 0
   m_Name: BldgSM_06_DkMetal
   m_TagString: Untagged
@@ -218,6 +219,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3194655679810846641
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2711650851977945580}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7573523865291149323, guid: e6f5eff79a2559e4ea4564198c9924f7, type: 3}
 --- !u!1 &4089051154483116052
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +244,7 @@ GameObject:
   - component: {fileID: 137883219143274243}
   - component: {fileID: 5432270895408110125}
   - component: {fileID: 8458271903910388983}
+  - component: {fileID: 3572500861937287254}
   m_Layer: 0
   m_Name: BldgSM_06_LightMetal
   m_TagString: Untagged
@@ -301,6 +317,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3572500861937287254
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4089051154483116052}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9016871055251887812, guid: e6f5eff79a2559e4ea4564198c9924f7, type: 3}
 --- !u!1 &5819248448961482908
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +342,7 @@ GameObject:
   - component: {fileID: 3489331459613542976}
   - component: {fileID: 3014838500044680632}
   - component: {fileID: 6052650024656421011}
+  - component: {fileID: 3982812635580958449}
   m_Layer: 0
   m_Name: BldgSM_06_DkMetal.001
   m_TagString: Untagged
@@ -384,6 +415,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3982812635580958449
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5819248448961482908}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5883193747697177520, guid: e6f5eff79a2559e4ea4564198c9924f7, type: 3}
 --- !u!1 &6365557024369378773
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,6 +440,7 @@ GameObject:
   - component: {fileID: 96846354561123692}
   - component: {fileID: 91864911251320435}
   - component: {fileID: 6249538323776098308}
+  - component: {fileID: 9185845353484592967}
   m_Layer: 0
   m_Name: BldgSM_06_Glass
   m_TagString: Untagged
@@ -467,6 +513,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &9185845353484592967
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6365557024369378773}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -116921810120569008, guid: e6f5eff79a2559e4ea4564198c9924f7, type: 3}
 --- !u!1 &7614474685357263151
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,6 +538,7 @@ GameObject:
   - component: {fileID: 8021218301852870498}
   - component: {fileID: 2004276933534068694}
   - component: {fileID: 7036819165549025773}
+  - component: {fileID: 5320057805176902463}
   m_Layer: 0
   m_Name: BldgSM_06_Metal.001
   m_TagString: Untagged
@@ -550,3 +611,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5320057805176902463
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7614474685357263151}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4831161649550616927, guid: e6f5eff79a2559e4ea4564198c9924f7, type: 3}

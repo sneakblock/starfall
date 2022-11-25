@@ -11,8 +11,6 @@ public class SAi : SCharacter
     [Range(0, 100)]
     public float linkValue = 20;
 
-    public GameObject linkObj;
-    
     protected BehaviourTreeRunner TreeRunner;
     protected BehaviourTree BehaviourTree;
     protected SAiInputs Inputs;
@@ -253,12 +251,17 @@ public class SAi : SCharacter
             var randomY = Random.Range(.3f, .8f);
             var randomZ = Random.Range(-1f, 1f);
             var throwVector = new Vector3(randomX, randomY, randomZ).normalized;
-            var linkDrop = Instantiate(linkObj, transform.position, Quaternion.identity);
+            // var linkDrop = Instantiate(linkObj, transform.position, Quaternion.identity);
+            var linkDrop = GameManager.Instance.LinkPool.Get();
+            linkDrop.transform.position = transform.position;
             linkDrop.GetComponentInChildren<LinkDrop>().value = linkValue / 5f;
             linkDrop.GetComponentInChildren<Rigidbody>().AddForce(throwVector, ForceMode.Impulse);
             yield return new WaitForSeconds(.5f);
         }
-        this.enabled = false;
+        //Is this a problem area?
+        enabled = false;
+        yield return new WaitForSeconds(15f);
+        gameObject.SetActive(false);
     }
 
 }

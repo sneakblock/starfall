@@ -37,7 +37,8 @@ public class Score : MonoBehaviour
             Destroy(gameObject);
         } else {
             Instance = this;
-            DontDestroyOnLoad(Instance);
+            //TODO: Address this
+            // DontDestroyOnLoad(Instance);
         }
         OnUpdateScore?.Invoke((int) score);
     }
