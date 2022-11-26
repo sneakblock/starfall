@@ -26,7 +26,7 @@ public class HitscanTestWeapon : RangedWeapon
         {
             hitPoint = barrelTransform.forward * 1000f;
         }
-        Debug.DrawRay(position, dir * 1000f, Color.red, .5f);
+        Debug.DrawLine(position, hitPoint, Color.red, 2f);
         PlayFireEffect();
         DrawHitscanBulletTrail(hitPoint);
     }

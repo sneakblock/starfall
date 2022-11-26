@@ -11,6 +11,14 @@ public interface IDamageable
 
     void Kill();
 
+    void StartBleeding(float totalDamage, float duration);
+
+    bool IsBleeding();
+
+    void StopBleeding();
+
+    void UpdateBleed();
+
     bool IsAlive();
     
 }

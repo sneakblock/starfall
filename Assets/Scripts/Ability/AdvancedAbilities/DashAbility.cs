@@ -53,7 +53,7 @@ public class DashAbility : AdvancedAbility
 
     public override void NotReadyYet()
     {
-
+        
     }
 
     public override void OnCastStarted()
@@ -88,6 +88,7 @@ public class DashAbility : AdvancedAbility
 
     public override void OnCastEnded()
     {
+        base.OnCastEnded();
         if (character is APlayer player)
         {
             player.orientationMethod = APlayer.OrientationMethod.TowardsMovement;
@@ -98,25 +99,7 @@ public class DashAbility : AdvancedAbility
         }
         
         ToggleMaterialEffects(false);
-
-        // int enemiesKilled = 0;
-        //
-        // foreach (Collider enemy in enemiesToHit)
-        // {
-        //     IDamageable damageableEnemy = enemy.gameObject.GetComponent<IDamageable>();
-        //     if (damageableEnemy != null)
-        //     {
-        //         damageableEnemy.Damage(damage * enemiesToHit.Count);
-        //         if (damageableEnemy.IsAlive() == false)
-        //         {
-        //             {
-        //                 enemiesKilled++;
-        //             }
-        //         }
-        //     }
-        // }
-        // enemiesToHit.Clear();
-        // cooldownTimer -= enemiesKilled * coolDownReductionPerKill;
+        
     }
 
     private void CheckCollisions()

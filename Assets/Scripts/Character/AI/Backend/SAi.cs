@@ -225,10 +225,10 @@ public class SAi : SCharacter
         targetPoint = point;
     }
 
-    public Vector3 GetTargetPoint()
-    {
-        return targetPoint;
-    }
+    // public Vector3 GetTargetPoint()
+    // {
+    //     return targetPoint;
+    // }
 
     IEnumerator LinkSpawner()
     {

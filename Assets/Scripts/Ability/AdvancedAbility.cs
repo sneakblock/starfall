@@ -14,9 +14,12 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
     protected float cooldownTimer;
     protected float castTimer;
 
+    protected bool castCompleted = true;
+
     // Happens only once every time the player activates this ability
     public override void OnEnableAbility()
     {
+        if (!castCompleted) return;
         if (!IsReady())
         {
             // Parent class may have set it to true, so reset it here.
@@ -62,7 +65,7 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
     public virtual bool IsCasting()
     {
         castTimer -= Time.deltaTime;
-        return castTimer > 0;
+        return castTimer > 0 && !castCompleted;
     }
 
     public void DecrementCooldownTimer()
@@ -82,13 +85,13 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
 
     public virtual void OnCastStarted()
     {
-
+        castCompleted = false;
     }
 
     // Similar to OnUpdate() except, it gets called ONLY when the ability is being casted
     public virtual void DuringCast()
     {
-
+        
     }
 
     // Child class should override this and this is where you write the actual
@@ -96,7 +99,7 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
     // Gets invoked once the cooldown AND castDelay has passed
     public virtual void OnCastEnded()
     {
-
+        castCompleted = true;
     }
 
 }

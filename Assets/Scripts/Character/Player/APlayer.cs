@@ -142,9 +142,9 @@ public abstract class APlayer : SCharacter
         var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = cam.ScreenPointToRay(screenCenterPoint);
         bool rayhit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask);
-        var targetPoint =  rayhit ? hit.point : ray.GetPoint(1000f);
+        var tp =  rayhit ? hit.point : ray.GetPoint(1000f);
 
-        base.targetPoint = targetPoint;
+        base.targetPoint = tp;
 
         HandleFiringInputs();
 
@@ -254,7 +254,11 @@ public abstract class APlayer : SCharacter
                 break;
         }
     }
-    
+
+    public void CallOrientationTimer()
+    {
+        StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
+    }
     
     public override void Damage(float damage) {
         OnDamage?.Invoke();
