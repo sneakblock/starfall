@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    public static Leaderboards leaderboards { get; private set; }
+
     [Header("Player Character")] public APlayer aPlayer;
     public RangedWeapon playerWeapon { get; private set; }
     public Light dirLight;
@@ -54,6 +56,8 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         
+        Leaderboards leaderboards = gameObject.AddComponent<Leaderboards>();
+
         if (!aPlayer) TryFindAPlayer();
         if (!dirLight) dirLight = TryFindDirLight();
         
