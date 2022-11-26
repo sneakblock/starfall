@@ -20,12 +20,15 @@ public class Dagger : MonoBehaviour
     [SerializeField] public float bleedDamage = 10f;
     [Tooltip("The number of seconds that the bleed lasts.")]
     [SerializeField] public float bleedDuration = 3f;
-    [Tooltip("The amount of damage dealt to an already bleeding enemy, instantly, on recall hit.")]
-    [SerializeField] private float burstDamage = 25f;
 
     [Header("Recovery")]
     [Tooltip("The layers that daggers can get stuck in.")] [SerializeField]
     private LayerMask stickableLayers;
+
+    [SerializeField] private float autoStickDistance = 1000f;
+
+    [Header("Effects")] public GameObject bleedEffect;
+    public GameObject burstEffect;
 
     [Header("Config")]
     public DaggerState daggerState = DaggerState.Held;
@@ -35,16 +38,23 @@ public class Dagger : MonoBehaviour
     private Rigidbody _rigidbody;
     private CapsuleCollider _collider;
     private Collider _stuckCollider;
-    
+    private TrailRenderer _trailRenderer;
+    private MeshRenderer _meshRenderer;
+    private float _defaultTrailTime;
+
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<CapsuleCollider>();
+        _trailRenderer = GetComponent<TrailRenderer>();
+        _meshRenderer = GetComponent<MeshRenderer>();
+        _defaultTrailTime = _trailRenderer.time;
     }
 
     public void Throw(Vector3 force)
     {
+        _meshRenderer.enabled = true;
         _rigidbody.isKinematic = false;
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.AddForce(force, ForceMode.Impulse);
@@ -53,7 +63,7 @@ public class Dagger : MonoBehaviour
 
     public void Recall()
     {
-        if (daggerState is not DaggerState.Stuck or DaggerState.Outbound) return;
+        if (daggerState is not (DaggerState.Stuck or DaggerState.Outbound)) return;
         Unstick();
         daggerState = DaggerState.Inbound;
     }
@@ -107,14 +117,31 @@ public class Dagger : MonoBehaviour
                 Recover();
             }
         }
+
+        if (daggerState is not DaggerState.Outbound) return;
+        if (Vector3.Distance(owner.transform.position, transform.position) >= autoStickDistance)
+        {
+            Stick(null);
+        }
     }
 
     public void Recover()
     {
         daggerState = DaggerState.Held;
         _stuckCollider = null;
+        _rigidbody.isKinematic = true;
+        _meshRenderer.enabled = false;
+        _trailRenderer.time /= 4f;
+        StartCoroutine(WaitForTrail());
+    }
+
+    IEnumerator WaitForTrail()
+    {
+        yield return new WaitForSeconds(1f);
+        _trailRenderer.Clear();
+        _trailRenderer.time = _defaultTrailTime;
         gameObject.SetActive(false);
     }
 
-    
+
 }

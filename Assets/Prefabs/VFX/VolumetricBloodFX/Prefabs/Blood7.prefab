@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1249683587037300937}
   - component: {fileID: 1249683587037300940}
   - component: {fileID: 1249683587037300941}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Decal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.003, y: -2.12, z: 0.086}
   m_LocalScale: {x: 2.8926823, y: 1, z: 2.1287558}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5984610118884983759}
   m_RootOrder: 0
@@ -53,10 +54,12 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -81,6 +84,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1249683587037300940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,7 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5984610118884983759}
   - component: {fileID: 3796651074023140354}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Blood7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,6 +250,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1249683587037300943}
   - {fileID: 6553911729241871289}
@@ -282,7 +287,7 @@ GameObject:
   - component: {fileID: 6553911729238971289}
   - component: {fileID: 6553911729240101209}
   - component: {fileID: 6102051744564676459}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,6 +304,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5984610118884983759}
   m_RootOrder: 1
@@ -322,10 +328,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -350,6 +358,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6102051744564676459
 MonoBehaviour:
   m_ObjectHideFlags: 0

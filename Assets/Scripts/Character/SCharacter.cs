@@ -210,9 +210,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         isBleeding = true;
         bleedTimer = duration;
         float ticksInDuration = duration / bleedTickRate;
-        Debug.Log($"number of ticks for {gameObject.name} set to {ticksInDuration}");
         bleedDmgPerTick = totalDamage / ticksInDuration;
-        Debug.Log($"Bleed damage per tick for {gameObject.name} set to {bleedDmgPerTick}");
     }
 
     public void StopBleeding()
@@ -232,15 +230,14 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         {
             //Bleed here
             Damage(bleedDmgPerTick);
-            Debug.Log($"Bled {gameObject.name} for {bleedDmgPerTick}");
-            
+
             //Blood effects
             var bloodInstance = GameManager.Instance.BloodPool.Get();
             var position = transform.position;
             var center = new Vector3(position.x, position.y + motor.Capsule.center.y, position.z);
             float angle = Mathf.Atan2(position.x, position.z) * Mathf.Rad2Deg + 180;
             bloodInstance.transform.position = center;
-            bloodInstance.transform.rotation = Quaternion.Euler(0, angle + 90, 0);
+            bloodInstance.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             var settings = bloodInstance.GetComponent<BFX_BloodSettings>();
             float groundHeight;
             if (motor && motor.GroundingStatus.FoundAnyGround)

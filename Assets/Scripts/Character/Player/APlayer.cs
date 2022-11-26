@@ -254,7 +254,11 @@ public abstract class APlayer : SCharacter
                 break;
         }
     }
-    
+
+    public void CallOrientationTimer()
+    {
+        StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
+    }
     
     public override void Damage(float damage) {
         OnDamage?.Invoke();

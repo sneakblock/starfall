@@ -53,7 +53,15 @@ public class DaggerAbility : AdvancedAbility
 
     public override void NotReadyYet()
     {
-        
+        if (_mode != DaggerAbilityMode.Recall) return;
+        if (_daggers.Any(d => d.daggerState is not (DaggerState.Stuck or DaggerState.Lost)))
+        {
+            return;
+        }
+
+        Debug.Log("Cooldown exemption");
+        cooldownTimer = 0f;
+        OnCastStarted();
     }
 
     public override void OnCastStarted()
@@ -89,26 +97,31 @@ public class DaggerAbility : AdvancedAbility
 
     public override void OnCastEnded()
     {
-        
+        base.OnCastEnded();
     }
 
     private void ThrowDaggers(List<Dagger> daggersToThrow)
     {
         if (daggersToThrow.Count == 0) return;
+        if (character is APlayer player)
+        {
+            player.CallOrientationTimer();
+        }
         var handPos = handTransform.position;
         var direction = (character.GetTargetPoint() - handPos).normalized;
-        Debug.DrawRay(handPos, direction * 5f, Color.green, 5f);
+        Debug.DrawRay(handPos, direction * 1000f, Color.green, 5f);
         var axis = Vector3.Cross(Vector3.ProjectOnPlane(direction, character.motor.CharacterUp), character.transform.right);
-        Debug.DrawRay(handPos, axis, Color.blue, 5f);
+        Debug.DrawRay(handPos, axis * 1000f, Color.blue, 5f);
         var minAngle = Quaternion.AngleAxis(-throwAngle / 2, axis) * direction;
         var maxAngle = Quaternion.AngleAxis(throwAngle / 2, axis) * direction;
-        Debug.DrawRay(handPos, minAngle * 5f, Color.magenta, 5f);
-        Debug.DrawRay(handPos, maxAngle * 5f, Color.magenta, 5f);
+        Debug.DrawRay(handPos, minAngle * 1000f, Color.magenta, 5f);
+        Debug.DrawRay(handPos, maxAngle * 1000f, Color.magenta, 5f);
         Debug.Log($"Throwing {daggersToThrow.Count} daggers.");
         for (var i = 0; i < daggersToThrow.Count; i++)
         {
-            var adjustedDir = Vector3.Slerp(minAngle, maxAngle, (float)i / (daggersToThrow.Count - 1));
-            Debug.DrawRay(handTransform.position, adjustedDir, Color.yellow, 5f);
+            Vector3 adjustedDir;
+            adjustedDir = daggersToThrow.Count > 1 ? Vector3.Slerp(minAngle, maxAngle, (float)i / (daggersToThrow.Count - 1)) : direction;
+            Debug.DrawRay(handTransform.position, adjustedDir * 1000f, Color.yellow, 5f);
             var daggerObj = daggersToThrow[i].gameObject;
             daggerObj.SetActive(true);
             daggerObj.transform.position = handPos;
@@ -142,6 +155,7 @@ public class DaggerAbility : AdvancedAbility
         {
             _rechargingDaggerTimer += Time.deltaTime;
             if (!(_rechargingDaggerTimer >= lostDaggerRecoveryTime)) return;
+            _currentRechargingDagger.gameObject.SetActive(true);
             _currentRechargingDagger.Recover();
             _currentRechargingDagger = null;
             _rechargingDaggerTimer = 0f;
