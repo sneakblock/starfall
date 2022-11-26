@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5751729091738824338}
   - component: {fileID: 711518484545904889}
   - component: {fileID: 1242472005}
+  - component: {fileID: 1906996294}
   m_Layer: 6
   m_Name: Kuze
   m_TagString: Player
@@ -172,9 +173,34 @@ MonoBehaviour:
   vertexResolutionDuringCast: 10
   applyVertexDisplacementOnCast: 1
   vertexDisplacementAmountDuringCast: 0.5
-  speed: 200
+  speed: 150
   damage: 15
   coolDownReductionPerKill: 3
+--- !u!114 &1906996294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5751729091738824351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709623846bcd1254c8ef305452a22eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownTime: 8
+  castTime: 0
+  dagger: {fileID: 3955715273319950848, guid: e1f1356b5ef605046bd4fae71bb0c48f, type: 3}
+  totalDamage: 20
+  bleedDuration: 5
+  numDaggers: 5
+  throwAngle: 30
+  throwForce: 90
+  recallForce: 45
+  lostDaggerRecoveryTime: 10
+  recallCooldown: 1
+  handTransform: {fileID: 7429496412960557096}
+  catchRange: 2
 --- !u!1 &5751729092140714124
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +535,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e43bcf993c30d2342a813623ec1a138a, type: 3}
+--- !u!4 &7429496412960557096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6437781830331889672, guid: e43bcf993c30d2342a813623ec1a138a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4489323467881639968}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7429496413570663606 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6437781830929478806, guid: e43bcf993c30d2342a813623ec1a138a,
