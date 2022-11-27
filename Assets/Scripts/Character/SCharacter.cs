@@ -7,7 +7,6 @@ using UnityEngine.Events;
 
 public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterController
 {
-    [HideInInspector]
     public KinematicCharacterMotor motor;
 
     [Header("Link")][SerializeField] protected float health = 100;
@@ -53,6 +52,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
+
+    public Vector3 MoveInputVector => moveInputVector;
 
     //Firing stuff
     protected bool isAiming;

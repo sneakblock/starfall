@@ -32,7 +32,7 @@ public class Dagger : MonoBehaviour
 
     [Header("Config")]
     public DaggerState daggerState = DaggerState.Held;
-    public Kuze owner;
+    public SCharacter owner;
     public DaggerAbility daggerAbility;
 
     private Rigidbody _rigidbody;

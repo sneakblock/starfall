@@ -41,7 +41,7 @@ public class DaggerAbility : AdvancedAbility
             var daggerObject = Instantiate(dagger);
             var daggerComponent = daggerObject.GetComponent<Dagger>();
             _daggers.Add(daggerComponent);
-            daggerComponent.owner = (Kuze)character;
+            daggerComponent.owner = character;
             daggerComponent.daggerAbility = this;
             daggerComponent.bleedDamage = totalDamage;
             daggerComponent.bleedDuration = bleedDuration;

@@ -28,11 +28,11 @@ public abstract class APlayer : SCharacter
 
     // Camera exists for APlayer and not SCharacter because Enemy is an
     // SCharacter and they do not deserve a camera.
-    protected Camera cam;
+    public Camera cam;
     
     //Rewired input system
     protected const int PlayerID = 0;
-    protected Rewired.Player RewiredPlayer;
+    public Rewired.Player RewiredPlayer;
 
     //The input vector, clamped to 1, as read by the input system, before any transformations regarding camera/into world space.
     //Useful for animations.
@@ -200,7 +200,7 @@ public abstract class APlayer : SCharacter
         _zoom = (_zoom == 1) ? -1 : 1;
     }
 
-    private void LateUpdate()
+    protected virtual void LateUpdate()
     {
         HandleCameraInput();
     }
