@@ -106,6 +106,9 @@ public class DaggerAbility : AdvancedAbility
         if (character is APlayer player)
         {
             player.CallOrientationTimer();
+        } else if (character is Clone c)
+        {
+            c.CallOrientationTimer();
         }
         var handPos = handTransform.position;
         var direction = (character.GetTargetPoint() - handPos).normalized;

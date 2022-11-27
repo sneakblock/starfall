@@ -12,7 +12,7 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
     public float castTime;
 
     protected float cooldownTimer;
-    protected float castTimer;
+    public float castTimer { get; private set; }
 
     protected bool castCompleted = true;
 

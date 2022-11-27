@@ -9,7 +9,6 @@ public class HitscanTestWeapon : RangedWeapon
 
     protected override void Fire(Vector3 dir)
     {
-        Debug.Log($"{OwnerChar.gameObject.name} fires in dir {dir}");
         base.Fire(dir);
         var position = barrelTransform.position;
         Ray r = new Ray(position, dir);

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 711518484545904889}
   - component: {fileID: 1242472005}
   - component: {fileID: 1906996294}
+  - component: {fileID: 1136128715}
   m_Layer: 6
   m_Name: Kuze
   m_TagString: Player
@@ -75,14 +76,17 @@ MonoBehaviour:
     m_Bits: 129
   gravity: {x: 0, y: -30, z: 0}
   Collider: {fileID: 0}
+  lookInputVector: {x: 0, y: 0, z: 0}
   orbitPoint: {fileID: 5751729092140714125}
   orbitCamera: {fileID: 0}
   orientationMethod: 1
   secondsToLockShootingOrientation: 1
+  cam: {fileID: 0}
   invokeLinkSlider:
     m_PersistentCalls:
       m_Calls: []
   linkDamagePerSec: 2
+  anim: {fileID: 0}
 --- !u!136 &5751729091738824339
 CapsuleCollider:
   m_ObjectHideFlags: 8
@@ -200,7 +204,23 @@ MonoBehaviour:
   lostDaggerRecoveryTime: 10
   recallCooldown: 1
   handTransform: {fileID: 7429496412960557096}
-  catchRange: 2
+  catchRange: 1
+--- !u!114 &1136128715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5751729091738824351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d2b5126ed7dcd47866ce972ccbcebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownTime: 0
+  castTime: 0
+  clone: {fileID: 1036391447846734501, guid: b48abb52173b9cb4ea5a7344ba1a1cd8, type: 3}
+  effect: {fileID: 0}
 --- !u!1 &5751729092140714124
 GameObject:
   m_ObjectHideFlags: 0

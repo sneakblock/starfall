@@ -10,12 +10,36 @@ public enum CloneOrientation
     TowardsTarget
 }
 
+public enum MaterializationState
+{
+    Materializing,
+    Dematerializing,
+    Stable
+}
+
 public class Clone : SCharacter
 {
     public Kuze baseKuze { get; set; }
     public Vector3 mirrorNormal { get; set; }
+    
+    public CloneAbility cloneAbility { get; set; }
 
     public CloneOrientation cloneOrientation { get; set; } = CloneOrientation.TowardsMovement;
+
+    public MaterializationState materializationState = MaterializationState.Stable;
+
+    [SerializeField] private GameObject characterMesh;
+    [SerializeField] private float secondsToMaterialize = 1f;
+    [SerializeField] private float dematerializedVertexResolution = 0f;
+    [SerializeField] private float dematerializedVertexDisplacement = 5f;
+    [SerializeField] [Range(0f, 1f)] private float dematerializedDistortionColorBalance = 1f;
+    private float _materializationTimer;
+    
+    private static readonly int VertexResolution = Shader.PropertyToID("Vector1_B2CC132F");
+    private static readonly int VertexDisplacmentAmount = Shader.PropertyToID("_VertexDisplacementAmount");
+    private static readonly int DistortionColorBalance = Shader.PropertyToID("_DistortionColorBalance");
+    private Dictionary<Renderer, List<Material>> _renderersMats = new();
+    private Dictionary<Material, Dictionary<int, float>> _originalValues = new();
 
     public Animator anim;
     
@@ -35,6 +59,20 @@ public class Clone : SCharacter
         base.StartCharacter();
         anim = GetComponentInChildren<Animator>();
         baseKuze.orbitCamera.IgnoredColliders.Add(GetComponentInChildren<Collider>());
+        foreach (var r in characterMesh.GetComponentsInChildren<Renderer>())
+        {
+            var materials = new List<Material>();
+            foreach (var m in r.materials)
+            {
+                materials.Add(m);
+                var paramValues = new Dictionary<int, float>();
+                paramValues.Add(VertexResolution, m.GetFloat(VertexResolution));
+                paramValues.Add(VertexDisplacmentAmount, m.GetFloat(VertexDisplacmentAmount));
+                paramValues.Add(DistortionColorBalance, m.GetFloat(DistortionColorBalance));
+                _originalValues.Add(m, paramValues);
+            }
+            _renderersMats.Add(r, materials);
+        }
     }
 
     protected override void HandleInputs()
@@ -143,13 +181,72 @@ public class Clone : SCharacter
 
     protected override void UpdateCharacter()
     {
-        
+        if (materializationState is not (MaterializationState.Dematerializing or MaterializationState.Materializing))
+            return;
+        _materializationTimer -= Time.deltaTime;
+        if (_materializationTimer <= 0f)
+        {
+            SetMaterialization(MaterializationState.Stable);
+            return;
+        }
+
+        if (materializationState is MaterializationState.Materializing)
+        {
+            motor.SetPosition(baseKuze.motor.GetState().Position);
+            motor.SetRotation(baseKuze.motor.GetState().Rotation);
+        }
+        DoMaterialization();
+    }
+
+    private void DoMaterialization()
+    {
+        foreach (var kv in _renderersMats)
+        {
+            foreach (var m in kv.Key.materials)
+            {
+                var restingValues = _originalValues[m];
+                m.SetFloat(VertexResolution, materializationState is MaterializationState.Materializing ? Mathf.Lerp(dematerializedVertexResolution, restingValues[VertexResolution], 1 - _materializationTimer / secondsToMaterialize) : Mathf.Lerp(restingValues[VertexResolution], dematerializedVertexResolution, 1 - _materializationTimer / secondsToMaterialize));
+                m.SetFloat(VertexDisplacmentAmount, materializationState is MaterializationState.Materializing ? Mathf.Lerp(dematerializedVertexDisplacement, restingValues[VertexDisplacmentAmount], 1 - _materializationTimer / secondsToMaterialize) : Mathf.Lerp(restingValues[VertexDisplacmentAmount], dematerializedVertexDisplacement, 1 - _materializationTimer / secondsToMaterialize));
+                m.SetFloat(DistortionColorBalance, materializationState is MaterializationState.Materializing ? Mathf.Lerp(dematerializedDistortionColorBalance, restingValues[DistortionColorBalance], 1 - _materializationTimer / secondsToMaterialize) : Mathf.Lerp(restingValues[DistortionColorBalance], dematerializedDistortionColorBalance, 1 - _materializationTimer / secondsToMaterialize));
+            }
+        }
+    }
+
+    public void SetMaterialization(MaterializationState state)
+    {
+        if (materializationState == MaterializationState.Dematerializing)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        materializationState = state;
+        if (materializationState is (MaterializationState.Dematerializing or MaterializationState.Materializing))
+        {
+            _materializationTimer = secondsToMaterialize;
+        } else if (materializationState is MaterializationState.Stable)
+        {
+            foreach (var kv in _renderersMats)
+            {
+                //Reset materials to default values
+                foreach (var m in kv.Key.materials)
+                {
+                    m.SetFloat(VertexResolution, _originalValues[m][VertexResolution]);
+                    m.SetFloat(VertexDisplacmentAmount, _originalValues[m][VertexDisplacmentAmount]);
+                    m.SetFloat(DistortionColorBalance, _originalValues[m][DistortionColorBalance]);
+                }
+            }
+        }
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(targetPoint, .25f);
+    }
+
+    public void CallOrientationTimer()
+    {
+        StartCoroutine(OrientationTimer(baseKuze.secondsToLockShootingOrientation));
     }
     
     private IEnumerator OrientationTimer(float duration)

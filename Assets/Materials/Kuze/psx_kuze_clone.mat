@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: psx_kuze_ghost
+  m_Name: psx_kuze_clone
   m_Shader: {fileID: -6465566751694194690, guid: 302599487946620478c88854d8744325,
     type: 3}
   m_ValidKeywords: []
@@ -95,7 +95,7 @@ Material:
     - Boolean_D258FF8E: 0
     - Vector1_21C41D02: 256
     - Vector1_6F288C5B: 0.5
-    - Vector1_B2CC132F: 16
+    - Vector1_B2CC132F: 20.76
     - Vector1_B9994903: 11
     - Vector1_E8746023: 16
     - _Alpha: 0.5
@@ -108,17 +108,17 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortionColorBalance: 0.44
+    - _DistortionColorBalance: 0.625
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _FresnelPower: 1.05
-    - _GlitterIntensity: 8.09
-    - _GlitterNoiseRotationSpeed: -0.15
+    - _GlitterIntensity: 10.55
+    - _GlitterNoiseRotationSpeed: 2.67
     - _GlitterNoiseScale: -0.09
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HeatDistortion: 0.19
+    - _HeatDistortion: 0.41
     - _InteriorSpread: 1.13
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -131,11 +131,11 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _UseVertexDisplacement: 0
-    - _VertexDisplacementAmount: 0
+    - _UseVertexDisplacement: 1
+    - _VertexDisplacementAmount: 0.07
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _useVertexJitter: 0
+    - _useVertexJitter: 1
     m_Colors:
     - Color_2E5415DE: {r: 1, g: 1, b: 1, a: 0}
     - Vector2_8044833E: {r: 1, g: 1, b: 0, a: 0}

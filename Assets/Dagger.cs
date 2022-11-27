@@ -112,7 +112,7 @@ public class Dagger : MonoBehaviour
             var dirToHand = (daggerAbility.handTransform.position - position).normalized;
             transform.LookAt(position + dirToHand);
             _rigidbody.velocity = dirToHand * daggerAbility.recallForce;
-            if (Vector3.Distance(owner.transform.position, transform.position) <= daggerAbility.GetCatchRange())
+            if (Vector3.Distance(daggerAbility.handTransform.position, transform.position) <= daggerAbility.GetCatchRange())
             {
                 Recover();
             }
