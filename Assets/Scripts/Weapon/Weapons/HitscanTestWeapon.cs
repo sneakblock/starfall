@@ -30,8 +30,8 @@ public class HitscanTestWeapon : RangedWeapon
         PlayFireEffect();
         DrawHitscanBulletTrail(hitPoint);
     }
-    
-    public virtual void PlayFireEffect()
+
+    protected virtual void PlayFireEffect()
     {
         var fireEffectInstance = GameManager.Instance.MuzzleFlashPool.Get();
         fireEffectInstance.transform.position = barrelTransform.position;
@@ -41,13 +41,13 @@ public class HitscanTestWeapon : RangedWeapon
         StartCoroutine(ReleaseMuzzleFlashWaiter(4f, fireEffectInstance));
     }
 
-    protected IEnumerator ReleaseMuzzleFlashWaiter(float numSeconds, GameObject toRelease)
+    private IEnumerator ReleaseMuzzleFlashWaiter(float numSeconds, GameObject toRelease)
     {
         yield return new WaitForSeconds(numSeconds);
         GameManager.Instance.MuzzleFlashPool.Release(toRelease);
     }
 
-    private void DrawHitscanBulletTrail(Vector3 hitPos)
+    protected virtual void DrawHitscanBulletTrail(Vector3 hitPos)
     {
         var trailObj = GameManager.Instance.BulletTrailPool.Get();
         var lineRenderer = trailObj.GetComponent<LineRenderer>();

@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
     private BulletTrailPool _bulletTrailPoolComponent;
     public ObjectPool<GameObject> BulletTrailPool;
 
+    private CloneBulletTrailPool _cloneBulletTrailPoolComponent;
+    public ObjectPool<GameObject> CloneBulletTrailPool;
+
     private SurfaceImpactPool[] _surfaceImpactPoolComponents;
     public readonly Dictionary<ImpactEffectSurface.ImpactSurfaceType, ObjectPool<GameObject>> SurfaceImpactPools = new();
 
@@ -72,6 +75,9 @@ public class GameManager : MonoBehaviour
 
         _bulletTrailPoolComponent = GetComponent<BulletTrailPool>();
         BulletTrailPool = _bulletTrailPoolComponent.Pool;
+
+        _cloneBulletTrailPoolComponent = GetComponent<CloneBulletTrailPool>();
+        CloneBulletTrailPool = _cloneBulletTrailPoolComponent.Pool;
 
         _surfaceImpactPoolComponents = GetComponents<SurfaceImpactPool>();
         foreach (var component in _surfaceImpactPoolComponents)

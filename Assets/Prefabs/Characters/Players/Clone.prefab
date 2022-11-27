@@ -420,7 +420,7 @@ MonoBehaviour:
   jumpScalableForwardSpeed: 10
   jumpPreGroundingGraceTime: 0
   jumpPostGroundingGraceTime: 0
-  _weapon: {fileID: 0}
+  _weapon: {fileID: 1553955241657620345}
   aimingMovementPenalty: 0.75
   ignoredColliders: []
   layerMask:
@@ -919,7 +919,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2786285861654503565}
-  - component: {fileID: 2786285861654503564}
+  - component: {fileID: 1553955241657620345}
   - component: {fileID: 7835589383164434157}
   m_Layer: 0
   m_Name: DevPistol
@@ -947,7 +947,7 @@ Transform:
   m_Father: {fileID: 2329177802275519015}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -89.192, y: 2.021, z: 83.107}
---- !u!114 &2786285861654503564
+--- !u!114 &1553955241657620345
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -956,47 +956,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2786285861654503563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc7191658b8eddc418eb9ad0c877c80a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6aa8771ecd94e5344970505c8fe6d181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: e527e56f4b66b654abb3ac4d4c25aedc, type: 2}
   barrelTransform: {fileID: 2786285862264679442}
   AudioSource: {fileID: 7835589383164434157}
-  impactEffects:
-  - SurfaceType: 0
-    Effects: []
-    ImpactClips: []
-  - SurfaceType: 7
-    Effects:
-    - {fileID: 2656253210798625995, guid: a78e9ef18b366424b84e0c7410d2fe72, type: 3}
-    - {fileID: 5865290276592450837, guid: 42a28376f729c864a81abf66add7a418, type: 3}
-    - {fileID: 764304066602274965, guid: 4a322f29a9e1fa54f90223de8bcf3a28, type: 3}
-    - {fileID: 7935733108997359171, guid: e822d59151d3597428b0b63bf25355e7, type: 3}
-    - {fileID: 4288107571095694937, guid: c3f8938673a07704e93ac52eee18f410, type: 3}
-    - {fileID: 1165703760847671896, guid: bb596cd440832554089a7125852e836f, type: 3}
-    - {fileID: 4152240900433254336, guid: 6d3629f845b40e24fb51d381e84bbc77, type: 3}
-    - {fileID: 6463355840203370170, guid: 70ead61ff20b23b4e97b90d8e8997ecd, type: 3}
-    - {fileID: 5170585893340993107, guid: 7b88f11816abaa34c9e02cbaa8485321, type: 3}
-    - {fileID: 2629016494315086251, guid: 5776aed3bb070e54cb09a11c8a6a5831, type: 3}
-    - {fileID: 3034872428933141512, guid: 52d94bfe44b09ff4b9e9788e9a86a778, type: 3}
-    - {fileID: 2360933683143488451, guid: 730678b8a5330c449ada55bde83402ce, type: 3}
-    - {fileID: 5016170632959171363, guid: c3ed06559a66b724b91c3124e75ddec9, type: 3}
-    - {fileID: 8859926575668995837, guid: 097a30048e9007141899f834041a5ac7, type: 3}
-    - {fileID: 5936082179827903908, guid: cb58ece77d11ef945aecd072f2e46a8d, type: 3}
-    - {fileID: 5494213943435191861, guid: db51fe09adf27d640b4e10018c2d76ba, type: 3}
-    - {fileID: 5371219466416337994, guid: f9e099178c81bee439a79eecec91dacb, type: 3}
-    ImpactClips:
-    - {fileID: 8300000, guid: be01686de39204c40b7c60021fd1b50d, type: 3}
-  - SurfaceType: 3
-    Effects: []
-    ImpactClips: []
-  - SurfaceType: 4
-    Effects: []
-    ImpactClips:
-    - {fileID: 0}
-  - SurfaceType: 1
-    Effects: []
-    ImpactClips: []
+  impactEffects: []
   hitscanBulletTrail: {fileID: 6774897497785466354, guid: 8cfe437906c21dd41ae4d2c242640624,
     type: 3}
 --- !u!82 &7835589383164434157
@@ -1009,7 +975,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6b41cd43e8650584e8eef82af3a741e9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4bf4e3881e570c64abe5a4f9cd8aa4e7, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
