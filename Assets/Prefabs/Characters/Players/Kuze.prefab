@@ -197,7 +197,7 @@ MonoBehaviour:
   dagger: {fileID: 3955715273319950848, guid: e1f1356b5ef605046bd4fae71bb0c48f, type: 3}
   totalDamage: 20
   bleedDuration: 5
-  numDaggers: 5
+  numDaggers: 7
   throwAngle: 30
   throwForce: 90
   recallForce: 45
@@ -217,8 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d2b5126ed7dcd47866ce972ccbcebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 0
-  castTime: 0
+  cooldownTime: 20
+  castTime: 8
   clone: {fileID: 1036391447846734501, guid: b48abb52173b9cb4ea5a7344ba1a1cd8, type: 3}
   effect: {fileID: 0}
 --- !u!1 &5751729092140714124

@@ -39438,29 +39438,6 @@ Transform:
   m_Father: {fileID: 1294927564}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -45.429, z: 0}
---- !u!1 &796668485 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2606140551033211466, guid: fdf674b9093d43946bde9035ab3bac7a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1945945664}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &796668495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 796668485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb14d3330e0e07548842c936b7cb20f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objects:
-  - {fileID: 6774897497785466354, guid: f305b24ea542b794cb8771b0e5f46a17, type: 3}
-  collectionChecks: 1
-  initPoolSize: 10
-  maxPoolSize: 500
 --- !u!1 &798233329
 GameObject:
   m_ObjectHideFlags: 0
@@ -44044,11 +44021,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4785519670469263990, guid: e14bc0772cf8e3b49aed8553214629e2,
-        type: 3}
-      propertyPath: field of view
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 4785519670723143201, guid: e14bc0772cf8e3b49aed8553214629e2,
         type: 3}
       propertyPath: m_Name
@@ -48502,18 +48474,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1136128715, guid: fa166f60e418001478edbb9d49465641, type: 3}
-      propertyPath: castTime
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1136128715, guid: fa166f60e418001478edbb9d49465641, type: 3}
-      propertyPath: cooldownTime
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1906996294, guid: fa166f60e418001478edbb9d49465641, type: 3}
-      propertyPath: numDaggers
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 5751729091738824349, guid: fa166f60e418001478edbb9d49465641,
         type: 3}
       propertyPath: m_RootOrder
@@ -48994,11 +48954,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606140551033211466, guid: fdf674b9093d43946bde9035ab3bac7a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2606140551033211468, guid: fdf674b9093d43946bde9035ab3bac7a,
         type: 3}
