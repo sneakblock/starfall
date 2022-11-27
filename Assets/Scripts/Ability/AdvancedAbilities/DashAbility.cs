@@ -63,10 +63,16 @@ public class DashAbility : AdvancedAbility
         {
             movementVector = player.orbitCamera.transform.forward * speed;
             player.orientationMethod = APlayer.OrientationMethod.TowardsCamera;
-            if (effect)
-            {
-                effect.Play();
-            }
+        }
+        else if (character is Clone clone)
+        {
+            movementVector =
+                Vector3.Reflect(GameManager.Instance.aPlayer.orbitCamera.transform.forward, clone.mirrorNormal) * speed;
+        }
+
+        if (effect)
+        {
+            effect.Play();
         }
         
         if (anim)
@@ -83,6 +89,7 @@ public class DashAbility : AdvancedAbility
         character.motor.BaseVelocity = Vector3.zero;
         character.motor.MoveCharacter(character.motor.GetState().Position + (movementVector * Time.deltaTime));
         UpdateMaterialEffects();
+        if (character is Clone c) c.lookInputVector = movementVector.normalized;
         // CheckCollisions();
     }
 

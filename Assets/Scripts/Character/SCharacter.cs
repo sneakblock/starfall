@@ -45,7 +45,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     //Moving and jumping
     protected Vector3 moveInputVector;
-    protected Vector3 lookInputVector;
+    public Vector3 lookInputVector;
     protected float timeSinceJumpRequested;
     protected bool jumpRequested;
     protected bool _jumpedThisFrame;

@@ -19,6 +19,7 @@ public class CloneAbility : AdvancedAbility
         base.OnCastStarted();
         var position = character.transform.position;
         var cloneObject = Instantiate(clone, position, Quaternion.identity);
+        cloneObject.transform.rotation = character.transform.rotation;
         var cloneComponent = cloneObject.GetComponent<Clone>();
         cloneComponent.baseKuze = (Kuze)character;
         var dirToTarget = character.GetTargetPoint() - (position + character.motor.Capsule.center);

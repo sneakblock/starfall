@@ -20,7 +20,7 @@ public abstract class APlayer : SCharacter
     
     [SerializeField]
     [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
-    private float secondsToLockShootingOrientation = 1f;
+    public float secondsToLockShootingOrientation = 1f;
 
     protected const string HorizontalInput = "Horizontal";
     protected const string VerticalInput = "Vertical";
