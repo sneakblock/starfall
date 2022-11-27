@@ -17,9 +17,9 @@ public class CloneAbility : AdvancedAbility
     public override void OnCastStarted()
     {
         base.OnCastStarted();
-        var position = character.transform.position;
-        var cloneObject = Instantiate(clone, position, Quaternion.identity);
-        cloneObject.transform.rotation = character.transform.rotation;
+        var transform1 = character.transform;
+        var position = transform1.position;
+        var cloneObject = Instantiate(clone, position, transform1.rotation);
         var cloneComponent = cloneObject.GetComponent<Clone>();
         cloneComponent.baseKuze = (Kuze)character;
         var dirToTarget = character.GetTargetPoint() - (position + character.motor.Capsule.center);
