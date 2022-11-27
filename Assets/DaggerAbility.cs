@@ -172,4 +172,15 @@ public class DaggerAbility : AdvancedAbility
             }
         }
     }
+
+    public void RecoverAllDaggers()
+    {
+        foreach (var d in _daggers)
+        {
+            d.Recover();
+        }
+
+        cooldownTimer = 0f;
+        _mode = DaggerAbilityMode.Throw;
+    }
 }

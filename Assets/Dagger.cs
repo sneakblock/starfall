@@ -127,6 +127,7 @@ public class Dagger : MonoBehaviour
 
     public void Recover()
     {
+        gameObject.SetActive(true);
         daggerState = DaggerState.Held;
         _stuckCollider = null;
         _rigidbody.isKinematic = true;

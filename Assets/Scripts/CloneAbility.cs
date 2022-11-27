@@ -11,6 +11,7 @@ public class CloneAbility : AdvancedAbility
     [SerializeField] private GameObject clone;
     [SerializeField] private VisualEffect effect;
 
+    private GameObject _cloneObject;
     private Clone _cloneComponent;
     
     public override void NotReadyYet()
@@ -18,15 +19,26 @@ public class CloneAbility : AdvancedAbility
         base.NotReadyYet();
     }
 
+    protected override void SetupReferences(SCharacter character)
+    {
+        base.SetupReferences(character);
+        var transform1 = character.transform;
+        _cloneObject = Instantiate(clone, transform1.position, transform1.rotation);
+        _cloneComponent = _cloneObject.GetComponent<Clone>();
+        _cloneComponent.cloneAbility = this;
+        _cloneComponent.baseKuze = (Kuze)character;
+        _cloneObject.SetActive(false);
+    }
+
     public override void OnCastStarted()
     {
         base.OnCastStarted();
+        _cloneComponent.SetMaterialization(MaterializationState.Materializing);
         var transform1 = character.transform;
         var position = transform1.position;
-        var cloneObject = Instantiate(clone, position, transform1.rotation);
-        _cloneComponent = cloneObject.GetComponent<Clone>();
-        _cloneComponent.cloneAbility = this;
-        _cloneComponent.baseKuze = (Kuze)character;
+        _cloneObject.SetActive(true);
+        _cloneComponent.motor.SetPosition(position);
+        _cloneComponent.motor.SetRotation(transform1.rotation);
         var dirToTarget = character.GetTargetPoint() - (position + character.motor.Capsule.center);
         dirToTarget = Vector3.ProjectOnPlane(dirToTarget, Vector3.up);
         var mirrorPlaneNormal = Vector3.Cross(dirToTarget, Vector3.up).normalized;
@@ -34,7 +46,6 @@ public class CloneAbility : AdvancedAbility
         Debug.DrawRay(position + character.motor.Capsule.center, _cloneComponent.mirrorNormal, Color.blue, Mathf.Infinity);
         
         if (effect) effect.Play();
-        _cloneComponent.SetMaterialization(MaterializationState.Materializing);
     }
 
     public override void DuringCast()

@@ -31,7 +31,7 @@ public class HitscanTestWeapon : RangedWeapon
         DrawHitscanBulletTrail(hitPoint);
     }
     
-    public void PlayFireEffect()
+    public virtual void PlayFireEffect()
     {
         var fireEffectInstance = GameManager.Instance.MuzzleFlashPool.Get();
         fireEffectInstance.transform.position = barrelTransform.position;
@@ -40,8 +40,8 @@ public class HitscanTestWeapon : RangedWeapon
         if (AudioSource) AudioSource.PlayOneShot(AudioSource.clip);
         StartCoroutine(ReleaseMuzzleFlashWaiter(4f, fireEffectInstance));
     }
-    
-    IEnumerator ReleaseMuzzleFlashWaiter(float numSeconds, GameObject toRelease)
+
+    protected IEnumerator ReleaseMuzzleFlashWaiter(float numSeconds, GameObject toRelease)
     {
         yield return new WaitForSeconds(numSeconds);
         GameManager.Instance.MuzzleFlashPool.Release(toRelease);

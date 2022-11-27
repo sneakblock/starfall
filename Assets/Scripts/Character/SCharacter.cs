@@ -174,7 +174,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
    
     protected virtual void RequestFirePrimary()
     {
-        if (!_weapon) return;
+        if (!_weapon || !gameObject.activeInHierarchy) return;
         _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
     }
 

@@ -144,6 +144,11 @@ public class Clone : SCharacter
         cloneOrientation = CloneOrientation.TowardsMovement;
     }
 
+    public override void Damage(float damage)
+    {
+        //IMMUNE
+    }
+
     private void HandleAnimationInputs()
     {
         if (!anim) return;
@@ -172,8 +177,9 @@ public class Clone : SCharacter
 
     protected override void RequestFirePrimary()
     {
+        if (!isFiring) return;
         base.RequestFirePrimary();
-        if (!_weapon.GetReloading())
+        if (!_weapon.GetReloading() && gameObject.activeInHierarchy)
         {
             StartCoroutine(OrientationTimer(baseKuze.secondsToLockShootingOrientation));
         }
@@ -214,9 +220,10 @@ public class Clone : SCharacter
 
     public void SetMaterialization(MaterializationState state)
     {
-        if (materializationState == MaterializationState.Dematerializing)
+        if (materializationState == MaterializationState.Dematerializing && state == MaterializationState.Stable)
         {
-            Destroy(gameObject);
+            WipeInputs();
+            gameObject.SetActive(false);
             return;
         }
         materializationState = state;
@@ -255,5 +262,17 @@ public class Clone : SCharacter
         yield return new WaitForSeconds(duration);
         if (!isAiming && Time.time - _weapon.GetTimeLastFired() >= duration - .1f)
             cloneOrientation = CloneOrientation.TowardsMovement;
+    }
+
+    private void WipeInputs()
+    {
+        GetComponent<DaggerAbility>().RecoverAllDaggers();
+        cloneOrientation = CloneOrientation.TowardsMovement;
+        jumpRequested = false;
+        isAiming = false;
+        isFiring = false;
+        moveInputVector = Vector3.zero;
+        lookInputVector = Vector3.zero;
+        _weapon.FillMagazine();
     }
 }
