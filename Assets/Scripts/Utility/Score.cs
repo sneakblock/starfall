@@ -27,6 +27,8 @@ public class Score : MonoBehaviour
 
     public static Score Instance;
 
+    public static double savedScore;
+
     //Event for when a new ScoreCounter object is created
     public static event Action<int> OnUpdateScore;
 
@@ -56,6 +58,12 @@ public class Score : MonoBehaviour
         APlayer.OnPlayerDeath -= resetScore;
         APlayer.OnDamage -= damageMultiplierDecr;
     }
+
+    /*
+    void Update() {
+        Debug.Log(savedScore + " " + score);
+    }
+    */
 
     private void addToScore(double scoreChange)
     {
@@ -101,6 +109,7 @@ public class Score : MonoBehaviour
 
     private void resetScore()
     {
+        savedScore = score;
         score = 0;
         OnUpdateScore?.Invoke((int) score);
     }
@@ -110,5 +119,9 @@ public class Score : MonoBehaviour
         Instance.StopAllCoroutines();
         OnUpdateScore?.Invoke((int) Instance.score);
         Instance.scoreMultiplier = 1;
+    }
+
+    public static double getSavedScore(){
+        return savedScore;
     }
 }

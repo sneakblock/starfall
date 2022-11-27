@@ -10,10 +10,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager Instance { get; private set; }
 
-    public static Leaderboards leaderboards { get; private set; }
+    //public static Leaderboards leaderboard { get; private set; }
 
     [Header("Player Character")] public APlayer aPlayer;
     public RangedWeapon playerWeapon { get; private set; }
@@ -56,7 +55,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         
-        Leaderboards leaderboards = gameObject.AddComponent<Leaderboards>();
+        //Leaderboards leaderboards = gameObject.AddComponent<Leaderboards>();
 
         if (!aPlayer) TryFindAPlayer();
         if (!dirLight) dirLight = TryFindDirLight();
@@ -104,7 +103,7 @@ public class GameManager : MonoBehaviour
         // Do whatever cleanup
         PlayerDeath -= OnPlayerDeath;
         EnemyDeath -= OnEnemyDeath;
-        Invoke(nameof(LoadCharacterSelectScene), 3.0f);
+        Invoke(nameof(LoadLeaderboardScene), 3.0f);
     }
     
     private void OnEnemyDeath(GameObject enemy)
@@ -113,9 +112,8 @@ public class GameManager : MonoBehaviour
         Destroy(enemy);
     }
 
-    private void LoadCharacterSelectScene()
+    private void LoadLeaderboardScene()
     {
-        //Replace the Testing scene with the name of the character select scene
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        SceneManager.LoadScene("Leaderboard", LoadSceneMode.Single);
     }
 }

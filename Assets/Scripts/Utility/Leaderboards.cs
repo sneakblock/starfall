@@ -2,21 +2,18 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Leaderboards : MonoBehaviour
 {
-
     public readonly string uri = "https://web-production-7cdc.up.railway.app/api/";
 
     public List<PlayerScore> leaderboards = new List<PlayerScore>();
-
+    
+    /*
     private bool jobQueued = false;
     private PlayerScore job;
-
-    void Start()
-    {
-        StartCoroutine(FetchLeaderboards());
-    }
+    private bool isLocalStorage = false;
 
     void Update()
     {
@@ -32,22 +29,10 @@ public class Leaderboards : MonoBehaviour
         this.job = job;
         jobQueued = true;
     }
+    */
 
-    public List<PlayerScore> Top10()
-    {
-        leaderboards.Sort((p1, p2) => p2.score - p1.score);
-        
-        int size = leaderboards.Count > 10 ? 10 : leaderboards.Count;
-
-        List<PlayerScore> output = new List<PlayerScore>();
-        for (int i = 0; i < size; i++){
-            output.Add(leaderboards[i]);
-        }
-
-        return output;
-    }
-
-    IEnumerator PushNewScore(PlayerScore job)
+    //push score and send boolean callback verifying completion
+    public IEnumerator PushNewScore(PlayerScore job, Action<bool> callback)
     {
         string data = "updatescore?username=" + job.username + "&score=" + job.score;
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
@@ -58,14 +43,17 @@ public class Leaderboards : MonoBehaviour
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("LEADERBOARD cannot update score " + www.error);
+            callback(false);
         }
         else
         {
             Debug.Log("LEADERBOARD: Form upload complete!");
+            callback(true);
         }
     }
 
-    IEnumerator FetchLeaderboards()
+    //get leaderboard and send leaderboard callback to function that called it
+    public IEnumerator FetchLeaderboards(Action<List<PlayerScore>> callback)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri + "leaderboard"))
         {
@@ -86,14 +74,12 @@ public class Leaderboards : MonoBehaviour
                     leaderboards.Add(player);
                 }
                 Debug.Log("LEADERBOARD: fetch complete");
+                callback(leaderboards);
             }
             else
             {
                 Debug.LogError("LEADERBOARD Unable to retrieve leaderboards: " + webRequest.error);
             }
-
         }
     }
-
-
 }
