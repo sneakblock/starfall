@@ -80,7 +80,7 @@ public class DashAbility : AdvancedAbility
             anim.SetTrigger(Dash);
         }
         
-        ToggleMaterialEffects(true);
+        if (character is APlayer) ToggleMaterialEffects(true);
 
     }
 
@@ -105,7 +105,7 @@ public class DashAbility : AdvancedAbility
             }
         }
         
-        ToggleMaterialEffects(false);
+        if (character is APlayer) ToggleMaterialEffects(false);
         
     }
 
