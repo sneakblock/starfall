@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     public static Action<APlayer> PlayerDeath;
     public static Action<GameObject> EnemyDeath;
 
+    public static int finalScore;
+
     private BloodPool _bloodPoolComponent;
     public ObjectPool<GameObject> BloodPool;
 
@@ -103,6 +105,7 @@ public class GameManager : MonoBehaviour
         // Do whatever cleanup
         PlayerDeath -= OnPlayerDeath;
         EnemyDeath -= OnEnemyDeath;
+        finalScore = (int)Score.getSavedScore();
         Invoke(nameof(LoadLeaderboardScene), 3.0f);
     }
     
