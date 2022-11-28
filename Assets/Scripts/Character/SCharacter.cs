@@ -177,7 +177,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public virtual void Damage(float damage)
     {
         //call event for hitmarker
-        OnHit?.Invoke();
+        //OnHit?.Invoke();
         if (health <= 0) return;
         health -= damage;
         if (health <= 0)
