@@ -538,7 +538,7 @@ MonoBehaviour:
   recallForce: 45
   lostDaggerRecoveryTime: 10
   recallCooldown: 1
-  handTransform: {fileID: 2786285862264679442}
+  handTransform: {fileID: 7195396245212500012}
   catchRange: 1
 --- !u!1 &1063343251653295859
 GameObject:
@@ -1507,6 +1507,7 @@ GameObject:
   - component: {fileID: 4498519238676177412}
   - component: {fileID: 7533923755877218430}
   - component: {fileID: 3881949833821361876}
+  - component: {fileID: 7222233684635787018}
   m_Layer: 0
   m_Name: kuze_anims
   m_TagString: Untagged
@@ -1570,6 +1571,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b1823a402261b5248a78704e4b965906, type: 3}
   - {fileID: 8300000, guid: 99f13a4d62fdef44b93114605c34df68, type: 3}
   source: {fileID: 5961034548121239434}
+--- !u!114 &7222233684635787018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3829787863453382846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce3b01b77345224587067d850501db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  daggerAbility: {fileID: 4733353186769588348}
 --- !u!1 &3954805371068767205
 GameObject:
   m_ObjectHideFlags: 0

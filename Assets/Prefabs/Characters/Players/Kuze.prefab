@@ -203,7 +203,7 @@ MonoBehaviour:
   recallForce: 45
   lostDaggerRecoveryTime: 10
   recallCooldown: 1
-  handTransform: {fileID: 7429496412960557096}
+  handTransform: {fileID: 2480095151501161494}
   catchRange: 1
 --- !u!114 &1136128715
 MonoBehaviour:
@@ -555,12 +555,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e43bcf993c30d2342a813623ec1a138a, type: 3}
---- !u!4 &7429496412960557096 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6437781830331889672, guid: e43bcf993c30d2342a813623ec1a138a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4489323467881639968}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7429496413570663606 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6437781830929478806, guid: e43bcf993c30d2342a813623ec1a138a,
@@ -672,6 +666,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9ac561d3c44d0644093b8e40f0b5fdd0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ab30d6230dc374d85ff6c55045b775, type: 3}
+--- !u!4 &2480095151501161494 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6502182839619065283, guid: a9ab30d6230dc374d85ff6c55045b775,
+    type: 3}
+  m_PrefabInstance: {fileID: 8671529013921423829}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7053439091121872413 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: a9ab30d6230dc374d85ff6c55045b775,
@@ -684,6 +684,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8671529013921423829}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4053262582293944865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8400933354123992196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce3b01b77345224587067d850501db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  daggerAbility: {fileID: 1906996294}
 --- !u!114 &8390007554229940974
 MonoBehaviour:
   m_ObjectHideFlags: 0
