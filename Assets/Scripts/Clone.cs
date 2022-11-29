@@ -53,6 +53,7 @@ public class Clone : SCharacter
     private static readonly int DistToGround = Animator.StringToHash("distToGround");
     private static readonly int JumpDown = Animator.StringToHash("jumpDown");
     private static readonly int IsFalling = Animator.StringToHash("isFalling");
+    private static readonly int FallFromStandard = Animator.StringToHash("fallFromStandard");
 
     protected override void StartCharacter()
     {
@@ -169,6 +170,7 @@ public class Clone : SCharacter
                 anim.SetFloat(DistToGround, hit.distance);
             }
         }
+        anim.SetBool(FallFromStandard, anim.GetBool(IsFalling) && anim.GetFloat(DistToGround) > 1.2);
         anim.SetFloat(VelX,  moveInputVector.x, .05f, Time.deltaTime);
         anim.SetFloat(VelY, moveInputVector.z, .05f, Time.deltaTime);
         anim.SetBool(IsMoving, moveInputVector.magnitude > 0.5f);

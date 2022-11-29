@@ -25,6 +25,7 @@ public class Kuze : APlayer
     private static readonly int IsFalling = Animator.StringToHash("isFalling");
 
     private LinkBar linkBarUI;
+    private static readonly int FallFromStandard = Animator.StringToHash("fallFromStandard");
 
     protected override void StartPlayer()
     {
@@ -99,10 +100,9 @@ public class Kuze : APlayer
         {
             anim.SetTrigger(JumpDown);
         }
-        
-        anim.SetBool(InAir, !motor.GroundingStatus.IsStableOnGround);
-        anim.SetBool(IsFalling, !motor.GroundingStatus.IsStableOnGround && motor.Velocity.y <= -.05f);
-        if (anim.GetBool(InAir) || anim.GetBool(IsFalling))
+        anim.SetBool(InAir, !motor.GroundingStatus.FoundAnyGround);
+        anim.SetBool(IsFalling, !motor.GroundingStatus.FoundAnyGround && motor.Velocity.y <= -.05f);
+        if (anim.GetBool(IsFalling) || anim.GetBool(InAir))
         {
             Ray r = new Ray(transform.position, Vector3.down);
             if (Physics.Raycast(r, out var hit, 500f, 1 << LayerMask.NameToLayer("Default")))
@@ -110,6 +110,7 @@ public class Kuze : APlayer
                 anim.SetFloat(DistToGround, hit.distance);
             }
         }
+        anim.SetBool(FallFromStandard, anim.GetBool(IsFalling) && anim.GetFloat(DistToGround) > 1.2);
         anim.SetFloat(VelX,  inputVector.x, .05f, Time.deltaTime);
         anim.SetFloat(VelY, inputVector.z, .05f, Time.deltaTime);
         anim.SetBool(IsMoving, inputVector.magnitude > 0.5f);
