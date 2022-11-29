@@ -40,6 +40,7 @@ public class Hitmarker : MonoBehaviour
 
     void UpdateHitmarker(object sender, float damage) 
     {
+        Debug.Log("hitmarker");
         //make it visible
         //_hitmarkerImage.color.a = 1;
         //timer = markerFadeTime;
