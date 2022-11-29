@@ -28,6 +28,9 @@ public class SAi : SCharacter
     //Event, used to update score when enemy dies
     public static event Action OnAIDeath;
     
+    //Event, used to trigger a hitmarker when hit
+    public static event Action<SAi, float> OnAIHit;
+    
     //Accuracy ranges from 0 to 1, and is referenced by various firing and ability cast methods.
     //An accuracy of 1 means every shot will hit, or will at least be fired at the perfect center/led to properly hit assuming 
     //the same trajectory of the target entity.
@@ -129,6 +132,14 @@ public class SAi : SCharacter
         _weapon.enabled = false;
         motor.enabled = false;
         StartCoroutine(LinkSpawner());
+    }
+
+    public override void Damage(float damage)
+    {
+        //invoke onAIHit
+        OnAIHit?.Invoke(this, damage);
+        base.Damage(damage);
+
     }
 
     //TODO: Add some logic to fail or abandon a path if the agent gets stuck.
