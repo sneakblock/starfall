@@ -53,7 +53,7 @@ public class DashAbility : AdvancedAbility
 
     public override void NotReadyYet()
     {
-
+        
     }
 
     public override void OnCastStarted()
@@ -63,10 +63,16 @@ public class DashAbility : AdvancedAbility
         {
             movementVector = player.orbitCamera.transform.forward * speed;
             player.orientationMethod = APlayer.OrientationMethod.TowardsCamera;
-            if (effect)
-            {
-                effect.Play();
-            }
+        }
+        else if (character is Clone clone)
+        {
+            movementVector =
+                Vector3.Reflect(GameManager.Instance.aPlayer.orbitCamera.transform.forward, clone.mirrorNormal) * speed;
+        }
+
+        if (effect)
+        {
+            effect.Play();
         }
         
         if (anim)
@@ -74,7 +80,7 @@ public class DashAbility : AdvancedAbility
             anim.SetTrigger(Dash);
         }
         
-        ToggleMaterialEffects(true);
+        if (character is APlayer) ToggleMaterialEffects(true);
 
     }
 
@@ -83,11 +89,13 @@ public class DashAbility : AdvancedAbility
         character.motor.BaseVelocity = Vector3.zero;
         character.motor.MoveCharacter(character.motor.GetState().Position + (movementVector * Time.deltaTime));
         UpdateMaterialEffects();
+        if (character is Clone c) c.lookInputVector = movementVector.normalized;
         // CheckCollisions();
     }
 
     public override void OnCastEnded()
     {
+        base.OnCastEnded();
         if (character is APlayer player)
         {
             player.orientationMethod = APlayer.OrientationMethod.TowardsMovement;
@@ -97,26 +105,8 @@ public class DashAbility : AdvancedAbility
             }
         }
         
-        ToggleMaterialEffects(false);
-
-        // int enemiesKilled = 0;
-        //
-        // foreach (Collider enemy in enemiesToHit)
-        // {
-        //     IDamageable damageableEnemy = enemy.gameObject.GetComponent<IDamageable>();
-        //     if (damageableEnemy != null)
-        //     {
-        //         damageableEnemy.Damage(damage * enemiesToHit.Count);
-        //         if (damageableEnemy.IsAlive() == false)
-        //         {
-        //             {
-        //                 enemiesKilled++;
-        //             }
-        //         }
-        //     }
-        // }
-        // enemiesToHit.Clear();
-        // cooldownTimer -= enemiesKilled * coolDownReductionPerKill;
+        if (character is APlayer) ToggleMaterialEffects(false);
+        
     }
 
     private void CheckCollisions()

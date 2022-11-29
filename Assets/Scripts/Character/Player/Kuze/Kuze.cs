@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class Kuze : APlayer
 {
     
-    private Animator _anim;
+    [FormerlySerializedAs("_anim")] public Animator anim;
     // Sample Abilities
     private MoveFastAbility _moveFastAbility;
     private BlinkAbility _blinkAbility;
@@ -24,6 +25,7 @@ public class Kuze : APlayer
     private static readonly int IsFalling = Animator.StringToHash("isFalling");
 
     private LinkBar linkBarUI;
+    private static readonly int FallFromStandard = Animator.StringToHash("fallFromStandard");
 
     protected override void StartPlayer()
     {
@@ -31,7 +33,7 @@ public class Kuze : APlayer
 
         // TODO(ben): Will this be player specific or general for all the
         // players?
-        _anim = base.GetComponentInChildren<Animator>();
+        anim = base.GetComponentInChildren<Animator>();
 
         // NEW: GIVING ABILITIES TO KUZE
         // base.RegisterAbility(_moveFastAbility = new MoveFastAbility(this));
@@ -91,27 +93,27 @@ public class Kuze : APlayer
     // Other players could have different animations.
     private void HandleAnimationInputs()
     {
-        if (!_anim) return;
-        _anim.SetBool(IsFiring, isFiring);
-        _anim.SetBool(IsAiming, isAiming);
+        if (!anim) return;
+        anim.SetBool(IsFiring, isFiring);
+        anim.SetBool(IsAiming, isAiming);
         if (jumpRequested && !_jumpConsumed)
         {
-            _anim.SetTrigger(JumpDown);
+            anim.SetTrigger(JumpDown);
         }
-        
-        _anim.SetBool(InAir, !motor.GroundingStatus.IsStableOnGround);
-        _anim.SetBool(IsFalling, !motor.GroundingStatus.IsStableOnGround && motor.Velocity.y <= -.05f);
-        if (_anim.GetBool(InAir) || _anim.GetBool(IsFalling))
+        anim.SetBool(InAir, !motor.GroundingStatus.FoundAnyGround);
+        anim.SetBool(IsFalling, !motor.GroundingStatus.FoundAnyGround && motor.Velocity.y <= -.05f);
+        if (anim.GetBool(IsFalling) || anim.GetBool(InAir))
         {
             Ray r = new Ray(transform.position, Vector3.down);
             if (Physics.Raycast(r, out var hit, 500f, 1 << LayerMask.NameToLayer("Default")))
             {
-                _anim.SetFloat(DistToGround, hit.distance);
+                anim.SetFloat(DistToGround, hit.distance);
             }
         }
-        _anim.SetFloat(VelX,  inputVector.x, .05f, Time.deltaTime);
-        _anim.SetFloat(VelY, inputVector.z, .05f, Time.deltaTime);
-        _anim.SetBool(IsMoving, inputVector.magnitude > 0.5f);
-        _anim.SetBool(LookAtCamera, orientationMethod == OrientationMethod.TowardsCamera);
+        anim.SetBool(FallFromStandard, anim.GetBool(IsFalling) && anim.GetFloat(DistToGround) > 1.2);
+        anim.SetFloat(VelX,  inputVector.x, .05f, Time.deltaTime);
+        anim.SetFloat(VelY, inputVector.z, .05f, Time.deltaTime);
+        anim.SetBool(IsMoving, inputVector.magnitude > 0.5f);
+        anim.SetBool(LookAtCamera, orientationMethod == OrientationMethod.TowardsCamera);
     }
 }

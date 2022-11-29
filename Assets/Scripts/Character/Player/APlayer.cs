@@ -20,7 +20,7 @@ public abstract class APlayer : SCharacter
     
     [SerializeField]
     [Tooltip("How many seconds should the character lock into 'towards camera' orientation after firing from the hip?")]
-    private float secondsToLockShootingOrientation = 1f;
+    public float secondsToLockShootingOrientation = 1f;
 
     protected const string HorizontalInput = "Horizontal";
     protected const string VerticalInput = "Vertical";
@@ -28,11 +28,11 @@ public abstract class APlayer : SCharacter
 
     // Camera exists for APlayer and not SCharacter because Enemy is an
     // SCharacter and they do not deserve a camera.
-    protected Camera cam;
+    public Camera cam;
     
     //Rewired input system
     protected const int PlayerID = 0;
-    protected Rewired.Player RewiredPlayer;
+    public Rewired.Player RewiredPlayer;
 
     //The input vector, clamped to 1, as read by the input system, before any transformations regarding camera/into world space.
     //Useful for animations.
@@ -142,9 +142,9 @@ public abstract class APlayer : SCharacter
         var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = cam.ScreenPointToRay(screenCenterPoint);
         bool rayhit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask);
-        var targetPoint =  rayhit ? hit.point : ray.GetPoint(1000f);
+        var tp =  rayhit ? hit.point : ray.GetPoint(1000f);
 
-        base.targetPoint = targetPoint;
+        base.targetPoint = tp;
 
         HandleFiringInputs();
 
@@ -200,7 +200,7 @@ public abstract class APlayer : SCharacter
         _zoom = (_zoom == 1) ? -1 : 1;
     }
 
-    private void LateUpdate()
+    protected virtual void LateUpdate()
     {
         HandleCameraInput();
     }
@@ -254,7 +254,11 @@ public abstract class APlayer : SCharacter
                 break;
         }
     }
-    
+
+    public void CallOrientationTimer()
+    {
+        StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
+    }
     
     public override void Damage(float damage) {
         OnDamage?.Invoke();

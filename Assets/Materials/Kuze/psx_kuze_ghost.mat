@@ -108,6 +108,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DistortionColorBalance: 0.44
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _FresnelPower: 1.05
@@ -117,6 +118,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HeatDistortion: 0.19
     - _InteriorSpread: 1.13
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -138,9 +140,10 @@ Material:
     - Color_2E5415DE: {r: 1, g: 1, b: 1, a: 0}
     - Vector2_8044833E: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1.4677173, g: 0, b: 8.922176, a: 1}
+    - _Color: {r: 0.22883108, g: 0, b: 1.3658366, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _InteriorColor: {r: 44.727043, g: 0, b: 0, a: 1}
+    - _HeatDistortionSpeed: {r: 1, g: 1, b: 0, a: 0}
+    - _InteriorColor: {r: 0.06581623, g: 0, b: 3.776172, a: 1}
     - _SparkleColor: {r: 1024, g: 1024, b: 1024, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

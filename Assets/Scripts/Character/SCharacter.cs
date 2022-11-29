@@ -7,7 +7,6 @@ using UnityEngine.Events;
 
 public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterController
 {
-    [HideInInspector]
     public KinematicCharacterMotor motor;
 
     [Header("Link")][SerializeField] protected float health = 100;
@@ -46,13 +45,15 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     //Moving and jumping
     protected Vector3 moveInputVector;
-    protected Vector3 lookInputVector;
+    public Vector3 lookInputVector;
     protected float timeSinceJumpRequested;
     protected bool jumpRequested;
     protected bool _jumpedThisFrame;
     protected bool _jumpConsumed = false;
     private float _timeSinceLastAbleToJump;
     private bool _doubleJumpConsumed;
+
+    public Vector3 MoveInputVector => moveInputVector;
 
     //Firing stuff
     protected bool isAiming;
@@ -68,9 +69,18 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     private AbilityManager abilityManager;
     private const int MAX_ABILITIES = 3;
 
+
     //Events
     //Invoked when the entity is damaged
     //public static event Action<int, int> OnHit;
+
+
+    //Bleed
+    protected bool isBleeding = false;
+    protected float bleedTimer = 0f;
+    protected float bleedTickRate = .25f;
+    protected float bleedTickTracker = 0f;
+    protected float bleedDmgPerTick;
 
 
     void Start()
@@ -103,7 +113,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         abilityManager.Update();
 
         if (_weapon) UpdateWeapon();
-	}
+        if (isBleeding) UpdateBleed();
+    }
     
     // NEW: subclasses (players or... enemies...) should call this function to pair an ability to a player
     protected void RegisterAbility(Ability ability)
@@ -170,7 +181,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
    
     protected virtual void RequestFirePrimary()
     {
-        if (!_weapon) return;
+        if (!_weapon || !gameObject.activeInHierarchy) return;
         _weapon.RequestFire(targetPoint, _wasFiringLastFrame);
     }
 
@@ -202,6 +213,70 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         weaponGameObject.transform.SetParent(null);
         motor.enabled = false;
         this.enabled = false;
+    }
+
+    public void StartBleeding(float totalDamage, float duration)
+    {
+        isBleeding = true;
+        bleedTimer = duration;
+        float ticksInDuration = duration / bleedTickRate;
+        bleedDmgPerTick = totalDamage / ticksInDuration;
+    }
+
+    public void StopBleeding()
+    {
+        isBleeding = false;
+    }
+
+    public bool IsBleeding()
+    {
+        return isBleeding;
+    }
+
+    public virtual void UpdateBleed()
+    {
+        bleedTickTracker += Time.deltaTime;
+        if (bleedTickTracker >= bleedTickRate)
+        {
+            //Bleed here
+            Damage(bleedDmgPerTick);
+
+            //Blood effects
+            var bloodInstance = GameManager.Instance.BloodPool.Get();
+            var position = transform.position;
+            var center = new Vector3(position.x, position.y + motor.Capsule.center.y, position.z);
+            float angle = Mathf.Atan2(position.x, position.z) * Mathf.Rad2Deg + 180;
+            bloodInstance.transform.position = center;
+            bloodInstance.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+            var settings = bloodInstance.GetComponent<BFX_BloodSettings>();
+            float groundHeight;
+            if (motor && motor.GroundingStatus.FoundAnyGround)
+            {
+                groundHeight = motor.GroundingStatus.GroundPoint.y;
+            }
+            else
+            {
+                var r = new Ray(center, Vector3.down);
+                if (Physics.Raycast(r, out var groundHit, 10f, 1 << LayerMask.NameToLayer("Default")))
+                {
+                    groundHeight = groundHit.point.y;
+                }
+                else
+                {
+                    groundHeight = -1000f;
+                }
+            }
+            settings.GroundHeight = groundHeight;
+
+            //Reset the tick tracker
+            bleedTickTracker = 0f;
+        }
+
+        bleedTimer -= Time.deltaTime;
+        if (bleedTimer <= 0f)
+        {
+            StopBleeding();
+        }
     }
 
     public bool IsAlive()
@@ -450,6 +525,11 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     {
         if (!_abilities[2]) return;
         _abilities[2].Enable();
+    }
+
+    public Vector3 GetTargetPoint()
+    {
+        return targetPoint;
     }
 
 }

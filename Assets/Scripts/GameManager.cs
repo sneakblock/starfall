@@ -10,8 +10,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager Instance { get; private set; }
+
+    //public static Leaderboards leaderboard { get; private set; }
 
     [Header("Player Character")] public APlayer aPlayer;
     public RangedWeapon playerWeapon { get; private set; }
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour
     public static Action<APlayer> PlayerDeath;
     public static Action<GameObject> EnemyDeath;
 
+    public static int finalScore;
+
     private BloodPool _bloodPoolComponent;
     public ObjectPool<GameObject> BloodPool;
 
@@ -34,6 +37,9 @@ public class GameManager : MonoBehaviour
 
     private BulletTrailPool _bulletTrailPoolComponent;
     public ObjectPool<GameObject> BulletTrailPool;
+
+    private CloneBulletTrailPool _cloneBulletTrailPoolComponent;
+    public ObjectPool<GameObject> CloneBulletTrailPool;
 
     private SurfaceImpactPool[] _surfaceImpactPoolComponents;
     public readonly Dictionary<ImpactEffectSurface.ImpactSurfaceType, ObjectPool<GameObject>> SurfaceImpactPools = new();
@@ -54,6 +60,8 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         
+        //Leaderboards leaderboards = gameObject.AddComponent<Leaderboards>();
+
         if (!aPlayer) TryFindAPlayer();
         if (!dirLight) dirLight = TryFindDirLight();
         
@@ -68,6 +76,9 @@ public class GameManager : MonoBehaviour
 
         _bulletTrailPoolComponent = GetComponent<BulletTrailPool>();
         BulletTrailPool = _bulletTrailPoolComponent.Pool;
+
+        _cloneBulletTrailPoolComponent = GetComponent<CloneBulletTrailPool>();
+        CloneBulletTrailPool = _cloneBulletTrailPoolComponent.Pool;
 
         _surfaceImpactPoolComponents = GetComponents<SurfaceImpactPool>();
         foreach (var component in _surfaceImpactPoolComponents)
@@ -100,7 +111,8 @@ public class GameManager : MonoBehaviour
         // Do whatever cleanup
         PlayerDeath -= OnPlayerDeath;
         EnemyDeath -= OnEnemyDeath;
-        Invoke(nameof(LoadCharacterSelectScene), 3.0f);
+        finalScore = (int)Score.getSavedScore();
+        Invoke(nameof(LoadLeaderboardScene), 3.0f);
     }
     
     private void OnEnemyDeath(GameObject enemy)
@@ -109,9 +121,8 @@ public class GameManager : MonoBehaviour
         Destroy(enemy);
     }
 
-    private void LoadCharacterSelectScene()
+    private void LoadLeaderboardScene()
     {
-        //Replace the Testing scene with the name of the character select scene
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        SceneManager.LoadScene("Leaderboard", LoadSceneMode.Single);
     }
 }

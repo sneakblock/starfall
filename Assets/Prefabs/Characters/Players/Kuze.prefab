@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5751729091738824338}
   - component: {fileID: 711518484545904889}
   - component: {fileID: 1242472005}
+  - component: {fileID: 1906996294}
+  - component: {fileID: 1136128715}
   m_Layer: 6
   m_Name: Kuze
   m_TagString: Player
@@ -74,14 +76,17 @@ MonoBehaviour:
     m_Bits: 129
   gravity: {x: 0, y: -30, z: 0}
   Collider: {fileID: 0}
+  lookInputVector: {x: 0, y: 0, z: 0}
   orbitPoint: {fileID: 5751729092140714125}
   orbitCamera: {fileID: 0}
   orientationMethod: 1
   secondsToLockShootingOrientation: 1
+  cam: {fileID: 0}
   invokeLinkSlider:
     m_PersistentCalls:
       m_Calls: []
   linkDamagePerSec: 2
+  anim: {fileID: 0}
 --- !u!136 &5751729091738824339
 CapsuleCollider:
   m_ObjectHideFlags: 8
@@ -172,9 +177,50 @@ MonoBehaviour:
   vertexResolutionDuringCast: 10
   applyVertexDisplacementOnCast: 1
   vertexDisplacementAmountDuringCast: 0.5
-  speed: 200
+  speed: 150
   damage: 15
   coolDownReductionPerKill: 3
+--- !u!114 &1906996294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5751729091738824351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709623846bcd1254c8ef305452a22eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownTime: 8
+  castTime: 0
+  dagger: {fileID: 3955715273319950848, guid: e1f1356b5ef605046bd4fae71bb0c48f, type: 3}
+  totalDamage: 20
+  bleedDuration: 5
+  numDaggers: 7
+  throwAngle: 30
+  throwForce: 90
+  recallForce: 45
+  lostDaggerRecoveryTime: 10
+  recallCooldown: 1
+  handTransform: {fileID: 2480095151501161494}
+  catchRange: 1
+--- !u!114 &1136128715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5751729091738824351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d2b5126ed7dcd47866ce972ccbcebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownTime: 20
+  castTime: 8
+  clone: {fileID: 1036391447846734501, guid: b48abb52173b9cb4ea5a7344ba1a1cd8, type: 3}
+  effect: {fileID: 0}
 --- !u!1 &5751729092140714124
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,6 +666,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9ac561d3c44d0644093b8e40f0b5fdd0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ab30d6230dc374d85ff6c55045b775, type: 3}
+--- !u!4 &2480095151501161494 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6502182839619065283, guid: a9ab30d6230dc374d85ff6c55045b775,
+    type: 3}
+  m_PrefabInstance: {fileID: 8671529013921423829}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7053439091121872413 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: a9ab30d6230dc374d85ff6c55045b775,
@@ -632,6 +684,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8671529013921423829}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4053262582293944865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8400933354123992196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce3b01b77345224587067d850501db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  daggerAbility: {fileID: 1906996294}
 --- !u!114 &8390007554229940974
 MonoBehaviour:
   m_ObjectHideFlags: 0

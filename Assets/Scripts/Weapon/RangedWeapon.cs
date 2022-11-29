@@ -301,7 +301,7 @@ public abstract class RangedWeapon : MonoBehaviour
         Invoke(nameof(FillMagazine), weaponData.reloadTime);
     }
 
-    private void FillMagazine()
+    public void FillMagazine()
     {
         _bulletsCurrentlyInMagazine = weaponData.magazineSize;
         OnUpdatePlayerAmmo?.Invoke(_bulletsCurrentlyInMagazine, weaponData.magazineSize);

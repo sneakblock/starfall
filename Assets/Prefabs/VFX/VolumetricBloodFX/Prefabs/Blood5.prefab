@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3817752653453468196}
   - component: {fileID: 3817752653454598372}
   - component: {fileID: 4224831143766963926}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3806956387675487220}
   m_RootOrder: 0
@@ -52,10 +53,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,6 +83,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4224831143766963926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3806956387675487220}
   - component: {fileID: 2071072698125137955}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Blood5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,6 +151,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3817752653452173828}
   m_Father: {fileID: 0}

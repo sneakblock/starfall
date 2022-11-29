@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1356622604}
   - component: {fileID: 1356622605}
   - component: {fileID: 1356622606}
+  - component: {fileID: 796668495}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -65,7 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d06051d5d30f014eb9ad5bf88847f3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 0}
   levelsData:
   - {fileID: 11400000, guid: f454970e4997b1f4da6cad75195e6a5c, type: 2}
   _minRespawnDistance: 10
@@ -188,6 +188,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objects:
   - {fileID: 1210114176842607944, guid: 73b4cddbbab90744c8d202c5bd01a1c7, type: 3}
+  collectionChecks: 1
+  initPoolSize: 10
+  maxPoolSize: 500
+--- !u!114 &796668495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2606140551033211466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb14d3330e0e07548842c936b7cb20f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objects:
+  - {fileID: 6774897497785466354, guid: f305b24ea542b794cb8771b0e5f46a17, type: 3}
   collectionChecks: 1
   initPoolSize: 10
   maxPoolSize: 500
