@@ -120,7 +120,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 1653773c216fd9c4d810a282f4f7cf79
-  position: {x: 369.33337, y: 847.3333}
+  position: {x: 320.6667, y: 847.3332}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
@@ -182,6 +182,7 @@ MonoBehaviour:
   - {fileID: 4179350943011810130}
   - {fileID: 8930671028669403775}
   - {fileID: 5295499656901434112}
+  - {fileID: 3865687870376226435}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1083281656649032317
@@ -233,7 +234,7 @@ MonoBehaviour:
   - {fileID: 8930671028669403775}
   - {fileID: -8566266638067624922}
   - {fileID: 4861859106949629099}
-  - {fileID: 5295499656901434112}
+  - {fileID: 3865687870376226435}
 --- !u!114 &3077130431104377254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +297,27 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   child: {fileID: -8944702882332402864}
+--- !u!114 &3865687870376226435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e658b1bd308bc5c429f5a9b404a04943, type: 3}
+  m_Name: Inverter
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 952c105eb8772a742895595b1dacdd37
+  position: {x: -255.6666, y: 959.3333}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 5295499656901434112}
 --- !u!114 &4179350943011810130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +333,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: f173bfb7162580f4c8e8dcee34095ede
-  position: {x: 637.4579, y: 847.3333}
+  position: {x: 774.5394, y: 847.3332}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
@@ -401,7 +423,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: caedec3c35eb7b54a960df10f82b4fc0
-  position: {x: -262.66644, y: 959.3333}
+  position: {x: -112.666565, y: 1101.3333}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 

@@ -22,17 +22,14 @@ public class IsWithinHealRangeOfTarget : ActionNode
 
     protected override State OnUpdate() {
         if (context.SAi is not Priestess priestess) return State.Failure;
-        if (priestess.HasTargetCharacter())
-        {
-            var evalPoint = positionToEval == EvaluatedPosition.Priestess
-                ? priestess.motor.Capsule.bounds.center
-                : blackboard.moveToPosition;
-            return Vector3.Distance(evalPoint,
-                priestess.targetChar.motor.Capsule.bounds.center) <= (priestess.healRadius - reduceRealRadius)
-                ? State.Success
-                : State.Failure;
-        }
+        if (!priestess.HasTargetCharacter()) return State.Failure;
+        var evalPoint = positionToEval == EvaluatedPosition.Priestess
+            ? priestess.motor.Capsule.bounds.center
+            : blackboard.moveToPosition;
+        return Vector3.Distance(evalPoint,
+            priestess.targetChar.motor.Capsule.bounds.center) <= priestess.GetComponent<HealAbility>().healRadius - reduceRealRadius
+            ? State.Success
+            : State.Failure;
 
-        return State.Failure;
     }
 }

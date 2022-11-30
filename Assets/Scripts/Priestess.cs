@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Priestess : SAi
 {
-    public float healRadius = 5f;
-
     //Used in evaluating desireability of target.
     private const float LowHealthWeight = 20f;
     private const float FarFromPlayerWeight = .5f;
@@ -21,6 +20,11 @@ public class Priestess : SAi
         var percentageHealth = ally.health / ally.maxHealth;
 
         return distFromPlayer * FarFromPlayerWeight + percentageHealth * LowHealthWeight;
+    }
+
+    public void CastHeal()
+    {
+        UseAbility1();
     }
 
     public override void SetTargetCharacter(SCharacter character)
