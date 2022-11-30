@@ -75,7 +75,7 @@ public abstract class APlayer : SCharacter
 
         StartPlayer();
 
-        base._maxHealth = 200;
+        base.maxHealth = 200;
     }
 
     protected override void UpdateCharacter()

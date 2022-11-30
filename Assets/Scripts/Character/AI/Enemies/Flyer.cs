@@ -48,7 +48,7 @@ public class Flyer : SAi
 
     public override void SetDestination(Vector3 destination)
     {
-        Debug.Log($"Setting destination {destination}");
+        // Debug.Log($"Setting destination {destination}");
         var checkPoint =
             Physics.Raycast(motor.Capsule.bounds.center, Vector3.down, out var rayCastHit, Mathf.Infinity,
                 1 << LayerMask.NameToLayer("Default"))
@@ -57,24 +57,24 @@ public class Flyer : SAi
         if (NavMesh.SamplePosition(checkPoint, out var navMeshHit,
                 maxCornerHeight + motor.Capsule.height, NavMesh.AllAreas))
         {
-            Debug.Log($"Found pos on navmesh {navMeshHit.position}. Drawn in green.");
+            // Debug.Log($"Found pos on navmesh {navMeshHit.position}. Drawn in green.");
             Debug.DrawLine(motor.Capsule.bounds.center, navMeshHit.position, Color.green, 10f);
             var valid = NavMesh.CalculatePath(navMeshHit.position, destination, NavMesh.AllAreas, NavMeshPath);
             if (valid)
             {
-                Debug.Log($"NavMeshPath found from navmeshhit to destination.");
+                // Debug.Log($"NavMeshPath found from navmeshhit to destination.");
                 pathStatus = PathStatus.Pending;
                 CurrCornersIndex = 0;
             }
             else
             {
-                Debug.Log("Failing navmesh status");
+                // Debug.Log("Failing navmesh status");
                 pathStatus = PathStatus.Failed;
             }
         }
         else
         {
-            Debug.Log("Failing navmesh status");
+            // Debug.Log("Failing navmesh status");
             pathStatus = PathStatus.Failed;
         }
     }
@@ -109,11 +109,11 @@ public class Flyer : SAi
             if (heightChangeTuple.Item2)
             {
                 _currentSeekPoint = heightChangeTuple.Item1;
-                Debug.Log($"Corner {NavMeshPath.corners[CurrCornersIndex]} was translated vertically into {_currentSeekPoint}");
+                // Debug.Log($"Corner {NavMeshPath.corners[CurrCornersIndex]} was translated vertically into {_currentSeekPoint}");
             }
             else
             {
-                Debug.Log($"{gameObject.name} path failed");
+                // Debug.Log($"{gameObject.name} path failed");
                 pathStatus = PathStatus.Failed;
                 return;
             }

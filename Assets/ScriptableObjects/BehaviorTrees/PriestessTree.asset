@@ -38,12 +38,12 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: bdfd40eb77d7e704da00a2cdda194c75
-  position: {x: -214.66667, y: 1024.6667}
+  position: {x: -614.571, y: 959.3333}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
---- !u!114 &-7961456046098437657
+--- !u!114 &-6393052588797992880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -52,19 +52,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd4bf4d485ffc14189d084b3fa5298f, type: 3}
-  m_Name: IsWithinRangeOfPlayer
+  m_Script: {fileID: 11500000, guid: 84d3785070df022469e6d47c2b51c34f, type: 3}
+  m_Name: GetPosNearHurtAlly
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: 788a441077189ab48b38d31b6a87ee82
-  position: {x: -589.00006, y: 1024.6666}
+  guid: 6c1b59b349b98b34197ff96b12fc9da7
+  position: {x: -161.33333, y: 782}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
-  objectToCheck: 1
-  range: 20
+  range: 3
 --- !u!114 &-4731955062709910246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +79,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 199ae917fb2a88f4aa53bfd2b7f07e9f
-  position: {x: -64.666664, y: 1024.667}
+  position: {x: -503.99985, y: 1134.2509}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
@@ -106,6 +105,49 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   child: {fileID: 1083281656649032317}
+--- !u!114 &-1971899734109738726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd076831b5830040bfb92051d2e063d, type: 3}
+  m_Name: IsWithinHealRangeOfTarget
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 1653773c216fd9c4d810a282f4f7cf79
+  position: {x: 369.33337, y: 847.3333}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  positionToEval: 0
+  reduceRealRadius: 2
+--- !u!114 &-516878134592064711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: d3bddec14dee52742af196e952a0b6b5
+  position: {x: -311.11273, y: 1134}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  duration: 0.5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,39 +166,24 @@ MonoBehaviour:
   - {fileID: 3274391972449378311}
   - {fileID: -8944702882332402864}
   - {fileID: 5239106013896969798}
-  - {fileID: -7961456046098437657}
   - {fileID: 1083281656649032317}
-  - {fileID: 193701001877124991}
   - {fileID: -4593126952769484859}
   - {fileID: 5484491457629588291}
-  - {fileID: 5136966926547094501}
   - {fileID: 1276376890048092735}
-  - {fileID: 5423179335261802248}
   - {fileID: -8566266638067624922}
   - {fileID: -4731955062709910246}
+  - {fileID: -6393052588797992880}
+  - {fileID: 3077130431104377254}
+  - {fileID: 4861859106949629099}
+  - {fileID: -516878134592064711}
+  - {fileID: 4577378500166644266}
+  - {fileID: 3197391251822434258}
+  - {fileID: -1971899734109738726}
+  - {fileID: 4179350943011810130}
+  - {fileID: 8930671028669403775}
+  - {fileID: 5295499656901434112}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
---- !u!114 &193701001877124991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f557d773e0ea8468ea14502705699c, type: 3}
-  m_Name: GetPosNearPlayer
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 784fee194691f0e4e9b02c993adbee98
-  position: {x: -278.46515, y: 770}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-  description: 
-  drawGizmos: 0
-  range: 30
 --- !u!114 &1083281656649032317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +206,8 @@ MonoBehaviour:
   drawGizmos: 0
   children:
   - {fileID: 1276376890048092735}
-  - {fileID: 193701001877124991}
+  - {fileID: 3077130431104377254}
+  - {fileID: -6393052588797992880}
   - {fileID: 5484491457629588291}
 --- !u!114 &1276376890048092735
 MonoBehaviour:
@@ -202,10 +230,51 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
-  - {fileID: 5136966926547094501}
-  - {fileID: 5423179335261802248}
+  - {fileID: 8930671028669403775}
   - {fileID: -8566266638067624922}
-  - {fileID: -4731955062709910246}
+  - {fileID: 4861859106949629099}
+  - {fileID: 5295499656901434112}
+--- !u!114 &3077130431104377254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa60838990e5c24c9d948d7957d9d6c, type: 3}
+  m_Name: TargetHurtAlly
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 0ad14cf42d0e0294f884706e7134b793
+  position: {x: -330.33334, y: 781.9999}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+--- !u!114 &3197391251822434258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbcff87445f36e4582938670d757ed5, type: 3}
+  m_Name: Succeed
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e5c8a013c32925341bd31563f2422e51
+  position: {x: 523.33344, y: 462.66666}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  child: {fileID: 4577378500166644266}
 --- !u!114 &3274391972449378311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +296,7 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   child: {fileID: -8944702882332402864}
---- !u!114 &5136966926547094501
+--- !u!114 &4179350943011810130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,18 +305,64 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e658b1bd308bc5c429f5a9b404a04943, type: 3}
-  m_Name: Inverter
+  m_Script: {fileID: 11500000, guid: df9e411f4095d0a44acd9a25323f5e73, type: 3}
+  m_Name: Log
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: a1424afc468cb74458da1b8983ee3457
-  position: {x: -576.46515, y: 915.33325}
+  guid: f173bfb7162580f4c8e8dcee34095ede
+  position: {x: 637.4579, y: 847.3333}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
-  child: {fileID: -7961456046098437657}
+  message: Heal!
+--- !u!114 &4577378500166644266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 1e9a0b9aeb8b5cf49b280e59a580c8d4
+  position: {x: 523.33344, y: 643.5879}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -1971899734109738726}
+  - {fileID: 4179350943011810130}
+--- !u!114 &4861859106949629099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: f04ba5f3db90aef4bb1b5dc58dca9ffc
+  position: {x: -446.33334, y: 959.3332}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -4731955062709910246}
+  - {fileID: -516878134592064711}
 --- !u!114 &5239106013896969798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +385,8 @@ MonoBehaviour:
   drawGizmos: 0
   children:
   - {fileID: -4593126952769484859}
---- !u!114 &5423179335261802248
+  - {fileID: 3197391251822434258}
+--- !u!114 &5295499656901434112
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,18 +395,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1af69493d8d6f34e95371bed109ad23, type: 3}
-  m_Name: IsWithinRangeOfDestination
+  m_Script: {fileID: 11500000, guid: 4fd076831b5830040bfb92051d2e063d, type: 3}
+  m_Name: IsWithinHealRangeOfTarget
   m_EditorClassIdentifier: 
   state: 0
   started: 0
-  guid: b10ec1bf878012145afe3097ae0168a7
-  position: {x: -419.3334, y: 1024.6667}
+  guid: caedec3c35eb7b54a960df10f82b4fc0
+  position: {x: -262.66644, y: 959.3333}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
-  range: 2
+  positionToEval: 1
+  reduceRealRadius: 0
 --- !u!114 &5484491457629588291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,9 +423,29 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: b7743c3300078f64fb94d590d863661f
-  position: {x: -96.49971, y: 770}
+  position: {x: 14.110184, y: 782}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
   description: 
   drawGizmos: 0
   lookAtBehavior: 0
+--- !u!114 &8930671028669403775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aee447b21ce6f5343a947d4320a3b870, type: 3}
+  m_Name: HasNoPath
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: e883f59ed23997341a1efdab24fdb7f1
+  position: {x: -787.5733, y: 959.3332}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0

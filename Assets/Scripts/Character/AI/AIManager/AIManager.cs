@@ -16,6 +16,8 @@ public class AIManager : MonoBehaviour
     // List containing scriptable objects for each level.
     public List<LevelData> levelsData = new List<LevelData>();
 
+    public List<GameObject> activeEnemies = new();
+
     // Enemies must respawn at distance beyond this amount from the player.
     [SerializeField] 
     private int _minRespawnDistance = 100;
@@ -127,15 +129,15 @@ public class AIManager : MonoBehaviour
         if (_allowEnemyRespawning && _numRespawns < _maxNumRespawns)
         {
             // Find all of the enemies that are currently alive and active
-            List<GameObject> aliveEnemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
-            aliveEnemies.RemoveAll(enemy => !enemy.activeSelf);
+            activeEnemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+            activeEnemies.RemoveAll(enemy => !enemy.activeSelf);
 
             // Count how many enemies of each type are currently alive and active
             int[] numAliveEnemyPerType = new int[_currlevelData.enemies.Length];
             for (int i = 0; i < _currlevelData.enemies.Length; i++)
             {
                 string _enemyName = _currlevelData.enemies[i].enemyType.name;
-                numAliveEnemyPerType[i] = aliveEnemies.Count(enemy => enemy.gameObject.name == _enemyName);
+                numAliveEnemyPerType[i] = activeEnemies.Count(enemy => enemy.gameObject.name == _enemyName);
                 
                 // Respawn each enemy type until the threshold for how many of them can be alive at once is reached
                 int numToRespawn = maxAliveCounts[i] - numAliveEnemyPerType[i];
@@ -181,8 +183,8 @@ public class AIManager : MonoBehaviour
         if (_numRespawns >= _maxNumRespawns)
         {
             // If all enemies are dead, move to the next level
-            List<GameObject> aliveEnemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
-            if (aliveEnemies.Count == 0)
+            activeEnemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+            if (activeEnemies.Count == 0)
             {
                 Debug.Log("all enemies dead");
                 // TODO: go to next level

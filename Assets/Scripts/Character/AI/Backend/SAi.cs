@@ -25,6 +25,8 @@ public class SAi : SCharacter
     public AimStatus aimStatus = AimStatus.isUp;
     public SCharacter targetChar;
 
+    public bool isTargetedByPriestess = false;
+
     //Event, used to update score when enemy dies
     public static event Action OnAIDeath;
     
@@ -123,13 +125,14 @@ public class SAi : SCharacter
     {
         this.tag = "Dead";
         OnAIDeath?.Invoke();
-        var rb = gameObject.AddComponent<Rigidbody>();
-        rb.AddForce(UnityEngine.Random.insideUnitSphere * 5f, ForceMode.Impulse);
-        // var weaponGameObject = _weapon.gameObject;
-        // weaponGameObject.AddComponent<Rigidbody>();
-        // weaponGameObject.AddComponent<BoxCollider>();
-        // weaponGameObject.transform.SetParent(null);
-        // _weapon.enabled = false;
+        //TODO: BETTER DEATH SYSTEM.
+        // var rb = gameObject.AddComponent<Rigidbody>();
+        // rb.AddForce(UnityEngine.Random.insideUnitSphere * 5f, ForceMode.Impulse);
+        // // var weaponGameObject = _weapon.gameObject;
+        // // weaponGameObject.AddComponent<Rigidbody>();
+        // // weaponGameObject.AddComponent<BoxCollider>();
+        // // weaponGameObject.transform.SetParent(null);
+        // // _weapon.enabled = false;
         motor.enabled = false;
         StartCoroutine(LinkSpawner());
     }
@@ -221,7 +224,7 @@ public class SAi : SCharacter
         Inputs.LookVector.y = 0f;
     }
 
-    public void SetTargetCharacter(SCharacter character)
+    public virtual void SetTargetCharacter(SCharacter character)
     {
         targetChar = character;
     }
@@ -262,6 +265,11 @@ public class SAi : SCharacter
         enabled = false;
         yield return new WaitForSeconds(15f);
         gameObject.SetActive(false);
+    }
+
+    public bool HasTargetCharacter()
+    {
+        return targetChar is not null;
     }
 
 }

@@ -15,7 +15,6 @@ namespace TheKiwiCoder {
         public Transform transform;
         public Animator animator;
         public Rigidbody physics;
-        public NavMeshAgent agent;
         public SphereCollider sphereCollider;
         public BoxCollider boxCollider;
         public CapsuleCollider capsuleCollider;
@@ -32,7 +31,6 @@ namespace TheKiwiCoder {
             context.transform = gameObject.transform;
             context.animator = gameObject.GetComponent<Animator>();
             context.physics = gameObject.GetComponent<Rigidbody>();
-            context.agent = gameObject.GetComponent<NavMeshAgent>();
             context.sphereCollider = gameObject.GetComponent<SphereCollider>();
             context.boxCollider = gameObject.GetComponent<BoxCollider>();
             context.capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
@@ -41,7 +39,6 @@ namespace TheKiwiCoder {
             // Add whatever else you need here...
             context.SAi = gameObject.GetComponent<SAi>();
             if (GameManager.Instance) context.aPlayer = GameManager.Instance.aPlayer;
-            
 
             return context;
         }

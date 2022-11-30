@@ -9,8 +9,9 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 {
     public KinematicCharacterMotor motor;
 
-    [Header("Link")][SerializeField] protected float health = 100;
-    protected float _maxHealth;
+    [Header("Link")][SerializeField] 
+    public float health = 100;
+    public float maxHealth { get; protected set; }
 
     //TODO(mish): make these private vars
     [Header("Standard Movement")]
@@ -87,7 +88,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     {
         abilityManager = new AbilityManager();
         motor.CharacterController = this;
-        _maxHealth = (int)health;
+        maxHealth = (int)health;
         Collider = GetComponent<Collider>();
         
         //If the weapon was not set in editor, the SCharacter will attempt to find a weapon in its children.
@@ -200,7 +201,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 	public virtual void Heal(float healing)
     {
         health += healing;
-        if (health > _maxHealth) health = _maxHealth;
+        if (health > maxHealth) health = maxHealth;
     }
 
 	public virtual void Kill()
