@@ -121,23 +121,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6443897915653950516, guid: 62f2ef9ee727f124a96a4ad62cffe4a7,
         type: 3}
+      propertyPath: ditherScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443897915653950516, guid: 62f2ef9ee727f124a96a4ad62cffe4a7,
+        type: 3}
       propertyPath: patternIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6443897915653950516, guid: 62f2ef9ee727f124a96a4ad62cffe4a7,
         type: 3}
       propertyPath: ditherThreshold
-      value: 26.41
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443897915653950517, guid: 62f2ef9ee727f124a96a4ad62cffe4a7,
+        type: 3}
+      propertyPath: colorPrecision
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6443897915653950517, guid: 62f2ef9ee727f124a96a4ad62cffe4a7,
         type: 3}
       propertyPath: widthPixelation
-      value: 640
+      value: 1280
       objectReference: {fileID: 0}
     - target: {fileID: 6443897915653950517, guid: 62f2ef9ee727f124a96a4ad62cffe4a7,
         type: 3}
       propertyPath: heightPixelation
-      value: 480
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 6443897915653950518, guid: 62f2ef9ee727f124a96a4ad62cffe4a7,
         type: 3}
