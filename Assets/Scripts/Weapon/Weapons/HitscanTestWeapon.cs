@@ -26,7 +26,7 @@ public class HitscanTestWeapon : RangedWeapon
             }
             else
             {
-                hitPoint = barrelTransform.position + dir * 50f;
+                hitPoint = barrelTransform.position + dir * 100f;
             }
             Debug.DrawLine(position, hitPoint, Color.red, 2f);
         }

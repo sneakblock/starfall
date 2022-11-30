@@ -40,11 +40,11 @@ public class Flyer : SAi
     //     CurrCornersIndex = 0;
     // }
 
-    // protected override void LookAtTargetCharacter()
-    // {
-    //     if (!targetChar) return;
-    //     Inputs.LookVector = (targetChar.Collider.bounds.center - Collider.bounds.center).normalized;
-    // }
+    //TODO: Rotate the flyer in the air to point at player, without flipping.
+    protected override void LookAtTargetCharacter()
+    {
+        base.LookAtTargetCharacter();
+    }
 
     public override void SetDestination(Vector3 destination)
     {
