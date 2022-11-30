@@ -125,11 +125,11 @@ public class SAi : SCharacter
         OnAIDeath?.Invoke();
         var rb = gameObject.AddComponent<Rigidbody>();
         rb.AddForce(UnityEngine.Random.insideUnitSphere * 5f, ForceMode.Impulse);
-        var weaponGameObject = _weapon.gameObject;
-        weaponGameObject.AddComponent<Rigidbody>();
-        weaponGameObject.AddComponent<BoxCollider>();
-        weaponGameObject.transform.SetParent(null);
-        _weapon.enabled = false;
+        // var weaponGameObject = _weapon.gameObject;
+        // weaponGameObject.AddComponent<Rigidbody>();
+        // weaponGameObject.AddComponent<BoxCollider>();
+        // weaponGameObject.transform.SetParent(null);
+        // _weapon.enabled = false;
         motor.enabled = false;
         StartCoroutine(LinkSpawner());
     }
