@@ -39,7 +39,7 @@ public class SAi : SCharacter
 
     public Collider coll;
     
-    private int _currCornersIndex = 0;
+    protected int CurrCornersIndex = 0;
 
     [Header("Debug")] public bool debug = false;
 
@@ -109,13 +109,13 @@ public class SAi : SCharacter
         jumpRequested = Inputs.Jump;
     }
     
-    public void SetDestination(Vector3 destination)
+    public virtual void SetDestination(Vector3 destination)
     {
         var valid = NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, NavMeshPath);
         if (valid)
         {
             pathStatus = PathStatus.Pending;
-            _currCornersIndex = 0;
+            CurrCornersIndex = 0;
         }
     }
 
@@ -162,17 +162,17 @@ public class SAi : SCharacter
         //Draw the path for the SAi.
         
         //We use a point on the collider because using the transform may result in an unreachable point at low stopDistances
-        if (Vector3.Distance((coll.ClosestPoint(NavMeshPath.corners[_currCornersIndex])), NavMeshPath.corners[_currCornersIndex]) <= stopDistance)
+        if (Vector3.Distance(coll.ClosestPoint(NavMeshPath.corners[CurrCornersIndex]), NavMeshPath.corners[CurrCornersIndex]) <= stopDistance)
         {
-            if (_currCornersIndex == NavMeshPath.corners.Length - 1)
+            if (CurrCornersIndex == NavMeshPath.corners.Length - 1)
             {
                 pathStatus = PathStatus.Reached;
                 return;
             }
-            _currCornersIndex++;
+            CurrCornersIndex++;
         }
         
-        Inputs.MoveVector = (NavMeshPath.corners[_currCornersIndex] - transform.position).normalized;
+        Inputs.MoveVector = (NavMeshPath.corners[CurrCornersIndex] - transform.position).normalized;
         if (lookAtBehavior == LookAtBehavior.AtPath)
             Inputs.LookVector = new Vector3(Inputs.MoveVector.x, 0, Inputs.MoveVector.z);
         //Ignores Y so the character doesn't look at the ground in a silly/goofy way.
@@ -214,7 +214,7 @@ public class SAi : SCharacter
     
     //void LeadTarget()
 
-    void LookAtTargetCharacter()
+    protected virtual void LookAtTargetCharacter()
     {
         if (!targetChar) return;
         Inputs.LookVector = (targetChar.Collider.bounds.center - Collider.bounds.center).normalized;

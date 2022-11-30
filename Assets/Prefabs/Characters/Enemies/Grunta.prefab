@@ -130,6 +130,7 @@ MonoBehaviour:
     m_Bits: 65
   gravity: {x: 0, y: -30, z: 0}
   Collider: {fileID: 0}
+  lookInputVector: {x: 0, y: 0, z: 0}
   linkValue: 20
   lookAtBehavior: 0
   pathStatus: 3
@@ -207,6 +208,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestRifle
       objectReference: {fileID: 0}
+    - target: {fileID: 6437781830929478806, guid: 43bc8385963c42c4dbd1cc960dda844c,
+        type: 3}
+      propertyPath: barrelTransforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437781830929478806, guid: 43bc8385963c42c4dbd1cc960dda844c,
+        type: 3}
+      propertyPath: barrelTransforms.Array.data[0]
+      value: 
+      objectReference: {fileID: 9168064520408622429}
     - target: {fileID: 6437781830929478807, guid: 43bc8385963c42c4dbd1cc960dda844c,
         type: 3}
       propertyPath: m_RootOrder
@@ -264,6 +275,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43bc8385963c42c4dbd1cc960dda844c, type: 3}
+--- !u!4 &9168064520408622429 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6437781830331889672, guid: 43bc8385963c42c4dbd1cc960dda844c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2768616922532814165}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &9168064521010932163 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6437781830929478806, guid: 43bc8385963c42c4dbd1cc960dda844c,

@@ -960,7 +960,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: e527e56f4b66b654abb3ac4d4c25aedc, type: 2}
-  barrelTransform: {fileID: 2786285862264679442}
+  barrelTransforms:
+  - {fileID: 2786285862264679442}
   AudioSource: {fileID: 7835589383164434157}
   impactEffects: []
   hitscanBulletTrail: {fileID: 6774897497785466354, guid: 8cfe437906c21dd41ae4d2c242640624,

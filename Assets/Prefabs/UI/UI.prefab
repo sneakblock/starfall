@@ -829,7 +829,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.7
+  m_fontSize: 87
   m_fontSizeBase: 22.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2128,6 +2128,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1008686008957959684, guid: ee67b808968db87478e403ce0fb4129d,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008686008957959684, guid: ee67b808968db87478e403ce0fb4129d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008686008957959684, guid: ee67b808968db87478e403ce0fb4129d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008686008957959684, guid: ee67b808968db87478e403ce0fb4129d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2185,6 +2200,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008686008957959684, guid: ee67b808968db87478e403ce0fb4129d,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9147949107627460328, guid: ee67b808968db87478e403ce0fb4129d,
         type: 3}

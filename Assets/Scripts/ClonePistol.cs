@@ -11,9 +11,12 @@ public class ClonePistol : HitscanTestWeapon
 
     protected override void DrawHitscanBulletTrail(Vector3 hitPos)
     {
-        var trailObj = GameManager.Instance.CloneBulletTrailPool.Get();
-        var lineRenderer = trailObj.GetComponent<LineRenderer>();
-        lineRenderer.SetPosition(0, barrelTransform.position);
-        lineRenderer.SetPosition(1, hitPos);
+        foreach (var barrelTransform in barrelTransforms)
+        {
+            var trailObj = GameManager.Instance.CloneBulletTrailPool.Get();
+            var lineRenderer = trailObj.GetComponent<LineRenderer>();
+            lineRenderer.SetPosition(0, barrelTransform.position);
+            lineRenderer.SetPosition(1, hitPos);
+        }
     }
 }

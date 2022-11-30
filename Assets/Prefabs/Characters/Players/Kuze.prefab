@@ -483,6 +483,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: DevPistol
       objectReference: {fileID: 0}
+    - target: {fileID: 6437781830929478806, guid: e43bcf993c30d2342a813623ec1a138a,
+        type: 3}
+      propertyPath: barrelTransforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6437781830929478806, guid: e43bcf993c30d2342a813623ec1a138a,
+        type: 3}
+      propertyPath: barrelTransforms.Array.data[0]
+      value: 
+      objectReference: {fileID: 7429496412960557096}
     - target: {fileID: 6437781830929478807, guid: e43bcf993c30d2342a813623ec1a138a,
         type: 3}
       propertyPath: m_RootOrder
@@ -555,6 +565,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e43bcf993c30d2342a813623ec1a138a, type: 3}
+--- !u!4 &7429496412960557096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6437781830331889672, guid: e43bcf993c30d2342a813623ec1a138a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4489323467881639968}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7429496413570663606 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6437781830929478806, guid: e43bcf993c30d2342a813623ec1a138a,

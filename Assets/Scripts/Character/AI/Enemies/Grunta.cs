@@ -30,7 +30,7 @@ public class Grunta : SAi
             _animOff = true;
         }
 
-        if (!targetChar) targetChar = GameObject.FindObjectOfType<APlayer>();
+        if (!targetChar) targetChar = GameObject.FindObjectOfType<Kuze>();
     }
     
     protected override void UpdateCharacter()

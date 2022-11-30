@@ -18,9 +18,9 @@ public class HasWeaponLoSToPlayer : ActionNode
 
     protected override State OnUpdate()
     {
-        if (!context.SAi.GetRangedWeapon().barrelTransform || !context.aPlayer) return State.Failure;
-        var r = new Ray(context.SAi.GetRangedWeapon().barrelTransform.position,
-            context.aPlayer.Collider.bounds.center - context.SAi.GetRangedWeapon().barrelTransform.position);
+        if (context.SAi.GetRangedWeapon().barrelTransforms.Length == 0 || !context.aPlayer) return State.Failure;
+        var r = new Ray(context.SAi.GetRangedWeapon().barrelTransforms[0].position,
+            context.aPlayer.Collider.bounds.center - context.SAi.GetRangedWeapon().barrelTransforms[0].position);
         if (!Physics.Raycast(r, out var hit, Mathf.Infinity, layerMask)) return State.Failure;
         return hit.collider.gameObject == context.aPlayer.gameObject ? State.Success : State.Failure;
     }

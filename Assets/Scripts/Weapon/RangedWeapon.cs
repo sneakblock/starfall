@@ -17,7 +17,7 @@ public abstract class RangedWeapon : MonoBehaviour
     protected WeaponData weaponData;
 
     [SerializeField] [Tooltip("The transform position from which the weapon will be fired.")]
-    public Transform barrelTransform;
+    public Transform[] barrelTransforms;
 
     public AudioSource AudioSource;
 
@@ -212,21 +212,24 @@ public abstract class RangedWeapon : MonoBehaviour
     private void CalculateTrajectory(Vector3 targetPoint)
     {
         //The perfect direction to the targetPoint.
-        var barrelPos = barrelTransform.position;
-        var goalDir = (targetPoint - barrelPos);
-        goalDir = goalDir.normalized;
-        var errorX = StarfallUtility.RandGaussian(_currentSpread);
-        var errorY = StarfallUtility.RandGaussian(_currentSpread);
-        var errorZ = StarfallUtility.RandGaussian(_currentSpread);
-        goalDir.x += errorX;
-        goalDir.y += errorY;
-        goalDir.z += errorZ;
+        foreach (var barrelTransform in barrelTransforms)
+        {
+            var barrelPos = barrelTransform.position;
+            var goalDir = (targetPoint - barrelPos);
+            goalDir = goalDir.normalized;
+            var errorX = StarfallUtility.RandGaussian(_currentSpread);
+            var errorY = StarfallUtility.RandGaussian(_currentSpread);
+            var errorZ = StarfallUtility.RandGaussian(_currentSpread);
+            goalDir.x += errorX;
+            goalDir.y += errorY;
+            goalDir.z += errorZ;
 
-        //We want to reduce the recoverySharpness here
-        _currentRecoverySharpness -= weaponData.recoveryImpact;
+            //We want to reduce the recoverySharpness here
+            _currentRecoverySharpness -= weaponData.recoveryImpact;
 
-        //Fire, set the number of bullets in GameManager if applicable.
-        Fire(goalDir);
+            //Fire, set the number of bullets in GameManager if applicable.
+            Fire(goalDir);
+        }
 
         //If this was the last shot, automatically start reloading
         if (_bulletsCurrentlyInMagazine == 0 && !_reloading)

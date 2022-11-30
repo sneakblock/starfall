@@ -16,17 +16,20 @@ public class ProjectileTestWeapon : RangedWeapon
 
     protected override void Fire(Vector3 dir)
     {
-        GameObject projectile = Instantiate(weaponData.bullet, barrelTransform.position, Quaternion.identity);
-        projectile.tag = gameObject.tag;
-        projectile.transform.forward = dir.normalized;
-        var rb = projectile.GetComponent<Rigidbody>();
-        var coll = projectile.GetComponent<Collider>();
-        //This is temp, real functionality should ignore collision with other bullets and the entity that fires the weapon, but not all enemies for example if the weapon is fired by an enemy
-        _projectiles.Add(projectile);
-        foreach (var p in _projectiles)
+        foreach (var barrelTransform in barrelTransforms)
         {
-            Physics.IgnoreCollision(coll, p.GetComponent<Collider>(), true);
+            GameObject projectile = Instantiate(weaponData.bullet, barrelTransform.position, Quaternion.identity);
+            projectile.tag = gameObject.tag;
+            projectile.transform.forward = dir.normalized;
+            var rb = projectile.GetComponent<Rigidbody>();
+            var coll = projectile.GetComponent<Collider>();
+            //This is temp, real functionality should ignore collision with other bullets and the entity that fires the weapon, but not all enemies for example if the weapon is fired by an enemy
+            _projectiles.Add(projectile);
+            foreach (var p in _projectiles)
+            {
+                Physics.IgnoreCollision(coll, p.GetComponent<Collider>(), true);
+            }
+            rb.AddForce(dir.normalized * weaponData.firingForce, ForceMode.Impulse);
         }
-        rb.AddForce(dir.normalized * weaponData.firingForce, ForceMode.Impulse);
     }
 }
