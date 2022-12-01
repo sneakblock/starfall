@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KinematicCharacterController;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -83,6 +84,15 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected float bleedTickTracker = 0f;
     protected float bleedDmgPerTick;
 
+    [Header("Ragdoll")] 
+    [SerializeField] private Transform ragdollRoot;
+
+    private CapsuleCollider _ragdollMotorCollider;
+    private List<CharacterJoint> _ragdollCharacterJoints = new();
+    private List<Collider> _ragdollColliders = new();
+    private List<Rigidbody> _ragdollRigidbodies = new();
+    private Animator _ragdollAnim;
+
 
     void Start()
     {
@@ -98,11 +108,103 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         {
             _weapon = GetComponentInChildren<RangedWeapon>(false);
         }
+        
+        SetupRagdoll();
+        DisableRagdoll();
 
+        //Abstract, to be overridden.
         StartCharacter();
 
         // NEW: calls start function for every single registered ability once
         abilityManager.Start();
+    }
+
+    void SetupRagdoll()
+    {
+        if (!ragdollRoot)
+        {
+            Debug.LogWarning($"SCharacter {gameObject.name} does not have an assigned ragdoll root.");
+            return;
+        }
+
+        _ragdollAnim = GetComponentInChildren<Animator>();
+        if (!_ragdollAnim)
+        {
+            Debug.LogWarning($"{gameObject.name} could not find an animator in SetupRagdoll()");
+            return;
+        }
+
+        _ragdollMotorCollider = motor.Capsule;
+        _ragdollCharacterJoints = ragdollRoot.GetComponentsInChildren<CharacterJoint>().ToList();
+        _ragdollColliders = ragdollRoot.GetComponentsInChildren<Collider>().ToList();
+        _ragdollRigidbodies = ragdollRoot.GetComponentsInChildren<Rigidbody>().ToList();
+
+        // Ensure these colldiers are treated as colliders of the SCharacter's layer.
+        foreach (var c in _ragdollColliders)
+        {
+            c.gameObject.layer = gameObject.layer;
+        }
+    }
+
+    protected void DisableRagdoll()
+    {
+        if (!_ragdollAnim || _ragdollColliders.Count == 0 || _ragdollCharacterJoints.Count == 0 ||
+            _ragdollRigidbodies.Count == 0)
+        {
+            Debug.LogWarning($"{gameObject.name} tried to DisableRagdoll() but failed, as one or more references were not set up.");
+            return;
+        }
+
+        _ragdollAnim.enabled = true;
+
+        _ragdollMotorCollider.enabled = true;
+
+        foreach (var j in _ragdollCharacterJoints)
+        {
+            j.enableCollision = false;
+        }
+
+        foreach (var c in _ragdollColliders)
+        {
+            c.enabled = false;
+        }
+
+        foreach (var r in _ragdollRigidbodies)
+        {
+            r.velocity = Vector3.zero;
+            r.detectCollisions = false;
+            r.useGravity = false;
+        }
+    }
+    
+    protected void DoRagdoll()
+    {
+        if (!_ragdollAnim || _ragdollColliders.Count == 0 || _ragdollCharacterJoints.Count == 0 ||
+            _ragdollRigidbodies.Count == 0)
+        {
+            Debug.LogWarning($"{gameObject.name} tried to DoRagdoll() but failed, as one or more references were not set up.");
+            return;
+        }
+
+        _ragdollAnim.enabled = false;
+        _ragdollMotorCollider.enabled = false;
+
+        foreach (var j in _ragdollCharacterJoints)
+        {
+            j.enableCollision = true;
+        }
+
+        foreach (var c in _ragdollColliders)
+        {
+            c.enabled = true;
+        }
+
+        foreach (var r in _ragdollRigidbodies)
+        {
+            r.velocity = Vector3.zero;
+            r.detectCollisions = true;
+            r.useGravity = true;
+        }
     }
 
 	void Update()
@@ -204,16 +306,12 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         if (health > maxHealth) health = maxHealth;
     }
 
-	public virtual void Kill()
+    public virtual void Kill()
     {
-        // var rb = gameObject.AddComponent<Rigidbody>();
-        // rb.AddForce(Random.insideUnitSphere * 5f, ForceMode.Impulse);
-        var weaponGameObject = _weapon.gameObject;
-        weaponGameObject.AddComponent<Rigidbody>();
-        weaponGameObject.AddComponent<BoxCollider>();
-        weaponGameObject.transform.SetParent(null);
+        // All SCharacters disable their motor on death.
         motor.enabled = false;
-        this.enabled = false;
+        if (_weapon) _weapon.enabled = false;
+        DoRagdoll();
     }
 
     public void StartBleeding(float totalDamage, float duration)

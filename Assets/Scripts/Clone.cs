@@ -277,4 +277,9 @@ public class Clone : SCharacter
         lookInputVector = Vector3.zero;
         _weapon.FillMagazine();
     }
+
+    public override void Kill()
+    {
+        //Can't kill a clone...
+    }
 }

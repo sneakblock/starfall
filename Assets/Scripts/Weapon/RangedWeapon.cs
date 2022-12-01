@@ -68,6 +68,11 @@ public abstract class RangedWeapon : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     private void Update()
     {
         ManageSpread();

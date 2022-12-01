@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheKiwiCoder;
 
-public class CastHealAbility : ActionNode
+public class TrueCastHeal : ActionNode
 {
     protected override void OnStart() {
     }
