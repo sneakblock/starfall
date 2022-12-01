@@ -125,6 +125,7 @@ public class SAi : SCharacter
     {
         this.tag = "Dead";
         OnAIDeath?.Invoke();
+        isTargetedByPriestess = false;
         //TODO: BETTER DEATH SYSTEM.
         // var rb = gameObject.AddComponent<Rigidbody>();
         // rb.AddForce(UnityEngine.Random.insideUnitSphere * 5f, ForceMode.Impulse);
@@ -269,7 +270,7 @@ public class SAi : SCharacter
 
     public bool HasTargetCharacter()
     {
-        return targetChar is not null;
+        return targetChar is not null && targetChar.gameObject.activeSelf;
     }
 
 }
