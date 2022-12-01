@@ -29,7 +29,7 @@ public class DaggerAbility : AdvancedAbility
     [SerializeField] private float catchRange = 2f;
 
     private DaggerAbilityMode _mode = DaggerAbilityMode.Throw;
-    private List<Dagger> _daggers = new();
+    public List<Dagger> _daggers = new();
     private Dagger _currentRechargingDagger;
     private float _rechargingDaggerTimer = 0f;
     private float _baseCooldown;

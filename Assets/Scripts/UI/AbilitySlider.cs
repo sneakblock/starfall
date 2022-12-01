@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
-public class AbilityCooldown: MonoBehaviour
+public class AbilitySlider: MonoBehaviour
 {
     [SerializeField]
     [Tooltip("1: Dash, 2: Dagger, 3: Clone")]
@@ -16,7 +16,6 @@ public class AbilityCooldown: MonoBehaviour
 
     private AdvancedAbility _currAbility;
 
-    // Set up each slider's values and set the current Link bar to be composed of Safe Link and Standard Link. 
     void Start()
     {
         _slider = GetComponent<Slider>();
