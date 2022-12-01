@@ -21,6 +21,10 @@ public class TrailFade : MonoBehaviour
         color.a = Mathf.Lerp(color.a, 0, trailFadeSpeed * Time.deltaTime);
         _lr.startColor = color;
         _lr.endColor = color;
-        if (color.a <= .1f) GameManager.Instance.BulletTrailPool.Release(gameObject);
+        if (color.a <= .1f)
+        {
+            
+            GameManager.Instance.BulletTrailPool.Release(gameObject);
+        }
     }
 }

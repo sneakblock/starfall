@@ -88,7 +88,7 @@ public class SAi : SCharacter
         InitInputs();
         if (lookAtBehavior == LookAtBehavior.AtTargetCharacter) LookAtTargetCharacter();
         ExecuteAim();
-        if (triggerStatus == TriggerStatus.isHeld && _weapon) ExecuteFire();
+        if (triggerStatus == TriggerStatus.isHeld && _weapon && _weapon.enabled) ExecuteFire();
         MoveAgent();
     }
 
@@ -123,18 +123,14 @@ public class SAi : SCharacter
 
     public override void Kill()
     {
-        this.tag = "Dead";
+        base.Kill();
+        isTargetedByPriestess = false;
+        //No idea where this tag trash is used...
+        tag = "Dead";
+        
         OnAIDeath?.Invoke();
-        //TODO: BETTER DEATH SYSTEM.
-        // var rb = gameObject.AddComponent<Rigidbody>();
-        // rb.AddForce(UnityEngine.Random.insideUnitSphere * 5f, ForceMode.Impulse);
-        // // var weaponGameObject = _weapon.gameObject;
-        // // weaponGameObject.AddComponent<Rigidbody>();
-        // // weaponGameObject.AddComponent<BoxCollider>();
-        // // weaponGameObject.transform.SetParent(null);
-        // // _weapon.enabled = false;
-        motor.enabled = false;
         StartCoroutine(LinkSpawner());
+        if (this is not Flyer) enabled = false;
     }
 
     public override void Damage(float damage)
@@ -261,15 +257,14 @@ public class SAi : SCharacter
             linkDrop.GetComponentInChildren<Rigidbody>().AddForce(throwVector, ForceMode.Impulse);
             yield return new WaitForSeconds(.5f);
         }
-        //Is this a problem area?
-        enabled = false;
-        yield return new WaitForSeconds(15f);
-        gameObject.SetActive(false);
+        yield return new WaitForSeconds(30f);
+        Destroy(gameObject);
     }
 
     public bool HasTargetCharacter()
     {
-        return targetChar is not null;
+        if (targetChar == null) return false;
+        return targetChar is not null && targetChar.gameObject.activeSelf;
     }
 
 }

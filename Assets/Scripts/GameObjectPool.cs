@@ -33,7 +33,10 @@ public abstract class GameObjectPool : MonoBehaviour
 
     protected virtual void OnTakeFromPool(GameObject obj)
     {
-        obj.SetActive(true);
+        if (obj != null)
+        {
+            obj.SetActive(true);
+        }
     }
 
     protected virtual void OnReturnedToPool(GameObject obj)
