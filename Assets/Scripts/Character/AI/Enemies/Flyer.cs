@@ -11,12 +11,56 @@ public class Flyer : SAi
     [SerializeField] private float minCornerHeight = 3f;
     [SerializeField] private float maxCornerHeight = 8f;
     private Vector3 _currentSeekPoint;
+
+    [SerializeField] private Material onDeathMat;
+    private Dictionary<Renderer, List<Material>> _renderersMats = new();
+    private bool _disintegrating = false;
+    [SerializeField] private float secondsToDisintegrate = 3f;
+    private float _disintegrationTimer = 0f;
+    [SerializeField] private float fromVertRes = 20f;
+    [SerializeField] private float fromVertDispl = .1f;
+    [SerializeField] private float toVertRes = 5f;
+    [SerializeField] private float toVertDispl = .5f;
     
-    
+    private static readonly int VertexResolution = Shader.PropertyToID("Vector1_B2CC132F");
+    private static readonly int VertexDisplacmentAmount = Shader.PropertyToID("_VertexDisplacementAmount");
+
+
     protected override void StartCharacter()
     {
         base.StartCharacter();
         if (!targetChar) targetChar = FindObjectOfType<Kuze>();
+        foreach (var r in GetComponentsInChildren<Renderer>())
+        {
+            var materials = new List<Material>();
+            foreach (var m in r.materials)
+            {
+                materials.Add(m);
+            }
+            _renderersMats.Add(r, materials);
+        }
+        
+        _disintegrating = false;
+    }
+
+    protected override void UpdateCharacter()
+    {
+        base.UpdateCharacter();
+        if (_disintegrating)
+        {
+            _disintegrationTimer += Time.deltaTime;
+            if (_disintegrationTimer > secondsToDisintegrate)
+            {
+                _disintegrating = false;
+                foreach (var kv in _renderersMats)
+                {
+                    kv.Key.enabled = false;
+                }
+                enabled = false;
+                return;
+            }
+            Disintegrate();
+        }
     }
 
     // public override void SetDestination(Vector3 destination)
@@ -49,9 +93,39 @@ public class Flyer : SAi
     public override void Kill()
     {
         base.Kill();
-        
-        //TODO: Solution for flyer death...
-        gameObject.AddComponent<Rigidbody>();
+        InitDisintegrate();
+    }
+
+    void InitDisintegrate()
+    {
+        _disintegrating = true;
+        _disintegrationTimer = 0f;
+        foreach (var kv in _renderersMats)
+        {
+            
+            Material[] newMaterials = new Material[kv.Key.materials.Length];
+            for (var i = 0; i < newMaterials.Length; i++)
+            {
+                newMaterials[i] = onDeathMat;
+            }
+            kv.Key.materials = newMaterials;
+
+        }
+    }
+
+    void Disintegrate()
+    {
+        Debug.Log("Called disintegrate");
+        foreach (var kv in _renderersMats)
+        {
+            //Configuring shader properties
+            foreach (var m in kv.Key.materials)
+            {
+                m.SetFloat(VertexResolution, Mathf.Lerp(fromVertRes, toVertRes, _disintegrationTimer / secondsToDisintegrate));
+                Debug.Log(m.GetFloat(VertexResolution));
+                m.SetFloat(VertexDisplacmentAmount, Mathf.Lerp(fromVertDispl, toVertDispl, _disintegrationTimer / secondsToDisintegrate));
+            }
+        }
     }
 
     public override void SetDestination(Vector3 destination)

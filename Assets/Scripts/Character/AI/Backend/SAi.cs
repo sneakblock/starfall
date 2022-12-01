@@ -130,6 +130,7 @@ public class SAi : SCharacter
         
         OnAIDeath?.Invoke();
         StartCoroutine(LinkSpawner());
+        if (this is not Flyer) enabled = false;
     }
 
     public override void Damage(float damage)
@@ -256,8 +257,6 @@ public class SAi : SCharacter
             linkDrop.GetComponentInChildren<Rigidbody>().AddForce(throwVector, ForceMode.Impulse);
             yield return new WaitForSeconds(.5f);
         }
-        //Is this a problem area?
-        enabled = false;
         yield return new WaitForSeconds(30f);
         Destroy(gameObject);
     }
