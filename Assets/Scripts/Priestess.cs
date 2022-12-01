@@ -18,7 +18,7 @@ public class Priestess : SAi
     {
         if (ally is Priestess) return 0f;
         if (ally.isTargetedByPriestess) return 0f;
-
+        
         var distFromPlayer = Mathf.Clamp(Vector3.Distance(GameManager.Instance.aPlayer.transform.position, ally.transform.position), 0f, MaxConsideredHeuristicDistance) / MaxConsideredHeuristicDistance;
         var percentageHealth = 1 - ally.health / ally.maxHealth;
 

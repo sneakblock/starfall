@@ -46,6 +46,14 @@ public class Flyer : SAi
         base.LookAtTargetCharacter();
     }
 
+    public override void Kill()
+    {
+        base.Kill();
+        
+        //TODO: Solution for flyer death...
+        gameObject.AddComponent<Rigidbody>();
+    }
+
     public override void SetDestination(Vector3 destination)
     {
         // Debug.Log($"Setting destination {destination}");

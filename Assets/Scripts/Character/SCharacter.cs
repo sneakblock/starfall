@@ -84,7 +84,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     protected float bleedTickTracker = 0f;
     protected float bleedDmgPerTick;
 
-    [Header("Ragdoll")] 
+    [Header("Ragdoll")] [SerializeField] private bool ragdollOnDeath = true;
     [SerializeField] private Transform ragdollRoot;
 
     private CapsuleCollider _ragdollMotorCollider;
@@ -108,9 +108,12 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         {
             _weapon = GetComponentInChildren<RangedWeapon>(false);
         }
-        
-        SetupRagdoll();
-        DisableRagdoll();
+
+        if (ragdollOnDeath)
+        {
+            SetupRagdoll();
+            DisableRagdoll();
+        }
 
         //Abstract, to be overridden.
         StartCharacter();
@@ -311,7 +314,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         // All SCharacters disable their motor on death.
         motor.enabled = false;
         if (_weapon) _weapon.enabled = false;
-        DoRagdoll();
+        if (ragdollOnDeath) DoRagdoll();
     }
 
     public void StartBleeding(float totalDamage, float duration)

@@ -18,7 +18,7 @@ public class NeedsNewHealTarget : ActionNode
         var target = priestess.HasTargetCharacter() ? (SAi)priestess.targetChar : null;
         if (target is null)
         {
-            foreach (var allyObject in AIManager.Instance.activeEnemies.Where(allyObject => allyObject != priestess.gameObject))
+            foreach (var allyObject in AIManager.Instance.activeEnemies.Where(allyObject => allyObject != priestess.gameObject && allyObject.GetComponent<SAi>() is not Flyer))
             {
                 target = allyObject.GetComponent<SAi>();
                 break;
