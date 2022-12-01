@@ -94,7 +94,7 @@ public class DaggerAbility : AdvancedAbility
 
     public override void DuringCast()
     {
-        
+        base.DuringCast();
     }
 
     public override void OnCastEnded()

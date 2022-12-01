@@ -20,6 +20,6 @@ public class ScoreCounter : MonoBehaviour
 
     public void updateScore(int newScore)
     {
-        scoreText.text = "Score: " + newScore.ToString();
+        scoreText.text = newScore.ToString();
     }
 }

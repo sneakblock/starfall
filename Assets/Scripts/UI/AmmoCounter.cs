@@ -27,6 +27,6 @@ public class AmmoCounter : MonoBehaviour
 
     private void UpdateAmmoCounter(int currAmmo, int maxAmmo)
     {
-        ammoText.text = currAmmo.ToString() + " / " + maxAmmo.ToString();
+        ammoText.text = currAmmo.ToString() + "/" + maxAmmo.ToString();
     }
 }

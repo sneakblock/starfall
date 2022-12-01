@@ -29,7 +29,7 @@ public class Kuze : APlayer
 
     protected override void StartPlayer()
     {
-        linkBarUI = GameObject.Find("Link Bar").GetComponent<LinkBar>();
+        //linkBarUI = GameObject.Find("Link Bar").GetComponent<LinkBar>();
 
         // TODO(ben): Will this be player specific or general for all the
         // players?
@@ -68,13 +68,11 @@ public class Kuze : APlayer
 
     public override void Damage(float damage)
     {
-        linkBarUI.RemoveLink(damage);
         base.Damage(damage);
     }
 
     public override void Heal(float healing)
     {
-        linkBarUI.AddLink(healing);
         base.Heal(healing);
     }
 

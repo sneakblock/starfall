@@ -46,7 +46,9 @@ public abstract class APlayer : SCharacter
     public static event Action OnPlayerDeath;
     //Event to decrease multiplier when damage is taken
     public static event Action OnDamage;
-    
+
+    //Event to update the link during healing or damage
+    public static event Action OnUpdateLink;
     
     public int linkDamagePerSec = 3;
     protected bool isDying = true;
@@ -75,7 +77,7 @@ public abstract class APlayer : SCharacter
 
         StartPlayer();
 
-        base.maxHealth = 200;
+      
     }
 
     protected override void UpdateCharacter()
@@ -261,10 +263,18 @@ public abstract class APlayer : SCharacter
     }
     
     public override void Damage(float damage) {
-        OnDamage?.Invoke();
         base.Damage(damage);
-        // Debug.Log(damage);
+        OnDamage?.Invoke();
+
+        OnUpdateLink?.Invoke();
     }
+
+    public override void Heal(float healing)
+    {
+        base.Heal(healing);
+        OnUpdateLink?.Invoke();
+    }
+
 
     public override void Kill()
     {

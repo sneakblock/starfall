@@ -98,7 +98,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     {
         abilityManager = new AbilityManager();
         motor.CharacterController = this;
-        maxHealth = (int)health;
+        maxHealth = health;
         Collider = GetComponent<Collider>();
         
         //If the weapon was not set in editor, the SCharacter will attempt to find a weapon in its children.

@@ -11,10 +11,12 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
     [Tooltip("The time, in seconds, that the ability will be in its casting state on use.")]
     public float castTime;
 
-    protected float cooldownTimer;
+    public float cooldownTimer;
     public float castTimer { get; private set; }
 
-    protected bool castCompleted = true;
+    public bool castCompleted = true;
+
+    public event Action OnUpdateSliderCast;
 
     // Happens only once every time the player activates this ability
     public override void OnEnableAbility()
@@ -91,7 +93,10 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
     // Similar to OnUpdate() except, it gets called ONLY when the ability is being casted
     public virtual void DuringCast()
     {
-        
+        if (character is Kuze)
+        {
+            OnUpdateSliderCast?.Invoke();
+        }
     }
 
     // Child class should override this and this is where you write the actual
