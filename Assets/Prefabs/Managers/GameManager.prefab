@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelsData:
   - {fileID: 11400000, guid: f454970e4997b1f4da6cad75195e6a5c, type: 2}
+  activeEnemies: []
   _minRespawnDistance: 10
   _respawnDelay: 0.1
 --- !u!114 &1356622599
@@ -103,7 +104,7 @@ MonoBehaviour:
   - {fileID: 5371219466416337994, guid: f9e099178c81bee439a79eecec91dacb, type: 3}
   collectionChecks: 1
   initPoolSize: 10
-  maxPoolSize: 500
+  maxPoolSize: 1500
   maxBloodOnScreen: 150
 --- !u!114 &1356622600
 MonoBehaviour:
@@ -121,7 +122,7 @@ MonoBehaviour:
   - {fileID: 141106, guid: 0c2fb496ab06a364fb16faf0f4528004, type: 3}
   collectionChecks: 1
   initPoolSize: 10
-  maxPoolSize: 500
+  maxPoolSize: 1500
 --- !u!114 &1356622603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +139,7 @@ MonoBehaviour:
   - {fileID: 6774897497785466354, guid: 8cfe437906c21dd41ae4d2c242640624, type: 3}
   collectionChecks: 1
   initPoolSize: 10
-  maxPoolSize: 500
+  maxPoolSize: 1500
 --- !u!114 &1356622604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +156,7 @@ MonoBehaviour:
   - {fileID: 178032, guid: ea6cf4c5efb69b94db988e2fbfd72698, type: 3}
   collectionChecks: 1
   initPoolSize: 10
-  maxPoolSize: 500
+  maxPoolSize: 1500
   surfaceType: 0
 --- !u!114 &1356622605
 MonoBehaviour:
@@ -173,7 +174,7 @@ MonoBehaviour:
   - {fileID: 108086, guid: 547c2e12da8d4214098216299e70a3ba, type: 3}
   collectionChecks: 1
   initPoolSize: 10
-  maxPoolSize: 500
+  maxPoolSize: 1500
   surfaceType: 3
 --- !u!114 &1356622606
 MonoBehaviour:
@@ -191,7 +192,7 @@ MonoBehaviour:
   - {fileID: 1210114176842607944, guid: 73b4cddbbab90744c8d202c5bd01a1c7, type: 3}
   collectionChecks: 1
   initPoolSize: 10
-  maxPoolSize: 500
+  maxPoolSize: 1500
 --- !u!114 &796668495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +209,7 @@ MonoBehaviour:
   - {fileID: 6774897497785466354, guid: f305b24ea542b794cb8771b0e5f46a17, type: 3}
   collectionChecks: 1
   initPoolSize: 10
-  maxPoolSize: 500
+  maxPoolSize: 1500
 --- !u!114 &4816014853234015156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,4 +226,4 @@ MonoBehaviour:
   - {fileID: 6774897497785466354, guid: 79f5615aea3854d4bb67afb3865bbe54, type: 3}
   collectionChecks: 1
   initPoolSize: 10
-  maxPoolSize: 500
+  maxPoolSize: 1500

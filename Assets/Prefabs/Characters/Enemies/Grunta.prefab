@@ -131,6 +131,7 @@ MonoBehaviour:
   gravity: {x: 0, y: -30, z: 0}
   Collider: {fileID: 0}
   lookInputVector: {x: 0, y: 0, z: 0}
+  ragdollOnDeath: 1
   ragdollRoot: {fileID: 8666460571059873074}
   linkValue: 20
   lookAtBehavior: 0
@@ -167,7 +168,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   DiscreteCollisionEvents: 0
   StepHandling: 1
-  MaxStepHeight: 0.5
+  MaxStepHeight: 1.75
   AllowSteppingWithoutStableGrounding: 0
   MinRequiredStepDepth: 0.1
   LedgeAndDenivelationHandling: 1

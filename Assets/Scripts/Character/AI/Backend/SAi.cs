@@ -263,6 +263,7 @@ public class SAi : SCharacter
 
     public bool HasTargetCharacter()
     {
+        if (targetChar == null) return false;
         return targetChar is not null && targetChar.gameObject.activeSelf;
     }
 
