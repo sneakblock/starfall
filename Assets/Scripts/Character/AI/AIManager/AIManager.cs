@@ -181,7 +181,10 @@ public class AIManager : MonoBehaviour
         }
         
         var desiredTotalOfType = (int)Mathf.Floor(currentTotalDesiredEnemies * desiredPercentage);
-        Debug.Log($"Desired spawns spawns for {stageEnemyData.EnemyType} is {desiredTotalOfType}");
+        Debug.Log($"Desired total type of {stageEnemyData.EnemyType} is {desiredTotalOfType}");
+        Debug.Log($"num tanks on stage is {stageEnemyData.EnemyType} is {typesPopulation[stageEnemyData.EnemyType]}");
+        
+        Debug.Log($"Desired spawns spawns for {stageEnemyData.EnemyType} is {desiredTotalOfType - typesPopulation[stageEnemyData.EnemyType]}");
 
         spawnParameters.DesiredSpawnNumber =
             desiredTotalOfType - typesPopulation[stageEnemyData.EnemyType];
@@ -288,17 +291,18 @@ public class AIManager : MonoBehaviour
     void RegisterSAi(SAi sAi)
     {
         activeEnemies.Add(sAi.gameObject);
+        
         switch (sAi)
         {
-            case Grunta:
-                if (sAi is Tank)
+            case Grunta ai:
+                if (ai is Tank)
                 {
                     typesPopulation[EnemyType.Tank]++;
                     break;
                 }
                 typesPopulation[EnemyType.Grunt]++;
                 break;
-
+        
             case Flyer:
                 typesPopulation[EnemyType.Flyer]++;
                 break;

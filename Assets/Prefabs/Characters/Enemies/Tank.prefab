@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1768362842341019646}
   - component: {fileID: 1768362842341019641}
   - component: {fileID: 4554078474999039036}
-  - component: {fileID: 4159909612935204304}
+  - component: {fileID: 4760927665815854658}
   - component: {fileID: 1768362842341019640}
   - component: {fileID: 1294061346}
   m_Layer: 7
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000, guid: 56b018d8d665d134daee9f38543876fe, type: 2}
---- !u!114 &4159909612935204304
+--- !u!114 &4760927665815854658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,12 +105,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768362842341019642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2009522dfb62d34d929c0b9b15e2d0f, type: 3}
+  m_Script: {fileID: 11500000, guid: ccbdebfb598bd9142bd2a7b448b65f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   motor: {fileID: 1768362842341019640}
   health: 200
-  maxStableMoveSpeed: 3
+  maxStableMoveSpeed: 10
   stableMovementSharpness: 15
   orientationSharpness: 10
   maxAirMoveSpeed: 15
@@ -143,7 +143,8 @@ MonoBehaviour:
   isTargetedByPriestess: 0
   accuracy: 1
   coll: {fileID: 0}
-  debug: 1
+  debug: 0
+  killIfHasNotMovedInSeconds: 10
 --- !u!114 &1768362842341019640
 MonoBehaviour:
   m_ObjectHideFlags: 0

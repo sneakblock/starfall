@@ -18,12 +18,23 @@ public class NeedsNewHealTarget : ActionNode
         var target = priestess.HasTargetCharacter() ? (SAi)priestess.targetChar : null;
         if (target is null)
         {
-            List<SAi> validTargets = new();
-            foreach (var allyObject in AIManager.Instance.activeEnemies.Where(allyObject => allyObject != priestess.gameObject && allyObject.GetComponent<SAi>() is not Flyer && !allyObject.GetComponent<SAi>().isTargetedByPriestess))
+            SCharacter newTarget = null;
+            float shortestDist = Mathf.Infinity;
+            foreach (var allyObject in AIManager.Instance.activeEnemies)
             {
-                validTargets.Add(allyObject.GetComponent<SAi>());
+                var sAi = allyObject.GetComponent<SAi>();
+                if (sAi is Flyer) continue;
+                if (sAi is Priestess) continue;
+                var dist = Vector3.Distance(priestess.gameObject.transform.position, allyObject.transform.position);
+                if (dist < shortestDist)
+                {
+                    shortestDist = dist;
+                    newTarget = sAi;
+                }
             }
-            priestess.SetTargetCharacter(validTargets[Random.Range(0, validTargets.Count)]);
+
+            if (newTarget is null) newTarget = (SCharacter)GameManager.Instance.aPlayer;
+            priestess.SetTargetCharacter(newTarget);
             return State.Success;
         }
 

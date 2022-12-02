@@ -45,6 +45,9 @@ public class SAi : SCharacter
 
     [Header("Debug")] public bool debug = false;
 
+    [SerializeField] private float killIfHasNotMovedInSeconds = 10f;
+    private bool _isRunningKillIfHasNotMovedInSeconds;
+
     public enum LookAtBehavior
     {
         AtPath,
@@ -100,6 +103,21 @@ public class SAi : SCharacter
     protected override void UpdateCharacter()
     {
         AssignInputs();
+        if (!_isRunningKillIfHasNotMovedInSeconds) StartCoroutine(KillIfHasNotMovedInSeconds(killIfHasNotMovedInSeconds));
+    }
+
+    IEnumerator KillIfHasNotMovedInSeconds(float seconds)
+    {
+        _isRunningKillIfHasNotMovedInSeconds = true;
+        var firstPos = motor.GetState().Position;
+        yield return new WaitForSeconds(seconds);
+        if (Vector3.Distance(firstPos, motor.GetState().Position) < .5f)
+        {
+            linkValue = 0;
+            Kill();
+        }
+
+        _isRunningKillIfHasNotMovedInSeconds = false;
     }
     
     void AssignInputs()

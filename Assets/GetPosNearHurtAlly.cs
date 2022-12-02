@@ -33,6 +33,7 @@ public class GetPosNearHurtAlly : ActionNode
             return State.Success;
         }
         Debug.Log($"{context.gameObject.name} Failed to get pos near hurt ally because NavMesh sample failed. Targetchar pos is {context.SAi.targetChar.gameObject.transform.position}");
+        context.SAi.SetTargetCharacter(null);
         return State.Failure;
     }
 }
