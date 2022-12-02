@@ -19,10 +19,17 @@ public class HealAbility : AdvancedAbility
     public override void OnCastEnded()
     {
         base.OnCastEnded();
+        foreach (var g in AIManager.Instance.activeEnemies)
+        {
+            if (g == null)
+            {
+                Debug.LogWarning("Found null gameobject in AIManager activelist.");
+            }
+        }
         foreach (var enemyObject in AIManager.Instance.activeEnemies.Where(enemyObject => Vector3.Distance(gameObject.transform.position, enemyObject.transform.position) <= healRadius))
         {
             enemyObject.GetComponent<SAi>().Heal(healAmount);
-            Debug.Log($"Healed {enemyObject.name} for {healAmount}.");
+            // Debug.Log($"Healed {enemyObject.name} for {healAmount}.");
         }
     }
 }

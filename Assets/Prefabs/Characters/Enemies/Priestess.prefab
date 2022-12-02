@@ -286,7 +286,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   DiscreteCollisionEvents: 0
   StepHandling: 1
-  MaxStepHeight: 1.75
+  MaxStepHeight: 1
   AllowSteppingWithoutStableGrounding: 0
   MinRequiredStepDepth: 0.1
   LedgeAndDenivelationHandling: 1
@@ -331,6 +331,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 10
   castTime: 0
+  cooldownTimer: 0
+  castCompleted: 1
   effect: {fileID: 5482497917340089902}
   healRadius: 15
   healAmount: 20

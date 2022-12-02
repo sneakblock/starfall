@@ -16,6 +16,14 @@ public struct SpawnParameters
     public float HealthBuff;
 }
 
+public enum EnemyType
+{
+    Grunt,
+    Flyer,
+    Priestess,
+    Tank
+}
+
 public enum DifficultyLevel
 {
     Easy,
@@ -33,8 +41,8 @@ public class AIManager : MonoBehaviour
     // // List containing scriptable objects for each level.
     // public List<LevelData> levelsData = new List<LevelData>();
 
-    public List<GameObject> activeEnemies = new();
-    private Dictionary<SAi, int> typesPopulation = new();
+    public List<GameObject> activeEnemies;
+    private Dictionary<EnemyType, int> typesPopulation = new();
 
     [Header("Enemy Respawn Settings")]
     // Enemies must respawn at distance beyond this amount from the player.
@@ -100,6 +108,8 @@ public class AIManager : MonoBehaviour
     // Do this at the start of every level.
     public void InitializeLevel()
     {
+        activeEnemies = new List<GameObject>();
+        
         // Access the stage enemy datas for this stage
         _stageEnemyDatas = GameManager.Instance.CurrentStage.StageEnemyDatas.ToList();
 
@@ -113,6 +123,11 @@ public class AIManager : MonoBehaviour
         
         // Grab all of the respawn zones in this level
         enemyRespawnZones = GameObject.FindGameObjectsWithTag("EnemyRespawn");
+
+        foreach (var enemyType in (EnemyType[])Enum.GetValues(typeof(EnemyType)))
+        {
+            typesPopulation.Add(enemyType, 0);
+        }
         
         DoInitialSpawns(_stageEnemyDatas);
         
@@ -141,14 +156,18 @@ public class AIManager : MonoBehaviour
             
         Debug.Log($"Normalized difficulty value is {normalizedDifficultyValue}");
 
-        var spawnParameters = new SpawnParameters();
-        spawnParameters.EnemyObject = stageEnemyData.enemyType;
-        spawnParameters.HealthBuff = Mathf.Lerp(1f, stageEnemyData.maxBuffScale, normalizedDifficultyValue);
+        var spawnParameters = new SpawnParameters
+        {
+            EnemyObject = stageEnemyData.enemyObject,
+            HealthBuff = Mathf.Lerp(1f, stageEnemyData.maxBuffScale, normalizedDifficultyValue)
+        };
 
         var currentTotalDesiredEnemies = Mathf.Lerp(minNumberOfEnemiesDesiredOnMap, maxNumberOfEnemiesAllowedOnMap, normalizedDifficultyValue);
+        Debug.Log($"number of total enemies desired on map is {currentTotalDesiredEnemies}");
 
         DifficultyLevel currentDifficultyLevel = (DifficultyLevel) Mathf.Floor(GameManager.Instance.SessionData.sessionTotalTime /
                                                  (GameManager.Instance.SessionData.secondsToMaxDifficulty / 5f));
+        Debug.Log($"current enum difficulty is {currentDifficultyLevel}");
 
         float desiredPercentage = 0f;
         foreach (var populationAtDifficulty in stageEnemyData.PopulationAtDifficulties)
@@ -156,14 +175,16 @@ public class AIManager : MonoBehaviour
             if (populationAtDifficulty.DifficultyLevel == currentDifficultyLevel)
             {
                 desiredPercentage = populationAtDifficulty.percentageOfPopulation;
+                Debug.Log($"Desired percent of spawns for {stageEnemyData.EnemyType} is {desiredPercentage}");
                 break;
             }
         }
         
         var desiredTotalOfType = (int)Mathf.Floor(currentTotalDesiredEnemies * desiredPercentage);
+        Debug.Log($"Desired spawns spawns for {stageEnemyData.EnemyType} is {desiredTotalOfType}");
 
         spawnParameters.DesiredSpawnNumber =
-            desiredTotalOfType - typesPopulation[stageEnemyData.enemyType.GetComponent<SAi>()];
+            desiredTotalOfType - typesPopulation[stageEnemyData.EnemyType];
 
         return spawnParameters;
         
@@ -176,7 +197,7 @@ public class AIManager : MonoBehaviour
             var spawnParameters = GetSpawnParameters(stageEnemyData);
             for (var i = 0; i < spawnParameters.DesiredSpawnNumber; i++)
             {
-                SpawnEnemy(stageEnemyData.enemyType, spawnParameters, false);
+                SpawnEnemy(stageEnemyData.enemyObject, spawnParameters, false);
             }
         }
     }
@@ -211,7 +232,7 @@ public class AIManager : MonoBehaviour
             if (spawnParams.DesiredSpawnNumber <= 0) continue;
             for (var i = 0; i < spawnParams.DesiredSpawnNumber; i++)
             {
-                SpawnEnemy(stageEnemyData.enemyType, spawnParams, true);
+                SpawnEnemy(stageEnemyData.enemyObject, spawnParams, true);
             }
         }
     }
@@ -220,11 +241,11 @@ public class AIManager : MonoBehaviour
     private void SpawnEnemy(GameObject enemy, SpawnParameters parameters, bool isRespawn)
     {
         
-        Vector3 respawnPoint = SelectRespawnPoint(SelectSpawnZone(!isRespawn));
+        var respawnPoint = SelectRespawnPoint(SelectSpawnZone(!isRespawn));
 
-        GameObject thisEnemy = Instantiate(enemy, respawnPoint, Quaternion.identity);
-        
-        activeEnemies.Add(thisEnemy);
+        if (!respawnPoint.Item2) return;
+
+        GameObject thisEnemy = Instantiate(enemy, respawnPoint.Item1, Quaternion.identity);
 
         var sAi = thisEnemy.GetComponent<SAi>();
         sAi.BuffHealth(parameters.HealthBuff);
@@ -267,13 +288,49 @@ public class AIManager : MonoBehaviour
     void RegisterSAi(SAi sAi)
     {
         activeEnemies.Add(sAi.gameObject);
-        typesPopulation[sAi]++;
+        switch (sAi)
+        {
+            case Grunta:
+                if (sAi is Tank)
+                {
+                    typesPopulation[EnemyType.Tank]++;
+                    break;
+                }
+                typesPopulation[EnemyType.Grunt]++;
+                break;
+
+            case Flyer:
+                typesPopulation[EnemyType.Flyer]++;
+                break;
+            case Priestess:
+                typesPopulation[EnemyType.Priestess]++;
+                break;
+        }
     }
 
     void DeregisterSAi(SAi sAi)
     {
+        Debug.Log($"sAi {sAi.gameObject.name} requests deregister from AI manager list. It's null status is {sAi.gameObject == null}");
         activeEnemies.Remove(sAi.gameObject);
-        typesPopulation[sAi]--;
+        Debug.Log($"after removal, contains state is {activeEnemies.Contains(sAi.gameObject)}");
+        switch (sAi)
+        {
+            case Grunta:
+                if (sAi is Tank)
+                {
+                    typesPopulation[EnemyType.Tank]--;
+                    break;
+                }
+                typesPopulation[EnemyType.Grunt]--;
+                break;
+
+            case Flyer:
+                typesPopulation[EnemyType.Flyer]--;
+                break;
+            case Priestess:
+                typesPopulation[EnemyType.Priestess]--;
+                break;
+        }
     }
 
     // Helper function used to change the transform of an instantiated instance prior to 'respawning' it in the level.
@@ -286,30 +343,40 @@ public class AIManager : MonoBehaviour
     }
 
     // Helper function used to randomly select a respawn point for an enemy within a spawn zone.
-    private Vector3 SelectRespawnPoint(BoxCollider spawnZone)
+    private (Vector3, bool) SelectRespawnPoint(BoxCollider spawnZone)
     {
         int count = 0;
         Vector3 respawnPoint = Vector3.zero;
-        Vector3 extents = spawnZone.bounds.size / 2f;
         bool validRespawnPoint = false;
 
         // Try no more than 3 different spawn points to avoid infinite loop crash
         while (!validRespawnPoint && count < 3)
         {
-            respawnPoint = new Vector3(
-                            Random.Range(-extents.x, extents.x),
-                            Random.Range(-extents.y, extents.y),
-                            Random.Range(-extents.z, extents.z)
-                           ) + spawnZone.bounds.center;
+            var bounds = spawnZone.bounds;
+            respawnPoint = GetRandomPointInBounds(spawnZone);
 
-            // Check if this respawn point collides with another game object. Only check for game objects in the Default layer
-            Collider[] hitColliders = Physics.OverlapSphere(respawnPoint, 0.5f, 1 << 0);
+            // Check if this respawn point collides with another game object.
+            Collider[] hitColliders = Physics.OverlapSphere(respawnPoint, 0.55f);
             if (hitColliders.Length <= 1)
                 validRespawnPoint = true;
 
             count++;
         }
 
-        return respawnPoint;
+        return (respawnPoint, validRespawnPoint);
+    }
+    
+    public Vector3 GetRandomPointInBounds(BoxCollider boxCollider)
+    {
+        var bounds = boxCollider.bounds;
+        float minX = bounds.size.x * -0.5f;
+        float minY = bounds.size.y * -0.5f;
+        float minZ = bounds.size.z * -0.5f;
+
+        return (Vector3)boxCollider.gameObject.transform.TransformPoint(
+            new Vector3(Random.Range (minX, -minX),
+                Random.Range (minY, -minY),
+                Random.Range (minZ, -minZ))
+        );
     }
 }

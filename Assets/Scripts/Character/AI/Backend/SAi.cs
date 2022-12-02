@@ -269,8 +269,9 @@ public class SAi : SCharacter
 
     public void BuffHealth(float buffAmount)
     {
-        maxHealth *= buffAmount;
-        health = maxHealth;
+        health *= buffAmount;
+        maxHealth = health;
+        Debug.Log($"{gameObject.name} health has been buffed by {buffAmount} buffamount, maxHealth is {maxHealth} and health is {health}");
     }
 
 }

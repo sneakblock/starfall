@@ -115,14 +115,12 @@ public class Flyer : SAi
 
     void Disintegrate()
     {
-        Debug.Log("Called disintegrate");
         foreach (var kv in _renderersMats)
         {
             //Configuring shader properties
             foreach (var m in kv.Key.materials)
             {
                 m.SetFloat(VertexResolution, Mathf.Lerp(fromVertRes, toVertRes, _disintegrationTimer / secondsToDisintegrate));
-                Debug.Log(m.GetFloat(VertexResolution));
                 m.SetFloat(VertexDisplacmentAmount, Mathf.Lerp(fromVertDispl, toVertDispl, _disintegrationTimer / secondsToDisintegrate));
             }
         }

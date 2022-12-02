@@ -172,6 +172,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 5
   castTime: 0.25
+  cooldownTimer: 0
+  castCompleted: 1
   effectMaterial: {fileID: 2100000, guid: 16bc9834913185c4cb3d9a6be3cc1e91, type: 2}
   effect: {fileID: 1312441043350546771}
   characterMeshObject: {fileID: 8400933354123992196}
@@ -196,6 +198,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 8
   castTime: 0
+  cooldownTimer: 0
+  castCompleted: 1
   dagger: {fileID: 3955715273319950848, guid: e1f1356b5ef605046bd4fae71bb0c48f, type: 3}
   totalDamage: 20
   bleedDuration: 5
@@ -207,6 +211,7 @@ MonoBehaviour:
   recallCooldown: 0.5
   handTransform: {fileID: 2480095151501161494}
   catchRange: 1
+  _daggers: []
 --- !u!114 &1136128715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +226,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 20
   castTime: 8
+  cooldownTimer: 0
+  castCompleted: 1
   clone: {fileID: 1036391447846734501, guid: b48abb52173b9cb4ea5a7344ba1a1cd8, type: 3}
   effect: {fileID: 0}
 --- !u!1 &5751729092140714124

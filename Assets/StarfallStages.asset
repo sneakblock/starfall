@@ -15,8 +15,9 @@ MonoBehaviour:
   Stages:
   - StageName: Museum
     StageEnemyDatas:
-    - enemyType: {fileID: 1768362842341019642, guid: d47fc86c931d97f46ba22c2d4f70781d,
+    - enemyObject: {fileID: 1768362842341019642, guid: d47fc86c931d97f46ba22c2d4f70781d,
         type: 3}
+      EnemyType: 0
       maxBuffScale: 2
       PopulationAtDifficulties:
       - DifficultyLevel: 0
@@ -29,8 +30,9 @@ MonoBehaviour:
         percentageOfPopulation: 0.45
       - DifficultyLevel: 4
         percentageOfPopulation: 0.3
-    - enemyType: {fileID: 1768362842341019642, guid: 90d15f2c61903d44e83f4ad5a878243d,
+    - enemyObject: {fileID: 1768362842341019642, guid: 90d15f2c61903d44e83f4ad5a878243d,
         type: 3}
+      EnemyType: 1
       maxBuffScale: 2
       PopulationAtDifficulties:
       - DifficultyLevel: 0
@@ -43,8 +45,9 @@ MonoBehaviour:
         percentageOfPopulation: 0.3
       - DifficultyLevel: 4
         percentageOfPopulation: 0.33
-    - enemyType: {fileID: 1768362842341019642, guid: 5d90e6cc2439e5844bdffa85851b23f6,
+    - enemyObject: {fileID: 1768362842341019642, guid: 5d90e6cc2439e5844bdffa85851b23f6,
         type: 3}
+      EnemyType: 2
       maxBuffScale: 2
       PopulationAtDifficulties:
       - DifficultyLevel: 0
@@ -57,8 +60,9 @@ MonoBehaviour:
         percentageOfPopulation: 0.2
       - DifficultyLevel: 4
         percentageOfPopulation: 0.2
-    - enemyType: {fileID: 1768362842341019642, guid: d33f80ef0ce9de94f8fffa81399ddb2c,
+    - enemyObject: {fileID: 1768362842341019642, guid: d33f80ef0ce9de94f8fffa81399ddb2c,
         type: 3}
+      EnemyType: 3
       maxBuffScale: 2
       PopulationAtDifficulties:
       - DifficultyLevel: 0
@@ -76,20 +80,24 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 74aebe64fe818db4e8732ce18e1990ed, type: 3}
   - StageName: Utopia
     StageEnemyDatas:
-    - enemyType: {fileID: 1768362842341019642, guid: d47fc86c931d97f46ba22c2d4f70781d,
+    - enemyObject: {fileID: 1768362842341019642, guid: d47fc86c931d97f46ba22c2d4f70781d,
         type: 3}
+      EnemyType: 0
       maxBuffScale: 2
       PopulationAtDifficulties: []
-    - enemyType: {fileID: 1768362842341019642, guid: 90d15f2c61903d44e83f4ad5a878243d,
+    - enemyObject: {fileID: 1768362842341019642, guid: 90d15f2c61903d44e83f4ad5a878243d,
         type: 3}
+      EnemyType: 0
       maxBuffScale: 2
       PopulationAtDifficulties: []
-    - enemyType: {fileID: 1768362842341019642, guid: 5d90e6cc2439e5844bdffa85851b23f6,
+    - enemyObject: {fileID: 1768362842341019642, guid: 5d90e6cc2439e5844bdffa85851b23f6,
         type: 3}
+      EnemyType: 0
       maxBuffScale: 2
       PopulationAtDifficulties: []
-    - enemyType: {fileID: 1768362842341019642, guid: d33f80ef0ce9de94f8fffa81399ddb2c,
+    - enemyObject: {fileID: 1768362842341019642, guid: d33f80ef0ce9de94f8fffa81399ddb2c,
         type: 3}
+      EnemyType: 0
       maxBuffScale: 2
       PopulationAtDifficulties: []
     StageSongs:

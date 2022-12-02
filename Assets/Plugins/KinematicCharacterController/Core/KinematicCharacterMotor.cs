@@ -787,6 +787,7 @@ namespace KinematicCharacterController
             _rigidbodiesPushedThisMove.Clear();
 
             // Before update
+            // Debug.Log($"{gameObject.name} calling char contr before update. CharacterController is null status is {CharacterController == null}");
             CharacterController.BeforeCharacterUpdate(deltaTime);
 
             _transientPosition = _transform.position;

@@ -295,7 +295,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     {
         //call event for hitmarker
         //OnHit?.Invoke();
-        if (health <= 0) return;
+        // if (health <= 0) return;
         health -= damage;
         if (health <= 0)
         {
