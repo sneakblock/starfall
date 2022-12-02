@@ -507,6 +507,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 5
   castTime: 0.25
+  cooldownTimer: 0
+  castCompleted: 1
   effectMaterial: {fileID: 2100000, guid: 16bc9834913185c4cb3d9a6be3cc1e91, type: 2}
   effect: {fileID: 6018644777866251625}
   characterMeshObject: {fileID: 3829787863453382846}
@@ -531,8 +533,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 8
   castTime: 0
+  cooldownTimer: 0
+  castCompleted: 1
   dagger: {fileID: 3955715273319950848, guid: e1f1356b5ef605046bd4fae71bb0c48f, type: 3}
-  totalDamage: 20
+  totalDamage: 40
   bleedDuration: 5
   numDaggers: 7
   throwAngle: 30
@@ -542,6 +546,7 @@ MonoBehaviour:
   recallCooldown: 0.5
   handTransform: {fileID: 7195396245212500012}
   catchRange: 1
+  _daggers: []
 --- !u!1 &1063343251653295859
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa8771ecd94e5344970505c8fe6d181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: e527e56f4b66b654abb3ac4d4c25aedc, type: 2}
+  weaponData: {fileID: 11400000, guid: c5774456b7a65b34fb9456c71558a63e, type: 2}
   barrelTransforms:
   - {fileID: 2786285862264679442}
   AudioSource: {fileID: 7835589383164434157}

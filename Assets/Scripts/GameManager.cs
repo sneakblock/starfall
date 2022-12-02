@@ -106,7 +106,10 @@ public class GameManager : MonoBehaviour
         
         //Leaderboards leaderboards = gameObject.AddComponent<Leaderboards>();
 
-        if (!aPlayer) TryFindAPlayer();
+        if (!aPlayer && SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            TryFindAPlayer();
+        }
         if (!dirLight) dirLight = TryFindDirLight();
         
         PlayerDeath += OnPlayerDeath;
@@ -186,7 +189,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         // Always add time to the session's total time.
-        SessionData.sessionTotalTime += Time.deltaTime;
+        if (SceneManager.GetActiveScene().name != "MainMenu") SessionData.sessionTotalTime += Time.deltaTime;
         
         //Songs
         
@@ -361,6 +364,7 @@ public class GameManager : MonoBehaviour
 
     void PlayNewSong()
     {
+        if (SceneManager.GetActiveScene().name == "MainMenu") return;
         Debug.Log(CurrentStage.StageName);
         if (!_audioSource) return;
         List<AudioClip> unplayedSongs = new();

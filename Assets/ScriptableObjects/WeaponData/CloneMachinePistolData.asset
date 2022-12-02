@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42b2cb14baf7f2c4e817ba581217259c, type: 3}
-  m_Name: BrutalistGruntaRifle
+  m_Name: CloneMachinePistolData
   m_EditorClassIdentifier: 
-  damage: 10
-  firingMode: 2
+  damage: 6
+  firingMode: 0
   bullet: {fileID: 0}
-  firingForce: 0
-  firingRate: 3
+  firingForce: 20
+  firingRate: 30
   firingMask:
     serializedVersion: 2
-    m_Bits: 65
-  magazineSize: 12
-  bulletsFiredPerShot: 3
-  burstDelay: 0.1
-  reloadTime: 3
+    m_Bits: 1
+  magazineSize: 60
+  bulletsFiredPerShot: 1
+  burstDelay: 0.05
+  reloadTime: 2
   minHipFireSpread: 0.05
-  maxHipFireSpread: 0.07
-  hipFireBloomIntensity: 0.15
-  minAdsSpread: 0.01
-  maxAdsSpread: 0.04
-  adsBloomIntensity: 0.07
-  recoveryImpact: 25
-  maxRecoverySharpness: 40
-  minRecoverySharpness: 10
-  recoveryRate: 5
+  maxHipFireSpread: 0.1
+  hipFireBloomIntensity: 0.063
+  minAdsSpread: 0
+  maxAdsSpread: 0.024
+  adsBloomIntensity: 0.005
+  recoveryImpact: 20
+  maxRecoverySharpness: 20
+  minRecoverySharpness: 1
+  recoveryRate: 0.5

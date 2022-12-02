@@ -12,6 +12,8 @@ using UnityEngine.Events;
 
 public abstract class APlayer : SCharacter
 {
+    [SerializeField] protected Material deathMat;
+    
     [Header("Camera Info")] public Transform orbitPoint;
     
     [Header("Orbit Camera")]  public ExampleCharacterCamera orbitCamera;
@@ -279,6 +281,16 @@ public abstract class APlayer : SCharacter
     public override void Kill()
     {
         base.Kill();
+        foreach (var r in GetComponentsInChildren<Renderer>())
+        {
+            var toMats = new Material[r.materials.Length];
+            for (var i = 0; i < r.materials.Length; i++)
+            {
+                toMats[i] = deathMat;
+            }
+
+            r.materials = toMats;
+        }
         OnPlayerDeath?.Invoke();
         // Snake? Snaaaaaaaaaaaaaaaaaaaaaaaaaaake!
         GameManager.PlayerDeath?.Invoke(this);

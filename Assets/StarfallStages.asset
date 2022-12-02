@@ -80,26 +80,66 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 74aebe64fe818db4e8732ce18e1990ed, type: 3}
   - StageName: Utopia
     StageEnemyDatas:
-    - enemyObject: {fileID: 1768362842341019642, guid: d47fc86c931d97f46ba22c2d4f70781d,
+    - enemyObject: {fileID: 1768362842341019642, guid: a88fff97f25b34945ad667af94e9b166,
         type: 3}
       EnemyType: 0
       maxBuffScale: 2
-      PopulationAtDifficulties: []
-    - enemyObject: {fileID: 1768362842341019642, guid: 90d15f2c61903d44e83f4ad5a878243d,
+      PopulationAtDifficulties:
+      - DifficultyLevel: 0
+        percentageOfPopulation: 0.7
+      - DifficultyLevel: 1
+        percentageOfPopulation: 0.6
+      - DifficultyLevel: 2
+        percentageOfPopulation: 0.5
+      - DifficultyLevel: 3
+        percentageOfPopulation: 0.45
+      - DifficultyLevel: 4
+        percentageOfPopulation: 0.3
+    - enemyObject: {fileID: 1768362842341019642, guid: fbb874c88ec108b48840bbcfaf36d8e9,
         type: 3}
-      EnemyType: 0
+      EnemyType: 1
       maxBuffScale: 2
-      PopulationAtDifficulties: []
-    - enemyObject: {fileID: 1768362842341019642, guid: 5d90e6cc2439e5844bdffa85851b23f6,
+      PopulationAtDifficulties:
+      - DifficultyLevel: 0
+        percentageOfPopulation: 0.15
+      - DifficultyLevel: 1
+        percentageOfPopulation: 0.17
+      - DifficultyLevel: 2
+        percentageOfPopulation: 0.22
+      - DifficultyLevel: 3
+        percentageOfPopulation: 0.3
+      - DifficultyLevel: 4
+        percentageOfPopulation: 0.33
+    - enemyObject: {fileID: 1768362842341019642, guid: dc210ff153be75d4797fbf0bf1cfcfc0,
         type: 3}
-      EnemyType: 0
+      EnemyType: 2
       maxBuffScale: 2
-      PopulationAtDifficulties: []
-    - enemyObject: {fileID: 1768362842341019642, guid: d33f80ef0ce9de94f8fffa81399ddb2c,
+      PopulationAtDifficulties:
+      - DifficultyLevel: 0
+        percentageOfPopulation: 0.1
+      - DifficultyLevel: 1
+        percentageOfPopulation: 0.15
+      - DifficultyLevel: 2
+        percentageOfPopulation: 0.18
+      - DifficultyLevel: 3
+        percentageOfPopulation: 0.2
+      - DifficultyLevel: 4
+        percentageOfPopulation: 0.2
+    - enemyObject: {fileID: 1768362842341019642, guid: 9b3ade49cdd50c14382bdd7a76821876,
         type: 3}
-      EnemyType: 0
+      EnemyType: 3
       maxBuffScale: 2
-      PopulationAtDifficulties: []
+      PopulationAtDifficulties:
+      - DifficultyLevel: 0
+        percentageOfPopulation: 0.05
+      - DifficultyLevel: 1
+        percentageOfPopulation: 0.08
+      - DifficultyLevel: 2
+        percentageOfPopulation: 0.1
+      - DifficultyLevel: 3
+        percentageOfPopulation: 0.15
+      - DifficultyLevel: 4
+        percentageOfPopulation: 0.17
     StageSongs:
     - {fileID: 8300000, guid: bbc6fdcc01a8e114aa1530b7a225cdf4, type: 3}
     - {fileID: 8300000, guid: 318307a30966261409ca6113c1e04dad, type: 3}
