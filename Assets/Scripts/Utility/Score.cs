@@ -8,8 +8,6 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour
 {
     [SerializeField]
-    private double score;
-    [SerializeField]
     private double scoreMultiplier;
 
     private bool dmgMultDecrEn = true;
@@ -39,10 +37,8 @@ public class Score : MonoBehaviour
             Destroy(gameObject);
         } else {
             Instance = this;
-            //TODO: Address this
-            // DontDestroyOnLoad(Instance);
         }
-        OnUpdateScore?.Invoke((int) score);
+        OnUpdateScore?.Invoke((int) GameManager.Instance.SessionData.sessionScore);
     }
 
     private void OnEnable()
@@ -59,16 +55,10 @@ public class Score : MonoBehaviour
         APlayer.OnDamage -= damageMultiplierDecr;
     }
 
-    /*
-    void Update() {
-        Debug.Log(savedScore + " " + score);
-    }
-    */
-
     private void addToScore(double scoreChange)
     {
-        score += scoreChange;
-        OnUpdateScore?.Invoke((int) score);
+        GameManager.Instance.SessionData.sessionScore += scoreChange;
+        OnUpdateScore?.Invoke((int) GameManager.Instance.SessionData.sessionScore);
     }
 
     private void getKill()
@@ -109,15 +99,16 @@ public class Score : MonoBehaviour
 
     private void resetScore()
     {
-        savedScore = score;
-        score = 0;
-        OnUpdateScore?.Invoke((int) score);
+        savedScore = GameManager.Instance.SessionData.sessionScore;
+        GameManager.Instance.SessionData.sessionScore = 0;
+        OnUpdateScore?.Invoke((int) GameManager.Instance.SessionData.sessionScore);
     }
 
     public static void setupScore()
     {
+        //TODO: NULL REFS.
         Instance.StopAllCoroutines();
-        OnUpdateScore?.Invoke((int) Instance.score);
+        OnUpdateScore?.Invoke((int) GameManager.Instance.SessionData.sessionScore);
         Instance.scoreMultiplier = 1;
     }
 

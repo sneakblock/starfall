@@ -49,7 +49,7 @@ public class KnifeInventory : MonoBehaviour
                 Hide(_icons[i]);
             }
         }
-        Debug.Log($"isHeld counter: {counter}");
+        // Debug.Log($"isHeld counter: {counter}");
     }
 
     private void Show(Image i)

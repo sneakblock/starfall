@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac7cf9ec186464d48b88c0f6c0f42367, type: 3}
+  m_Name: StarfallStages
+  m_EditorClassIdentifier: 
+  Stages:
+  - StageName: Museum
+    StageEnemyDatas:
+    - enemyType: {fileID: 1768362842341019642, guid: d47fc86c931d97f46ba22c2d4f70781d,
+        type: 3}
+      maxBuffScale: 2
+    - enemyType: {fileID: 1768362842341019642, guid: 90d15f2c61903d44e83f4ad5a878243d,
+        type: 3}
+      maxBuffScale: 2
+    - enemyType: {fileID: 1768362842341019642, guid: 5d90e6cc2439e5844bdffa85851b23f6,
+        type: 3}
+      maxBuffScale: 2
+    - enemyType: {fileID: 1768362842341019642, guid: d33f80ef0ce9de94f8fffa81399ddb2c,
+        type: 3}
+      maxBuffScale: 2
+    StageSongs:
+    - {fileID: 8300000, guid: fae87e26251add2409c8be91b70c1dbe, type: 3}
+    - {fileID: 8300000, guid: 74aebe64fe818db4e8732ce18e1990ed, type: 3}

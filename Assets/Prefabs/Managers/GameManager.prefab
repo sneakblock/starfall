@@ -53,8 +53,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be515411a55cbf48b8554c7725372b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StarfallStages: {fileID: 11400000, guid: d64fb56042ddd434bb6257eec08bb506, type: 2}
+  SessionData: {fileID: 11400000, guid: d8cd505a6fd19df4f901595cbee62135, type: 2}
   aPlayer: {fileID: 0}
   dirLight: {fileID: 0}
+  effectMaterial: {fileID: 2100000, guid: 07dae2b9b6e2a9e4aa9ba7089454e986, type: 2}
+  secondsToDistortOnSceneLoad: 5
+  distortionFromVertexResolution: 50
+  distortionFromVertexJitter: 0
+  distortionFromColorBalance: 0
+  distortionToVertexResolution: 0
+  distortionToVertexJitter: 1.5
+  distortionToColorBalance: 0.5
+  rainbow: 0
+  foo: 0
 --- !u!114 &4426868419963979292
 MonoBehaviour:
   m_ObjectHideFlags: 0
