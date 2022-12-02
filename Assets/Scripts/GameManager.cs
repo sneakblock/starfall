@@ -235,6 +235,7 @@ public class GameManager : MonoBehaviour
         PlayerDeath -= OnPlayerDeath;
         EnemyDeath -= OnEnemyDeath;
         finalScore = (int)Score.getSavedScore();
+        Debug.Log("final score " + finalScore);
         Invoke(nameof(LoadLeaderboardScene), 3.0f);
     }
     

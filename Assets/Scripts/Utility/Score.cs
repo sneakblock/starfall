@@ -98,7 +98,7 @@ public class Score : MonoBehaviour
     private void resetScore()
     {
         savedScore = GameManager.Instance.SessionData.sessionScore;
-        GameManager.Instance.SessionData.sessionScore = 0;
+        //GameManager.Instance.SessionData.sessionScore = 0;
         OnUpdateScore?.Invoke((int) GameManager.Instance.SessionData.sessionScore);
     }
 
