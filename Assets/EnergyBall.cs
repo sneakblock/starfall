@@ -12,10 +12,10 @@ public class EnergyBall : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Explode();
+        Explode(collision);
     }
 
-    private void Explode()
+    protected virtual void Explode(Collision collision)
     {
         var effectInstance = Instantiate(impactEffect, transform.position, Quaternion.identity);
         Destroy(effectInstance, 1f);

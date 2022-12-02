@@ -15,7 +15,7 @@ public class NeedsNewHealTarget : ActionNode
     protected override State OnUpdate()
     {
         if (context.SAi is not Priestess priestess) return State.Failure;
-        var target = priestess.HasTargetCharacter() ? (SAi)priestess.targetChar : null;
+        var target = priestess.HasTargetCharacter() ? priestess.targetChar : null;
         if (target is null)
         {
             SCharacter newTarget = null;

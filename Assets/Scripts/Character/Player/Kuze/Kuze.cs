@@ -92,6 +92,7 @@ public class Kuze : APlayer
     private void HandleAnimationInputs()
     {
         if (!anim) return;
+        if (anim.enabled == false) return;
         anim.SetBool(IsFiring, isFiring);
         anim.SetBool(IsAiming, isAiming);
         if (jumpRequested && !_jumpConsumed)

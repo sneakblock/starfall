@@ -24,7 +24,7 @@ public class StandardBulletWeapon : RangedWeapon
             var rb = projectile.GetComponent<Rigidbody>();
             rb.AddForce(dir.normalized * weaponData.firingForce, ForceMode.Impulse);
         }
-        // PlayFireEffect();
+        PlayFireEffect();
     }
     
     public void PlayFireEffect()
@@ -34,7 +34,6 @@ public class StandardBulletWeapon : RangedWeapon
             var fireEffectInstance = GameManager.Instance.MuzzleFlashPool.Get();
             fireEffectInstance.transform.position = barrelTransform.position;
             fireEffectInstance.transform.rotation = barrelTransform.rotation;
-            fireEffectInstance.transform.parent = barrelTransform;
             if (AudioSource) AudioSource.PlayOneShot(AudioSource.clip);
             StartCoroutine(ReleaseMuzzleFlashWaiter(4f, fireEffectInstance));
         }

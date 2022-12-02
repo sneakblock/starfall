@@ -31,7 +31,7 @@ namespace KinematicCharacterController.Examples
 
         private void Update()
         {
-
+        
             KinematicCharacterSystem.Simulate(Time.deltaTime, KinematicCharacterSystem.CharacterMotors, KinematicCharacterSystem.PhysicsMovers);
         }
 

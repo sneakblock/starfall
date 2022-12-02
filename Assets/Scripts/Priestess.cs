@@ -51,6 +51,9 @@ public class Priestess : SAi
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, GetComponent<HealAbility>().healRadius);
+        
         if (!HasTargetCharacter()) return;
         Gizmos.color= Color.green;
         Gizmos.DrawLine(this.transform.position, targetChar.transform.position);

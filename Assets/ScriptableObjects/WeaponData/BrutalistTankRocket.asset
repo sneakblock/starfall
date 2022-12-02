@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b2cb14baf7f2c4e817ba581217259c, type: 3}
+  m_Name: BrutalistTankRocket
+  m_EditorClassIdentifier: 
+  damage: 0
+  firingMode: 1
+  bullet: {fileID: 7523491621852584592, guid: e554586e44ad75d4dbd9d777bdc66ea9, type: 3}
+  firingForce: 30
+  firingRate: 1
+  firingMask:
+    serializedVersion: 2
+    m_Bits: 65
+  magazineSize: 1
+  bulletsFiredPerShot: 1
+  burstDelay: 0
+  reloadTime: 3
+  minHipFireSpread: 0
+  maxHipFireSpread: 0
+  hipFireBloomIntensity: 0
+  minAdsSpread: 0
+  maxAdsSpread: 0
+  adsBloomIntensity: 0
+  recoveryImpact: 20
+  maxRecoverySharpness: 10
+  minRecoverySharpness: 5
+  recoveryRate: 5

@@ -42,9 +42,10 @@ public class AIManager : MonoBehaviour
     // public List<LevelData> levelsData = new List<LevelData>();
 
     public List<GameObject> activeEnemies;
-    private Dictionary<EnemyType, int> typesPopulation = new();
+    private Dictionary<EnemyType, int> typesPopulation;
 
-    [Header("Enemy Respawn Settings")]
+    [Header("Enemy Respawn Settings")] [SerializeField]
+    private float secondsToWaitToCheck = 10f;
     // Enemies must respawn at distance beyond this amount from the player.
     [FormerlySerializedAs("_minRespawnDistance")] [SerializeField] 
     private int minRespawnDistance = 100;
@@ -74,10 +75,13 @@ public class AIManager : MonoBehaviour
 
     private GameObject _player;
 
-    private List<StagesData.StageEnemyData> _stageEnemyDatas = new();
+    private List<StagesData.StageEnemyData> _stageEnemyDatas;
+
+    private bool _waitingToCheck = false;
 
     private void Awake()
     {
+
         // Create singleton instance.
         if (Instance != null && Instance != this)
         {
@@ -108,13 +112,15 @@ public class AIManager : MonoBehaviour
     // Do this at the start of every level.
     public void InitializeLevel()
     {
+        // Temporarily disable enemy respawning
+        _allowEnemyRespawning = false;
+        
+        
         activeEnemies = new List<GameObject>();
+        typesPopulation = new Dictionary<EnemyType, int>();
         
         // Access the stage enemy datas for this stage
         _stageEnemyDatas = GameManager.Instance.CurrentStage.StageEnemyDatas.ToList();
-
-        // Temporarily disable enemy respawning
-        _allowEnemyRespawning = false;
 
         // Grab the player game object
         _player = GameManager.Instance.aPlayer.gameObject;
@@ -123,17 +129,16 @@ public class AIManager : MonoBehaviour
         
         // Grab all of the respawn zones in this level
         enemyRespawnZones = GameObject.FindGameObjectsWithTag("EnemyRespawn");
-
-        foreach (var enemyType in (EnemyType[])Enum.GetValues(typeof(EnemyType)))
-        {
-            typesPopulation.Add(enemyType, 0);
-        }
+        
+        typesPopulation.Add(EnemyType.Grunt, 0);
+        typesPopulation.Add(EnemyType.Flyer, 0);
+        typesPopulation.Add(EnemyType.Priestess, 0);
+        typesPopulation.Add(EnemyType.Tank, 0);
         
         DoInitialSpawns(_stageEnemyDatas);
         
         // Re-enable enemy respawning now that everything is set up
         _allowEnemyRespawning = true;
-        
     }
 
     private int GetMaxRespawns()
@@ -209,9 +214,10 @@ public class AIManager : MonoBehaviour
     {
         
         // If enemy respawning is enabled and more enemies can be respawned
-        if (_allowEnemyRespawning && _numRespawns < _maxNumRespawns)
+        if (_allowEnemyRespawning && _numRespawns < _maxNumRespawns && !_waitingToCheck)
         {
             TryRespawn();
+            StartCoroutine(WaitToCheck(secondsToWaitToCheck));
         }
 
         // If no more enemies can be respawned
@@ -225,6 +231,13 @@ public class AIManager : MonoBehaviour
             }
         }
         
+    }
+
+    IEnumerator WaitToCheck(float seconds)
+    {
+        _waitingToCheck = true;
+        yield return new WaitForSeconds(seconds);
+        _waitingToCheck = false;
     }
 
     private void TryRespawn()
@@ -335,15 +348,6 @@ public class AIManager : MonoBehaviour
                 typesPopulation[EnemyType.Priestess]--;
                 break;
         }
-    }
-
-    // Helper function used to change the transform of an instantiated instance prior to 'respawning' it in the level.
-    private void MoveEnemyPos(GameObject enemy, Vector3 newPos)
-    {
-        enemy.GetComponent<KinematicCharacterController.KinematicCharacterMotor>().enabled = false;
-        enemy.GetComponent<KinematicCharacterController.KinematicCharacterMotor>().SetPosition(newPos);
-        enemy.GetComponent<KinematicCharacterController.KinematicCharacterMotor>().enabled = true;
-        enemy.SetActive(true);
     }
 
     // Helper function used to randomly select a respawn point for an enemy within a spawn zone.
