@@ -33,7 +33,7 @@ public class NeedsNewHealTarget : ActionNode
                 }
             }
 
-            if (newTarget is null) newTarget = (SCharacter)GameManager.Instance.aPlayer;
+            newTarget ??= (SCharacter) GameManager.Instance.aPlayer;
             priestess.SetTargetCharacter(newTarget);
             return State.Success;
         }
