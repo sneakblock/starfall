@@ -11,9 +11,7 @@ public class Score : MonoBehaviour
     private double scoreMultiplier;
 
     private bool dmgMultDecrEn = true;
-
-    // How many points the player earns from killing an enemy
-    private double killPoints = 10;
+    
     // How long the multiplier increase from getting a kill should last (steadily decreases in 5 increments)
     private float killMultBuffDuration = 20.0f;
     // How large the multiplier increase from a kill should be
@@ -61,9 +59,9 @@ public class Score : MonoBehaviour
         OnUpdateScore?.Invoke((int) GameManager.Instance.SessionData.sessionScore);
     }
 
-    private void getKill()
+    private void getKill(SAi killedSAi)
     {
-        addToScore(killPoints * scoreMultiplier);
+        addToScore(killedSAi.linkValue * scoreMultiplier);
         scoreMultiplier += killMultInc;
         StartCoroutine(shrinkMultiplier());
     }

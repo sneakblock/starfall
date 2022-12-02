@@ -5,8 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SessionData")]
 public class SessionData : ScriptableObject
 {
+    
     public float sessionTotalTime;
-    public float sessionDifficulty;
+    public float secondsToMaxDifficulty = 500;
+
     public double sessionScore;
+    
     public List<string> traversedStageNames;
+    
 }

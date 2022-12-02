@@ -28,7 +28,7 @@ public class SAi : SCharacter
     public bool isTargetedByPriestess = false;
 
     //Event, used to update score when enemy dies
-    public static event Action OnAIDeath;
+    public static event Action<SAi> OnAIDeath;
     
     //Event, used to trigger a hitmarker when hit
     public static event Action<SAi, float> OnAIHit;
@@ -128,7 +128,7 @@ public class SAi : SCharacter
         //No idea where this tag trash is used...
         tag = "Dead";
         
-        OnAIDeath?.Invoke();
+        OnAIDeath?.Invoke(this);
         StartCoroutine(LinkSpawner());
         if (this is not Flyer) enabled = false;
     }
@@ -265,6 +265,12 @@ public class SAi : SCharacter
     {
         if (targetChar == null) return false;
         return targetChar is not null && targetChar.gameObject.activeSelf;
+    }
+
+    public void BuffHealth(float buffAmount)
+    {
+        maxHealth *= buffAmount;
+        health = maxHealth;
     }
 
 }

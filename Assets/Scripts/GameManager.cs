@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
     private static readonly int DistortionColorBalance = Shader.PropertyToID("_DistortionColorBalance");
     
     [Button("InitLoadNewStage", "Load new stage", false)] public bool foo;
+    [Button("WipeSessionData", "Wipe session data", false)] public bool bar;
 
 
     private void Awake()
@@ -138,10 +139,7 @@ public class GameManager : MonoBehaviour
         //If we are in the main menu, wipe the sessionData.
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
-            SessionData.sessionTotalTime = 0f;
-            SessionData.sessionDifficulty = 1f;
-            SessionData.sessionScore = 0;
-            SessionData.traversedStageNames = new List<string>();
+            WipeSessionData();
         }
 
         foreach (var stage in StarfallStages.Stages)
@@ -176,6 +174,13 @@ public class GameManager : MonoBehaviour
         if (!distortOnStart) return;
         SwapAllMaterialsInScene(true);
         _isAwakeDistorting = true;
+    }
+
+    public void WipeSessionData()
+    {
+        SessionData.sessionTotalTime = 0f;
+        SessionData.sessionScore = 0;
+        SessionData.traversedStageNames = new List<string>();
     }
 
     private void Update()

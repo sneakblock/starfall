@@ -6,34 +6,57 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+
+public struct SpawnParameters
+{
+    public GameObject EnemyObject;
+    public int DesiredSpawnNumber;
+    public float HealthBuff;
+}
+
+public enum DifficultyLevel
+{
+    Easy,
+    Medium,
+    Hard,
+    Insane,
+    Swag
+}
 
 public class AIManager : MonoBehaviour
 {
     // Singleton reference.
     public static AIManager Instance { get; private set; }
 
-    // List containing scriptable objects for each level.
-    public List<LevelData> levelsData = new List<LevelData>();
+    // // List containing scriptable objects for each level.
+    // public List<LevelData> levelsData = new List<LevelData>();
 
     public List<GameObject> activeEnemies = new();
+    private Dictionary<SAi, int> typesPopulation = new();
 
+    [Header("Enemy Respawn Settings")]
     // Enemies must respawn at distance beyond this amount from the player.
-    [SerializeField] 
-    private int _minRespawnDistance = 100;
+    [FormerlySerializedAs("_minRespawnDistance")] [SerializeField] 
+    private int minRespawnDistance = 100;
     // After an enemy respawns, there is a forced delay until the next one can respawn.
-    [SerializeField]
-    private float _respawnDelay = 2f;
-
-    // Dictionary containing each enemy type found in this level and how many of each can be respawned.
-    private Dictionary<GameObject, int> enemyRespawnData = new Dictionary<GameObject, int>();
-    // Dictionary containing references to instantiated enemies that can be used as 'respawned' enemies when needed.
-    private Dictionary<string, List<GameObject>> respawnedEnemies = new Dictionary<string, List<GameObject>>();
-    // Array containing all of the respawn zones enemies can use in this level.
+    [FormerlySerializedAs("_respawnDelay")] [SerializeField]
+    private float respawnDelay = 2f;
+    [SerializeField] private int minNumberOfEnemiesDesiredOnMap = 15;
+    [SerializeField] private int maxNumberOfEnemiesAllowedOnMap = 100;
+    [SerializeField] private int minNumberOfRespawns = 15;
+    [SerializeField] private int maxNumberOfRespawns = 50;
+    
+    // // Dictionary containing each enemy type found in this level and how many of each can be respawned.
+    // private Dictionary<GameObject, int> enemyRespawnData = new Dictionary<GameObject, int>();
+    // // Dictionary containing references to instantiated enemies that can be used as 'respawned' enemies when needed.
+    // private Dictionary<string, List<GameObject>> respawnedEnemies = new Dictionary<string, List<GameObject>>();
+    // // Array containing all of the respawn zones enemies can use in this level.
     private GameObject[] enemyRespawnZones;
 
     // Enable or disable enemy respawning.
-    private bool _allowEnemyRespawning = false;
+    private bool _allowEnemyRespawning;
     // How many total enemies have been respawned in this level.
     private int _numRespawns;
     // The max amount of enemies that can be respawned in this level, derived from adding up the ints in enemyRespawnData.
@@ -42,8 +65,8 @@ public class AIManager : MonoBehaviour
     private List<int> maxAliveCounts = new List<int>();
 
     private GameObject _player;
-    private static int _currLevelNum = -1;
-    private LevelData _currlevelData;
+
+    private List<StagesData.StageEnemyData> _stageEnemyDatas = new();
 
     private void Awake()
     {
@@ -55,199 +78,202 @@ public class AIManager : MonoBehaviour
         else
         {
             Instance = this;
-            //TODO(Soham): This is a band-aid solution, however, I have no issue with the Instance being reinitialized on level load.
-            // DontDestroyOnLoad(this.gameObject);
         }
+    }
 
+    private void OnEnable()
+    {
+        SAi.OnAIDeath += DeregisterSAi;
+    }
+
+    private void OnDisable()
+    {
+        SAi.OnAIDeath -= DeregisterSAi;
+    }
+
+    private void Start()
+    {
         InitializeLevel();
-        StartCoroutine(DifficultyScaling());
+        // StartCoroutine(DifficultyScaling());
     }
 
     // Do this at the start of every level.
     public void InitializeLevel()
     {
-        // Access the scriptable object for this level
-        _currLevelNum++;
-        _currlevelData = levelsData[_currLevelNum % levelsData.Count];
+        // Access the stage enemy datas for this stage
+        _stageEnemyDatas = GameManager.Instance.CurrentStage.StageEnemyDatas.ToList();
 
         // Temporarily disable enemy respawning
         _allowEnemyRespawning = false;
 
         // Grab the player game object
-        _player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameManager.Instance.aPlayer.gameObject;
+
+        _maxNumRespawns = GetMaxRespawns();
+        
         // Grab all of the respawn zones in this level
         enemyRespawnZones = GameObject.FindGameObjectsWithTag("EnemyRespawn");
-
-        // Create a dictionary with enemy types as keys and the amount of times they respawn as values
-        foreach (LevelData.Enemies enemy in _currlevelData.enemies)
-        {
-            enemyRespawnData.Add(enemy.enemyType, enemy.enemyNumRespawns);
-            maxAliveCounts.Add(enemy.enemyNumSpawns);
-        }
-
-        // Spawn the initial group of enemies that appear in this level
-        foreach (LevelData.Enemies enemy in _currlevelData.enemies)
-        {
-            for (int i = 0; i < enemy.enemyNumSpawns; i++)
-            {
-                SpawnEnemy(enemy.enemyType);
-            }
-        }
-
-        // Calculate how many enemies need to be respawned in this level
-        foreach (int enemyTypeMaxRespawns in enemyRespawnData.Values)
-        {
-            _maxNumRespawns += enemyTypeMaxRespawns;
-        }
-
-        // Instantiate the enemies that will be respawned and deactivate them until they need to actually be 'respawned' (object pooling)
-        foreach (KeyValuePair<GameObject, int> keyValue in enemyRespawnData)
-        {
-            GameObject enemyType = keyValue.Key;
-            int numRespawns = keyValue.Value;
-
-            List<GameObject> respawnedEnemiesOfThisType = new List<GameObject>();
-
-            for (int i = 0; i < numRespawns; i++)
-            {
-                GameObject _currEnemy = Instantiate(enemyType);
-                _currEnemy.SetActive(false);
-                _currEnemy.name = enemyType.name;
-                respawnedEnemiesOfThisType.Add(_currEnemy);
-            }
-
-            respawnedEnemies.Add(enemyType.name, respawnedEnemiesOfThisType);
-        }
-
+        
+        DoInitialSpawns(_stageEnemyDatas);
+        
         // Re-enable enemy respawning now that everything is set up
         _allowEnemyRespawning = true;
+        
+    }
+
+    private int GetMaxRespawns()
+    {
+        var normalDifficulty = GetNormalizedDifficultyValue();
+        return (int)Mathf.Floor(Mathf.Lerp(minNumberOfRespawns, maxNumberOfRespawns, normalDifficulty));
+    }
+
+    private float GetNormalizedDifficultyValue()
+    {
+        return Mathf.Clamp(
+            GameManager.Instance.SessionData.sessionTotalTime /
+            GameManager.Instance.SessionData.secondsToMaxDifficulty, 0f, 1f);
+    }
+    
+     SpawnParameters GetSpawnParameters(StagesData.StageEnemyData stageEnemyData)
+    {
+        
+        var normalizedDifficultyValue = GetNormalizedDifficultyValue();
+            
+        Debug.Log($"Normalized difficulty value is {normalizedDifficultyValue}");
+
+        var spawnParameters = new SpawnParameters();
+        spawnParameters.EnemyObject = stageEnemyData.enemyType;
+        spawnParameters.HealthBuff = Mathf.Lerp(1f, stageEnemyData.maxBuffScale, normalizedDifficultyValue);
+
+        var currentTotalDesiredEnemies = Mathf.Lerp(minNumberOfEnemiesDesiredOnMap, maxNumberOfEnemiesAllowedOnMap, normalizedDifficultyValue);
+
+        DifficultyLevel currentDifficultyLevel = (DifficultyLevel) Mathf.Floor(GameManager.Instance.SessionData.sessionTotalTime /
+                                                 (GameManager.Instance.SessionData.secondsToMaxDifficulty / 5f));
+
+        float desiredPercentage = 0f;
+        foreach (var populationAtDifficulty in stageEnemyData.PopulationAtDifficulties)
+        {
+            if (populationAtDifficulty.DifficultyLevel == currentDifficultyLevel)
+            {
+                desiredPercentage = populationAtDifficulty.percentageOfPopulation;
+                break;
+            }
+        }
+        
+        var desiredTotalOfType = (int)Mathf.Floor(currentTotalDesiredEnemies * desiredPercentage);
+
+        spawnParameters.DesiredSpawnNumber =
+            desiredTotalOfType - typesPopulation[stageEnemyData.enemyType.GetComponent<SAi>()];
+
+        return spawnParameters;
+        
+    }
+    
+    void DoInitialSpawns(List<StagesData.StageEnemyData> stageEnemyDatas)
+    {
+        foreach (var stageEnemyData in stageEnemyDatas)
+        {
+            var spawnParameters = GetSpawnParameters(stageEnemyData);
+            for (var i = 0; i < spawnParameters.DesiredSpawnNumber; i++)
+            {
+                SpawnEnemy(stageEnemyData.enemyType, spawnParameters, false);
+            }
+        }
     }
 
     private void Update()
     {
+        
         // If enemy respawning is enabled and more enemies can be respawned
         if (_allowEnemyRespawning && _numRespawns < _maxNumRespawns)
         {
-            // Find all of the enemies that are currently alive and active
-            activeEnemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
-            activeEnemies.RemoveAll(enemy => !enemy.activeSelf);
-
-            // Count how many enemies of each type are currently alive and active
-            int[] numAliveEnemyPerType = new int[_currlevelData.enemies.Length];
-            for (int i = 0; i < _currlevelData.enemies.Length; i++)
-            {
-                string _enemyName = _currlevelData.enemies[i].enemyType.name;
-                numAliveEnemyPerType[i] = activeEnemies.Count(enemy => enemy.gameObject.name == _enemyName);
-                
-                // Respawn each enemy type until the threshold for how many of them can be alive at once is reached
-                int numToRespawn = maxAliveCounts[i] - numAliveEnemyPerType[i];
-                for (int j = 0; j < numToRespawn; j++)
-                {
-                    List<GameObject> availableBackupsOfThisEnemyType = respawnedEnemies[_enemyName];
-                    // Check if inactive enemy game objects of this type are available to be used for respawning
-                    if (availableBackupsOfThisEnemyType.Count > 0)
-                    {
-                        GameObject backupEnemy = availableBackupsOfThisEnemyType[0];
-                        StartCoroutine(RespawnEnemy(backupEnemy));
-                        availableBackupsOfThisEnemyType.RemoveAt(0);
-                    }
-                }
-            }
+            TryRespawn();
         }
-
-        // OLD // 
-        //// If enemy respawning is enabled and more enemies can be respawned
-        //if (_allowEnemyRespawning && _numRespawns < _maxNumRespawns)
-        //{
-        //    // Find all of the enemies that have just been killed
-        //    List<GameObject> deadEnemies = GameObject.FindGameObjectsWithTag("Dead").ToList();
-        //    // 'Respawn' another instance of each dead enemy type, if appropriate
-        //    foreach (GameObject deadEnemy in deadEnemies)
-        //    {
-        //        if (!alreadyMarkedDead.Contains(deadEnemy))
-        //        {
-        //            List<GameObject> availableBackups = respawnedEnemies[deadEnemy.name];
-        //            if (availableBackups.Count > 0)
-        //            {
-        //                GameObject backupEnemy = availableBackups[0];
-        //                StartCoroutine(RespawnEnemy(backupEnemy));
-        //                availableBackups.RemoveAt(0);
-        //            }
-        //            // Mark this dead enemy so it doesn't get counted in the next Update
-        //            alreadyMarkedDead.Add(deadEnemy);
-        //        }
-        //    }
-        //}
 
         // If no more enemies can be respawned
         if (_numRespawns >= _maxNumRespawns)
         {
             // If all enemies are dead, move to the next level
-            activeEnemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
             if (activeEnemies.Count == 0)
             {
                 Debug.Log("all enemies dead");
-                // TODO: go to next level
+                GameManager.Instance.InitLoadNewStage();
             }
         }
+        
     }
 
-    // Scales the difficulty of this level every one-minute interval for 5 intervals by increasing the amount of enemies that can be alive at once.
-    private IEnumerator DifficultyScaling()
+    private void TryRespawn()
     {
-        int minutes = 0;
-        yield return new WaitForSeconds(60f);
-
-        while (minutes < 5)
+        foreach (var stageEnemyData in _stageEnemyDatas)
         {
-            minutes++;
-
-            for (int i = 0; i < _currlevelData.enemies.Length; i++)
+            var spawnParams = GetSpawnParameters(stageEnemyData);
+            if (spawnParams.DesiredSpawnNumber <= 0) continue;
+            for (var i = 0; i < spawnParams.DesiredSpawnNumber; i++)
             {
-                maxAliveCounts[i] += _currlevelData.enemies[i].enemyIncrementMaxAlive;
+                SpawnEnemy(stageEnemyData.enemyType, spawnParams, true);
             }
-
-            Debug.Log("scaled difficulty!");
-            yield return new WaitForSeconds(60f);
         }
     }
 
     // Function that spawns an instance of an enemy type meant to appear upon level startup.
-    private void SpawnEnemy(GameObject enemy)
+    private void SpawnEnemy(GameObject enemy, SpawnParameters parameters, bool isRespawn)
     {
-        int rand = Random.Range(0, enemyRespawnZones.Length);
-        BoxCollider randSpawnZone = enemyRespawnZones[rand].GetComponent<BoxCollider>();
+        
+        Vector3 respawnPoint = SelectRespawnPoint(SelectSpawnZone(!isRespawn));
 
-        Vector3 respawnPoint = SelectRespawnPoint(randSpawnZone);
+        GameObject thisEnemy = Instantiate(enemy, respawnPoint, Quaternion.identity);
+        
+        activeEnemies.Add(thisEnemy);
 
-        GameObject _thisEnemy = Instantiate(enemy, respawnPoint, Quaternion.identity);
-        _thisEnemy.name = enemy.name;
+        var sAi = thisEnemy.GetComponent<SAi>();
+        sAi.BuffHealth(parameters.HealthBuff);
+        RegisterSAi(sAi);
+
+        if (isRespawn)
+        {
+            _numRespawns++;
+            StartCoroutine(DisableRespawns(respawnDelay));
+        }
     }
 
-    // Function that respawns an instance of an enemy type.
-    private IEnumerator RespawnEnemy(GameObject enemy)
+    IEnumerator DisableRespawns(float seconds)
     {
         _allowEnemyRespawning = false;
-        BoxCollider randSpawnZone = enemyRespawnZones[0].GetComponent<BoxCollider>();
+        yield return new WaitForSeconds(seconds);
+        _allowEnemyRespawning = true;
+    }
 
-        // Choose a respawn zone that is far away from the player and not currently in the camera view
-        foreach (GameObject respawnZone in enemyRespawnZones)
+    private BoxCollider SelectSpawnZone(bool random)
+    {
+
+        if (!random)
         {
-            BoxCollider volume = respawnZone.GetComponent<BoxCollider>();
-            if (Vector3.Distance(volume.bounds.center, _player.transform.position) >= _minRespawnDistance)
-                if (!respawnZone.GetComponent<Renderer>().isVisible)
-                    randSpawnZone = respawnZone.GetComponent<BoxCollider>();
+            // Choose a respawn zone that is far away from the player and not currently in the camera view
+            foreach (GameObject respawnZone in enemyRespawnZones)
+            {
+                BoxCollider volume = respawnZone.GetComponent<BoxCollider>();
+                if (Vector3.Distance(volume.bounds.center, _player.transform.position) >= minRespawnDistance)
+                    if (!respawnZone.GetComponent<Renderer>().isVisible)
+                        return respawnZone.GetComponent<BoxCollider>();
+            }
         }
 
-        Vector3 respawnPoint = SelectRespawnPoint(randSpawnZone);
+        var rand = Random.Range(0, enemyRespawnZones.Length);
+        return enemyRespawnZones[rand].GetComponent<BoxCollider>();
+        
+    }
 
-        // 'Respawn' the enemy at the chosen respawn point
-        MoveEnemyPos(enemy, respawnPoint);
-        _numRespawns++;
+    void RegisterSAi(SAi sAi)
+    {
+        activeEnemies.Add(sAi.gameObject);
+        typesPopulation[sAi]++;
+    }
 
-        // Wait to respawn more enemies
-        yield return new WaitForSeconds(_respawnDelay);
-        _allowEnemyRespawning = true;
+    void DeregisterSAi(SAi sAi)
+    {
+        activeEnemies.Remove(sAi.gameObject);
+        typesPopulation[sAi]--;
     }
 
     // Helper function used to change the transform of an instantiated instance prior to 'respawning' it in the level.

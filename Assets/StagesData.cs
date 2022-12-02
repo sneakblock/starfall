@@ -7,6 +7,13 @@ using UnityEngine.SceneManagement;
 public class StagesData : ScriptableObject
 {
     [System.Serializable]
+    public struct PopulationAtDifficulty
+    {
+        public DifficultyLevel DifficultyLevel;
+        public float percentageOfPopulation;
+    }
+    
+    [System.Serializable]
     public struct StageEnemyData
     {
         [Tooltip(
@@ -15,6 +22,8 @@ public class StagesData : ScriptableObject
 
         [Tooltip("The max number used to scale this enemy's stats at max difficulty.")]
         public float maxBuffScale;
+
+        public PopulationAtDifficulty[] PopulationAtDifficulties;
     }
     
     [System.Serializable]

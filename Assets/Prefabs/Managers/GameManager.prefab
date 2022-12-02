@@ -73,6 +73,7 @@ MonoBehaviour:
   distortionToColorBalance: 0.5
   _audioSource: {fileID: 386750395}
   foo: 0
+  bar: 0
 --- !u!114 &4426868419963979292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,11 +86,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d06051d5d30f014eb9ad5bf88847f3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelsData:
-  - {fileID: 11400000, guid: f454970e4997b1f4da6cad75195e6a5c, type: 2}
   activeEnemies: []
-  _minRespawnDistance: 10
-  _respawnDelay: 0.1
+  minRespawnDistance: 10
+  respawnDelay: 0.1
+  minNumberOfEnemiesDesiredOnMap: 15
+  maxNumberOfEnemiesAllowedOnMap: 100
+  minNumberOfRespawns: 15
+  maxNumberOfRespawns: 50
 --- !u!114 &1356622599
 MonoBehaviour:
   m_ObjectHideFlags: 0
