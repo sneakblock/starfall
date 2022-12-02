@@ -177,6 +177,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
             r.velocity = Vector3.zero;
             r.detectCollisions = false;
             r.useGravity = false;
+            r.isKinematic = true;
         }
     }
     
@@ -207,6 +208,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
             r.velocity = Vector3.zero;
             r.detectCollisions = true;
             r.useGravity = true;
+            r.isKinematic = false;
         }
     }
 
