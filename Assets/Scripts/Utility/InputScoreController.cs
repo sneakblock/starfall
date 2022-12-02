@@ -17,7 +17,7 @@ public class InputScoreController : MonoBehaviour
     void Start()
     {
         score = GameManager.finalScore;
-        drawScore.text = score + " is your score.\nEnter your name to save: ";
+        drawScore.text = score + "";
         leaderboard = gameObject.AddComponent<Leaderboards>();
     }
 
