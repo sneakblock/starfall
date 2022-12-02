@@ -37,9 +37,8 @@ public class DashAbility : AdvancedAbility
     private static readonly int UseVertexDisplacement = Shader.PropertyToID("_UseVertexDisplacement");
     private static readonly int VertexDisplacmentAmount = Shader.PropertyToID("_VertexDisplacementAmount");
 
-    protected override void SetupReferences(SCharacter character)
+    private void Awake()
     {
-        anim = character.gameObject.GetComponentInChildren<Animator>();
         foreach (var r in characterMeshObject.GetComponentsInChildren<Renderer>())
         {
             var materials = new List<Material>();
@@ -49,6 +48,11 @@ public class DashAbility : AdvancedAbility
             }
             _renderersMats.Add(r, materials);
         }
+    }
+
+    protected override void SetupReferences(SCharacter character)
+    {
+        anim = character.gameObject.GetComponentInChildren<Animator>();
     }
 
     public override void NotReadyYet()

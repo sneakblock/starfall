@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -36,7 +37,8 @@ public class GameManager : MonoBehaviour
 
     public static int finalScore;
 
-    [Header("Scene Loading")] 
+    [FormerlySerializedAs("distortOnAwake")] [Header("Scene Loading")] [SerializeField]
+    private bool distortOnStart = true;
     [SerializeField] private Material effectMaterial;
     [SerializeField] private float secondsToDistortOnSceneLoad = 5f;
     [SerializeField] private float distortionFromVertexResolution = 300f;
@@ -45,8 +47,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float distortionToVertexResolution = 5f;
     [SerializeField] private float distortionToVertexJitter = 3f;
     [SerializeField] private float distortionToColorBalance = 1f;
-    
-    [SerializeField] private bool rainbow = false;
 
     [Header("Pooling")]
     private BloodPool _bloodPoolComponent;
@@ -70,9 +70,11 @@ public class GameManager : MonoBehaviour
     private LinkPool _linkPoolComponent;
     public ObjectPool<GameObject> LinkPool;
 
-    private bool _isLoadingScene = false;
+    private bool _isAwakeDistorting;
+    private bool _isLoadingNewScene;
     private float _distortionTimer = 0f;
     private string _sceneNameToLoad;
+    private Dictionary<Renderer, List<Material>> _renderersMats = new();
     
     private static readonly int Color1 = Shader.PropertyToID("_Color");
     private static readonly int VertexResolution = Shader.PropertyToID("Vector1_B2CC132F");
@@ -149,14 +151,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (!distortOnStart) return;
+        SwapAllMaterialsInScene(true);
+        _isAwakeDistorting = true;
+    }
+
     private void Update()
     {
         // Always add time to the session's total time.
         SessionData.sessionTotalTime += Time.deltaTime;
 
-        if (!_isLoadingScene) return;
-        _distortionTimer += Time.deltaTime;
-        DoFullscreenDistortion();
+        if (_isAwakeDistorting || _isLoadingNewScene) _distortionTimer += Time.deltaTime;
+        
+        if (_isAwakeDistorting && _distortionTimer >= secondsToDistortOnSceneLoad) StopAwakeDistorting();
+
+        if (_isAwakeDistorting)
+        {
+            DoFullscreenDistortion(false);
+        }
+        
+        if (_isLoadingNewScene)
+        {
+            DoFullscreenDistortion(true);
+        }
+        
     }
 
     void TryFindAPlayer()
@@ -229,33 +249,58 @@ public class GameManager : MonoBehaviour
     {
         _sceneNameToLoad = sceneName;
         _distortionTimer = 0f;
-        _isLoadingScene = true;
-        SwapAllMaterialsInScene();
+        _isLoadingNewScene = true;
+        SwapAllMaterialsInScene(true);
         StartCoroutine(WaitThenLoadScene(secondsToDistortOnSceneLoad));
     }
 
-    private void SwapAllMaterialsInScene()
+    private void SwapAllMaterialsInScene(bool useEffectMaterial)
     {
         foreach (var t in FindObjectsOfType<Transform>())
         {
             foreach (var r in t.GetComponents<Renderer>())
             {
-                var newMats = new Material[r.materials.Length];
-                for (var i = 0; i < newMats.Length; i++)
+                // Only adds a renderer to this dict the first time it encounters it, meaning the materials should 
+                // always be the original ones.
+                if (!_renderersMats.ContainsKey(r))
                 {
-                    newMats[i] = effectMaterial;
-                    if (!rainbow) continue;
-                    var randColor = new Color(Random.Range(0f, 255f), Random.Range(0f, 255f),
-                        Random.Range(0f, 255f));
-                    newMats[i].SetColor(Color1, randColor);
+                    _renderersMats.Add(r, r.materials.ToList());
                 }
-
-                r.materials = newMats;
             }
         }
+
+        foreach (var kv in _renderersMats.Where(kv => kv.Key == null))
+        {
+            _renderersMats.Remove(kv.Key);
+        }
+
+        foreach (var kv in _renderersMats)
+        {
+            var newMats = new Material[kv.Key.materials.Length];
+            for (var i = 0; i < newMats.Length; i++)
+            {
+                newMats[i] = useEffectMaterial ? effectMaterial : kv.Value[i];
+            }
+
+            kv.Key.materials = newMats;
+        }
+        
+        // foreach (var t in FindObjectsOfType<Transform>())
+        // {
+        //     foreach (var r in t.GetComponents<Renderer>())
+        //     {
+        //         var newMats = new Material[r.materials.Length];
+        //         for (var i = 0; i < newMats.Length; i++)
+        //         {
+        //             newMats[i] = effectMaterial;
+        //         }
+        //
+        //         r.materials = newMats;
+        //     }
+        // }
     }
 
-    private void DoFullscreenDistortion()
+    private void DoFullscreenDistortion(bool to)
     {
         foreach (var t in FindObjectsOfType<Transform>())
         {
@@ -263,12 +308,19 @@ public class GameManager : MonoBehaviour
             {
                 foreach (var m in r.materials)
                 {
-                    m.SetFloat(VertexResolution, Mathf.Lerp(distortionFromVertexResolution, distortionToVertexResolution, _distortionTimer / secondsToDistortOnSceneLoad));
-                    m.SetFloat(VertexDisplacmentAmount, Mathf.Lerp(distortionFromVertexJitter, distortionToVertexJitter, _distortionTimer / secondsToDistortOnSceneLoad));
-                    m.SetFloat(DistortionColorBalance, Mathf.Lerp(distortionFromColorBalance, distortionToColorBalance, _distortionTimer / secondsToDistortOnSceneLoad));
+                    m.SetFloat(VertexResolution, to ? Mathf.Lerp(distortionFromVertexResolution, distortionToVertexResolution, _distortionTimer / secondsToDistortOnSceneLoad) : Mathf.Lerp(distortionToVertexResolution, distortionFromVertexResolution, _distortionTimer / secondsToDistortOnSceneLoad));
+                    m.SetFloat(VertexDisplacmentAmount, to ? Mathf.Lerp(distortionFromVertexJitter, distortionToVertexJitter, _distortionTimer / secondsToDistortOnSceneLoad) : Mathf.Lerp(distortionToVertexJitter, distortionFromVertexJitter, _distortionTimer / secondsToDistortOnSceneLoad));
+                    m.SetFloat(DistortionColorBalance, to ? Mathf.Lerp(distortionFromColorBalance, distortionToColorBalance, _distortionTimer / secondsToDistortOnSceneLoad) : Mathf.Lerp(distortionToColorBalance, distortionFromColorBalance, _distortionTimer / secondsToDistortOnSceneLoad));
                 }
             }
         }
+    }
+
+    void StopAwakeDistorting()
+    {
+        _isAwakeDistorting = false;
+        _distortionTimer = 0f;
+        SwapAllMaterialsInScene(false);
     }
 
     IEnumerator WaitThenLoadScene(float seconds)
