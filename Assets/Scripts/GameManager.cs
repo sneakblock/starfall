@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         
         //Leaderboards leaderboards = gameObject.AddComponent<Leaderboards>();
 
-        if (!aPlayer && SceneManager.GetActiveScene().name != "MainMenu")
+        if (!aPlayer && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Leaderboard")
         {
             TryFindAPlayer();
         }
@@ -365,6 +365,7 @@ public class GameManager : MonoBehaviour
     void PlayNewSong()
     {
         if (SceneManager.GetActiveScene().name == "MainMenu") return;
+        if (SceneManager.GetActiveScene().name == "Leaderboard") return;
         Debug.Log(CurrentStage.StageName);
         if (!_audioSource) return;
         List<AudioClip> unplayedSongs = new();
