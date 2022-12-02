@@ -135,7 +135,7 @@ public class AIManager : MonoBehaviour
         typesPopulation.Add(EnemyType.Priestess, 0);
         typesPopulation.Add(EnemyType.Tank, 0);
         
-        DoInitialSpawns(_stageEnemyDatas);
+        // DoInitialSpawns(_stageEnemyDatas);
         
         // Re-enable enemy respawning now that everything is set up
         _allowEnemyRespawning = true;
