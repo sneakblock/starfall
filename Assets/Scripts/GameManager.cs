@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     public SessionData SessionData;
 
+    public StagesData.Stage CurrentStage;
+
     //public static Leaderboards leaderboard { get; private set; }
 
     [Header("Player Character")] public APlayer aPlayer;
@@ -48,6 +50,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float distortionToVertexJitter = 3f;
     [SerializeField] private float distortionToColorBalance = 1f;
 
+    [Header("Music")] 
+    [SerializeField] private AudioSource _audioSource;
+
+    private List<AudioClip> _playedSongs = new();
+
     [Header("Pooling")]
     private BloodPool _bloodPoolComponent;
     public ObjectPool<GameObject> BloodPool;
@@ -74,7 +81,7 @@ public class GameManager : MonoBehaviour
     private bool _isLoadingNewScene;
     private float _distortionTimer = 0f;
     private string _sceneNameToLoad;
-    private Dictionary<Renderer, List<Material>> _renderersMats = new();
+    private Dictionary<Renderer, List<Material>> _origRenderersMats = new();
     
     private static readonly int Color1 = Shader.PropertyToID("_Color");
     private static readonly int VertexResolution = Shader.PropertyToID("Vector1_B2CC132F");
@@ -137,6 +144,15 @@ public class GameManager : MonoBehaviour
             SessionData.traversedStageNames = new List<string>();
         }
 
+        foreach (var stage in StarfallStages.Stages)
+        {
+            if (stage.StageName == SceneManager.GetActiveScene().name)
+            {
+                CurrentStage = stage;
+                break;
+            }
+        }
+
         // Set the scene as traversed, if it hasn't been marked as such already.
         if (SessionData.traversedStageNames.Count == 0)
         {
@@ -144,10 +160,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            foreach (var traversedStageName in SessionData.traversedStageNames.Where(traversedStageName => SceneManager.GetActiveScene().name != traversedStageName && traversedStageName != "MainMenu"))
-            {
-                SessionData.traversedStageNames.Add(SceneManager.GetActiveScene().name);
-            }
+            if (!SessionData.traversedStageNames.Contains(CurrentStage.StageName)) SessionData.traversedStageNames.Add(CurrentStage.StageName);
+        }
+
+        _playedSongs = new();
+        if (!_audioSource) _audioSource = GetComponent<AudioSource>();
+        if (_audioSource)
+        {
+            _audioSource.loop = false;
         }
     }
 
@@ -162,6 +182,12 @@ public class GameManager : MonoBehaviour
     {
         // Always add time to the session's total time.
         SessionData.sessionTotalTime += Time.deltaTime;
+        
+        //Songs
+        
+        if (_audioSource && !_audioSource.isPlaying) PlayNewSong();
+        
+        //Distortion
 
         if (_isAwakeDistorting || _isLoadingNewScene) _distortionTimer += Time.deltaTime;
         
@@ -256,48 +282,47 @@ public class GameManager : MonoBehaviour
 
     private void SwapAllMaterialsInScene(bool useEffectMaterial)
     {
+        
+        // Every time this is called, we need all of these. 
+        List<Renderer> allRenderers = new List<Renderer>();
         foreach (var t in FindObjectsOfType<Transform>())
         {
             foreach (var r in t.GetComponents<Renderer>())
             {
-                // Only adds a renderer to this dict the first time it encounters it, meaning the materials should 
-                // always be the original ones.
-                if (!_renderersMats.ContainsKey(r))
-                {
-                    _renderersMats.Add(r, r.materials.ToList());
-                }
+                allRenderers.Add(r);
             }
         }
 
-        foreach (var kv in _renderersMats.Where(kv => kv.Key == null))
+        // If we are moving TO a distorted state, cache the current state, then assign the effect material.
+        if (useEffectMaterial)
         {
-            _renderersMats.Remove(kv.Key);
-        }
-
-        foreach (var kv in _renderersMats)
-        {
-            var newMats = new Material[kv.Key.materials.Length];
-            for (var i = 0; i < newMats.Length; i++)
+            _origRenderersMats = new Dictionary<Renderer, List<Material>>();
+            foreach (var r in allRenderers)
             {
-                newMats[i] = useEffectMaterial ? effectMaterial : kv.Value[i];
-            }
+                _origRenderersMats.Add(r, r.materials.ToList());
+                var newMats = new Material[r.materials.Length];
+                for (var i = 0; i < newMats.Length; i++)
+                {
+                    newMats[i] = effectMaterial;
+                }
 
-            kv.Key.materials = newMats;
+                r.materials = newMats;
+            }
+        }
+        else // Use cached values to put back normal mats.
+        {
+            foreach (var kv in _origRenderersMats)
+            {
+                var newMats = new Material[kv.Key.materials.Length];
+                for (var i = 0; i < newMats.Length; i++)
+                {
+                    newMats[i] = kv.Value[i];
+                }
+
+                kv.Key.materials = newMats;
+            }
         }
         
-        // foreach (var t in FindObjectsOfType<Transform>())
-        // {
-        //     foreach (var r in t.GetComponents<Renderer>())
-        //     {
-        //         var newMats = new Material[r.materials.Length];
-        //         for (var i = 0; i < newMats.Length; i++)
-        //         {
-        //             newMats[i] = effectMaterial;
-        //         }
-        //
-        //         r.materials = newMats;
-        //     }
-        // }
     }
 
     private void DoFullscreenDistortion(bool to)
@@ -327,6 +352,23 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         SceneManager.LoadScene(_sceneNameToLoad);
+    }
+
+    void PlayNewSong()
+    {
+        Debug.Log(CurrentStage.StageName);
+        if (!_audioSource) return;
+        List<AudioClip> unplayedSongs = new();
+
+        foreach (var audioClip in CurrentStage.StageSongs)
+        {
+            if (!_playedSongs.Contains(audioClip)) unplayedSongs.Add(audioClip);
+        }
+
+        var songToPlay = unplayedSongs.Count == 0 ? CurrentStage.StageSongs[Random.Range(0, CurrentStage.StageSongs.Length - 1)] : unplayedSongs[Random.Range(0, unplayedSongs.Count)];
+        _audioSource.clip = songToPlay;
+        _audioSource.Play();
+        _playedSongs.Add(songToPlay);
     }
 
     
