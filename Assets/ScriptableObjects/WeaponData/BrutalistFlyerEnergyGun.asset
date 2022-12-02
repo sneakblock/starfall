@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b2cb14baf7f2c4e817ba581217259c, type: 3}
+  m_Name: BrutalistFlyerEnergyGun
+  m_EditorClassIdentifier: 
+  damage: 0
+  firingMode: 0
+  bullet: {fileID: 5196230486107353127, guid: 8b4885850c1118d4aaf6a3251e664791, type: 3}
+  firingForce: 40
+  firingRate: 4
+  firingMask:
+    serializedVersion: 2
+    m_Bits: 65
+  magazineSize: 20
+  bulletsFiredPerShot: 1
+  burstDelay: 0
+  reloadTime: 4
+  minHipFireSpread: 0.04
+  maxHipFireSpread: 0.05
+  hipFireBloomIntensity: 0.02
+  minAdsSpread: 0
+  maxAdsSpread: 0.02
+  adsBloomIntensity: 0.01
+  recoveryImpact: 5
+  maxRecoverySharpness: 20
+  minRecoverySharpness: 15
+  recoveryRate: 15
