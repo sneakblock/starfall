@@ -97,6 +97,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     void Start()
     {
         abilityManager = new AbilityManager();
+        motor.CharacterController = this;
         maxHealth = health;
         Collider = GetComponent<Collider>();
         
