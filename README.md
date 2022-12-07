@@ -10,6 +10,8 @@ A 3rd-person action shooter created for Georgia Tech's VGDEV Club in Fall 2022
 
 # Known Issues
 - The game is too hard in general.
+- There is no way to view controls, change controls, or adjust mouse sensitivity.
+- There is no controller support.
 - The Utopia map is pitch black as a result of lighting glitches.
 - The AI Manager will oftentimes spawn the wrong amount of enemies.
 - Maps can be escaped by the player.
