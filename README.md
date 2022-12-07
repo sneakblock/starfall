@@ -1,5 +1,4 @@
 # Starfall
-A 3rd-person action shooter created for Georgia Tech's VGDEV Club in Fall 2022
 
 ![image](https://user-images.githubusercontent.com/47699879/206062111-eb1019ac-dfd9-4b6e-bfb7-a5e3994b9a07.png)
 
