@@ -17,3 +17,7 @@
 - The AI Manager will oftentimes spawn the wrong amount of enemies.
 - Maps can be escaped by the player.
 - High poly counts result in poor graphics performance. 
+
+# Patch Notes
+## v0.1.2-alpha
+- The main menu now properly plays music.
