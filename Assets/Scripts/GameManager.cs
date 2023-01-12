@@ -120,8 +120,6 @@ public class GameManager : MonoBehaviour
 
         audioSpectrum = GetComponent<AudioSpectrum>();
         
-        PlayerDeath += OnPlayerDeath;
-        EnemyDeath += OnEnemyDeath;
     }
 
     private void OnEnable()
@@ -179,6 +177,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartRun()
     {
+        PlayerDeath += OnPlayerDeath;
+        EnemyDeath += OnEnemyDeath;
         Debug.Log("Called StartRun with upnextstage" + _upNextStage.StageName);
         QueueNextSceneActivation(_upNextStage);
     }
