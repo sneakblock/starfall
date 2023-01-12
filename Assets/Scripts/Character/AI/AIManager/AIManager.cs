@@ -56,6 +56,7 @@ public class AIManager : MonoBehaviour
     [SerializeField] private int maxNumberOfEnemiesAllowedOnMap = 100;
     [SerializeField] private int minNumberOfRespawns = 15;
     [SerializeField] private int maxNumberOfRespawns = 50;
+    [SerializeField] private bool unlimitedRespawns = true;
     
     // // Dictionary containing each enemy type found in this level and how many of each can be respawned.
     // private Dictionary<GameObject, int> enemyRespawnData = new Dictionary<GameObject, int>();
@@ -209,14 +210,17 @@ public class AIManager : MonoBehaviour
     {
         if (GameManager.Instance.CurrentStage.isMenu) return;
         // If enemy respawning is enabled and more enemies can be respawned
-        if (_allowEnemyRespawning && _numRespawns < _maxNumRespawns && !_waitingToCheck)
+        if (_allowEnemyRespawning && !_waitingToCheck)
         {
-            TryRespawn();
-            StartCoroutine(WaitToCheck(secondsToWaitToCheck));
+            if (unlimitedRespawns || (!unlimitedRespawns && _numRespawns < _maxNumRespawns))
+            {
+                TryRespawn();
+                StartCoroutine(WaitToCheck(secondsToWaitToCheck));
+            }
         }
 
         // If no more enemies can be respawned
-        if (_numRespawns >= _maxNumRespawns)
+        if (!unlimitedRespawns && _numRespawns >= _maxNumRespawns)
         {
             // If all enemies are dead, move to the next level
             if (activeEnemies.Count == 0)
@@ -279,20 +283,28 @@ public class AIManager : MonoBehaviour
     private BoxCollider SelectSpawnZone(bool random)
     {
 
+        var rand = 0;
         if (!random)
         {
+            
+            var numChecked = 0;
             // Choose a respawn zone that is far away from the player and not currently in the camera view
-            foreach (GameObject respawnZone in enemyRespawnZones)
+            while (numChecked < 4)
             {
+                rand = Random.Range(0, enemyRespawnZones.Length);
+                var respawnZone = enemyRespawnZones[rand];
                 BoxCollider volume = respawnZone.GetComponent<BoxCollider>();
                 if (Vector3.Distance(volume.bounds.center, _player.transform.position) >= minRespawnDistance)
                     if (!respawnZone.GetComponent<Renderer>().isVisible)
                         return respawnZone.GetComponent<BoxCollider>();
+                numChecked++;
             }
+            
         }
-
-        var rand = Random.Range(0, enemyRespawnZones.Length);
         return enemyRespawnZones[rand].GetComponent<BoxCollider>();
+        // var rand = Random.Range(0, enemyRespawnZones.Length);
+        // Debug.Log("Selected spawn zone index " + rand);
+        // return enemyRespawnZones[rand].GetComponent<BoxCollider>();
         
     }
 
