@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     public ObjectPool<GameObject> RedLazerPool;
 
     private SurfaceImpactPool[] _surfaceImpactPoolComponents;
-    public readonly Dictionary<ImpactEffectSurface.ImpactSurfaceType, ObjectPool<GameObject>> SurfaceImpactPools = new();
+    public Dictionary<ImpactEffectSurface.ImpactSurfaceType, ObjectPool<GameObject>> SurfaceImpactPools = new();
 
     private LinkPool _linkPoolComponent;
     public ObjectPool<GameObject> LinkPool;
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
         //Initialize the instance of the Game Manager.
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
@@ -115,6 +115,22 @@ public class GameManager : MonoBehaviour
         _playedSongs = new();
         if (!_doubleAudioSource) _doubleAudioSource = GetComponent<DoubleAudioSource>();
 
+        _postProcessManager = GetComponent<PostProcessManager>();
+        _aiManager = GetComponent<AIManager>();
+
+        audioSpectrum = GetComponent<AudioSpectrum>();
+        
+        PlayerDeath += OnPlayerDeath;
+        EnemyDeath += OnEnemyDeath;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+    }
+
+    void InitPools()
+    {
         _bloodPoolComponent = GetComponent<BloodPool>();
         BloodPool = _bloodPoolComponent.Pool;
 
@@ -131,6 +147,7 @@ public class GameManager : MonoBehaviour
         RedLazerPool = _redLazerPoolComponent.Pool;
 
         _surfaceImpactPoolComponents = GetComponents<SurfaceImpactPool>();
+        SurfaceImpactPools = new();
         foreach (var component in _surfaceImpactPoolComponents)
         {
             SurfaceImpactPools.Add(component.surfaceType, component.Pool);
@@ -138,27 +155,23 @@ public class GameManager : MonoBehaviour
 
         _linkPoolComponent = GetComponent<LinkPool>();
         LinkPool = _linkPoolComponent.Pool;
-
-        _postProcessManager = GetComponent<PostProcessManager>();
-        _aiManager = GetComponent<AIManager>();
-
-        audioSpectrum = GetComponent<AudioSpectrum>();
-        
-        PlayerDeath += OnPlayerDeath;
-        EnemyDeath += OnEnemyDeath;
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
 
     IEnumerator PreLoadRun()
     {
         yield return new WaitForSeconds(.1f);
         WipeSessionData();
+        InitPools();
         _upNextStage = GetNextStage();
         StartCoroutine(LoadSceneAsyncProcess(_upNextStage.StageName));
+    }
+
+    public void ReturnToMenu()
+    {
+        var mainMenuStage = GetMainMenuStage();
+        _upNextStage = mainMenuStage;
+        StartCoroutine(LoadSceneAsyncProcess(mainMenuStage.StageName));
+        QueueNextSceneActivation(mainMenuStage);
     }
 
     /// <summary>
@@ -166,6 +179,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartRun()
     {
+        Debug.Log("Called StartRun with upnextstage" + _upNextStage.StageName);
         QueueNextSceneActivation(_upNextStage);
     }
 
@@ -176,7 +190,10 @@ public class GameManager : MonoBehaviour
 
     public void EndRun()
     {
-        
+        var leaderboardStage = GetLeaderboardStage();
+        _upNextStage = leaderboardStage;
+        StartCoroutine(LoadSceneAsyncProcess(leaderboardStage.StageName));
+        QueueNextSceneActivation(leaderboardStage);
     }
 
     private void OnActiveSceneChanged(Scene curr, Scene next)
@@ -220,6 +237,26 @@ public class GameManager : MonoBehaviour
         return thisIdx + 1 >= SessionData.traversedStages.Count
             ? SessionData.traversedStages[0]
             : SessionData.traversedStages[thisIdx + 1];
+    }
+
+    private StagesData.Stage GetLeaderboardStage()
+    {
+        foreach (var stage in StarfallStages.Stages)
+        {
+            if (stage.StageName == "Leaderboard") return stage;
+        }
+
+        return new StagesData.Stage();
+    }
+    
+    private StagesData.Stage GetMainMenuStage()
+    {
+        foreach (var stage in StarfallStages.Stages)
+        {
+            if (stage.StageName == "MainMenu") return stage;
+        }
+
+        return new StagesData.Stage();
     }
     
     private IEnumerator LoadSceneAsyncProcess(string sceneName)
@@ -333,7 +370,7 @@ public class GameManager : MonoBehaviour
         EnemyDeath -= OnEnemyDeath;
         finalScore = (int)Score.getSavedScore();
         Debug.Log("final score " + finalScore);
-        Invoke(nameof(LoadLeaderboardScene), 3.0f);
+        EndRun();
     }
     
     private void OnEnemyDeath(GameObject enemy)

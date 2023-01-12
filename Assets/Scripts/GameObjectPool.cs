@@ -16,10 +16,10 @@ public abstract class GameObjectPool : MonoBehaviour
     {
         get
         {
-            if (m_Pool == null)
-            {
+            // if (m_Pool == null)
+            // {
                 m_Pool = new ObjectPool<GameObject>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, collectionChecks, initPoolSize, maxPoolSize);
-            }
+            // }
 
             return m_Pool;
         }

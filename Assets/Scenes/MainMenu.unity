@@ -37781,18 +37781,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 4, y: -4}
   m_UseGraphicAlpha: 1
---- !u!114 &1207324927 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2606140551033211469, guid: fdf674b9093d43946bde9035ab3bac7a,
-    type: 3}
-  m_PrefabInstance: {fileID: 275555191}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be515411a55cbf48b8554c7725372b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1312308222
 GameObject:
   m_ObjectHideFlags: 0
@@ -61981,6 +61969,7 @@ GameObject:
   - component: {fileID: 1862442724}
   - component: {fileID: 1862442723}
   - component: {fileID: 1862442726}
+  - component: {fileID: 1862442727}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -62053,9 +62042,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1207324927}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartRun
+      - m_Target: {fileID: 1862442727}
+        m_TargetAssemblyTypeName: RunStarter, Assembly-CSharp
+        m_MethodName: Init
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -62123,6 +62112,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1862442727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862442721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c205ff0d414105448d8f2bdb61b13e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1928371311
 GameObject:
   m_ObjectHideFlags: 0
