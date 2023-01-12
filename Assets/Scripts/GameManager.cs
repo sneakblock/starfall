@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
     private AsyncOperation _asyncOperation;
 
     private PostProcessManager _postProcessManager;
+    private AIManager _aiManager;
 
     private void Awake()
     {
@@ -139,6 +140,7 @@ public class GameManager : MonoBehaviour
         LinkPool = _linkPoolComponent.Pool;
 
         _postProcessManager = GetComponent<PostProcessManager>();
+        _aiManager = GetComponent<AIManager>();
 
         audioSpectrum = GetComponent<AudioSpectrum>();
         
@@ -227,11 +229,7 @@ public class GameManager : MonoBehaviour
 
         // Don't let the Scene activate until you allow it to.
         _asyncOperation.allowSceneActivation = false;
-
-        while (_asyncOperation.progress < .9f)
-        {
-            Debug.Log($"[scene]:{sceneName} [load progress]: {_asyncOperation.progress}");
-        }
+        
         yield return null;
     }
 
@@ -265,14 +263,13 @@ public class GameManager : MonoBehaviour
     {
         foreach (var stage in StarfallStages.Stages)
         {
-            Debug.Log(stage.StageName);
-            Debug.Log(SceneManager.GetActiveScene().name);
             if (stage.StageName == SceneManager.GetActiveScene().name)
             {
                 CurrentStage = stage;
                 break;
             }
         }
+        if (!CurrentStage.isMenu) _aiManager.InitializeLevel();
 
         if (!dirLight) dirLight = TryFindDirLight();
     }

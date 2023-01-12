@@ -110,7 +110,7 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.55
     agentHeight: 3
-    agentSlope: 60
+    agentSlope: 55
     agentClimb: 0.5
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
@@ -124,7 +124,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 9d69d0fb4f4b2844cb34681c08e2f817, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 97e07fbf4f1fc7347bfd373acecf92b6, type: 2}
 --- !u!4 &33117952 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6786077159939175001, guid: 00ac9d4e969774bdba9deae256eeca1b,
@@ -41617,7 +41617,7 @@ PrefabInstance:
     - target: {fileID: 9190118376862791200, guid: 2f71ac3f6f67839489e5030ac0fc879b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -148.47
+      value: -144.79
       objectReference: {fileID: 0}
     - target: {fileID: 9190118376862791200, guid: 2f71ac3f6f67839489e5030ac0fc879b,
         type: 3}
@@ -41627,7 +41627,7 @@ PrefabInstance:
     - target: {fileID: 9190118376862791200, guid: 2f71ac3f6f67839489e5030ac0fc879b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 36.78
+      value: 39.04
       objectReference: {fileID: 0}
     - target: {fileID: 9190118376862791200, guid: 2f71ac3f6f67839489e5030ac0fc879b,
         type: 3}
@@ -41744,7 +41744,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1653204415}
-  - component: {fileID: 1653204416}
   m_Layer: 0
   m_Name: Geometry
   m_TagString: Untagged
@@ -41815,36 +41814,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1653204416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653204414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
-  m_CollectObjects: 2
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 257
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: b4af2cf68f344854baca54501ec035e3, type: 2}
-  m_BuildHeightMesh: 0
 --- !u!1001 &1658474758
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43627,7 +43596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1969879129
 Transform:
   m_ObjectHideFlags: 0
@@ -43901,7 +43870,7 @@ PrefabInstance:
     - target: {fileID: 9190118376862791200, guid: 2f71ac3f6f67839489e5030ac0fc879b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -86.69
+      value: -86.5
       objectReference: {fileID: 0}
     - target: {fileID: 9190118376862791200, guid: 2f71ac3f6f67839489e5030ac0fc879b,
         type: 3}
@@ -43911,7 +43880,7 @@ PrefabInstance:
     - target: {fileID: 9190118376862791200, guid: 2f71ac3f6f67839489e5030ac0fc879b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -64.18
+      value: -50.71
       objectReference: {fileID: 0}
     - target: {fileID: 9190118376862791200, guid: 2f71ac3f6f67839489e5030ac0fc879b,
         type: 3}
@@ -43987,7 +43956,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh213414
+  m_Name: pb_Mesh49936
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

@@ -90,6 +90,7 @@ public class AIManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(this);
         }
     }
 
@@ -101,12 +102,6 @@ public class AIManager : MonoBehaviour
     private void OnDisable()
     {
         SAi.OnAIDeath -= DeregisterSAi;
-    }
-
-    private void Start()
-    {
-        InitializeLevel();
-        // StartCoroutine(DifficultyScaling());
     }
 
     // Do this at the start of every level.
@@ -187,7 +182,7 @@ public class AIManager : MonoBehaviour
         
         var desiredTotalOfType = (int)Mathf.Floor(currentTotalDesiredEnemies * desiredPercentage);
         Debug.Log($"Desired total type of {stageEnemyData.EnemyType} is {desiredTotalOfType}");
-        Debug.Log($"num tanks on stage is {stageEnemyData.EnemyType} is {typesPopulation[stageEnemyData.EnemyType]}");
+        Debug.Log($"num {stageEnemyData.EnemyType} on stage is {typesPopulation[stageEnemyData.EnemyType]}");
         
         Debug.Log($"Desired spawns spawns for {stageEnemyData.EnemyType} is {desiredTotalOfType - typesPopulation[stageEnemyData.EnemyType]}");
 
@@ -212,7 +207,7 @@ public class AIManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (GameManager.Instance.CurrentStage.isMenu) return;
         // If enemy respawning is enabled and more enemies can be respawned
         if (_allowEnemyRespawning && _numRespawns < _maxNumRespawns && !_waitingToCheck)
         {

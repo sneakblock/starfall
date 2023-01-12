@@ -93,6 +93,7 @@ public class Flyer : SAi
     public override void Kill()
     {
         base.Kill();
+        motor.Capsule.enabled = false;
         InitDisintegrate();
     }
 
