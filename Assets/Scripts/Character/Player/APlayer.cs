@@ -60,7 +60,12 @@ public abstract class APlayer : SCharacter
         TowardsCamera,
         TowardsMovement,
     }
-    
+
+    private void Awake()
+    {
+        if (GameManager.Instance) GameManager.Instance.aPlayer = this;
+    }
+
     protected override void StartCharacter()
     {
         base.StartCharacter();

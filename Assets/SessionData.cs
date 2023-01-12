@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "SessionData")]
 public class SessionData : ScriptableObject
@@ -11,6 +12,6 @@ public class SessionData : ScriptableObject
 
     public double sessionScore;
     
-    public List<string> traversedStageNames;
+    [FormerlySerializedAs("traversedStageNames")] public List<StagesData.Stage> traversedStages;
     
 }

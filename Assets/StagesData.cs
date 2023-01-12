@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
@@ -34,8 +36,10 @@ public class StagesData : ScriptableObject
     public struct Stage
     {
         public string StageName;
+        public bool isMenu;
         public StageEnemyData[] StageEnemyDatas;
         public AudioClip[] StageSongs;
+        public VolumeProfile StageVolumeProfile;
     }
 
     public Stage[] Stages;

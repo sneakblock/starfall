@@ -21,10 +21,12 @@ public class GameManager : MonoBehaviour
     public SessionData SessionData;
 
     public StagesData.Stage CurrentStage;
+    private StagesData.Stage _upNextStage;
 
     //public static Leaderboards leaderboard { get; private set; }
 
-    [Header("Player Character")] public APlayer aPlayer;
+    [Header("Player Character")] public GameObject playerCharacter;
+    public APlayer aPlayer;
     public RangedWeapon playerWeapon { get; private set; }
     public Light dirLight;
 
@@ -39,10 +41,10 @@ public class GameManager : MonoBehaviour
 
     public static int finalScore;
 
-    [FormerlySerializedAs("distortOnAwake")] [Header("Scene Loading")] [SerializeField]
-    private bool distortOnStart = true;
+    [FormerlySerializedAs("distortOnSceneLoad")] [FormerlySerializedAs("distortOnStageLoad")] [FormerlySerializedAs("distortOnStart")] [FormerlySerializedAs("distortOnAwake")] [Header("Scene Loading")] [SerializeField]
+    private bool distortOnSceneActivate = true;
     [SerializeField] private Material effectMaterial;
-    [SerializeField] private float secondsToDistortOnSceneLoad = 5f;
+    [FormerlySerializedAs("secondsToDistortOnSceneLoad")] [SerializeField] private float secondsToDistortOnNewScene = 5f;
     [SerializeField] private float distortionFromVertexResolution = 300f;
     [SerializeField] private float distortionFromVertexJitter = 0f;
     [SerializeField] private float distortionFromColorBalance = 0f;
@@ -50,10 +52,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float distortionToVertexJitter = 3f;
     [SerializeField] private float distortionToColorBalance = 1f;
 
-    [Header("Music")] 
-    [SerializeField] private AudioSource _audioSource;
+    [Header("Music")] [SerializeField] private DoubleAudioSource _doubleAudioSource;
 
     private List<AudioClip> _playedSongs = new();
+    public AudioSpectrum audioSpectrum;
 
     [Header("Pooling")]
     private BloodPool _bloodPoolComponent;
@@ -91,6 +93,10 @@ public class GameManager : MonoBehaviour
     [Button("InitLoadNewStage", "Load new stage", false)] public bool foo;
     [Button("WipeSessionData", "Wipe session data", false)] public bool bar;
 
+    //Async loading management
+    private AsyncOperation _asyncOperation;
+
+    private PostProcessManager _postProcessManager;
 
     private void Awake()
     {
@@ -102,18 +108,11 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(this);
         }
-        
-        //Leaderboards leaderboards = gameObject.AddComponent<Leaderboards>();
 
-        if (!aPlayer && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Leaderboard")
-        {
-            TryFindAPlayer();
-        }
-        if (!dirLight) dirLight = TryFindDirLight();
-        
-        PlayerDeath += OnPlayerDeath;
-        EnemyDeath += OnEnemyDeath;
+        _playedSongs = new();
+        if (!_doubleAudioSource) _doubleAudioSource = GetComponent<DoubleAudioSource>();
 
         _bloodPoolComponent = GetComponent<BloodPool>();
         BloodPool = _bloodPoolComponent.Pool;
@@ -138,15 +137,136 @@ public class GameManager : MonoBehaviour
 
         _linkPoolComponent = GetComponent<LinkPool>();
         LinkPool = _linkPoolComponent.Pool;
+
+        _postProcessManager = GetComponent<PostProcessManager>();
+
+        audioSpectrum = GetComponent<AudioSpectrum>();
         
-        //If we are in the main menu, wipe the sessionData.
-        if (SceneManager.GetActiveScene().name == "MainMenu")
+        PlayerDeath += OnPlayerDeath;
+        EnemyDeath += OnEnemyDeath;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+    }
+
+    IEnumerator PreLoadRun()
+    {
+        yield return new WaitForSeconds(.1f);
+        WipeSessionData();
+        _upNextStage = GetNextStage();
+        StartCoroutine(LoadSceneAsyncProcess(_upNextStage.StageName));
+    }
+
+    /// <summary>
+    /// This is always called from the main menu. Should wipe the score, ensure the runTimer is reset, and then load the first stage of the run.
+    /// </summary>
+    public void StartRun()
+    {
+        QueueNextSceneActivation(_upNextStage);
+    }
+
+    public void NextStage()
+    {
+        StartCoroutine(LoadSceneAsyncProcess(GetNextStage().StageName));
+    }
+
+    public void EndRun()
+    {
+        
+    }
+
+    private void OnActiveSceneChanged(Scene curr, Scene next)
+    {
+        //For all scenes.
+        if (distortOnSceneActivate)
         {
-            WipeSessionData();
+            _isLoadingNewScene = false;
+            _distortionTimer = 0f;
+            SwapAllMaterialsInScene(true);
+            _postProcessManager.LerpFromEffect(secondsToDistortOnNewScene, _upNextStage.StageVolumeProfile);
+            _isAwakeDistorting = true;
         }
 
+        if (next.name != "MainMenu" || next.name != "Leaderboard") OnStageActivate();
+        if (next.name == "MainMenu") StartCoroutine(PreLoadRun());
+    }
+    
+    private StagesData.Stage GetNextStage()
+    {
+        // For all stages in the game, which have we not visited?
+        var unvisitedStages = (from stage in StarfallStages.Stages where !SessionData.traversedStages.Contains(stage) && !stage.isMenu select stage).ToList();
+
+        // If there are stages we haven't seen yet, choose a random one of those to load.
+        if (unvisitedStages.Count > 0)
+        {
+            return unvisitedStages[Random.Range(0, unvisitedStages.Count)];
+        }
+        
+        // If we have visited every stage, we should continue to repeat the same pattern.
+        // Get the index at which our current scene rests in traversedStages
+        int thisIdx = 0;
+        for (var i = 0; i < SessionData.traversedStages.Count; i++)
+        {
+            if (SessionData.traversedStages[i].StageName != SceneManager.GetActiveScene().name) continue;
+            thisIdx = i;
+            break;
+        }
+
+        // Load a new scene according to circular array logic
+        return thisIdx + 1 >= SessionData.traversedStages.Count
+            ? SessionData.traversedStages[0]
+            : SessionData.traversedStages[thisIdx + 1];
+    }
+    
+    private IEnumerator LoadSceneAsyncProcess(string sceneName)
+    {
+        // Begin to load the Scene you have specified.
+        _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+
+        // Don't let the Scene activate until you allow it to.
+        _asyncOperation.allowSceneActivation = false;
+
+        while (_asyncOperation.progress < .9f)
+        {
+            Debug.Log($"[scene]:{sceneName} [load progress]: {_asyncOperation.progress}");
+        }
+        yield return null;
+    }
+
+    /// <summary>
+    /// The scene has loaded, but has not been activated.
+    /// </summary>
+    private void QueueNextSceneActivation(StagesData.Stage nextStage)
+    {
+        _distortionTimer = 0f;
+        _isLoadingNewScene = true;
+        SwapAllMaterialsInScene(true);
+        _postProcessManager.LerpToEffect(secondsToDistortOnNewScene);
+        CrossfadeToSongFromStage(nextStage);
+        StartCoroutine(WaitThenActivateScene(secondsToDistortOnNewScene));
+    }
+    
+    IEnumerator WaitThenActivateScene(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (_asyncOperation != null)
+        {
+            _asyncOperation.allowSceneActivation = true;
+        }
+    }
+    
+    
+    /// <summary>
+    /// Called upon a new scene being activated, to initialize certain params.
+    /// </summary>
+    private void OnStageActivate()
+    {
         foreach (var stage in StarfallStages.Stages)
         {
+            Debug.Log(stage.StageName);
+            Debug.Log(SceneManager.GetActiveScene().name);
             if (stage.StageName == SceneManager.GetActiveScene().name)
             {
                 CurrentStage = stage;
@@ -154,36 +274,14 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Set the scene as traversed, if it hasn't been marked as such already.
-        if (SessionData.traversedStageNames.Count == 0)
-        {
-            SessionData.traversedStageNames.Add(SceneManager.GetActiveScene().name);
-        }
-        else
-        {
-            if (!SessionData.traversedStageNames.Contains(CurrentStage.StageName)) SessionData.traversedStageNames.Add(CurrentStage.StageName);
-        }
-
-        _playedSongs = new();
-        if (!_audioSource) _audioSource = GetComponent<AudioSource>();
-        if (_audioSource)
-        {
-            _audioSource.loop = false;
-        }
-    }
-
-    private void Start()
-    {
-        if (!distortOnStart) return;
-        SwapAllMaterialsInScene(true);
-        _isAwakeDistorting = true;
+        if (!dirLight) dirLight = TryFindDirLight();
     }
 
     public void WipeSessionData()
     {
         SessionData.sessionTotalTime = 0f;
         SessionData.sessionScore = 0;
-        SessionData.traversedStageNames = new List<string>();
+        SessionData.traversedStages = new List<StagesData.Stage>();
     }
 
     private void Update()
@@ -193,13 +291,13 @@ public class GameManager : MonoBehaviour
         
         //Songs
         
-        if (_audioSource && !_audioSource.isPlaying) PlayNewSong();
+        if (_doubleAudioSource && !_doubleAudioSource.isPlaying) PlayNewSong();
         
         //Distortion
 
         if (_isAwakeDistorting || _isLoadingNewScene) _distortionTimer += Time.deltaTime;
         
-        if (_isAwakeDistorting && _distortionTimer >= secondsToDistortOnSceneLoad) StopAwakeDistorting();
+        if (_isAwakeDistorting && _distortionTimer >= secondsToDistortOnNewScene) StopAwakeDistorting();
 
         if (_isAwakeDistorting)
         {
@@ -213,10 +311,12 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void TryFindAPlayer()
-    {
-        aPlayer = GameObject.FindWithTag("Player").GetComponent<APlayer>();
-    }
+    // private void SpawnPlayer()
+    // {
+    //     var spawns = GameObject.FindGameObjectsWithTag("PlayerSpawn");
+    //     var playerChar = Instantiate(playerCharacter, spawns[Random.Range(0, spawns.Length)].transform.position, Quaternion.identity);
+    //     aPlayer = playerChar.GetComponent<APlayer>();
+    // }
 
     Light TryFindDirLight()
     {
@@ -250,43 +350,19 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Leaderboard", LoadSceneMode.Single);
     }
 
+    /// <summary>
+    /// Called to tell GameManager to load a new playable stage.
+    /// </summary>
     public void InitLoadNewStage()
     {
-        // For all stages in the game, which have we not visited?
-        var unvisitedStages = (from stage in StarfallStages.Stages where !SessionData.traversedStageNames.Contains(stage.StageName) select stage.StageName).ToList();
-
-        // If there are stages we haven't seen yet, choose a random one of those to load.
-        if (unvisitedStages.Count > 0)
-        {
-            BeginLoadNewStage(unvisitedStages[Random.Range(0, unvisitedStages.Count)]);
-            return;
-        }
-        
-        // If we have visited every stage, we should continue to repeat the same pattern.
-        // Get the index at which our current scene rests in traversedStages
-        int thisIdx = 0;
-        for (var i = 0; i < SessionData.traversedStageNames.Count; i++)
-        {
-            if (SessionData.traversedStageNames[i] == SceneManager.GetActiveScene().name)
-            {
-                thisIdx = i;
-                break;
-            }
-        }
-
-        // Load a new scene according to circular array logic
-        BeginLoadNewStage(thisIdx + 1 >= SessionData.traversedStageNames.Count
-            ? SessionData.traversedStageNames[0]
-            : SessionData.traversedStageNames[thisIdx + 1]);
+        //Once we've started the transition, enemy score will no longer count and the game won't restart if you die.
+        PlayerDeath -= OnPlayerDeath;
+        EnemyDeath -= OnEnemyDeath;
     }
 
     private void BeginLoadNewStage(string sceneName)
     {
         _sceneNameToLoad = sceneName;
-        _distortionTimer = 0f;
-        _isLoadingNewScene = true;
-        SwapAllMaterialsInScene(true);
-        StartCoroutine(WaitThenLoadScene(secondsToDistortOnSceneLoad));
     }
 
     private void SwapAllMaterialsInScene(bool useEffectMaterial)
@@ -331,6 +407,11 @@ public class GameManager : MonoBehaviour
                 kv.Key.materials = newMats;
             }
         }
+
+        foreach (var musicReactor in FindObjectsOfType<MusicReactor>())
+        {
+            musicReactor.AcquireMaterials();
+        }
         
     }
 
@@ -342,9 +423,9 @@ public class GameManager : MonoBehaviour
             {
                 foreach (var m in r.materials)
                 {
-                    m.SetFloat(VertexResolution, to ? Mathf.Lerp(distortionFromVertexResolution, distortionToVertexResolution, _distortionTimer / secondsToDistortOnSceneLoad) : Mathf.Lerp(distortionToVertexResolution, distortionFromVertexResolution, _distortionTimer / secondsToDistortOnSceneLoad));
-                    m.SetFloat(VertexDisplacmentAmount, to ? Mathf.Lerp(distortionFromVertexJitter, distortionToVertexJitter, _distortionTimer / secondsToDistortOnSceneLoad) : Mathf.Lerp(distortionToVertexJitter, distortionFromVertexJitter, _distortionTimer / secondsToDistortOnSceneLoad));
-                    m.SetFloat(DistortionColorBalance, to ? Mathf.Lerp(distortionFromColorBalance, distortionToColorBalance, _distortionTimer / secondsToDistortOnSceneLoad) : Mathf.Lerp(distortionToColorBalance, distortionFromColorBalance, _distortionTimer / secondsToDistortOnSceneLoad));
+                    m.SetFloat(VertexResolution, to ? Mathf.Lerp(distortionFromVertexResolution, distortionToVertexResolution, _distortionTimer / secondsToDistortOnNewScene) : Mathf.Lerp(distortionToVertexResolution, distortionFromVertexResolution, _distortionTimer / secondsToDistortOnNewScene));
+                    m.SetFloat(VertexDisplacmentAmount, to ? Mathf.Lerp(distortionFromVertexJitter, distortionToVertexJitter, _distortionTimer / secondsToDistortOnNewScene) : Mathf.Lerp(distortionToVertexJitter, distortionFromVertexJitter, _distortionTimer / secondsToDistortOnNewScene));
+                    m.SetFloat(DistortionColorBalance, to ? Mathf.Lerp(distortionFromColorBalance, distortionToColorBalance, _distortionTimer / secondsToDistortOnNewScene) : Mathf.Lerp(distortionToColorBalance, distortionFromColorBalance, _distortionTimer / secondsToDistortOnNewScene));
                 }
             }
         }
@@ -357,18 +438,10 @@ public class GameManager : MonoBehaviour
         SwapAllMaterialsInScene(false);
     }
 
-    IEnumerator WaitThenLoadScene(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        SceneManager.LoadScene(_sceneNameToLoad);
-    }
-
     void PlayNewSong()
     {
-        if (SceneManager.GetActiveScene().name == "MainMenu") return;
-        if (SceneManager.GetActiveScene().name == "Leaderboard") return;
         Debug.Log(CurrentStage.StageName);
-        if (!_audioSource) return;
+        if (!_doubleAudioSource) return;
         List<AudioClip> unplayedSongs = new();
 
         foreach (var audioClip in CurrentStage.StageSongs)
@@ -377,8 +450,21 @@ public class GameManager : MonoBehaviour
         }
 
         var songToPlay = unplayedSongs.Count == 0 ? CurrentStage.StageSongs[Random.Range(0, CurrentStage.StageSongs.Length - 1)] : unplayedSongs[Random.Range(0, unplayedSongs.Count)];
-        _audioSource.clip = songToPlay;
-        _audioSource.Play();
+        _doubleAudioSource.CrossFade(songToPlay, .2f, 0f);
+        _playedSongs.Add(songToPlay);
+    }
+
+    void CrossfadeToSongFromStage(StagesData.Stage toStage)
+    {
+        List<AudioClip> unplayedSongs = new();
+
+        foreach (var audioClip in toStage.StageSongs)
+        {
+            if (!_playedSongs.Contains(audioClip)) unplayedSongs.Add(audioClip);
+        }
+
+        var songToPlay = unplayedSongs.Count == 0 ? toStage.StageSongs[Random.Range(0, toStage.StageSongs.Length - 1)] : unplayedSongs[Random.Range(0, unplayedSongs.Count)];
+        _doubleAudioSource.CrossFade(songToPlay, .35f, 6f);
         _playedSongs.Add(songToPlay);
     }
 

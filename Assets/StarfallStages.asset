@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: StarfallStages
   m_EditorClassIdentifier: 
   Stages:
-  - StageName: Museum
+  - StageName: HoloMuseum
+    isMenu: 0
     StageEnemyDatas:
     - enemyObject: {fileID: 1768362842341019642, guid: d47fc86c931d97f46ba22c2d4f70781d,
         type: 3}
@@ -78,70 +79,15 @@ MonoBehaviour:
     StageSongs:
     - {fileID: 8300000, guid: fae87e26251add2409c8be91b70c1dbe, type: 3}
     - {fileID: 8300000, guid: 74aebe64fe818db4e8732ce18e1990ed, type: 3}
-    - {fileID: 8300000, guid: bba465b6936d6c849af4329c93747070, type: 3}
-  - StageName: Utopia
-    StageEnemyDatas:
-    - enemyObject: {fileID: 1768362842341019642, guid: a88fff97f25b34945ad667af94e9b166,
-        type: 3}
-      EnemyType: 0
-      maxBuffScale: 2
-      PopulationAtDifficulties:
-      - DifficultyLevel: 0
-        percentageOfPopulation: 0.7
-      - DifficultyLevel: 1
-        percentageOfPopulation: 0.6
-      - DifficultyLevel: 2
-        percentageOfPopulation: 0.5
-      - DifficultyLevel: 3
-        percentageOfPopulation: 0.45
-      - DifficultyLevel: 4
-        percentageOfPopulation: 0.3
-    - enemyObject: {fileID: 1768362842341019642, guid: fbb874c88ec108b48840bbcfaf36d8e9,
-        type: 3}
-      EnemyType: 1
-      maxBuffScale: 2
-      PopulationAtDifficulties:
-      - DifficultyLevel: 0
-        percentageOfPopulation: 0.15
-      - DifficultyLevel: 1
-        percentageOfPopulation: 0.17
-      - DifficultyLevel: 2
-        percentageOfPopulation: 0.22
-      - DifficultyLevel: 3
-        percentageOfPopulation: 0.3
-      - DifficultyLevel: 4
-        percentageOfPopulation: 0.33
-    - enemyObject: {fileID: 1768362842341019642, guid: dc210ff153be75d4797fbf0bf1cfcfc0,
-        type: 3}
-      EnemyType: 2
-      maxBuffScale: 2
-      PopulationAtDifficulties:
-      - DifficultyLevel: 0
-        percentageOfPopulation: 0.1
-      - DifficultyLevel: 1
-        percentageOfPopulation: 0.15
-      - DifficultyLevel: 2
-        percentageOfPopulation: 0.18
-      - DifficultyLevel: 3
-        percentageOfPopulation: 0.2
-      - DifficultyLevel: 4
-        percentageOfPopulation: 0.2
-    - enemyObject: {fileID: 1768362842341019642, guid: 9b3ade49cdd50c14382bdd7a76821876,
-        type: 3}
-      EnemyType: 3
-      maxBuffScale: 2
-      PopulationAtDifficulties:
-      - DifficultyLevel: 0
-        percentageOfPopulation: 0.05
-      - DifficultyLevel: 1
-        percentageOfPopulation: 0.08
-      - DifficultyLevel: 2
-        percentageOfPopulation: 0.1
-      - DifficultyLevel: 3
-        percentageOfPopulation: 0.15
-      - DifficultyLevel: 4
-        percentageOfPopulation: 0.17
-    StageSongs:
-    - {fileID: 8300000, guid: bbc6fdcc01a8e114aa1530b7a225cdf4, type: 3}
+    - {fileID: 8300000, guid: eb94460c025244b479c98f77cf7941b8, type: 3}
     - {fileID: 8300000, guid: 318307a30966261409ca6113c1e04dad, type: 3}
-    - {fileID: 8300000, guid: 6e80cbc4c0ffe2a4aa0e2b3e666c0b52, type: 3}
+    StageVolumeProfile: {fileID: 11400000, guid: a6560a915ef98420e9faacc1c7438823,
+      type: 2}
+  - StageName: MainMenu
+    isMenu: 1
+    StageEnemyDatas: []
+    StageSongs:
+    - {fileID: 8300000, guid: 8de4e9f11a65a445c840e9aefe6be5e1, type: 3}
+    - {fileID: 8300000, guid: 44f526bbcc13040ef9936274b628e62f, type: 3}
+    StageVolumeProfile: {fileID: 11400000, guid: d80fcea2eea4f4c7e8509f0dfbed4563,
+      type: 2}
