@@ -115,6 +115,7 @@
             if (_isFirst) { // _source0 is currently playing the most recent AudioClip
                 //so launch on source1
                 GameManager.Instance.audioSpectrum.audioSource = _source1;
+                GameManager.Instance.audioSpectrum.ResetSpectrum();
                 _source1.clip = playMe;
                 _source1.Play();
                 _source1.volume = 0;
@@ -140,6 +141,7 @@
      
             //otherwise, _source1 is currently active, so play on _source0
             GameManager.Instance.audioSpectrum.audioSource = _source0;
+            GameManager.Instance.audioSpectrum.ResetSpectrum();
             _source0.clip = playMe;
             _source0.Play();
             _source0.volume = 0;

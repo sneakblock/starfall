@@ -321,6 +321,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         // Always add time to the session's total time.
+        //TODO: More performant option available
         if (SceneManager.GetActiveScene().name != "MainMenu") SessionData.sessionTotalTime += Time.deltaTime;
         
         //Songs
@@ -484,7 +485,7 @@ public class GameManager : MonoBehaviour
         }
 
         var songToPlay = unplayedSongs.Count == 0 ? CurrentStage.StageSongs[Random.Range(0, CurrentStage.StageSongs.Length - 1)] : unplayedSongs[Random.Range(0, unplayedSongs.Count)];
-        _doubleAudioSource.CrossFade(songToPlay, .2f, 0f);
+        _doubleAudioSource.CrossFade(songToPlay, .35f, 0f);
         _playedSongs.Add(songToPlay);
     }
 
