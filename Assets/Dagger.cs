@@ -173,6 +173,7 @@ public class Dagger : MonoBehaviour
         {
             if (!enemyGameObject.TryGetComponent(out SAi sAi)) continue;
             if (!sAi.enabled) continue;
+            if (sAi.isDead) continue;
             var transform1 = transform;
             var angleBetween =
                 Vector3.Angle(transform1.forward, sAi.motor.Capsule.bounds.center - transform1.position);

@@ -1737,6 +1737,7 @@ MonoBehaviour:
   deathSoundClips:
   - {fileID: 8300000, guid: 6a0defd5985cc534bb9deedbef68b69f, type: 3}
   deathSoundSource: {fileID: 7971035184496504042}
+  isDead: 0
   lookInputVector: {x: 0, y: 0, z: 0}
   ragdollOnDeath: 1
   ragdollRoot: {fileID: 9213745592318740030}
@@ -1844,7 +1845,7 @@ MonoBehaviour:
   vertexResolutionDuringCast: 10
   applyVertexDisplacementOnCast: 1
   vertexDisplacementAmountDuringCast: 0.5
-  speed: 150
+  speed: 200
   damage: 15
   coolDownReductionPerKill: 3
 --- !u!114 &1906996294

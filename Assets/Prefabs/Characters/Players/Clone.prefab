@@ -431,6 +431,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   deathSoundClips: []
   deathSoundSource: {fileID: 0}
+  isDead: 0
   lookInputVector: {x: 0, y: 0, z: 0}
   ragdollOnDeath: 0
   ragdollRoot: {fileID: 0}
@@ -521,7 +522,7 @@ MonoBehaviour:
   vertexResolutionDuringCast: 10
   applyVertexDisplacementOnCast: 1
   vertexDisplacementAmountDuringCast: 0.5
-  speed: 150
+  speed: 200
   damage: 15
   coolDownReductionPerKill: 3
 --- !u!114 &4733353186769588348
@@ -552,6 +553,8 @@ MonoBehaviour:
   recallCooldown: 0.5
   handTransform: {fileID: 7195396245212500012}
   catchRange: 1
+  seekRadius: 5
+  seekConeLength: 3
   _daggers: []
 --- !u!1 &1063343251653295859
 GameObject:

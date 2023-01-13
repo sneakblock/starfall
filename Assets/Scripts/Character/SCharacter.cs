@@ -47,7 +47,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public AudioClip[] deathSoundClips;
     public AudioSource deathSoundSource;
     
-    protected bool isDead = false;
+    public bool isDead = false;
 
 
     //Moving and jumping

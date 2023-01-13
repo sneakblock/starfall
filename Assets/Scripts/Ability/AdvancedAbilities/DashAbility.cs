@@ -92,7 +92,7 @@ public class DashAbility : AdvancedAbility
     public override void DuringCast()
     {
         base.DuringCast();
-        character.motor.BaseVelocity = Vector3.zero;
+        // character.motor.BaseVelocity = Vector3.zero;
         character.motor.MoveCharacter(character.motor.GetState().Position + (movementVector * Time.deltaTime));
         UpdateMaterialEffects();
         if (character is Clone c) c.lookInputVector = movementVector.normalized;
