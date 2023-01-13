@@ -11,6 +11,8 @@ public class SAi : SCharacter
     [Range(0, 100)]
     public float linkValue = 20;
 
+    public int numLinkDrops = 1;
+
     protected BehaviourTreeRunner TreeRunner;
     protected BehaviourTree BehaviourTree;
     protected SAiInputs Inputs;
@@ -260,7 +262,7 @@ public class SAi : SCharacter
 
     IEnumerator LinkSpawner()
     {
-        var numLinkDrops = Mathf.Floor(linkValue / 5f);
+        
         
         for (var i = 0; i < numLinkDrops; i++)
         {
@@ -271,9 +273,8 @@ public class SAi : SCharacter
             // var linkDrop = Instantiate(linkObj, transform.position, Quaternion.identity);
             var linkDrop = GameManager.Instance.LinkPool.Get();
             linkDrop.transform.position = transform.position;
-            linkDrop.GetComponentInChildren<LinkDrop>().value = linkValue / 5f;
-            linkDrop.GetComponentInChildren<Rigidbody>().AddForce(throwVector, ForceMode.Impulse);
-            yield return new WaitForSeconds(.5f);
+            linkDrop.GetComponent<Rigidbody>().AddForce(throwVector, ForceMode.Impulse);
+            yield return new WaitForSeconds(.25f);
         }
         yield return new WaitForSeconds(30f);
         Destroy(gameObject);

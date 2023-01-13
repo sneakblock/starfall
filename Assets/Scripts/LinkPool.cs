@@ -7,7 +7,7 @@ public class LinkPool : GameObjectPool
     protected override void OnReturnedToPool(GameObject obj)
     {
         obj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        obj.GetComponentInChildren<LinkMagnet>().ResetTarget();
+        // obj.GetComponentInChildren<LinkMagnet>().ResetTarget();
         base.OnReturnedToPool(obj);
     }
 }

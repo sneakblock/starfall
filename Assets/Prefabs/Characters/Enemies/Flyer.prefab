@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motor: {fileID: 1768362842341019640}
-  health: 8
+  health: 4
   maxStableMoveSpeed: 10
   stableMovementSharpness: 15
   orientationSharpness: 10
@@ -132,6 +132,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   deathSoundClips: []
   deathSoundSource: {fileID: 0}
+  isDead: 0
   lookInputVector: {x: 0, y: 0, z: 0}
   ragdollOnDeath: 0
   ragdollRoot: {fileID: 0}

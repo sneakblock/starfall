@@ -99,6 +99,8 @@ public class GameManager : MonoBehaviour
     private PostProcessManager _postProcessManager;
     private AIManager _aiManager;
 
+    public AudioSource LinkAudioSource;
+
     private void Awake()
     {
         //Initialize the instance of the Game Manager.

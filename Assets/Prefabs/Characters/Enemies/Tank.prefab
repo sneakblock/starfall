@@ -135,10 +135,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a54478f21d1c59c4abfbeb2ad6d6cb8b, type: 3}
   - {fileID: 8300000, guid: d8ee57103bd024544950c9e6528002b9, type: 3}
   deathSoundSource: {fileID: 8171734299757547532}
+  isDead: 0
   lookInputVector: {x: 0, y: 0, z: 0}
   ragdollOnDeath: 1
   ragdollRoot: {fileID: 4033974485454337722}
   linkValue: 20
+  numLinkDrops: 10
   lookAtBehavior: 0
   pathStatus: 3
   stopDistance: 0.1
@@ -1302,6 +1304,7 @@ MonoBehaviour:
   barrelTransforms:
   - {fileID: 5948140708157995653}
   AudioSource: {fileID: 0}
+  ReloadAudioSource: {fileID: 0}
   impactEffects: []
 --- !u!1001 &8944542322634109381
 PrefabInstance:
