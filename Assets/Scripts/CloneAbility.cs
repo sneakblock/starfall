@@ -52,6 +52,9 @@ public class CloneAbility : AdvancedAbility
     public override void DuringCast()
     {
         base.DuringCast();
+        var dirToTarget = character.GetTargetPoint() - (character.transform.position + character.motor.Capsule.center);
+        var mirrorPlaneNormal = Vector3.Cross(dirToTarget, Vector3.up).normalized;
+        _cloneComponent.mirrorNormal = mirrorPlaneNormal;
     }
 
     public override void OnCastEnded()

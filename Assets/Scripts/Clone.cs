@@ -92,12 +92,13 @@ public class Clone : SCharacter
             moveInputVector = Vector3.zero;
         }
 
-        var baseKuzeDirToTarget =
-            baseKuze.GetTargetPoint() - (baseKuze.transform.position + baseKuze.motor.Capsule.center);
-        var reflected = Vector3.Reflect(baseKuzeDirToTarget, mirrorNormal);
-        var center = motor.Capsule.center;
-        var position = transform.position;
-        targetPoint = position + center + reflected;
+        // var baseKuzeDirToTarget =
+        //     baseKuze.GetTargetPoint() - (baseKuze.transform.position + baseKuze.motor.Capsule.center);
+        // var reflected = Vector3.Reflect(baseKuzeDirToTarget, mirrorNormal);
+        // var center = motor.Capsule.center;
+        // var position = transform.position;
+        // targetPoint = position + center + reflected;
+        targetPoint = baseKuze.GetTargetPoint();
 
         switch (cloneOrientation)
         {

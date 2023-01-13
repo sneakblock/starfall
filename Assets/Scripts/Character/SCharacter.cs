@@ -46,6 +46,8 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public AudioClip[] deathSoundClips;
     public AudioSource deathSoundSource;
+    
+    protected bool isDead = false;
 
 
     //Moving and jumping
@@ -99,6 +101,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     void Start()
     {
+        isDead = false;
         abilityManager = new AbilityManager();
         motor.CharacterController = this;
         maxHealth = health;
@@ -301,6 +304,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
         //call event for hitmarker
         //OnHit?.Invoke();
         // if (health <= 0) return;
+        if (isDead) return;
         health -= damage;
         if (health <= 0)
         {
@@ -316,6 +320,7 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public virtual void Kill()
     {
+        isDead = true;
         if (deathSoundClips.Length > 0 && deathSoundSource)
         {
             Debug.Log($"{gameObject.name} played death sound.");

@@ -31,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 3955715273319950848}
   m_LocalRotation: {x: -0.015147148, y: -0, z: -0, w: 0.9998853}
   m_LocalPosition: {x: -462.907, y: 17.668, z: 162.646}
-  m_LocalScale: {x: 0.04874409, y: 0.013924094, z: 0.30263743}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.09748818, y: 0.027848188, z: 0.60527486}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2238410217843508173}
   m_Father: {fileID: 0}
@@ -143,6 +143,8 @@ MonoBehaviour:
   daggerState: 0
   owner: {fileID: 0}
   daggerAbility: {fileID: 0}
+  bannedTargets: []
+  initThrownTarget: {x: 0, y: 0, z: 0}
 --- !u!96 &5626949178993397680
 TrailRenderer:
   serializedVersion: 2

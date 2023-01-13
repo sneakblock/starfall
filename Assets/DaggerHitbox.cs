@@ -18,6 +18,7 @@ public class DaggerHitbox : MonoBehaviour
         if (_parent.daggerState is not (DaggerState.Inbound or DaggerState.Outbound)) return;
         var struckCharacter = other.gameObject.GetComponent<SCharacter>();
         if (!struckCharacter) return;
+        _parent.ClearSeekTarget();
         if (struckCharacter.IsBleeding())
         {
             Burst(struckCharacter);

@@ -19,7 +19,7 @@ public class DaggerAbility : AdvancedAbility
     [SerializeField] private float bleedDuration = 5f;
     [SerializeField] private int numDaggers = 5;
     [SerializeField] private float throwAngle = 45f;
-    [SerializeField] private float throwForce = 5f;
+    [SerializeField] public float throwForce = 5f;
     [SerializeField] public float recallForce = 5f;
     [SerializeField] public float lostDaggerRecoveryTime = 10f;
     [Tooltip("How long after throwing can you recall?")]
@@ -27,6 +27,10 @@ public class DaggerAbility : AdvancedAbility
     [Tooltip("Where are the daggers thrown from?")]
     [SerializeField] public Transform handTransform;
     [SerializeField] private float catchRange = 2f;
+    [Tooltip("Radius of the cone the dagger projects when seeking")]
+    [SerializeField] public float seekRadius = 5f;
+
+    public float seekConeLength = 3f;
 
     private DaggerAbilityMode _mode = DaggerAbilityMode.Throw;
     public List<Dagger> _daggers = new();
@@ -144,6 +148,7 @@ public class DaggerAbility : AdvancedAbility
             daggerObj.SetActive(true);
             daggerObj.transform.position = handPos;
             daggerObj.transform.LookAt(handPos + adjustedDir);
+            _daggersToThrow[i].initThrownTarget = handPos + adjustedDir * 1000f;
             _daggersToThrow[i].Throw(adjustedDir * throwForce);
         }
 
