@@ -1,3 +1,4 @@
+    using System;
     using UnityEngine;
     using System.Collections;
     using System.Linq;
@@ -11,8 +12,8 @@
     [ExecuteInEditMode]
     public class DoubleAudioSource : MonoBehaviour {
      
-        AudioSource _source0;
-        AudioSource _source1;
+        public AudioSource _source0;
+        public AudioSource _source1;
      
      
         #region internal vars
@@ -181,12 +182,13 @@
                                                                     endVolume,
                                                                     elapsed/duration ));
      
-                    if(sourceToFade.volume == endVolume) {
+                    if(Math.Abs(sourceToFade.volume - endVolume) < .001f) {
+                        if (endVolume == 0) sourceToFade.Stop();
                         break;
                     }
                     yield return null;
                 }//end while
-       }
+        }
      
      
         //returns false if BOTH sources are not playing and there are no sounds are staged to be played.
@@ -196,7 +198,7 @@
                 if (_source0 == null || _source1 == null) {
                     return false;
                 }
-     
+
                 //otherwise, both sources are initialized. See if any is playing:
                 if (_source0.isPlaying || _source1.isPlaying) {
                     return true;

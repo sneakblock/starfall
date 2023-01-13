@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour
             _isLoadingNewScene = false;
             _distortionTimer = 0f;
             SwapAllMaterialsInScene(true);
-            _postProcessManager.LerpFromEffect(secondsToDistortOnNewScene, _upNextStage.StageVolumeProfile);
+            PostProcessManager.Instance.LerpFromEffect(secondsToDistortOnNewScene, _upNextStage.StageVolumeProfile);
             _isAwakeDistorting = true;
         }
 
@@ -325,8 +325,12 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "MainMenu") SessionData.sessionTotalTime += Time.deltaTime;
         
         //Songs
-        
-        if (_doubleAudioSource && !_doubleAudioSource.isPlaying) PlayNewSong();
+
+        if (_doubleAudioSource && !_doubleAudioSource.isPlaying)
+        {
+            Debug.Log("Song detected no longer playing.");
+            PlayNewSong();
+        }
         
         //Distortion
 
@@ -475,7 +479,7 @@ public class GameManager : MonoBehaviour
 
     void PlayNewSong()
     {
-        Debug.Log(CurrentStage.StageName);
+        Debug.Log("Request change song on " + CurrentStage.StageName);
         if (!_doubleAudioSource) return;
         List<AudioClip> unplayedSongs = new();
 
@@ -485,13 +489,15 @@ public class GameManager : MonoBehaviour
         }
 
         var songToPlay = unplayedSongs.Count == 0 ? CurrentStage.StageSongs[Random.Range(0, CurrentStage.StageSongs.Length - 1)] : unplayedSongs[Random.Range(0, unplayedSongs.Count)];
-        _doubleAudioSource.CrossFade(songToPlay, .35f, 0f);
+        Debug.Log("now playing song: " + songToPlay.name);
+        _doubleAudioSource.CrossFade(songToPlay, .35f, 1f);
         _playedSongs.Add(songToPlay);
     }
 
     void CrossfadeToSongFromStage(StagesData.Stage toStage)
     {
         List<AudioClip> unplayedSongs = new();
+        Debug.Log("Request crossfade change song on " + CurrentStage.StageName);
 
         foreach (var audioClip in toStage.StageSongs)
         {
@@ -499,6 +505,7 @@ public class GameManager : MonoBehaviour
         }
 
         var songToPlay = unplayedSongs.Count == 0 ? toStage.StageSongs[Random.Range(0, toStage.StageSongs.Length - 1)] : unplayedSongs[Random.Range(0, unplayedSongs.Count)];
+        Debug.Log("now playing song: " + songToPlay.name);
         _doubleAudioSource.CrossFade(songToPlay, .35f, 6f);
         _playedSongs.Add(songToPlay);
     }
