@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
     private AIManager _aiManager;
 
     public AudioSource LinkAudioSource;
+    private bool _transitioning = false;
 
     private void Awake()
     {
@@ -168,6 +169,7 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        if (_transitioning) return;
         var mainMenuStage = GetMainMenuStage();
         _upNextStage = mainMenuStage;
         StartCoroutine(LoadSceneAsyncProcess(mainMenuStage.StageName));
@@ -179,6 +181,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartRun()
     {
+        if (_transitioning) return;
         PlayerDeath += OnPlayerDeath;
         EnemyDeath += OnEnemyDeath;
         Debug.Log("Called StartRun with upnextstage" + _upNextStage.StageName);
@@ -200,6 +203,7 @@ public class GameManager : MonoBehaviour
 
     private void OnActiveSceneChanged(Scene curr, Scene next)
     {
+        _transitioning = false;
         //For all scenes.
         if (distortOnSceneActivate)
         {
@@ -277,6 +281,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void QueueNextSceneActivation(StagesData.Stage nextStage)
     {
+        if (_transitioning) return;
+        _transitioning = true;
         _distortionTimer = 0f;
         _isLoadingNewScene = true;
         SwapAllMaterialsInScene(true);
