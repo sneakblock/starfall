@@ -7,11 +7,13 @@ public class Missile : EnergyBall
     public Renderer Renderer;
     public ParticleSystem ParticleSystem;
     public Light Light;
+    public AudioClip explosionClip;
     protected override void Explode(Collision collision)
     {
         var effectInstance = Instantiate(impactEffect, transform.position, Quaternion.identity);
         effectInstance.transform.LookAt(collision.contacts[0].normal);
         Destroy(effectInstance, 5f);
+        if (explosionClip) AudioSource.PlayClipAtPoint(explosionClip, transform.position, 1f);
 
         if (GameManager.Instance.aPlayer)
         {

@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motor: {fileID: 1768362842341019640}
-  health: 160
+  health: 300
   maxStableMoveSpeed: 3
   stableMovementSharpness: 15
   orientationSharpness: 10
@@ -1201,10 +1201,11 @@ AudioSource:
   m_GameObject: {fileID: 1230637229484569713}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1433020082179104942, guid: 177b9fddc9c18b04ea2378d6abb0abd7,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 6d6076b755077c947b90aba9ff3d6951, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1212,7 +1213,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 15
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
