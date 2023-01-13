@@ -42,6 +42,8 @@ public class Clone : SCharacter
     private Dictionary<Material, Dictionary<int, float>> _originalValues = new();
 
     public Animator anim;
+
+    public AudioSource CloneAudioSource;
     
     private static readonly int IsFiring = Animator.StringToHash("isFiring");
     private static readonly int VelX = Animator.StringToHash("velX");

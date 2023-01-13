@@ -16,6 +16,8 @@ public class AdvancedAbility : Ability, ICooldown, ICastable
 
     public bool castCompleted = true;
 
+    public AudioSource AudioSource;
+
     public event Action OnUpdateSliderCast;
 
     // Happens only once every time the player activates this ability

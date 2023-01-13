@@ -20,6 +20,7 @@ public abstract class RangedWeapon : MonoBehaviour
     public Transform[] barrelTransforms;
 
     public AudioSource AudioSource;
+    public AudioSource ReloadAudioSource;
 
     [SerializeField]
     private ImpactEffect[] impactEffects;
@@ -304,6 +305,7 @@ public abstract class RangedWeapon : MonoBehaviour
     public void Reload()
     {
         if (_bulletsCurrentlyInMagazine == weaponData.magazineSize) return;
+        if (ReloadAudioSource) ReloadAudioSource.Play();
         _reloading = true;
         if(_isOwnedByPlayer) OnPlayerReload?.Invoke(weaponData.reloadTime);
         Invoke(nameof(FillMagazine), weaponData.reloadTime);

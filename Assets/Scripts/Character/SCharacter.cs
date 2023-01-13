@@ -44,6 +44,9 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
     public Vector3 gravity = new Vector3(0, -30f, 0);
     public Collider Collider;
 
+    public AudioClip[] deathSoundClips;
+    public AudioSource deathSoundSource;
+
 
     //Moving and jumping
     protected Vector3 moveInputVector;
@@ -313,10 +316,21 @@ public abstract class SCharacter : MonoBehaviour, IDamageable, ICharacterControl
 
     public virtual void Kill()
     {
+        if (deathSoundClips.Length > 0 && deathSoundSource)
+        {
+            Debug.Log($"{gameObject.name} played death sound.");
+            PlayDeathSound();
+        }
         // All SCharacters disable their motor on death.
         motor.enabled = false;
         if (_weapon) _weapon.enabled = false;
         if (ragdollOnDeath) DoRagdoll();
+    }
+
+    private void PlayDeathSound()
+    {
+        var clip = deathSoundClips[Random.Range(0, deathSoundClips.Length)];
+        deathSoundSource.PlayOneShot(clip);
     }
 
     public void StartBleeding(float totalDamage, float duration)

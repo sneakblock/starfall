@@ -13,6 +13,7 @@ public class HealAbility : AdvancedAbility
     public override void OnCastStarted()
     {
         base.OnCastStarted();
+        if (AudioSource) AudioSource.Play();
         if (effect) effect.Play();
     }
 

@@ -37,6 +37,7 @@ public class CloneAbility : AdvancedAbility
         var transform1 = character.transform;
         var position = transform1.position;
         _cloneObject.SetActive(true);
+        if (_cloneComponent.CloneAudioSource) _cloneComponent.CloneAudioSource.Play();
         _cloneComponent.motor.SetPosition(position);
         _cloneComponent.motor.SetRotation(transform1.rotation);
         var dirToTarget = character.GetTargetPoint() - (position + character.motor.Capsule.center);

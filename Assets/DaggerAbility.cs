@@ -124,6 +124,7 @@ public class DaggerAbility : AdvancedAbility
 
     public void InitializeThrownDaggers()
     {
+        if (AudioSource) AudioSource.Play();
         var handPos = handTransform.position;
         var direction = (character.GetTargetPoint() - handPos).normalized;
         Debug.DrawRay(handPos, direction * 1000f, Color.green, 5f);

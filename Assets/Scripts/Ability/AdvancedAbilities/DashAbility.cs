@@ -63,6 +63,7 @@ public class DashAbility : AdvancedAbility
     public override void OnCastStarted()
     {
         base.OnCastStarted();
+        if (AudioSource) AudioSource.Play();
         if (character is APlayer player)
         {
             movementVector = player.orbitCamera.transform.forward * speed;

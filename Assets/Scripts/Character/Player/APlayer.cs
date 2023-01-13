@@ -54,6 +54,7 @@ public abstract class APlayer : SCharacter
     
     public int linkDamagePerSec = 3;
     protected bool isDying = true;
+    protected bool isDead = false;
     
     public enum OrientationMethod
     {
@@ -269,7 +270,9 @@ public abstract class APlayer : SCharacter
         StartCoroutine(OrientationTimer(secondsToLockShootingOrientation));
     }
     
-    public override void Damage(float damage) {
+    public override void Damage(float damage)
+    {
+        if (isDead) return;
         base.Damage(damage);
         OnDamage?.Invoke();
 
@@ -286,6 +289,7 @@ public abstract class APlayer : SCharacter
     public override void Kill()
     {
         base.Kill();
+        isDead = true;
         foreach (var r in GetComponentsInChildren<Renderer>())
         {
             var toMats = new Material[r.materials.Length];
